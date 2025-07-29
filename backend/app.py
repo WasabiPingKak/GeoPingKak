@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
 import os
+import logging
 import firebase_admin
 from firebase_admin import credentials, firestore
+from routes.geoguessr_map_routes import init_geoguessr_map_routes
 
 app = Flask(__name__)
 
@@ -19,7 +21,14 @@ def initialize_firestore():
     return firestore.client()
 
 
-db = initialize_firestore()
+# 初始化 Firebase，加入錯誤處理
+try:
+    db = initialize_firestore()
+except Exception:
+    logging.error("🔥 初始化 Firebase 失敗，服務無法啟動", exc_info=True)
+    raise
+
+init_geoguessr_map_routes(app, db)
 
 
 @app.route("/ping")
