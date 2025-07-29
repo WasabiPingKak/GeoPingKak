@@ -10,7 +10,7 @@ export default function HomePage() {
       </p>
 
       <p className="mb-4 leading-relaxed">
-        自 2024 年起，GeoGuessr 改為訂閱制。不過透過付費玩家建立的 <strong>挑戰模式（Challenge Mode）</strong>，
+        自 2024 年起，GeoGuessr 改為訂閱制。但透過付費玩家建立的 <strong>挑戰模式（Challenge Mode）</strong>，
         只要取得連結，即使未登入也能免費遊玩！
       </p>
 
