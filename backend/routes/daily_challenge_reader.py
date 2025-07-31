@@ -53,7 +53,7 @@ def init_daily_challenge_reader_route(app, db: Client):
             return jsonify(entries)
 
         except Exception:
-            logger.error("❌ 讀取每日挑戰資料失敗", exc_info=True)
+            logger.error("❌ 讀取每日題目資料失敗", exc_info=True)
             return jsonify({"error": "Internal server error"}), 500
 
     app.register_blueprint(bp)

@@ -11,7 +11,7 @@ export default function HomePage() {
 
       <p className="mb-4 leading-relaxed">
         <span className="text-green-600 font-bold">
-          ← 長話短說：來玩遊戲就直接點每日挑戰，不用登入也不用錢，合法的。
+          ← 長話短說：來玩遊戲就直接點每日題目，不用登入也不用錢，合法的。
         </span>
       </p>
 

@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { clsx } from "clsx";
 
 const navItems = [
   { href: "/", label: "首頁" },
-  { href: "/daily-challenge", label: "每日挑戰" },
+  { href: "/daily-challenge", label: "每日題目" },
   { href: "/special-maps", label: "特殊主題地圖(籌備中)" },
   { divider: true },
   { href: "/tutorial", label: "教學(籌備中)" },
@@ -14,11 +15,21 @@ const navItems = [
   { href: "/show-proposals", label: "節目企劃與建議(籌備中)" },
 ];
 
-export default function Sidebar() {
+type SidebarMenuProps = {
+  isMobile?: boolean;
+  onClickLink?: () => void;
+};
+
+export default function SidebarMenu({ isMobile = false, onClickLink }: SidebarMenuProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-60 bg-zinc-800 border-r border-zinc-700 p-4 min-h-screen">
+    <aside
+      className={clsx(
+        isMobile ? "w-full h-full p-4" : "w-60 min-h-screen p-4 border-r border-zinc-700",
+        "bg-zinc-800 text-white"
+      )}
+    >
       <h1 className="text-xl font-bold mb-6">GeoPingKak</h1>
       <nav className="space-y-2">
         {navItems.map((item, index) =>
@@ -28,10 +39,13 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`block px-4 py-2 rounded-lg transition ${pathname === item.href
-                ? "bg-zinc-700 font-semibold"
-                : "hover:bg-zinc-700"
-                }`}
+              onClick={onClickLink}
+              className={clsx(
+                "block px-4 py-2 rounded-lg transition",
+                pathname === item.href
+                  ? "bg-zinc-700 font-semibold"
+                  : "hover:bg-zinc-700"
+              )}
             >
               {item.label}
             </Link>

@@ -28,9 +28,9 @@ export default function Page() {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">🌍 每日挑戰</h1>
+      <h1 className="text-3xl font-bold mb-4">🌍 每日題目</h1>
       <p className="mb-6">
-        所有每日挑戰皆為 GeoGuessr 的 <strong>挑戰模式（Challenge Mode）</strong>，只要有題目連結，無需登入即可遊玩，沒有時間限制。<br />
+        所有每日題目皆為 GeoGuessr 的 <strong>挑戰模式（Challenge Mode）</strong>，只要有題目連結，無需登入即可遊玩，沒有時間限制。<br />
         任何人都可以輕鬆的慢慢練習。<br /><br />
         每一個連結固定五個題目，所有人在同一天的題目都是相同的。<br />
         連結不會過期 (除非官方改掉)，過去的連結依然可以遊玩。
