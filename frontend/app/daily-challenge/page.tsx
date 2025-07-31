@@ -26,11 +26,6 @@ export default function Page() {
     (entry) => entry.country === COUNTRY_MAP[selectedCountry]
   ) ?? [];
 
-  // ✅ DEBUG LOG
-  console.log("🔍 isLoading", isLoading);
-  console.log("🔍 isError", isError);
-  console.log("🔍 data", data);
-
   return (
     <div className="max-w-5xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">🌍 每日挑戰</h1>
