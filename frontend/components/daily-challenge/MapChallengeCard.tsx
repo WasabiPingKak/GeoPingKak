@@ -1,5 +1,5 @@
 import React from "react";
-import { DailyChallengeEntry } from "./mockData";
+import type { DailyChallengeEntry } from "@/types/daily-challenge";
 import { MAP_DISPLAY_TITLES } from "./mapTitles";
 
 interface MapChallengeCardProps {

@@ -51,14 +51,14 @@ else
   NO_TRAFFIC_FLAG="--no-traffic"
 fi
 
-# ✅ 部署至 Cloud Run（僅保留基本參數）
+# ✅ 部署至 Cloud Run，帶入所有環境變數
 echo "🚀 部署至 Cloud Run：$SERVICE_NAME"
 gcloud run deploy "$SERVICE_NAME" \
   --image "$IMAGE_URI" \
   --region "$REGION" \
   --allow-unauthenticated \
   $NO_TRAFFIC_FLAG \
-  --set-env-vars "DEPLOY_ENV=production"
+  --set-env-vars "DEPLOY_ENV=production,ADMIN_API_KEY=$ADMIN_API_KEY,GEOGUESSR_NCFA=$GEOGUESSR_NCFA"
 
 if [ $? -ne 0 ]; then
   echo "❌ 部署失敗"

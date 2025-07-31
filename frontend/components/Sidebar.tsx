@@ -7,7 +7,10 @@ import { usePathname } from "next/navigation";
 const navItems = [
   { href: "/", label: "首頁" },
   { href: "/daily-challenge", label: "每日挑戰" },
+  { href: "/special-maps", label: "特殊主題地圖" },
   { href: "/tutorial", label: "教學" },
+  { href: "/source", label: "其它學習資源" },
+  { href: "/show-proposals", label: "遊戲企劃書與節目建議" },
 ];
 
 export default function Sidebar() {
@@ -22,8 +25,8 @@ export default function Sidebar() {
             key={item.href}
             href={item.href}
             className={`block px-4 py-2 rounded-lg transition ${pathname === item.href
-                ? "bg-zinc-700 font-semibold"
-                : "hover:bg-zinc-700"
+              ? "bg-zinc-700 font-semibold"
+              : "hover:bg-zinc-700"
               }`}
           >
             {item.label}
