@@ -44,12 +44,12 @@ export default function RootShell({ children }: { children: React.ReactNode }) {
       {/* ✅ 桌面與主要內容 */}
       <div className="flex min-h-screen bg-zinc-900 text-white">
         {/* 桌面 Sidebar */}
-        <div className="hidden md:block">
+        <div className="hidden md:block fixed top-0 left-0 h-screen w-60 border-r border-zinc-700 bg-zinc-800 z-30">
           <SidebarMenu />
         </div>
 
         {/* 主內容 */}
-        <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+        <main className="flex-1 md:ml-60 p-6 overflow-y-auto">{children}</main>
       </div>
     </>
   );

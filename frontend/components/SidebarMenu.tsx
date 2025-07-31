@@ -26,32 +26,42 @@ export default function SidebarMenu({ isMobile = false, onClickLink }: SidebarMe
   return (
     <aside
       className={clsx(
-        isMobile ? "w-full h-full p-4" : "w-60 min-h-screen p-4 border-r border-zinc-700",
-        "bg-zinc-800 text-white"
+        isMobile
+          ? "w-full h-full p-4"
+          : "w-60 min-h-screen p-4 border-r border-zinc-700",
+        "bg-zinc-800 text-white flex flex-col justify-between"
       )}
     >
-      <h1 className="text-xl font-bold mb-6">GeoPingKak</h1>
-      <nav className="space-y-2">
-        {navItems.map((item, index) =>
-          "divider" in item ? (
-            <hr key={`divider-${index}`} className="border-zinc-600 my-4" />
-          ) : (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onClickLink}
-              className={clsx(
-                "block px-4 py-2 rounded-lg transition",
-                pathname === item.href
-                  ? "bg-zinc-700 font-semibold"
-                  : "hover:bg-zinc-700"
-              )}
-            >
-              {item.label}
-            </Link>
-          )
-        )}
-      </nav>
+      {/* 上方導覽 */}
+      <div>
+        <h1 className="text-xl font-bold mb-6">GeoPingKak</h1>
+        <nav className="space-y-2">
+          {navItems.map((item, index) =>
+            "divider" in item ? (
+              <hr key={`divider-${index}`} className="border-zinc-600 my-4" />
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onClickLink}
+                className={clsx(
+                  "block px-4 py-2 rounded-lg transition",
+                  pathname === item.href
+                    ? "bg-zinc-700 font-semibold"
+                    : "hover:bg-zinc-700"
+                )}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
+        </nav>
+      </div>
+
+      {/* 下方版權區 */}
+      <div className="mt-8 text-sm text-zinc-400 text-center">
+        © Wasabi PingKak
+      </div>
     </aside>
   );
 }
