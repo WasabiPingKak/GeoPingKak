@@ -9,10 +9,11 @@ const navItems = [
   { href: "/daily-challenge", label: "每日題目" },
   { href: "/special-maps", label: "特殊主題地圖 (籌備中)" },
   { divider: true },
+  { href: "/recommend_settings", label: "推薦設定" },
   { href: "/tutorial", label: "教學 (籌備中)" },
-  { href: "/source", label: "其它學習資源 (籌備中)" },
+  { href: "/source", label: "其它教學資源 (籌備中)" },
   { divider: true },
-  { href: "/show-proposals", label: "節目企劃與建議 (籌備中)" },
+  { href: "/show-proposals", label: "企劃建議 (籌備中)" },
 ];
 
 type SidebarMenuProps = {

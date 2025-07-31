@@ -23,20 +23,21 @@ export default function ChallengeDescription({ country }: ChallengeDescriptionPr
     香港: " ",
   };
 
-  const UpadateAt: Record<string, string> = {
-    世界: "※ 每日凌晨 3:00 追加當日題目。",
-    台灣: "※ 每日凌晨 3:01 追加當日題目。",
-    日本: "※ 每週 二、四、六、日 凌晨 3:02 追加當日題目。",
+  const UpdateAt: Record<string, string> = {
+    世界: "※ 每日凌晨 3:00 追加當日題目。（台灣時間 UTC+8）",
+    台灣: "※ 每日凌晨 3:01 追加當日題目。（台灣時間 UTC+8）",
+    日本: "※ 每週 二、四、六、日 凌晨 3:02 追加當日題目。（台灣時間 UTC+8）",
     馬來西亞: "",
     香港: "",
   };
+
   return (
     <div className="mb-6 text-sm text-muted-foreground">
       <p>{countrySpecific[country] || ""}</p>
       <div className="min-h-[1.25rem]">
         {countrySpecific2[country] || ""}
       </div>
-      <p className="mt-3">{UpadateAt[country] || ""}</p>
+      <p className="mt-3">{UpdateAt[country] || ""}</p>
     </div>
   );
 }
