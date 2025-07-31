@@ -1,7 +1,7 @@
 // hooks/useDailyChallengeData.ts
 
 import { useQuery } from "@tanstack/react-query";
-import type { DailyChallengeEntry } from "@/types/daily-challenge";
+import type { DailyChallengeEntry } from "@/types/map-entry";
 
 // ✅ 根據開發或部署環境切換 API base
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";

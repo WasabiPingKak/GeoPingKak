@@ -1,14 +1,20 @@
 import React from "react";
-import type { DailyChallengeEntry } from "@/types/daily-challenge";
-import { MAP_DISPLAY_TITLES } from "./mapTitles";
+import type { DailyChallengeEntry } from "@/types/map-entry";
+import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
 
-interface MapChallengeCardProps {
+interface CommonMapCardProps {
   entries: DailyChallengeEntry[];
+  metadataMap: Record<string, MapMetadata>;
+  showSourceLink?: boolean;
 }
 
-export default function MapChallengeCard({ entries }: MapChallengeCardProps) {
+export default function CommonMapCard({
+  entries,
+  metadataMap,
+  showSourceLink = true,
+}: CommonMapCardProps) {
   const mapId = entries[0].mapId;
-  const metadata = MAP_DISPLAY_TITLES[mapId];
+  const metadata = metadataMap[mapId];
 
   return (
     <div className="rounded-xl border p-4 bg-card shadow-sm">
@@ -18,7 +24,8 @@ export default function MapChallengeCard({ entries }: MapChallengeCardProps) {
       <p className="text-sm text-muted-foreground mb-3">
         {metadata?.description ?? "（尚無說明）"}
       </p>
-      {metadata?.source && (
+
+      {showSourceLink && metadata?.source && (
         <p className="text-xs text-muted-foreground mb-3">
           <a
             href={`https://www.geoguessr.com/maps/${metadata.source}`}
@@ -30,6 +37,7 @@ export default function MapChallengeCard({ entries }: MapChallengeCardProps) {
           </a>
         </p>
       )}
+
       <ul className="space-y-2">
         {entries
           .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
@@ -41,7 +49,7 @@ export default function MapChallengeCard({ entries }: MapChallengeCardProps) {
                 rel="noopener noreferrer"
                 className="underline text-blue-600 dark:text-blue-400"
               >
-                📅 {entry.createdAt}
+                {entry.title ?? `📅 ${entry.createdAt}`}
               </a>
             </li>
           ))}

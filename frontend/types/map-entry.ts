@@ -3,4 +3,5 @@ export interface DailyChallengeEntry {
   mapId: string;
   challengeUrl: string;
   createdAt: string; // YYYY-MM-DD
+  title: string;
 }
