@@ -1,66 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommonTabs from "@/components/shared/CommonTabs";
 import CommonMapList from "@/components/shared/CommonMapList";
 import SpecialCategoryDescription from "@/components/special-maps/SpecialCategoryDescription";
 import { SPECIAL_MAP_TITLES } from "@/components/special-maps/specialMapTitles";
-import type { DailyChallengeEntry } from "@/types/map-entry";
-
-// 假資料：實際應由後端回傳符合 DailyChallengeEntry 格式
-const SPECIAL_MAP_ENTRIES: DailyChallengeEntry[] = [
-  {
-    mapId: "special-tw-pun",
-    challengeUrl: "https://www.geoguessr.com/challenge/abc123",
-    createdAt: "2025-07-30",
-    country: "台灣主題",
-    title: "諧音招牌"
-  },
-  {
-    mapId: "special-tw-funny",
-    challengeUrl: "https://www.geoguessr.com/challenge/abc123",
-    createdAt: "2025-07-30",
-    country: "台灣主題",
-    title: ""
-  },
-  {
-    mapId: "special-other",
-    challengeUrl: "https://www.geoguessr.com/challenge/def456",
-    createdAt: "2025-07-30",
-    country: "其他主題",
-    title: ""
-  },
-];
-
-const SPECIAL_MAP_CATEGORIES = ["台灣主題", "其他主題"];
+import { useSpecialMapData } from "@/hooks/useSpecialMapData";
 
 export default function SpecialMapsPage() {
-  const [selectedCategory, setSelectedCategory] = useState(SPECIAL_MAP_CATEGORIES[0]);
+  const { data: entries = [], isLoading, isError } = useSpecialMapData();
+  const categories = Array.from(new Set(entries.map((e) => e.country)));
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  const filteredEntries = SPECIAL_MAP_ENTRIES.filter(
-    (entry) => entry.country === selectedCategory
-  );
+  // ✅ 資料載入後第一次設定 selectedCategory
+  useEffect(() => {
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0]);
+    }
+  }, [categories, selectedCategory]);
+
+  const filteredEntries = entries.filter((e) => e.country === selectedCategory);
 
   return (
     <div className="max-w-4xl">
       <h1 className="text-3xl font-bold mb-4">🧭 特殊主題地圖</h1>
       <p className="mb-6 text-muted-foreground">
-        由我親自手選的特別題庫，與每日題目相同，每一個連結都是固定的五題。
+        由我親自手選的特別題庫，規則與每日題目相同，每一個連結都是固定的五題。<br />
+        🚧題目還在編輯，數量眾多，完成後會一次放上來。
       </p>
 
-      <CommonTabs
-        options={SPECIAL_MAP_CATEGORIES}
-        selected={selectedCategory}
-        onSelect={setSelectedCategory}
-      />
+      {isLoading ? (
+        <p className="text-muted-foreground">載入中…</p>
+      ) : isError ? (
+        <p className="text-destructive">無法載入資料，請稍後再試。</p>
+      ) : (
+        <>
+          <CommonTabs
+            options={categories}
+            selected={selectedCategory}
+            onSelect={setSelectedCategory}
+          />
 
-      <SpecialCategoryDescription category={selectedCategory} />
+          <SpecialCategoryDescription category={selectedCategory} />
 
-      <CommonMapList
-        entries={filteredEntries}
-        metadataMap={SPECIAL_MAP_TITLES}
-        showSourceLink={false}
-      />
+          <CommonMapList
+            entries={filteredEntries}
+            metadataMap={SPECIAL_MAP_TITLES}
+            showSourceLink={false}
+          />
+        </>
+      )}
     </div>
   );
 }
