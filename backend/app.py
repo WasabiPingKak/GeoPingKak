@@ -8,6 +8,7 @@ from flask_cors import CORS
 from routes.geoguessr_map_routes import init_geoguessr_map_routes
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
+from routes.special_map_routes import init_special_map_routes
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
@@ -39,6 +40,7 @@ except Exception:
 init_geoguessr_map_routes(app, db)
 init_daily_challenge_writer_route(app, db)
 init_daily_challenge_reader_route(app, db)
+init_special_map_routes(app, db)
 
 
 # ✅ 測試端點
