@@ -11,7 +11,7 @@ export default function HomePage() {
 
       <p className="mb-4 leading-relaxed">
         <span className="text-green-600 font-bold">
-          ← 長話短說：來玩遊戲就直接點每日題目，不用登入也不用錢，合法的。
+          ← 長話短說：來玩遊戲就直接點每日題目，Nickname 隨便打，不用登入也不用錢，合法的。
         </span>
       </p>
 
@@ -76,10 +76,8 @@ export default function HomePage() {
         使用邀請連結的話，可以用與 Pro Unlimited 相同的價格，直接升級到更高級的 Pro Elite 方案。
       </p>
       <p className="mb-4 leading-relaxed font-bold text-red-500">
-        GeoGuessr 在 Steam 有上架，但千萬別買 Steam 版，Steam 版是相同價格的閹割版，目前只做完對戰模式，沒有其他東西能玩。
-      </p>
-      <p className="mb-4 leading-relaxed font-bold text-red-500">
-        再說一次，別買 Steam 版，超盤。
+        GeoGuessr 在 Steam 有上架，但 Steam 版是相同價格的閹割版，目前只做完對戰模式，沒有其他東西能玩。<br />
+        目前不建議購買 Steam 版。
       </p>
     </div >
   );

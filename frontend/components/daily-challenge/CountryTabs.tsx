@@ -19,9 +19,10 @@ export default function CountryTabs({
         <button
           key={country}
           onClick={() => onSelect(country)}
-          className={`px-4 py-2 rounded-full border transition ${selectedCountry === country
-              ? "bg-primary text-white"
-              : "bg-muted text-muted-foreground hover:bg-accent"
+          className={`px-4 py-2 rounded-full border transition-colors duration-200 font-medium
+            ${selectedCountry === country
+              ? "bg-blue-600 text-white border-blue-600 shadow-md"
+              : "bg-muted text-muted-foreground hover:bg-accent hover:text-white"
             }`}
         >
           {country}
