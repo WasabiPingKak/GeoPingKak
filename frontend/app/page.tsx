@@ -10,6 +10,12 @@ export default function HomePage() {
       </p>
 
       <p className="mb-4 leading-relaxed">
+        <span className="text-green-600 font-bold">
+          ← 長話短說：來玩遊戲就直接點每日挑戰，不用登入也不用錢，合法的。
+        </span>
+      </p>
+
+      <p className="mb-4 leading-relaxed">
         自 2024 年起，GeoGuessr 改為訂閱制。但透過付費玩家建立的 <strong>挑戰模式（Challenge Mode）</strong>，
         只要取得連結，即使未登入也能免費遊玩！
       </p>
@@ -24,8 +30,14 @@ export default function HomePage() {
       </p>
 
       <p className="mb-4 leading-relaxed">
-        如果你是 Vtuber 或實況主，有企劃需求，也可以參考本站「企劃分頁」中提供的合作企劃書與素材。
+        如果你是 Vtuber 或實況主，有企劃需求，也可以參考本站「企劃分頁」中提供的企劃書與素材。<br />
+        歡迎直接使用本站的內容做為你的直播企劃，不用告知管理者(我)，就當作是「
+        <a href="https://2pick.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline hover:text-blue-600">
+          殘酷二選一
+        </a>
+        」一樣，只要附上出處即可。
       </p>
+
 
       <div className="mt-8">
         <h2 className="text-4xl font-semibold mb-2">管理者</h2>
@@ -54,14 +66,14 @@ export default function HomePage() {
           rel="noopener noreferrer"
           className="text-blue-400 underline"
         >
-          推薦你使用我的邀請連結
+          推薦你使用我的邀請連結訂閱
         </a>
         。
       </p>
 
       <p className="mb-4 leading-relaxed">
         GeoGuessr 目前有兩種付費方案：<strong>Pro Unlimited</strong> 和 <strong>Pro Elite</strong>。<br />
-        使用邀請碼的話，可以用與 Pro Unlimited 相同的價格，直接升級到更高級的 Pro Elite 方案。
+        使用邀請連結的話，可以用與 Pro Unlimited 相同的價格，直接升級到更高級的 Pro Elite 方案。
       </p>
       <p className="mb-4 leading-relaxed font-bold text-red-500">
         GeoGuessr 在 Steam 有上架，但千萬別買 Steam 版，Steam 版是相同價格的閹割版，目前只做完對戰模式，沒有其他東西能玩。
