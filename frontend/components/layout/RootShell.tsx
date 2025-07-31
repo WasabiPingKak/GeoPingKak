@@ -1,11 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import SidebarMenu from "@/components/SidebarMenu";
 import MobileSidebarDrawer from "@/components/common/MobileSidebarDrawer";
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export default function RootShell({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
+
+  // ✅ 分頁變動時送出 page view
+  useEffect(() => {
+    if (typeof window.gtag === "function") {
+      window.gtag("config", "G-3C6D7CMCKV", {
+        page_path: pathname,
+      });
+    }
+  }, [pathname]);
 
   return (
     <>

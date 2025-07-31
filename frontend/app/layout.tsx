@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { ReactNode } from "react";
+import Script from "next/script";
 import QueryProvider from "@/components/QueryProvider";
 import RootShell from "@/components/layout/RootShell";
 
@@ -31,10 +32,25 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-Hant">
       <body>
+        {/* ✅ GA 初始化（首次載入） */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-3C6D7CMCKV"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-3C6D7CMCKV');
+          `}
+        </Script>
+
+        {/* 其餘內容 */}
         <QueryProvider>
           <RootShell>{children}</RootShell>
         </QueryProvider>
