@@ -1,10 +1,50 @@
-// components/tutorial/TabFlagDomain.tsx
+import React, { useEffect, useState } from "react";
 
-import React from "react";
+// 將資料依照欄優先排序，分成每列 3 組（即 6 欄）
+function columnFirstChunk(
+  sorted: { domain: string; name: string }[],
+  columnGroups = 3
+) {
+  const totalCells = sorted.length;
+  const rows = Math.ceil(totalCells / columnGroups);
+
+  // 初始化表格 [row][group]
+  const table: ({ domain: string; name: string } | null)[][] = Array.from(
+    { length: rows },
+    () => Array(columnGroups).fill(null)
+  );
+
+  for (let i = 0; i < sorted.length; i++) {
+    const col = Math.floor(i / rows);
+    const row = i % rows;
+    table[row][col] = sorted[i];
+  }
+
+  return table;
+}
 
 export default function TabFlagDomain() {
+  const [countries, setCountries] = useState<{ domain: string; name: string }[]>([]);
+
+  useEffect(() => {
+    fetch("/data/countries.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const sorted = [...data].sort((a, b) =>
+          a.domain.localeCompare(b.domain)
+        );
+        setCountries(sorted);
+      })
+      .catch(console.error);
+  }, []);
+
+  const highlightDomains = ["rs", "hr", "kh", "sz"];
+  const highlightClass = "font-bold text-orange-400";
+
+  const chunked = columnFirstChunk(countries, 3); // 分成每列 3 組（6欄）
+
   return (
-    <div className="text-muted-foreground text-sm leading-relaxed space-y-4">
+    <div className="text-muted-foreground text-base leading-relaxed space-y-4">
       <h2 className="text-xl font-bold text-white mb-4">國旗 / 網域</h2>
 
       <p>
@@ -12,7 +52,7 @@ export default function TabFlagDomain() {
       </p>
 
       <p>
-        此外，網站連結、信箱或車體上的網址，也常包含國碼，例如：
+        此外，網站連結、廣告看板、或車體上的網址，也常包含國碼，例如：
         <span className="inline-block bg-zinc-800 px-2 py-0.5 rounded ml-1">
           .br
         </span>{" "}
@@ -24,16 +64,56 @@ export default function TabFlagDomain() {
       </p>
 
       <p>
-        有些國家的國旗相似，像是羅馬尼亞與查德、印尼與摩納哥，因此需配合其他線索做交叉判斷。
+        國旗與網域也是不需要先背好才開始玩，隨著你常常在遊戲中看到，自然而然就會記住它們了。<br />
+        當然第一次看到可能要花一點功夫去查然後記住，但通常這個過程式不需要特地費心去背的。
       </p>
 
-      <p>
-        特別要注意的是，部分跨國企業可能使用國際域名（如
-        <span className="inline-block bg-zinc-800 px-2 py-0.5 rounded ml-1">
-          .com
-        </span>
-        ），這種情況就不能直接當作地理判斷依據。
+      <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-orange-400">
+        要特別注意的是，國旗與網域都是間接線索，你可能會在一個國家看到隔壁國家的廣告，而誤判你所在的區域。<br />
+        不然就是，會在義大利餐廳門口看到義大利國旗。
       </p>
-    </div>
+      <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-orange-400">
+        橘色的網域是跟國家的英文名字有落差的網域，需要稍微注意
+      </p>
+
+      {/* 表格段落 */}
+      <div className="overflow-x-auto border border-zinc-700 rounded-lg">
+        <table>
+          <tbody>
+            {chunked.map((row, i) => (
+              <tr key={i}>
+                {row.map((country, j) =>
+                  country ? (
+                    <React.Fragment key={j}>
+                      <td
+                        className={`border px-2 py-1 align-top ${highlightDomains.includes(country.domain)
+                          ? highlightClass
+                          : ""
+                          }`}
+                      >
+                        {country.domain}
+                      </td>
+                      <td
+                        className={`border px-2 py-1 ${highlightDomains.includes(country.domain)
+                          ? highlightClass
+                          : ""
+                          }`}
+                      >
+                        {country.name}
+                      </td>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment key={`empty-${j}`}>
+                      <td className="border px-2 py-1"></td>
+                      <td className="border px-2 py-1"></td>
+                    </React.Fragment>
+                  )
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div >
   );
 }

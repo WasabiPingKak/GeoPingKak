@@ -1,0 +1,542 @@
+[
+    {
+        "domain": "ad",
+        "name": "安道爾 (Andorra)"
+    },
+    {
+        "domain": "ae",
+        "name": "阿拉伯聯合酋長國 (U.A.E)"
+    },
+    {
+        "domain": "al",
+        "name": "阿爾巴尼亞 (Albania)"
+    },
+    {
+        "domain": "aq",
+        "name": "南極洲 (Antarctica)"
+    },
+    {
+        "domain": "ar",
+        "name": "阿根廷 (Argentina)"
+    },
+    {
+        "domain": "as",
+        "name": "美屬薩摩亞 (American Samoa)"
+    },
+    {
+        "domain": "at",
+        "name": "奧地利 (Austria)"
+    },
+    {
+        "domain": "au",
+        "name": "澳洲 (Australia)"
+    },
+    {
+        "domain": "bd",
+        "name": "孟加拉國 (Bangladesh)"
+    },
+    {
+        "domain": "be",
+        "name": "比利時 (Belgium)"
+    },
+    {
+        "domain": "bg",
+        "name": "保加利亞 (Bulgaria)"
+    },
+    {
+        "domain": "bm",
+        "name": "百慕達 (Bermuda)"
+    },
+    {
+        "domain": "bo",
+        "name": "玻利維亞 (Bolivia)"
+    },
+    {
+        "domain": "br",
+        "name": "巴西 (Brazil)"
+    },
+    {
+        "domain": "bt",
+        "name": "不丹 (Bhutan)"
+    },
+    {
+        "domain": "bw",
+        "name": "波札那 (Botswana)"
+    },
+    {
+        "domain": "by",
+        "name": "白俄羅斯 (Belarus)"
+    },
+    {
+        "domain": "ca",
+        "name": "加拿大 (Canada)"
+    },
+    {
+        "domain": "cc",
+        "name": "可可斯群島 (Cocos Islands)"
+    },
+    {
+        "domain": "ch",
+        "name": "瑞士 (Switzerland)"
+    },
+    {
+        "domain": "cl",
+        "name": "智利 (Chile)"
+    },
+    {
+        "domain": "cn",
+        "name": "中國 (China)"
+    },
+    {
+        "domain": "co",
+        "name": "哥倫比亞 (Colombia)"
+    },
+    {
+        "domain": "cr",
+        "name": "哥斯大黎加 (Costa Rica)"
+    },
+    {
+        "domain": "cw",
+        "name": "庫拉索 (Curaçao)"
+    },
+    {
+        "domain": "cx",
+        "name": "聖誕島 (Christmas Island)"
+    },
+    {
+        "domain": "cz",
+        "name": "捷克 (Czechia)"
+    },
+    {
+        "domain": "de",
+        "name": "德國 (Germany)"
+    },
+    {
+        "domain": "dk",
+        "name": "丹麥 (Denmark)"
+    },
+    {
+        "domain": "do",
+        "name": "多明尼加共和國 (Dominican Republic)"
+    },
+    {
+        "domain": "ec",
+        "name": "厄瓜多爾 (Ecuador)"
+    },
+    {
+        "domain": "ee",
+        "name": "愛沙尼亞 (Estonia)"
+    },
+    {
+        "domain": "eg",
+        "name": "埃及 (Egypt)"
+    },
+    {
+        "domain": "es",
+        "name": "西班牙 (Spain)"
+    },
+    {
+        "domain": "fi",
+        "name": "芬蘭 (Finland)"
+    },
+    {
+        "domain": "fk",
+        "name": "福克蘭群島 (Falkland Islands)"
+    },
+    {
+        "domain": "fo",
+        "name": "法羅群島 (Faroe Islands)"
+    },
+    {
+        "domain": "fr",
+        "name": "法國 (France)"
+    },
+    {
+        "domain": "gh",
+        "name": "迦納 (Ghana)"
+    },
+    {
+        "domain": "gi",
+        "name": "直布羅陀 (Gibraltar)"
+    },
+    {
+        "domain": "gl",
+        "name": "格陵蘭 (Greenland)"
+    },
+    {
+        "domain": "gr",
+        "name": "希臘 (Greece)"
+    },
+    {
+        "domain": "gs",
+        "name": "南喬治亞及南桑威奇群島 (South Georgia and the South Sandwich Islands)"
+    },
+    {
+        "domain": "gt",
+        "name": "瓜地馬拉 (Guatemala)"
+    },
+    {
+        "domain": "gu",
+        "name": "關島 (Guam)"
+    },
+    {
+        "domain": "hk",
+        "name": "香港 (Hong Kong)"
+    },
+    {
+        "domain": "hr",
+        "name": "克羅埃西亞 (Croatia)"
+    },
+    {
+        "domain": "hu",
+        "name": "匈牙利 (Hungary)"
+    },
+    {
+        "domain": "id",
+        "name": "印尼 (Indonesia)"
+    },
+    {
+        "domain": "ie",
+        "name": "愛爾蘭 (Ireland)"
+    },
+    {
+        "domain": "il",
+        "name": "以色列與約旦河西岸 (Israel & the West Bank)"
+    },
+    {
+        "domain": "im",
+        "name": "曼島 (Isle of Man)"
+    },
+    {
+        "domain": "in",
+        "name": "印度 (India)"
+    },
+    {
+        "domain": "io",
+        "name": "英屬印度洋領地 (British Indian Ocean Territory)"
+    },
+    {
+        "domain": "iq",
+        "name": "伊拉克 (Iraq)"
+    },
+    {
+        "domain": "is",
+        "name": "冰島 (Iceland)"
+    },
+    {
+        "domain": "it",
+        "name": "義大利 (Italy)"
+    },
+    {
+        "domain": "je",
+        "name": "澤西 (Jersey)"
+    },
+    {
+        "domain": "jo",
+        "name": "約旦 (Jordan)"
+    },
+    {
+        "domain": "jp",
+        "name": "日本 (Japan)"
+    },
+    {
+        "domain": "ke",
+        "name": "肯亞 (Kenya)"
+    },
+    {
+        "domain": "kg",
+        "name": "吉爾吉斯 (Kyrgyzstan)"
+    },
+    {
+        "domain": "kh",
+        "name": "柬埔寨 (Cambodia)"
+    },
+    {
+        "domain": "kr",
+        "name": "南韓 (South Korea)"
+    },
+    {
+        "domain": "kz",
+        "name": "哈薩克 (Kazakhstan)"
+    },
+    {
+        "domain": "la",
+        "name": "寮國 (Laos)"
+    },
+    {
+        "domain": "lb",
+        "name": "黎巴嫩 (Lebanon)"
+    },
+    {
+        "domain": "li",
+        "name": "列支敦士登 (Liechtenstein)"
+    },
+    {
+        "domain": "lk",
+        "name": "斯里蘭卡 (Sri Lanka)"
+    },
+    {
+        "domain": "ls",
+        "name": "賴索托 (Lesotho)"
+    },
+    {
+        "domain": "lt",
+        "name": "立陶宛 (Lithuania)"
+    },
+    {
+        "domain": "lu",
+        "name": "盧森堡 (Luxembourg)"
+    },
+    {
+        "domain": "lv",
+        "name": "拉脫維亞 (Latvia)"
+    },
+    {
+        "domain": "mc",
+        "name": "摩納哥 (Monaco)"
+    },
+    {
+        "domain": "me",
+        "name": "蒙特內哥羅 (Montenegro)"
+    },
+    {
+        "domain": "mg",
+        "name": "馬達加斯加 (Madagascar)"
+    },
+    {
+        "domain": "mk",
+        "name": "北馬其頓 (North Macedonia)"
+    },
+    {
+        "domain": "ml",
+        "name": "馬利 (Mali)"
+    },
+    {
+        "domain": "mn",
+        "name": "蒙古 (Mongolia)"
+    },
+    {
+        "domain": "mo",
+        "name": "澳門 (Macau)"
+    },
+    {
+        "domain": "mp",
+        "name": "北馬利安那群島 (Northern Mariana Islands)"
+    },
+    {
+        "domain": "mq",
+        "name": "馬提尼克 (Martinique)"
+    },
+    {
+        "domain": "mt",
+        "name": "馬爾他 (Malta)"
+    },
+    {
+        "domain": "mx",
+        "name": "墨西哥 (Mexico)"
+    },
+    {
+        "domain": "my",
+        "name": "馬來西亞 (Malaysia)"
+    },
+    {
+        "domain": "na",
+        "name": "納米比亞 (Namibia)"
+    },
+    {
+        "domain": "ng",
+        "name": "奈及利亞 (Nigeria)"
+    },
+    {
+        "domain": "nl",
+        "name": "荷蘭 (Netherlands)"
+    },
+    {
+        "domain": "no",
+        "name": "挪威 (Norway)"
+    },
+    {
+        "domain": "np",
+        "name": "尼泊爾 (Nepal)"
+    },
+    {
+        "domain": "nz",
+        "name": "紐西蘭 (New Zealand)"
+    },
+    {
+        "domain": "om",
+        "name": "阿曼 (Oman)"
+    },
+    {
+        "domain": "pa",
+        "name": "巴拿馬 (Panama)"
+    },
+    {
+        "domain": "pe",
+        "name": "秘魯 (Peru)"
+    },
+    {
+        "domain": "ph",
+        "name": "菲律賓 (Philippines)"
+    },
+    {
+        "domain": "pk",
+        "name": "巴基斯坦 (Pakistan)"
+    },
+    {
+        "domain": "pl",
+        "name": "波蘭 (Poland)"
+    },
+    {
+        "domain": "pm",
+        "name": "聖皮埃爾和密克隆群島 (Saint Pierre and Miquelon)"
+    },
+    {
+        "domain": "pn",
+        "name": "皮特凱恩群島 (Pitcairn Islands)"
+    },
+    {
+        "domain": "pr",
+        "name": "波多黎各 (Puerto Rico)"
+    },
+    {
+        "domain": "pt",
+        "name": "亞速爾群島 (Azores)"
+    },
+    {
+        "domain": "pt",
+        "name": "馬德拉 (Madeira)"
+    },
+    {
+        "domain": "pt",
+        "name": "葡萄牙 (Portugal)"
+    },
+    {
+        "domain": "qa",
+        "name": "卡達 (Qatar)"
+    },
+    {
+        "domain": "re",
+        "name": "留尼汪 (Réunion)"
+    },
+    {
+        "domain": "ro",
+        "name": "羅馬尼亞 (Romania)"
+    },
+    {
+        "domain": "rs",
+        "name": "塞爾維亞 (Serbia)"
+    },
+    {
+        "domain": "ru",
+        "name": "俄羅斯 (Russia)"
+    },
+    {
+        "domain": "rw",
+        "name": "盧安達 (Rwanda)"
+    },
+    {
+        "domain": "se",
+        "name": "瑞典 (Sweden)"
+    },
+    {
+        "domain": "sg",
+        "name": "新加坡 (Singapore)"
+    },
+    {
+        "domain": "si",
+        "name": "斯洛維尼亞 (Slovenia)"
+    },
+    {
+        "domain": "sj",
+        "name": "斯瓦巴群島 (Svalbard)"
+    },
+    {
+        "domain": "sk",
+        "name": "斯洛伐克 (Slovakia)"
+    },
+    {
+        "domain": "sm",
+        "name": "聖馬利諾 (San Marino)"
+    },
+    {
+        "domain": "sn",
+        "name": "塞內加爾 (Senegal)"
+    },
+    {
+        "domain": "st",
+        "name": "聖多美和普林西比 (São Tomé & Príncipe)"
+    },
+    {
+        "domain": "sz",
+        "name": "史瓦帝尼 (Eswatini)"
+    },
+    {
+        "domain": "th",
+        "name": "泰國 (Thailand)"
+    },
+    {
+        "domain": "tn",
+        "name": "突尼西亞 (Tunisia)"
+    },
+    {
+        "domain": "tr",
+        "name": "土耳其 (Turkey)"
+    },
+    {
+        "domain": "tw",
+        "name": "台灣 (Taiwan)"
+    },
+    {
+        "domain": "tz",
+        "name": "坦尚尼亞 (Tanzania)"
+    },
+    {
+        "domain": "ua",
+        "name": "烏克蘭 (Ukraine)"
+    },
+    {
+        "domain": "ug",
+        "name": "烏干達 (Uganda)"
+    },
+    {
+        "domain": "uk",
+        "name": "賽浦路斯島 (Island of Cyprus)"
+    },
+    {
+        "domain": "uk",
+        "name": "英國 (United Kingdom)"
+    },
+    {
+        "domain": "um",
+        "name": "美國本土外小島嶼 (US Minor Outlying Islands)"
+    },
+    {
+        "domain": "us",
+        "name": "阿拉斯加 (Alaska)"
+    },
+    {
+        "domain": "us",
+        "name": "夏威夷 (Hawaii)"
+    },
+    {
+        "domain": "us",
+        "name": "美國 (United States)"
+    },
+    {
+        "domain": "uy",
+        "name": "烏拉圭 (Uruguay)"
+    },
+    {
+        "domain": "vi",
+        "name": "美國維京群島 (US Virgin Islands)"
+    },
+    {
+        "domain": "vu",
+        "name": "瓦努阿圖 (Vanuatu)"
+    },
+    {
+        "domain": "za",
+        "name": "南非 (South Africa)"
+    }
+]
