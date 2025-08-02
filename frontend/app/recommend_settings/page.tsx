@@ -80,7 +80,6 @@ export default function RecommendSettingsPage() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
