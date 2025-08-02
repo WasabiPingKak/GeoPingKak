@@ -13,7 +13,8 @@ def init_daily_challenge_reader_route(app, db: Client):
     @bp.route("/api/daily-challenge", methods=["GET"])
     def get_daily_challenge():
         try:
-            today = datetime.now(timezone.utc)
+            tz_taiwan = timezone(timedelta(hours=8))
+            today = datetime.now(tz=tz_taiwan)
 
             # 🔹 取得本月與上月的年月代碼
             this_month = today.strftime("%Y-%m")

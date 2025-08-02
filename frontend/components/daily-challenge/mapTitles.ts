@@ -8,7 +8,7 @@ export interface MapMetadata {
 
 export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
   "the-world": {
-    title: "世界地圖 - 都市 (低難度)",
+    title: "世界地圖 - The World (低難度)",
     description: "著重於世界人口集中的大城市，適合新手開始認識國家時入門的地圖。",
     source: "66014417ff2366aa9a7504df",
   },
