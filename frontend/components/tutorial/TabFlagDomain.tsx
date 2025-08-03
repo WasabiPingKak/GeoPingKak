@@ -49,7 +49,7 @@ export default function TabFlagDomain() {
       <h2 className="text-xl font-bold text-white mb-4">國旗 / 網域</h2>
 
       <p>
-        國旗和網址網域是 GeoGuessr 中最直觀的線索之一。許多政府機關、學校或公共建築都會掛上國旗，若能辨認出該國國旗，可以直接判斷所在國家。
+        國旗和網址網域是 GeoGuessr 中最直觀的線索之一。許多政府機關、學校或公共建築都會掛上國旗，若能辨認出該國國旗，可以有效判斷所在國家。
       </p>
 
       <p>
@@ -65,8 +65,11 @@ export default function TabFlagDomain() {
       </p>
 
       <p>
-        國旗與網域也是不需要先背好才開始玩，隨著你常常在遊戲中看到，自然而然就會記住它們了。<br />
-        當然第一次看到可能要花一點功夫去查然後記住，但通常這個過程是不需要特地費心去背的。
+        國旗與網域也是不需要先背好才開始玩，隨著你常常在遊戲中看到，自然而然就會記住它們了。
+      </p>
+
+      <p>
+        當然第一次看到可能要花一點功夫去查然後記住，但這畢竟是個遊戲，邊完邊學就足夠了，不用當作是考試一樣。
       </p>
 
       <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-orange-400">
@@ -78,7 +81,7 @@ export default function TabFlagDomain() {
       <h2 className="text-2xl">國旗</h2>
       <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 space-y-2">
         <p className="font-semibold text-base text-white">
-          以下是我認為特別愛掛國旗的國家。
+          以下是我在遊戲經驗中注意到，特別愛在路上掛國旗的國家。
         </p>
         <p className="text-sm text-muted-foreground">
           除了在街上很常看到國旗本身，街景中也常會看到有國旗元素的裝飾。

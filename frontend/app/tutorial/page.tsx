@@ -14,8 +14,8 @@ import TabSunPosition from "@/components/tutorial/TabSunPosition";
 const TABS = [
   "街景覆蓋國家",
   "國旗/網域",
+  "道路通行方向",
   // "車牌",
-  // "道路通行方向",
   // "語言",
   // "太陽",
 ];
