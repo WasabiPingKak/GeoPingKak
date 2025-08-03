@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import FlagLovingGridByContinent from "@/components/tutorial/flags/FlagLovingGridByContinent";
 
 // 將資料依照欄優先排序，分成每列 3 組（即 6 欄）
 function columnFirstChunk(
@@ -72,6 +73,21 @@ export default function TabFlagDomain() {
         要特別注意的是，國旗與網域都是間接線索，你可能會在一個國家看到隔壁國家的廣告，而誤判你所在的區域。<br />
         不然就是，會在義大利餐廳門口看到義大利國旗。
       </p>
+
+      {/* 國旗特別常見的國家說明段落 */}
+      <h2 className="text-2xl">國旗</h2>
+      <div className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 space-y-2">
+        <p className="font-semibold text-base text-white">
+          以下是我認為特別愛掛國旗的國家。
+        </p>
+        <p className="text-sm text-muted-foreground">
+          除了在街上很常看到國旗本身，街景中也常會看到有國旗元素的裝飾。
+        </p>
+
+        <FlagLovingGridByContinent countries={countries} />
+      </div>
+
+      <h2 className="text-2xl">網域</h2>
       <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-orange-400">
         橘色的網域是跟國家的英文名字有落差的網域，需要稍微注意
       </p>
