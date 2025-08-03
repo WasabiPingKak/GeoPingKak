@@ -15,9 +15,9 @@ const TABS = [
   "街景覆蓋國家",
   "國旗/網域",
   "道路通行方向",
-  // "車牌",
+  "太陽",
+  //"車牌",
   // "語言",
-  // "太陽",
 ];
 
 export default function TutorialPage() {
