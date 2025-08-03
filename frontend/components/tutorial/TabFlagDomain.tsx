@@ -38,7 +38,7 @@ export default function TabFlagDomain() {
       .catch(console.error);
   }, []);
 
-  const highlightDomains = ["rs", "hr", "kh", "sz"];
+  const highlightDomains = ["ch", "de", "rs", "hr", "kh", "sz", "ee", "es", "is", "ie", "za"];
   const highlightClass = "font-bold text-orange-400";
 
   const chunked = columnFirstChunk(countries, 3); // 分成每列 3 組（6欄）
@@ -65,7 +65,7 @@ export default function TabFlagDomain() {
 
       <p>
         國旗與網域也是不需要先背好才開始玩，隨著你常常在遊戲中看到，自然而然就會記住它們了。<br />
-        當然第一次看到可能要花一點功夫去查然後記住，但通常這個過程式不需要特地費心去背的。
+        當然第一次看到可能要花一點功夫去查然後記住，但通常這個過程是不需要特地費心去背的。
       </p>
 
       <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-orange-400">

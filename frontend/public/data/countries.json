@@ -325,7 +325,7 @@
     },
     {
         "domain": "mq",
-        "name": "馬提尼克 (Martinique)"
+        "name": "馬丁尼克 (Martinique)"
     },
     {
         "domain": "mt",
@@ -532,8 +532,12 @@
         "name": "美國維京群島 (US Virgin Islands)"
     },
     {
+        "domain": "vn",
+        "name": "越南 (Vietnam)"
+    },
+    {
         "domain": "vu",
-        "name": "瓦努阿圖 (Vanuatu)"
+        "name": "萬那杜 (Vanuatu)"
     },
     {
         "domain": "za",

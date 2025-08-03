@@ -14,10 +14,10 @@ import TabSunPosition from "@/components/tutorial/TabSunPosition";
 const TABS = [
   "街景覆蓋國家",
   "國旗/網域",
-  "車牌",
-  "道路通行方向",
-  "語言",
-  "太陽",
+  // "車牌",
+  // "道路通行方向",
+  // "語言",
+  // "太陽",
 ];
 
 export default function TutorialPage() {
@@ -26,9 +26,10 @@ export default function TutorialPage() {
   return (
     <div className="w-full px-4 md:px-6 lg:px-8">
       <h1 className="text-2xl font-bold mb-6">入門教學</h1>
-      <p className="text-muted-foreground mb-8">
-        GeoGuessr 本質上是一個推理遊戲，但是網路上能找到的攻略，大部分都是針對個別國家的細節來教學。<br />
-        在初期，有更多基本的地理常識可以幫助你快速鎖定區域，而攻略網站不會教，因為他們覺得這是不用教的常識。
+      <p className="mb-6">
+        GeoGuessr 是一款結合觀察與推理的地理解謎遊戲，但多數教學僅著重在國家的細節辨識。<br />
+        但初學者需要先學會從一些通用的地理觀念切入，快速縮小範圍。<br />
+        本教學將從「如何觀察世界」的角度出發，由六個基本原則出發，建立你的推理邏輯，而不是只靠死背。
       </p>
 
       <CommonTabs
