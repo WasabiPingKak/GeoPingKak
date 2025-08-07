@@ -3,7 +3,7 @@ import SocialLinks from "@/components/SocialLinks";
 export default function HomePage() {
   return (
     <div className="max-w-4xl">
-      <h1 className="text-3xl font-bold mb-4">歡迎來到 GeoPingKak</h1>
+      <h1 className="text-3xl font-bold mb-4">歡迎來到 GeoPingKak 中文推廣站</h1>
 
       <p className="mb-4 leading-relaxed">
         這裡是台灣 Vtuber <strong>山葵冰角</strong> 推廣 GeoGuessr 的網站，目標是擴大中文玩家社群。

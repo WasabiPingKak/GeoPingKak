@@ -1,6 +1,8 @@
 import React from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
+import VIDEO_EXPLANATIONS from "@/data/videoExplanations";
+import { AiFillYoutube } from "react-icons/ai";
 
 interface CommonMapCardProps {
   entries: DailyChallengeEntry[];
@@ -41,18 +43,34 @@ export default function CommonMapCard({
       <ul className="space-y-2">
         {entries
           .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-          .map((entry) => (
-            <li key={entry.createdAt}>
-              <a
-                href={entry.challengeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-blue-600 dark:text-blue-400"
-              >
-                {entry.title ?? `📅 ${entry.createdAt}`}
-              </a>
-            </li>
-          ))}
+          .map((entry) => {
+            const videoUrl = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
+
+            return (
+              <li key={entry.createdAt} className="flex flex-wrap items-center gap-3">
+                <a
+                  href={entry.challengeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-blue-600 dark:text-blue-400"
+                >
+                  {entry.title ?? `📅 ${entry.createdAt}`}
+                </a>
+
+                {videoUrl && (
+                  <a
+                    href={videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
+                  >
+                    <AiFillYoutube className="w-4 h-4 mr-1" />
+                    今日詳解
+                  </a>
+                )}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
