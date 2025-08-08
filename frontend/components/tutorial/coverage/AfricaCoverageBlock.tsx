@@ -7,7 +7,7 @@ export default function AfricaCoverageBlock() {
   return (
     <CoverageRegionCard
       title="非洲"
-      imgSrc="/tutorial/coverage/CoverageAfrica.jpg"
+      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageAfrica.jpg?v=20250808"
       sections={[
         {
           type: "full",

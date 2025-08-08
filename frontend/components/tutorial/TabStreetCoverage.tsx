@@ -38,7 +38,7 @@ export default function TabStreetCoverage() {
       </p>
       <div className="flex flex-col items-center space-y-2">
         <img
-          src="/tutorial/coverage/Coverage.jpg"
+          src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/Coverage.jpg?v=20250808"
           alt="街景覆蓋地圖"
           className="rounded-lg border border-zinc-700 shadow-md max-w-full"
         />

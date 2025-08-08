@@ -23,7 +23,7 @@ export default function TabDrivingSide() {
         <div>
           <Zoom>
             <img
-              src="/driving_side/driving_side_map.png"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_map.png?v=20250808"
               alt="世界道路通行方向地圖"
               className="w-full rounded-xl shadow-md border border-border"
             />
@@ -66,7 +66,7 @@ export default function TabDrivingSide() {
         </p>
         <Zoom>
           <img
-            src="/driving_side/driving_side_car.jpg"
+            src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_car.jpg?v=20250808"
             alt="道路通行方向"
             className="max-w-[700px] w-full h-auto rounded-xl shadow-md border border-border cursor-zoom-in"
           />
@@ -81,7 +81,7 @@ export default function TabDrivingSide() {
           </p>
           <Zoom>
             <img
-              src="/driving_side/driving_side_parking_01.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_parking_01.jpg?v=20250808"
               alt="停車方向"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
@@ -94,7 +94,7 @@ export default function TabDrivingSide() {
           </p>
           <Zoom>
             <img
-              src="/driving_side/driving_side_parking_02.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_parking_02.jpg?v=20250808"
               alt="停車方向"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
@@ -109,7 +109,7 @@ export default function TabDrivingSide() {
           </p>
           <Zoom>
             <img
-              src="/driving_side/driving_side_lines.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_lines.jpg?v=20250808"
               alt="道路標線"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
@@ -121,7 +121,7 @@ export default function TabDrivingSide() {
           </p>
           <Zoom>
             <img
-              src="/driving_side/driving_side_sign.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_sign.jpg?v=20250808"
               alt="停車方向"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />

@@ -7,7 +7,7 @@ export default function SouthAmericaCoverageBlock() {
   return (
     <CoverageRegionCard
       title="南美洲大陸"
-      imgSrc="/tutorial/coverage/CoverageSA.jpg"
+      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageSA.jpg?v=20250808"
       sections={[
         {
           type: "none",

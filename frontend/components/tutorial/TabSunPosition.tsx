@@ -31,7 +31,7 @@ export default function TabSunPosition() {
           <div className="flex-1 text-center space-y-2">
             <Zoom>
               <img
-                src="/sun_position/example_N.jpg"
+                src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/example_N.jpg?v=20250808"
                 alt="北半球觀察太陽的位置"
                 className="w-full rounded-md border border-orange-600 shadow-md"
               />
@@ -43,7 +43,7 @@ export default function TabSunPosition() {
           <div className="flex-1 text-center space-y-2">
             <Zoom>
               <img
-                src="/sun_position/example_S.jpg"
+                src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/example_S.jpg?v=20250808"
                 alt="南半球觀察太陽的位置"
                 className="w-full rounded-md border border-orange-600 shadow-md"
               />
@@ -66,7 +66,7 @@ export default function TabSunPosition() {
         <div className="text-center">
           <Zoom>
             <img
-              src="/sun_position/shadow.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/shadow.jpg?v=20250808"
               alt="透過影子判斷太陽位置"
               className="w-full md:w-2/3 mx-auto rounded-md border border-zinc-700 shadow-md"
             />
@@ -103,7 +103,7 @@ export default function TabSunPosition() {
       </p>
       <Zoom>
         <img
-          src="/sun_position/sun_and_axial_tilt.jpg"
+          src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/sun_and_axial_tilt.jpg?v=20250808"
           alt="太陽直射位置與地軸傾角示意圖"
           className="mt-2 rounded-lg border border-zinc-700 shadow-md w-full"
         />
@@ -123,7 +123,7 @@ export default function TabSunPosition() {
       <p className="mt-6">下圖是完整的緯度覆蓋範圍：</p>
       <Zoom>
         <img
-          src="/sun_position/World_map_with_major_latitude_circles.png"
+          src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/World_map_with_major_latitude_circles.png?v=20250808"
           alt="世界地圖與主要緯線（赤道、回歸線、極圈）"
           className="mt-2 w-full rounded-lg border border-zinc-700 shadow-md"
         />
@@ -153,7 +153,7 @@ export default function TabSunPosition() {
           {/* 北半球接收器 */}
           <div className="flex-1 text-center space-y-2">
             <img
-              src="/sun_position/satellite_dish_north.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/satellite_dish_north.jpg?v=20250808"
               alt="北半球衛星接收器"
               className="w-full rounded-md border border-zinc-700 shadow-md"
             />
@@ -163,7 +163,7 @@ export default function TabSunPosition() {
           {/* 南半球接收器 */}
           <div className="flex-1 text-center space-y-2">
             <img
-              src="/sun_position/satellite_dish_south.jpg"
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/satellite_dish_south.jpg?v=20250808"
               alt="南半球衛星接收器"
               className="w-full rounded-md border border-zinc-700 shadow-md"
             />

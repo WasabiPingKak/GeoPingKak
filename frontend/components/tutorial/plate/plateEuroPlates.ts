@@ -4,13 +4,12 @@ export type EuroPlateInfo = {
   descriptions: string[];
 };
 
-
 // 歐盟標準車牌
 export const EURO_STANDARD_PLATE: EuroPlateInfo = {
   title: "歐盟標準車牌",
   images: [
-    { src: "/license-plates/eu/spain_plate.png", alt: "歐盟標準車牌範例" },
-    { src: "/license-plates/eu/euro_plate.jpg", alt: "歐盟標準車牌街景" },
+    { src: "https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/license-plates/eu/spain_plate.png?v=20250808", alt: "歐盟標準車牌範例" },
+    { src: "https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/license-plates/eu/euro_plate.jpg?v=20250808", alt: "歐盟標準車牌街景" },
   ],
   descriptions: [
     "歐洲車牌的特色是特別細長，長寬比大概是 1:4.7。",
@@ -22,9 +21,9 @@ export const EURO_STANDARD_PLATE: EuroPlateInfo = {
 export const EURO_NON_EU_PLATE: EuroPlateInfo = {
   title: "非歐盟歐洲車牌",
   images: [
-    { src: "/license-plates/eu/russia_plate.png", alt: "俄羅斯車牌範例" },
-    { src: "/license-plates/eu/ukraine_plate.jpg", alt: "烏克蘭車牌範例" },
-    { src: "/license-plates/eu/non_eu_plate.jpg", alt: "歐洲車牌街景" },
+    { src: "https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/license-plates/eu/russia_plate.png?v=20250808", alt: "俄羅斯車牌範例" },
+    { src: "https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/license-plates/eu/ukraine_plate.jpg?v=20250808", alt: "烏克蘭車牌範例" },
+    { src: "https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/license-plates/eu/non_eu_plate.jpg?v=20250808", alt: "歐洲車牌街景" },
   ],
   descriptions: [
     "俄羅斯車牌多為白底，右側會顯示俄羅斯國旗與地區代碼。",
@@ -32,4 +31,3 @@ export const EURO_NON_EU_PLATE: EuroPlateInfo = {
     "但打碼之後通常只會看到一條白色車牌，未必能準確的辨識出來，但沒有藍邊條紋的特徵可以與歐盟區分隔開來。",
   ],
 };
-
