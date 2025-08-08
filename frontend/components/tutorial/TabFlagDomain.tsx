@@ -74,7 +74,7 @@ export default function TabFlagDomain() {
 
       <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-orange-400">
         要特別注意的是，國旗與網域都是間接線索，你可能會在一個國家看到隔壁國家的廣告，而誤判你所在的區域。<br />
-        不然就是，會在義大利餐廳門口看到義大利國旗。
+        比方說，會在義大利餐廳門口看到義大利國旗。
       </p>
 
       {/* 國旗特別常見的國家說明段落 */}
@@ -84,7 +84,7 @@ export default function TabFlagDomain() {
           以下是我在遊戲經驗中注意到，特別愛在路上掛國旗的國家。
         </p>
         <p className="text-sm text-muted-foreground">
-          除了在街上很常看到國旗本身，街景中也常會看到有國旗元素的裝飾。
+          除了在街上很常看到國旗本身，街景中也常會看到有國旗元素的裝飾，值得留意一下先有個印象。
         </p>
 
         <FlagLovingGridByContinent countries={countries} />

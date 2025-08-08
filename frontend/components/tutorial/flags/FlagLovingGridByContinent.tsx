@@ -13,11 +13,11 @@ export default function FlagLovingGridByContinent({
     },
     {
       continent: "歐洲",
-      domains: ["no", "se", "fi", "dk", "is", "cz", "sk", "si", "hr", "rs", "me", "al", "mk", "tr"],
+      domains: ["no", "se", "fi", "dk", "is", "ua", "cz", "sk", "si", "hr", "rs", "me", "al", "mk", "tr"],
     },
     {
       continent: "美洲",
-      domains: ["ca", "us", "mx", "pa", "br", "pe", "cl"],
+      domains: ["ca", "us", "mx", "pa", "br", "pe", "cl", "bo"],
     },
     {
       continent: "非洲",
@@ -45,12 +45,29 @@ export default function FlagLovingGridByContinent({
                   key={country.domain}
                   className="border border-zinc-700 rounded-lg p-4 text-center"
                 >
+                  {/* 國旗 */}
                   <img
                     src={`/flags/${country.domain}.png`}
                     alt={`${country.name} 國旗`}
                     className="h-24 mx-auto mb-2"
                   />
-                  <p className="text-base">{country.name}</p>
+                  {/* 國名 */}
+                  <p className="text-base mb-2">{country.name}</p>
+
+                  {/* 特例：玻利維亞加上 Wiphala */}
+                  {country.domain === "bo" && (
+                    <div className="mt-4">
+                      <img
+                        src="/flags/bo_wiphala.png"
+                        alt="科利亞蘇尤印加旗"
+                        className="h-24 mx-auto mb-2"
+                      />
+                      <p className="text-sm text-zinc-300">
+                        科利亞蘇尤印加旗（Wiphala）<br />
+                        在玻利維亞被官方承認為國旗之一
+                      </p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
