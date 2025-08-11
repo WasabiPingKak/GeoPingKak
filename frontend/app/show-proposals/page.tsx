@@ -171,7 +171,7 @@ export default function ShowProposalsPage() {
                 推薦你將以上地圖加入收藏（點擊地圖頁左上角的「愛心」），即可在對戰模式中選擇「Liked maps」快速選擇。
                 <Zoom>
                   <img
-                    src="/show-proposals/like_a_community_map.jpg"
+                    src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/like_a_community_map.jpg?v=20250808"
                     alt="點選社群地圖的愛心"
                     className="w-full max-w-md rounded border border-border shadow"
                   />
@@ -182,14 +182,14 @@ export default function ShowProposalsPage() {
                 如果你在 Party 頁面（從網頁上的 Party → PARTY），點擊 MAP 更換地圖，切換到 Liked maps 分頁，選擇你已經點過愛心的地圖：
                 <Zoom>
                   <img
-                    src="/show-proposals/change_map.jpg"
+                    src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/change_map.jpg?v=20250808"
                     alt="Party 頁面點擊更換地圖"
                     className="w-full max-w-md rounded border border-border shadow"
                   />
                 </Zoom>
                 <Zoom>
                   <img
-                    src="/show-proposals/choose_map.jpg"
+                    src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/choose_map.jpg?v=20250808"
                     alt="從 Liked maps 分頁選擇地圖"
                     className="w-full max-w-md rounded border border-border shadow"
                   />
