@@ -14,7 +14,7 @@ export default function RecommendSettingsPage() {
       </p>
       <ul className="text-muted-foreground list-disc list-inside space-y-2 mb-8">
         <li>
-          <kbd className="px-2 py-0.5 bg-zinc-700 text-white rounded">R</kbd>：回到起始位置（重生點）
+          <kbd className="px-2 py-0.5 bg-zinc-700 text-white rounded">R</kbd>：回到起始位置（重生點），答案的位置即是起始位置。
         </li>
         <li>
           <kbd className="px-2 py-0.5 bg-zinc-700 text-white rounded">Z</kbd>：回到上一步，有時候誤撞牆壁會導致攝影機角度異常，可以連續使用

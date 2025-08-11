@@ -18,7 +18,7 @@ export default function TabIntro() {
       <section>
         <h2 className="text-lg font-bold text-white mb-2">🧠 如何開始學 GeoGuessr ？</h2>
         <p>
-          玩 GeoGuessr 不需要你一開始就記住所有國家的車牌、路樁或街景車天線。<br />
+          玩 GeoGuessr 不需要你一開始就記住所有國家的電線桿、車牌、路樁或街景車天線。<br />
           相反地，它本身就是一個很棒的學習載體，可以讓你一邊玩一邊認識這個世界。
         </p>
         <p>
@@ -34,12 +34,16 @@ export default function TabIntro() {
       <section>
         <h2 className="text-lg font-bold text-white mb-2">🔰 新手從哪裡開始？</h2>
         <p>
-          如果你是完全的新手，建議不要一開始就急著背電線桿樣式、街景車的外觀與天線，或是各國的路牌樣式。<br />
+          如果你是完全的新手，建議不要一開始就急著背電線桿樣式、街景車的外觀與天線，或是各國的路牌路樁樣式。<br />
           <strong>先建立一個正確的推理觀念以及對這個國家的理解，比起背起細節更重要。</strong><br />
           在有脈絡跟背景知識的前提下，你才能真正的掌握這個遊戲。<br />
         </p>
         <p>
           你可以從我現在的這一頁《入門教學》開始，裡面會教你一些<strong>通用的觀察技巧與推理方式</strong>，幫助你從一開始就用正確的方向學習這款遊戲。
+        </p>
+        <p>
+          推薦的練習地圖為「世界地圖 - The World」，它是給新手專用的世界地圖，難度親民，且平衡性遠遠優於官方世界地圖。<br />
+          也就是本站每日題目第一個分頁的第一個地圖。
         </p>
       </section>
 
@@ -59,10 +63,10 @@ export default function TabIntro() {
         <p>在正式進入細節之前，如果你還沒接觸過下列這些概念，建議你可以先從這些入門知識開始學起：</p>
         <ul className="list-disc list-inside pl-4 space-y-1">
           <li>哪些國家有街景覆蓋？</li>
-          <li>知道<strong>網域</strong>也可以判斷地區</li>
-          <li>各國的<strong>道路通行方向</strong>與駕駛習慣是什麼？</li>
-          <li>知道特定國家的車牌本身就是最大的線索</li>
-          <li>太陽如何在這個遊戲中幫助你縮小範圍？</li>
+          <li>知道<strong>網域</strong>也可以判斷地區？</li>
+          <li>各國的<strong>道路通行方向</strong>是什麼？</li>
+          <li>哪些國家的車牌在世界上是極具辨識度的？</li>
+          <li>太陽如何在這個遊戲中幫助你縮小猜測範圍？</li>
         </ul>
         <p>這些通用觀念會在你遊戲初期幫上大忙。</p>
       </section>
@@ -70,7 +74,7 @@ export default function TabIntro() {
       <section>
         <h2 className="text-lg font-bold text-white mb-2">結語</h2>
         <p>
-          GeoGuessr 的遊戲核心是訓練你如何「在陌生的環境裡從提取出有用的線索，並推理出答案」。<br />
+          GeoGuessr 是是一款訓練你如何「在陌生的環境裡從提取出有用的線索，並結合自己的知識與經歷，推理出正確答案」的遊戲。<br />
           這正是它最迷人、也最有成就感的地方。
         </p>
       </section>
