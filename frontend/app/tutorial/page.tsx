@@ -10,8 +10,10 @@ import TabLicensePlates from "@/components/tutorial/TabLicensePlates";
 import TabDrivingSide from "@/components/tutorial/TabDrivingSide";
 import TabLanguages from "@/components/tutorial/TabLanguages";
 import TabSunPosition from "@/components/tutorial/TabSunPosition";
+import TabIntro from "@/components/tutorial/TabIntro";
 
 const TABS = [
+  "前言",
   "街景覆蓋國家",
   "國旗/網域",
   "道路通行方向",
@@ -39,6 +41,7 @@ export default function TutorialPage() {
       />
 
       <div className="mt-8">
+        {selectedTab === "前言" && <TabIntro />}
         {selectedTab === "街景覆蓋國家" && <TabStreetCoverage />}
         {selectedTab === "國旗/網域" && <TabFlagDomain />}
         {selectedTab === "車牌" && <TabLicensePlates />}

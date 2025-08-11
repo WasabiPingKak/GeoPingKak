@@ -17,8 +17,9 @@ export default function TabStreetCoverage() {
         了解哪些地區有街景、哪些地區完全沒有收錄，可以在一開始就快速排除不可能的國家。
       </p>
       <p>
-        當然，你不需要真的背完所有有或沒有街景的國家才開始玩。這份整理的目的是提醒新手：「GeoGuessr 並不是全世界都有街景」。<br />
-        你只要大致看過、心裡有個印象，遇到陌生地圖時，就能更快做出合理的判斷。
+        當然，你不需要一開始就完全記住哪些國家有或沒有街景。<br />
+        這份整理的目的是提醒新手：「GeoGuessr 並不是全世界都有街景」。<br />
+        你只要大致看過、心裡有個印象，遇到陌生環境時，就能更快做出合理的判斷。
       </p>
 
       <p className="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 font-semibold text-base text-muted-foreground">
