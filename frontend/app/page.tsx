@@ -30,7 +30,7 @@ export default function HomePage() {
       </p>
 
       <p className="mb-4 leading-relaxed">
-        如果你是 Vtuber 或實況主，有企劃需求，也可以參考本站「企劃分頁」中提供的企劃書與素材。<br />
+        如果你是 Vtuber 或實況主，有企劃需求，也可以參考本站「直播企劃提案」中提供的企劃書與建議。<br />
         歡迎直接使用本站的內容做為你的直播企劃，不用告知管理者(我)，就當作是「
         <a href="https://2pick.app/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline hover:text-blue-600">
           殘酷二選一

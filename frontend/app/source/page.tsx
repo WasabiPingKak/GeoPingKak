@@ -27,6 +27,12 @@ export default function SourcePage() {
         "中國的地理猜謎網站「图寻」的攻略，裡面有經過授權翻譯後的 Plonk It 教學，以及中國社群的整理與討論。\n\n沒錯，中國有自己的 GeoGuessr。",
     },
     {
+      name: "Reddit - GeoGuessr 討論區",
+      url: "https://www.reddit.com/r/geoguessr/",
+      description:
+        "各種 GeoGuessr 迷因與遊戲討論。\n討論區中常常會看到新手提問，老手的回應中常有思考脈絡與更細節的線索，不同於系統化的攻略資源，幫助非常的大。",
+    },
+    {
       name: "維基百科",
       url: "https://zh.wikipedia.org/",
       description:
