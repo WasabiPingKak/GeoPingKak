@@ -116,7 +116,7 @@ def init_special_map_routes(app, db: Client):
                             "createdAt": created_date,
                             "country": country,
                             "title": (
-                                f"{title_prefix}{str(i+1).zfill(2)}"
+                                f"{title_prefix} {str(i+1).zfill(2)}"
                                 if title_prefix
                                 else ""
                             ),

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import CommonTabs from "@/components/shared/CommonTabs";
-import CommonMapList from "@/components/shared/CommonMapList";
 import SpecialCategoryDescription from "@/components/special-maps/SpecialCategoryDescription";
+import SpecialMapList from "@/components/special-maps/SpecialMapList";
 import { SPECIAL_MAP_TITLES } from "@/components/special-maps/specialMapTitles";
 import { useSpecialMapData } from "@/hooks/useSpecialMapData";
 
@@ -12,7 +12,6 @@ export default function SpecialMapsPage() {
   const categories = Array.from(new Set(entries.map((e) => e.country)));
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  // ✅ 資料載入後第一次設定 selectedCategory
   useEffect(() => {
     if (categories.length > 0 && !selectedCategory) {
       setSelectedCategory(categories[0]);
@@ -26,7 +25,6 @@ export default function SpecialMapsPage() {
       <h1 className="text-3xl font-bold mb-4">🧭 特殊主題地圖</h1>
       <p className="mb-6 text-muted-foreground">
         由我親自手選的特別題庫，規則與每日題目相同，每一個連結都是固定的五題。<br />
-        🚧題目還在編輯，數量眾多，完成後會一次放上來。
       </p>
 
       {isLoading ? (
@@ -43,10 +41,9 @@ export default function SpecialMapsPage() {
 
           <SpecialCategoryDescription category={selectedCategory} />
 
-          <CommonMapList
+          <SpecialMapList
             entries={filteredEntries}
             metadataMap={SPECIAL_MAP_TITLES}
-            showSourceLink={false}
           />
         </>
       )}

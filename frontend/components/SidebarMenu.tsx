@@ -7,7 +7,7 @@ import { clsx } from "clsx";
 const navItems = [
   { href: "/", label: "首頁" },
   { href: "/daily-challenge", label: "每日題目" },
-  { href: "/special-maps", label: "特殊主題地圖 (籌備中)" },
+  { href: "/special-maps", label: "特殊主題地圖" },
   { divider: true },
   { href: "/recommend_settings", label: "推薦設定" },
   { href: "/tutorial", label: "入門教學" },
