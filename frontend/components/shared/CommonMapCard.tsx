@@ -8,15 +8,25 @@ interface CommonMapCardProps {
   entries: DailyChallengeEntry[];
   metadataMap: Record<string, MapMetadata>;
   showSourceLink?: boolean;
+  onlyWithVideo?: boolean;
 }
 
 export default function CommonMapCard({
   entries,
   metadataMap,
   showSourceLink = true,
+  onlyWithVideo = false,
 }: CommonMapCardProps) {
   const mapId = entries[0].mapId;
   const metadata = metadataMap[mapId];
+
+  const filteredEntries = onlyWithVideo
+    ? entries.filter((entry) => VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId])
+    : entries;
+
+  const sortedEntries = [...filteredEntries].sort((a, b) =>
+    b.createdAt.localeCompare(a.createdAt)
+  );
 
   return (
     <div className="rounded-xl border p-4 bg-card shadow-sm">
@@ -41,36 +51,34 @@ export default function CommonMapCard({
       )}
 
       <ul className="space-y-2">
-        {entries
-          .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-          .map((entry) => {
-            const videoUrl = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
+        {sortedEntries.map((entry) => {
+          const videoUrl = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
 
-            return (
-              <li key={entry.createdAt} className="flex flex-wrap items-center gap-3">
+          return (
+            <li key={`${entry.mapId}-${entry.createdAt}`} className="flex flex-wrap items-center gap-3">
+              <a
+                href={entry.challengeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-600 dark:text-blue-400"
+              >
+                {entry.title ?? `📅 ${entry.createdAt}`}
+              </a>
+
+              {videoUrl && (
                 <a
-                  href={entry.challengeUrl}
+                  href={videoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline text-blue-600 dark:text-blue-400"
+                  className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
                 >
-                  {entry.title ?? `📅 ${entry.createdAt}`}
+                  <AiFillYoutube className="w-4 h-4 mr-1" />
+                  今日詳解
                 </a>
-
-                {videoUrl && (
-                  <a
-                    href={videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
-                  >
-                    <AiFillYoutube className="w-4 h-4 mr-1" />
-                    今日詳解
-                  </a>
-                )}
-              </li>
-            );
-          })}
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
