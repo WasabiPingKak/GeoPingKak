@@ -53,7 +53,22 @@ export default function ShowProposalsPage() {
                 </div>
 
                 <div>
-                  這兩種類型的題目皆包含無需事前準備即可開玩的輕鬆題庫，目前網站提供的題庫數量應該足以撐起兩個小時以上的直播。<br />
+                  在使用連結遊玩時，若未登入帳號，將不會留下成績紀錄；<br />
+                  而登入的情況下，系統會記錄你的遊玩紀錄，且同一個連結無法重複挑戰。<br />
+                  如果你真的希望再次遊玩相同內容，可以使用「無痕模式」並在未登入的狀態下重新開啟連結。<br /><br />
+
+                  此外，未登入時輸入的 Nickname 並不會被記錄，<br />
+                  那只是官方過去可能使用過的舊功能，目前不再儲存任何資料。<br />
+                  所以你可以隨意輸入，完全不影響遊玩體驗。
+                </div>
+
+                <div className="text-red-500 font-bold mt-4">
+                  提醒：每個挑戰連結的五個題目都是固定的，玩掉就沒了。當然未登入可以重複遊玩，但題目會是相同的。<br />
+                  若你只是要測試功能，請優先使用每日挑戰連結，避免消耗特殊主題地圖的體驗。
+                </div>
+
+                <div>
+                  「特殊主題地圖」與「每日題目」的題目皆包含無需事前準備即可開玩的輕鬆題庫，目前網站提供的題庫數量應該足以撐起兩個小時以上的直播。<br />
                   除了特殊主題地圖為固定題庫，「每日題目」會定時更新，所以你過一段時間回來依然有全新的題目能做為遊戲企劃使用。<br />
                   若使用本站所提供的資源作為你的直播或節目內容，
                   <strong className="text-orange-300">
@@ -109,7 +124,7 @@ export default function ShowProposalsPage() {
                 <div>
                   如果你是剛接觸這款遊戲的新手主播，打算遊玩正規的遊戲模式，強力推薦使用我在本頁介紹的玩家自製社群地圖進行直播。<br />
                   你也可以稍微掃一下本站的《推薦設定》與《入門教學》兩篇文章，有一個概念跟方向可以準備。<br />
-                  這會幫助你更快的理解如何有效的進行遊戲，不會在直播上一題卡超久導致節奏爆炸，又玩得很悶。
+                  這會幫助你更快的理解如何有效的進行遊戲，不會在直播上一題卡超久導致節奏爆炸，玩得很悶又沒有遊戲體驗。
                 </div>
 
                 <div>
@@ -204,7 +219,7 @@ export default function ShowProposalsPage() {
               </div>
 
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed mt-4">
-                如果你在 Party 頁面（從網頁上的 Party → PARTY），點擊 MAP 更換地圖，切換到 Liked maps 分頁，選擇你已經點過愛心的地圖：
+                如果你想進行多人遊戲模式，進入 Party 頁面（從網頁上的 Party → PARTY），點擊 MAP 更換地圖，切換到 Liked maps 分頁，選擇你已經點過愛心的地圖：
                 <Zoom>
                   <img
                     src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/change_map.jpg?v=20250808"
@@ -221,6 +236,16 @@ export default function ShowProposalsPage() {
                 </Zoom>
               </div>
 
+              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed mt-4">
+                就可以在多人模式下使用社群地圖，你也可以直接在切換地圖的頁面中搜尋其他的社群地圖。
+                <Zoom>
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/switch_custom_map.jpg?v=20250813"
+                    alt="Party 頁面更換社群地圖"
+                    className="w-full max-w-md rounded border border-border shadow"
+                  />
+                </Zoom>
+              </div>
               <div className="mt-4">
                 <WarningCard />
               </div>
