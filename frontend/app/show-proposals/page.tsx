@@ -32,72 +32,126 @@ export default function ShowProposalsPage() {
 
       <div className="mt-8 text-sm text-muted-foreground space-y-4 leading-relaxed">
         {selectedTab === "純娛樂企劃包" && (
-          <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-white mb-2">純娛樂企劃包</h2>
 
-            <div>
-              <h3 className="font-semibold text-base text-white mb-1">適用對象：</h3>
+          <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+
+            <h2 className="text-lg font-semibold text-white">純娛樂企劃包</h2>
+            <h3 className="font-semibold text-base text-white mb-1">適用對象：</h3>
+            <p>
+              尚未決定要訂閱遊戲，想先將 GeoGuessr 做為單次遊戲企劃試水溫的主播或創作者。
+            </p>
+            <h3 className="font-semibold text-base text-white mb-1">定位：</h3>
+
+            <p>
+              這是一份專為台灣的觀眾與創作者設計的 GeoGuessr 入門企劃，<br />
+              你無需了解這款遊戲的經典規則，也不需要訂閱帳號或準備任何素材，<br />
+              只要打開我整理好的兩張特殊主題地圖：「台灣奇怪地名」與「台灣諧音招牌」，<br />
+              就能立即進入節目狀態！
+            </p>
+            <p>
+              這些題目完全以台灣為出發點，讓觀眾一看就有共鳴，<br />
+              非常適合做為試水溫的遊戲單元、聊天互動的橋段，<br />
+              或是以 GeoGuessr 為主軸的輕量企劃初體驗。
+            </p>
+            <p>
+              特殊主題地圖皆來自本站的免費資源，不需註冊帳號即可直接開玩。<br />
+              每個連結都包含固定的五個題目，能確保每次節目體驗穩定且可控。
+            </p>
+
+            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-lg font-semibold text-white">推薦使用方式</h2>
               <p>
-                尚未決定要訂閱遊戲，想先將 GeoGuessr 做為單次遊戲企劃試水溫的主播或創作者。
+                由於 GeoGuessr 的「挑戰模式」限制，每組連結只能由一位玩家操作，無法同時多人參與或進行連線對戰。<br />
+                因此這份企劃特別適合以「主播個人操作 + 與觀眾互動」的形式進行，節奏上更接近雜談型的直播。
+              </p>
+              <p>
+                每組主題連結包含五題，難度偏簡單，認真找的話約 1～3 分鐘就能解出一題。<br />
+                換句話說，最快大約 15 分鐘內可以完成一整組挑戰，<br />
+                若搭配觀眾互動或中間閒聊，查詢典故之類的延伸，大約可以延伸至 30 分鐘一組，<br />
+                而題目本身沒有作答時間限制，因此彈性非常高。
+              </p>
+              <p>
+                你可以依照直播氣氛自由調整節奏：<br />
+                非常適合初次嘗試 GeoGuessr 類型內容的創作者使用，同時熟悉遊戲模式。<br />
+                你可以將本站當作「殘酷二選一」類型的企劃使用，自行安排直播方式與時間。
+              </p>
+            </div>
+
+            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-lg font-semibold text-white">使用方式</h2>
+              <ol className="list-decimal list-inside space-y-1">
+                <li>點選左側選單「特殊主題地圖」</li>
+                <li>選擇想要遊玩的主題（例如「台灣奇怪地名」、「台灣諧音招牌」）</li>
+                <li>點擊連結即可開始遊戲（每組固定 5 題）</li>
+                <li>不需登入即可遊玩，未登入的玩家需要輸入 Nickname，已登入玩家則可以直接開始</li>
+              </ol>
+              <p>
+                📌 備註：題目一旦玩過就無法重玩，若要重試請使用無痕模式並<strong>不要登入</strong>。
+              </p>
+              <p>
+                🔹 GeoGuessr 在未登入時仍會要求輸入一個 Nickname，但這項功能目前已經沒有作用，<br />
+                系統不會儲存或顯示這個名稱，你可以隨便輸入任何字詞，完全不影響遊玩體驗。
+              </p>
+            </div>
+
+            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-lg font-semibold text-white">宣傳（非強制）</h2>
+              <p>
+                由於挑戰連結的題目是固定的，觀眾在直播中看完後可能不會重複遊玩；<br />
+                不過網站中還有其他適合不同玩家的每日挑戰、主題地圖與教學內容，<br />
+                仍有許多值得探索的免費資源，有機會吸引有興趣的觀眾深入體驗這個遊戲。
+              </p>
+              <p>
+                若你使用這份企劃或 GeoPingKak 網站的挑戰連結作為直播素材，非常歡迎你在節目中提及或在資訊欄放上網站網址，<br />
+                這會對我推廣 GeoGuessr 這個遊戲有很大幫助，但並非強制要求。<br />
+                如果你願意提及企劃與引用來源為本站，無論是口頭提及或文字連結，我都會非常感謝。
+              </p>
+            </div>
+
+            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-lg font-semibold text-white">限制與注意事項</h2>
+              <p>為了避免直播時遇到預期外的狀況，請務必了解以下限制與機制：</p>
+
+              <div>
+                <h3 className="font-semibold text-base text-white mb-1">🔸 題目與玩法限制</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>所有免費挑戰連結皆使用 GeoGuessr 的「挑戰模式」功能</li>
+                  <li>每個連結包含 5 題題目，且內容是固定不變的</li>
+                  <li>不支援多人連線、對戰、競分或同步比賽</li>
+                  <li>這些限制來自 GeoGuessr 官方設計，並非本站額外設下的規則</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-base text-white mb-1">🔸 遊玩紀錄相關</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>未登入情況下遊玩，系統<strong>不會記錄分數與暱稱</strong></li>
+                  <li>登入帳號後遊玩，系統會<strong>記錄成績且每個連結只能玩一次</strong></li>
+                  <li>如果想重玩同一組題目，請使用瀏覽器的「無痕模式」並<strong>不要登入</strong></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-base text-white mb-1">🔸 題目耗盡與重玩注意</h3>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>每組挑戰連結題目只能體驗一次，玩完就無法再挑戰</li>
+                  <li>未登入情況下雖可重複打開連結，但題目仍然是相同的</li>
+                  <li>建議僅用特殊主題地圖作為正式節目內容，測試功能時請使用「每日題目」的挑戰連結，以免意外消耗有限資源</li>
+                </ul>
+              </div>
+
+              <p>
+                這些都是出於 GeoGuessr 遊戲本身的限制，<br />
+                我已盡可能設計出適合「單人遊玩 + 觀眾互動」的直播模式，<br />
+                若你的節目需求包含多人互動、同步作答等進階玩法，請參考《休閒企劃包》的進階提案內容。
               </p>
 
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-base text-white mb-1">企劃提案與執行方式：</h3>
-              <div className="text-sm text-muted-foreground leading-relaxed space-y-4">
-                <div>
-                  你可以直接使用本站的「特殊主題地圖」與「每日題目」作為節目素材。<br />
-                  每一個連結都會提供固定的五個題目，完全不需要註冊帳號即可遊玩。<br />
-                  也就是你可以用幾乎免費的成最大化體驗這個遊戲，同時做為你的直播企劃。
-                </div>
-
-                <div>
-                  在使用連結遊玩時，若未登入帳號，將不會留下成績紀錄；<br />
-                  而登入的情況下，系統會記錄你的遊玩紀錄，且同一個連結無法重複挑戰。<br />
-                  如果你真的希望再次遊玩相同內容，可以使用「無痕模式」並在未登入的狀態下重新開啟連結。<br /><br />
-
-                  此外，未登入時輸入的 Nickname 並不會被記錄，<br />
-                  那只是官方過去可能使用過的舊功能，目前不再儲存任何資料。<br />
-                  所以你可以隨意輸入，完全不影響遊玩體驗。
-                </div>
-
-                <div className="text-red-500 font-bold mt-4">
-                  提醒：每個挑戰連結的五個題目都是固定的，玩掉就沒了。當然未登入可以重複遊玩，但題目會是相同的。<br />
-                  若你只是要測試功能，請優先使用每日挑戰連結，避免消耗特殊主題地圖的體驗。
-                </div>
-
-                <div>
-                  「特殊主題地圖」與「每日題目」的題目皆包含無需事前準備即可開玩的輕鬆題庫，目前網站提供的題庫數量應該足以撐起兩個小時以上的直播。<br />
-                  除了特殊主題地圖為固定題庫，「每日題目」會定時更新，所以你過一段時間回來依然有全新的題目能做為遊戲企劃使用。<br />
-                  若使用本站所提供的資源作為你的直播或節目內容，
-                  <strong className="text-orange-300">
-                    不需要事前通知或取得管理者山葵冰角的同意
-                  </strong>
-                  。
-                </div>
-
-                <div>
-                  你可以將本站當作「殘酷二選一」類型的企劃使用，自行安排直播方式與時間。<br />
-                  <span className="text-blue-500 font-medium">
-                    <strong>但如果你願意提及企劃與引用來源為本站，我會非常感激。</strong>
-                  </span>
-                </div>
-
-                <div>
-                  如果你想提前準備或確認遊戲方式，直接進入「每日題目」挑選任何一個連結試玩即可。
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-base text-white mb-1">限制：</h3>
               <p>
-                本站提供的免費題目連結皆使用 GeoGuessr 遊戲內建的「挑戰模式」功能。<br />
-                每個連結的題目都是固定的，<strong>且不支援多人遊玩、對戰或互動比賽</strong >。<br />
-                換句話說，這些挑戰連結只能由一位玩家進行，同一個連結的題目是相同的，這是來自官方遊戲機制的限制，並非我設下的限制。<br />
-                <br />
-                如果你的節目想要與觀眾或其他主播在遊戲內進行互動，則必須付費訂閱遊戲，關於付費玩家可以進行的活動或企劃，可以參考下一節《休閒企劃包》的提案來進行直播。
+                最後，使用本站所提供的資源作為你的直播或節目內容，<br />
+                <strong className="text-orange-300">
+                  不需要事前通知或取得管理者山葵冰角的同意
+                </strong>
+                。
               </p>
             </div>
 
