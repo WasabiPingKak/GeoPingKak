@@ -1,6 +1,8 @@
+// components/special-maps/SpecialMapCard.tsx
+
 import React from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
-import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
+import type { MapMetadata } from "@/components/special-maps/specialMapTitles";
 import { AiFillYoutube } from "react-icons/ai";
 import VIDEO_EXPLANATIONS from "@/data/videoExplanations";
 
@@ -27,6 +29,15 @@ export default function SpecialMapCard({
       <p className="text-sm text-muted-foreground mb-3">
         {metadata?.description ?? "（尚無說明）"}
       </p>
+
+      {/* ✅ 顯示圖片（標題與描述下方） */}
+      {metadata?.img_src && (
+        <img
+          src={metadata.img_src}
+          alt={metadata.title}
+          className="w-full h-48 object-contain rounded-lg mb-4"
+        />
+      )}
 
       <ul className="space-y-2">
         {sortedEntries.map((entry, idx) => {
@@ -64,7 +75,6 @@ export default function SpecialMapCard({
           );
         })}
       </ul>
-
     </div>
   );
 }
