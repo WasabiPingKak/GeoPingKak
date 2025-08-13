@@ -49,7 +49,7 @@ export default function ShowProposalsPage() {
                 <div>
                   你可以直接使用本站的「特殊主題地圖」與「每日題目」作為節目素材。<br />
                   每一個連結都會提供固定的五個題目，完全不需要註冊帳號即可遊玩。<br />
-                  也就是你可以用幾乎免費的成本體驗這個遊戲，同時做為你的直播企劃。
+                  也就是你可以用幾乎免費的成最大化體驗這個遊戲，同時做為你的直播企劃。
                 </div>
 
                 <div>
@@ -82,7 +82,7 @@ export default function ShowProposalsPage() {
                 每個連結的題目都是固定的，<strong>且不支援多人遊玩、對戰或互動比賽</strong >。<br />
                 換句話說，這些挑戰連結只能由一位玩家進行，同一個連結的題目是相同的，這是來自官方遊戲機制的限制，並非我設下的限制。<br />
                 <br />
-                如果你的節目想要與觀眾或其他主播在遊戲內進行互動，則必須付費訂閱遊戲，可以參考下一節《休閒企劃包》的提案來進行直播。
+                如果你的節目想要與觀眾或其他主播在遊戲內進行互動，則必須付費訂閱遊戲，關於付費玩家可以進行的活動或企劃，可以參考下一節《休閒企劃包》的提案來進行直播。
               </p>
             </div>
 
@@ -107,34 +107,43 @@ export default function ShowProposalsPage() {
 
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <div>
-                  如果你是剛接觸這款遊戲的新手主播，強烈建議先閱讀本站的《推薦設定》與《入門教學》兩篇文章，建立基本觀念。<br />
-                  這會幫助你更快的理解如何有效的進行遊戲，不會一題卡超久導致直播節奏爆炸，又玩得很悶。
+                  如果你是剛接觸這款遊戲的新手主播，打算遊玩正規的遊戲模式，強力推薦使用我在本頁介紹的玩家自製社群地圖進行直播。<br />
+                  你也可以稍微掃一下本站的《推薦設定》與《入門教學》兩篇文章，有一個概念跟方向可以準備。<br />
+                  這會幫助你更快的理解如何有效的進行遊戲，不會在直播上一題卡超久導致節奏爆炸，又玩得很悶。
                 </div>
 
                 <div>
-                  若你尚未付費訂閱遊戲，可以直接使用本站的提供的「世界地圖 - The World」，這是最適合新手的入門圖。<br />
+                  若你尚未付費訂閱遊戲，可以直接使用本站每日題目中的提供的「世界地圖 - The World」，這是最適合新手的入門圖。<br />
                   這些連結皆為固定題組，不需註冊即可遊玩，非常適合用來認識 GeoGuessr 的遊戲節奏與觀察方式。
                 </div>
 
                 <div>
                   若你已經是付費訂閱玩家，則會擁有完整的遊戲功能，可以使用「Party」模式進行多人遊戲。<br />
-                  <div>
-                    但請
-                    <strong className="text-red-500">
-                      避免遊玩官方提供的世界地圖
-                    </strong>
-                    ，以下是原因：
-                  </div>
+                  後面的介面說明會告訴你如何在多人模式中使用社群地圖。
                 </div>
 
+                <h3 className="font-semibold text-base text-white mb-1">不要遊玩官方地圖：</h3>
+                <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+                  <div>
+                    <div>
+                      請盡量
+                      <strong className="text-red-500">
+                        避免遊玩官方提供的世界地圖
+                      </strong>
+                      ，以下是原因：
+                    </div>
+                  </div>
+                </div>
                 <ul className="list-decimal list-inside space-y-1 pl-4">
-                  <li>官方世界地圖難度較高，可能出現無法辨識的荒郊地帶，對初學者直播體驗不佳</li>
+                  <li>官方世界地圖難度較高，可能出現難以辨識的荒郊地帶，對初學者直播體驗不佳</li>
                   <li>出題機率不均，容易整場都在美國、加拿大或俄羅斯，內容過於重複</li>
                   <li>「The World」這張社群地圖專為新手設計，僅出現人口密集都市區，且各國比例平衡，更適合直播節奏與觀眾互動</li>
                 </ul>
 
                 <div>
-                  若你是付費的新手玩家，正在規劃一場輕鬆又能互動的 GeoGuessr 實況，這些社群地圖會比官方預設地圖帶來更好的直播體驗：
+                  若你是付費的新手玩家，正在規劃一場輕鬆又能互動的 GeoGuessr 實況，推薦優先嘗試以下這些玩家自製的社群地圖。<br />
+                  這些社群地圖都是玩家社群們淬鍊出來的遊戲地圖，有更好的平衡性與適合的難易度，遊戲體驗遠遠優於官方地圖。<br />
+                  因此如果你是對 GeoGuessr 還不熟悉並且想進一步嘗試經典遊戲模式的主播，我更推薦在直播中使用這些地圖：
                 </div>
               </div>
 
@@ -148,6 +157,11 @@ export default function ShowProposalsPage() {
                   label="繁榮的台灣"
                   url="https://www.geoguessr.com/maps/628ba06e86224535a5956cae"
                   description="收錄台灣比較大一點的鄉鎮市區，適合剛接觸遊戲的新手熟悉遊戲模式。"
+                />
+                <MapLinkCard
+                  label="室內的台灣"
+                  url="https://www.geoguessr.com/maps/688b7cbe957ea7281be46179"
+                  description="由台灣玩家 Giraffe 收錄的台灣室內街景，大約有一百多個地點，是很好玩且適合直播的社群地圖。"
                 />
                 <MapLinkCard
                   label="平衡的台灣"
@@ -168,7 +182,18 @@ export default function ShowProposalsPage() {
 
               <h3 className="font-semibold text-base text-white mt-4 mb-1">介面說明：</h3>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                推薦你將以上地圖加入收藏（點擊地圖頁左上角的「愛心」），即可在對戰模式中選擇「Liked maps」快速選擇。
+                官方地圖就是你點左上角「Single Player &gt; Classic Map」可以看到的地圖，這些地圖不適合新手，更不適合直播。<br />
+                玩家社群所做出來的地圖才是這遊戲真正的核心，強力推薦優先使用社群地圖。
+                <Zoom>
+                  <img
+                    src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/classic_map.jpg?v=20250808"
+                    alt="官方地圖介面"
+                    className="w-full max-w-md rounded border border-border shadow"
+                  />
+                </Zoom>
+              </div>
+              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed mt-4">
+                推薦你將我前一節提到的社群地圖加入收藏（點擊地圖頁左上角的「愛心」），即可在對戰模式中選擇「Liked maps」快速選擇。
                 <Zoom>
                   <img
                     src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/like_a_community_map.jpg?v=20250808"

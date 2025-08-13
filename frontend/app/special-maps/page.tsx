@@ -23,9 +23,10 @@ export default function SpecialMapsPage() {
   return (
     <div className="max-w-4xl">
       <h1 className="text-3xl font-bold mb-4">🧭 特殊主題地圖</h1>
-      <p className="mb-6 text-muted-foreground">
+      <div className="mb-6 text-muted-foreground">
         由我親自手選的特別題庫，規則與每日題目相同，每一個連結都是固定的五題。<br />
-      </p>
+        如果你走到迷路了，直接按下鍵盤的 <kbd className="px-2 py-0.5 bg-zinc-700 text-white rounded">R</kbd> 可以回到出發點，在這個模式會特別有用。
+      </div>
 
       {isLoading ? (
         <p className="text-muted-foreground">載入中…</p>
