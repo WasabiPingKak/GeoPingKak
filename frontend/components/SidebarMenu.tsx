@@ -14,6 +14,7 @@ const navItems = [
   { href: "/source", label: "進階學習資源" },
   { divider: true },
   { href: "/show-proposals", label: "直播企劃提案" },
+  { href: "/qna", label: "Q&A" },
 ];
 
 type SidebarMenuProps = {

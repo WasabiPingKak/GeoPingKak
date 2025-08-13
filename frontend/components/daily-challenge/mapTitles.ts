@@ -25,8 +25,8 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
     source: "628ba06e86224535a5956cae",
   },
   "tw-balanced": {
-    title: "台灣 (中等難度)",
-    description: "平衡分佈的台灣地圖，對台灣人來說也會稍微有難度。",
+    title: "平衡的台灣 (中等難度)",
+    description: "比官方的台灣地圖還要更平衡分佈的台灣地圖，對台灣人來說也會稍微有難度。",
     source: "634ed0789d28f1547612b2cd",
   },
 
