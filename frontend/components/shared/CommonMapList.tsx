@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
+import { AiFillYoutube } from "react-icons/ai";
 import CommonMapCard from "./CommonMapCard";
 
 interface CommonMapListProps {
@@ -31,7 +32,11 @@ export default function CommonMapList({
     <div className="space-y-4">
       {/* Toggle filter switch */}
       <div className="flex items-center gap-2">
-        <label htmlFor="toggle-video" className="text-sm">
+        <label
+          htmlFor="toggle-video"
+          className="flex items-center gap-1 text-base text-red-600"
+        >
+          <AiFillYoutube className="text-red-600" />
           只顯示有影片詳解的題目
         </label>
         <button

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
 import VIDEO_EXPLANATIONS from "@/data/videoExplanations";
@@ -46,6 +46,19 @@ export default function CommonMapCard({
     return state;
   });
 
+  // ✅ 插入這段 useEffect（讓 onlyWithVideo 開啟時展開所有月份）
+  useEffect(() => {
+    if (onlyWithVideo) {
+      setOpenMonths((prev) => {
+        const allOpen: Record<string, boolean> = {};
+        for (const month of Object.keys(groupedByMonth)) {
+          allOpen[month] = true;
+        }
+        return allOpen;
+      });
+    }
+  }, [onlyWithVideo, groupedByMonth]);
+
   const toggleMonth = (month: string) => {
     setOpenMonths((prev) => ({
       ...prev,
@@ -77,7 +90,7 @@ export default function CommonMapCard({
         {Object.entries(groupedByMonth)
           .sort((a, b) => b[0].localeCompare(a[0])) // 最新月份在上
           .map(([month, entries]) => (
-            <div key={month} className="border border-muted rounded-lg bg-zinc-800  p-4">
+            <div key={month} className="border border-muted rounded-lg bg-zinc-800 p-4">
               <button
                 onClick={() => toggleMonth(month)}
                 className="flex items-center gap-2 mb-2 text-base font-semibold text-white"
@@ -127,7 +140,6 @@ export default function CommonMapCard({
             </div>
           ))}
       </div>
-
     </div>
   );
 }
