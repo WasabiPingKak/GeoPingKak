@@ -9,7 +9,7 @@ export default function FlagLovingGridByContinent({
   const data = [
     {
       continent: "亞洲",
-      domains: ["vn", "id", "my", "th", "kh"],
+      domains: ["id", "my", "sg", "th", "kh", "vn"],
     },
     {
       continent: "歐洲",
