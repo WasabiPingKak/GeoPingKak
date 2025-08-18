@@ -7,6 +7,9 @@ import RootShell from "@/components/layout/RootShell";
 export const metadata = {
   title: "GeoPingKak",
   description: "推廣 GeoGuessr 的中文玩家網站，提供每日挑戰、教學與遊戲企劃資源",
+  alternates: {
+    canonical: "https://geopingkak.web.app/",
+  },
   openGraph: {
     title: "GeoPingKak - 中文 GeoGuessr 推廣站",
     description: "每日挑戰、中文教學與遊戲企劃一站式資源平台",
@@ -30,6 +33,9 @@ export const metadata = {
     images: ["https://geopingkak.web.app/og-image.png"],
     site: "@wasabi_pingkak",
   },
+  other: {
+    "google-site-verification": "gS23lxy8S2g24-OYxKFRD5skjZ_jfghkjzPO4XfxWBg"
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -48,6 +54,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('js', new Date());
             gtag('config', 'G-3C6D7CMCKV');
           `}
+        </Script>
+
+        {/* ✅ 結構化資料 Schema.org */}
+        <Script id="ld-json" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "GeoPingKak",
+            "url": "https://geopingkak.web.app/",
+            "inLanguage": "zh-TW",
+            "description": "每日提供 GeoGuessr 挑戰連結與中文教學的玩家網站，由山葵冰角建立。",
+            "creator": {
+              "@type": "Person",
+              "name": "山葵冰角 Wasabi Pingkak",
+            }
+          })}
         </Script>
 
         {/* 其餘內容 */}
