@@ -10,6 +10,11 @@ export default function AsiaCoverageBlock() {
       imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageAsia.jpg?v=20250808"
       sections={[
         {
+          type: "full",
+          title: "2025/08 新增街景：",
+          items: ["尼泊爾"],
+        },
+        {
           type: "none",
           title: "沒有街景：",
           items: [
@@ -25,7 +30,6 @@ export default function AsiaCoverageBlock() {
           title: "有限街景：",
           items: [
             "中國：有街景，但是都在室內的博物館，數量非常少。",
-            "尼泊爾：在上珠穆朗瑪峰前的登山營地有街景。",
             "巴基斯坦：只有在拉合爾(Lahore)有很少量的街景。",
             "伊拉克：只有在首都巴格達的伊拉克國家博物館的中庭與室內有街景。",
           ],
