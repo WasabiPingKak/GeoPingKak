@@ -38,6 +38,12 @@ export default function HomePage() {
         」一樣，只要附上出處即可。
       </p>
 
+      {/* 嵌入 YouTube 影片 */}
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/qgUkJo5ufxI?si=D3Lul4MetUFzCYC8"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
+      </iframe>
 
       <div className="mt-8">
         <h2 className="text-4xl font-semibold mb-2">管理者</h2>
