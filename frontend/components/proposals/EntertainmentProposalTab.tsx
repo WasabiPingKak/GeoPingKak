@@ -11,8 +11,10 @@ export default function EntertainmentProposalTab() {
       {/* 適用對象 */}
       <section className="space-y-3">
         <h3 className="text-xl font-semibold text-white">適用對象：</h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          尚未訂閱遊戲，想將 GeoGuessr 做為單次遊戲企劃試水溫的主播或創作者。
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          不知道 GeoGuessr 要怎麼直播？這份企劃就是為你準備的！
+          <br />
+          不用花錢、不用準備素材，直接使用我整理好的免費連結就能開播，輕鬆吸引觀眾互動。
         </p>
       </section>
 
@@ -20,20 +22,24 @@ export default function EntertainmentProposalTab() {
       <h3 className="text-xl font-semibold text-white mb-3">定位：</h3>
       <section className="rounded-xl border border-zinc-700/60 bg-zinc-800/40 p-4 md:p-5">
         <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+
           <p>
-            這是一份專為台灣的觀眾與創作者設計的 GeoGuessr 入門企劃，<br />
-            你不需要事先訂閱遊戲本體或準備任何素材。<br />
-            (當然直播封面你可能還是要自己做)<br />
+            這是一份專為台灣觀眾與創作者設計的 GeoGuessr 入門企劃，<br />
+            不需要訂閱遊戲本體或事先準備素材。<br />
+            （雖然直播封面你可能還是要自己做）
           </p>
+
           <p>
-            只要使用我整理好的兩張特殊主題地圖：「台灣奇怪地名」與「台灣諧音招牌」，<br />
-            就能立即進入節目狀態！
+            你可以直接使用我整理好的兩份特殊主題地圖：「台灣奇怪地名」與「台灣諧音招牌」，<br />
+            作為節目的主題內容，簡單明確、方便使用。
           </p>
+
           <p>
-            這些題目完全以台灣元素與文化為出發點，<br />
-            對 GeoGuessr 這個遊戲不熟悉的觀眾也能無縫融入，<br />
-            每個連結都包含固定的五個題目，能確保每次節目體驗穩定且可控。
+            題目以台灣元素與文化為出發點，<br />
+            即使觀眾對 GeoGuessr 不熟，也能快速理解參與。<br />
+            每組連結固定五題，節目節奏可控，直播流程也比較好掌握。
           </p>
+
         </div>
       </section>
 
@@ -41,32 +47,64 @@ export default function EntertainmentProposalTab() {
       <h2 className="text-xl font-semibold text-white mb-3">直播情境與進行方式</h2>
       <section className="rounded-xl border border-zinc-700/60 bg-zinc-800/30 p-4 md:p-5">
         <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-          <p>
-            GeoGuessr 是網頁遊戲，所以你不用事先安裝任何軟體或遊戲程式。<br />
-            但是還是推薦你在正式直播之前，先看過本站「推薦設定」頁中的設定，<br />
-            事先知道基本的快捷鍵 (也只有三個鍵，但很重要) 與其他遊戲設定，會讓直播與遊戲流程更順暢。
-          </p>
-          <p>
-            由於 GeoGuessr 的「挑戰模式」限制，每組連結只能由一位玩家操作，無法同時多人參與或進行連線對戰。<br />
-            因此這份企劃是針對「主播個人操作 + 與觀眾互動」的形式進行，節奏上更接近主題式雜談型的直播。
-          </p>
-          <p>
-            每組主題連結包含五題，難度偏簡單，認真找的話約 1～3 分鐘就能解出一題。<br />
-            換句話說，最快大約 15 分鐘內可以完成一整組挑戰，<br />
-            若有與觀眾互動或閒聊，查詢典故之類等額外舉動，大約可以延伸至 30 分鐘左右玩完一組連結，<br />
-            題目本身沒有作答時間限制，因此彈性非常高。
-          </p>
-          <p>
-            你可以依照直播氣氛自由調整節奏：<br />
-            非常適合初次嘗試 GeoGuessr 類型內容的創作者使用，同時熟悉遊戲模式。<br />
-            你可以將本站當作「殘酷二選一」類型的企劃使用，自行安排直播方式與時間。
-          </p>
-          <p>
-            如果你差不多玩完或玩膩我準備的特殊主題地圖，想嘗試正規的遊戲模式，<br />
-            可以繼續參考下一頁《休閒企劃包》的遊戲提案內容。
-          </p>
+
+          <div className="space-y-2">
+            <h3 className="text-base font-semibold text-white">🔧 基本準備</h3>
+            <p>
+              GeoGuessr 是網頁遊戲，所以你不用事先安裝任何軟體或遊戲程式。<br />
+              但是還是推薦你在正式直播之前，先看過本站「推薦設定」頁中的設定，<br />
+              事先知道基本的快捷鍵 (也只有三個鍵，但很重要) 與其他遊戲設定，會讓直播與遊戲流程更順暢。
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-base font-semibold text-white">🎙️ 適合的直播形式</h3>
+            <p>
+              由於 GeoGuessr 的「挑戰模式」限制，每組連結只能由一位玩家操作，無法同時多人參與或進行連線對戰。<br />
+              因此這份企劃是針對「主播個人操作 + 與觀眾互動」的形式進行，節奏上更接近主題式雜談型的直播。
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-base font-semibold text-white">⏱️ 時間安排與節奏</h3>
+            <p>
+              每組主題連結包含五題，難度偏簡單，認真找的話約 1～3 分鐘就能解出一題。<br />
+              換句話說，最快大約 15 分鐘內可以完成一整組挑戰，<br />
+              若有與觀眾互動或閒聊，查詢典故之類等額外舉動，大約可以延伸至 30 分鐘左右玩完一組連結，<br />
+              題目本身沒有作答時間限制，因此彈性非常高。
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-base font-semibold text-white">🎭 主題靈活運用</h3>
+            <p>
+              你可以依照直播氣氛自由調整節奏：<br />
+              非常適合初次嘗試 GeoGuessr 類型內容的創作者使用，同時熟悉遊戲模式。<br />
+              你可以將本站當作「殘酷二選一」類型的企劃使用，自行安排直播方式與時間。
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-base font-semibold text-white">🧑‍🤝‍🧑 雙人玩法建議</h3>
+            <p>
+              無論是娛樂向的特殊地圖或休閒向的世界地圖，即使自己一個人就能玩，但更推薦找個伴一起玩。<br />
+              因為每個人的生活經驗跟知識都不一樣，在這個遊戲裡非常容易達到互補的效果。<br />
+              同樣只需要一個人進行操作，另一個人看著操作者的畫面一起玩就可以了。
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-base font-semibold text-white">📦 想繼續玩？</h3>
+            <p>
+              如果你差不多玩完或玩膩我準備的特殊主題地圖，想嘗試正規的遊戲模式，<br />
+              可以繼續參考下一頁《休閒企劃包》的遊戲提案內容。<br />
+              我會教你如何正確的使用遊戲內的正規地圖。
+            </p>
+          </div>
+
         </div>
       </section>
+
 
       {/* 使用方式 */}
       <h2 className="text-xl font-semibold text-white mb-3">使用方式</h2>
@@ -92,25 +130,26 @@ export default function EntertainmentProposalTab() {
       <h2 className="text-xl font-semibold text-white mb-3">宣傳（非強制）</h2>
       <section className="rounded-xl border border-zinc-700/60 bg-zinc-800/30 p-4 md:p-5">
         <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+
+          <p>
+            這些挑戰連結與教學資源都是我整理並免費公開的，<br />
+            若你覺得有幫助，也歡迎在直播中提及網站，或在資訊欄附上連結。<br />
+            雖非強制，但能讓更多人認識 GeoGuessr，我會非常感謝你的支持。
+          </p>
+
           <p>
             由於挑戰連結的題目是固定的，<br />
             觀眾在直播中看過一次後，可能就不會再特別回頭重玩。
           </p>
+
           <p>
-            不過本站還提供了每日挑戰、其他主題地圖與豐富的教學資源，<br />
-            都是免費且適合不同玩家程度的內容，<br />
-            仍有機會吸引觀眾深入體驗 GeoGuessr 的樂趣。
+            不過本站還提供每日挑戰、其他主題地圖與教學資源，<br />
+            仍有機會吸引觀眾進一步體驗 GeoGuessr 的樂趣。
           </p>
-          <p>
-            如果你使用這份企劃，或將 GeoPingKak 網站提供的挑戰連結作為直播素材，<br />
-            非常歡迎你在節目中口頭提及，或在資訊欄放上網站連結。
-          </p>
-          <p>
-            雖然這並非強制要求，但對我推廣 GeoGuessr、讓更多人認識這個遊戲會有很大的幫助。<br />
-            無論是簡單一句介紹，還是附上引用來源，我都會由衷感謝你的支持。
-          </p>
+
         </div>
       </section>
+
 
       {/* 限制與注意事項 */}
       <h2 className="text-xl font-semibold text-white mb-3">限制與注意事項</h2>
