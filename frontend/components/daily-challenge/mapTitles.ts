@@ -12,7 +12,7 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
     description: "著重於世界人口集中的大城市，適合新手開始認識國家時入門的地圖。",
     source: "66014417ff2366aa9a7504df",
   },
-  "world-ACW": {
+  "ACW": {
     title: "世界地圖 - ACW (高難度)",
     description: "全名為 \"A Community World\" 的官方正式競賽地圖，真正的世界地圖。",
     source: "62a44b22040f04bd36e8a914",

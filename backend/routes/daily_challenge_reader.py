@@ -16,24 +16,17 @@ def init_daily_challenge_reader_route(app, db: Client):
             tz_taiwan = timezone(timedelta(hours=8))
             today = datetime.now(tz=tz_taiwan)
 
-            # 🔹 取得本月與上月的年月代碼
-            this_month = today.strftime("%Y-%m")
-            last_month_dt = today.replace(day=1) - timedelta(days=1)
-            last_month = last_month_dt.strftime("%Y-%m")
-
-            logger.info(f"📅 讀取月份: {last_month}, {this_month}")
+            logger.info(f"📅 當前日期: {today.strftime('%Y-%m-%d')}")
 
             entries = []
 
-            for month_id in [this_month, last_month]:
+            # 🔄 讀取所有月份的 daily_challenge 文件
+            all_docs = db.collection("daily_challenge").stream()
+            for doc in all_docs:
+                month_id = doc.id
                 logger.info(f"📄 查詢 Firestore 文件: daily_challenge/{month_id}")
-                doc_ref = db.collection("daily_challenge").document(month_id)
-                doc_snapshot = doc_ref.get()
-                if not doc_snapshot.exists:
-                    logger.warning(f"⚠️ 文件不存在: {month_id}")
-                    continue
+                doc_data = doc.to_dict()
 
-                doc_data = doc_snapshot.to_dict()
                 if not doc_data:
                     logger.warning(f"⚠️ 文件內容為空: {month_id}")
                     continue
