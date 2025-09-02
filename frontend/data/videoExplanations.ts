@@ -10,7 +10,7 @@ const VIDEO_EXPLANATIONS: Record<string, Record<string, string>> = {
   },
   "2025-08-06": {
     "the-world": "https://youtu.be/CSPH-NEn3UA?si=Y-XZiOeiXNFoTSsz",
-    "world-ACW": "https://www.youtube.com/watch?v=UCg-lkaRfB8",
+    "world-ACW": "https://youtu.be/UCg-lkaRfB8?si=wofrD-LHUFdLuV3A",
   },
 };
 
