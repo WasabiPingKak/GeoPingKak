@@ -9,7 +9,7 @@ export default function RecommendedMapIntro() {
       <section className="rounded-xl border border-zinc-700/60 bg-zinc-800/30 p-4 md:p-5 mb-6">
         <div className="space-y-2 text-sm leading-relaxed text-muted-foreground">
           <p className="text-orange-300 font-medium">
-            如果你已經是 GeoGuessr 的付費玩家，這裡推薦的地圖會為你解鎖更多玩法的可能性。<br />
+            如果你已經是 GeoGuessr 的付費玩家，這裡推薦的地圖有更多玩法的可能性。<br />
             相較於我們網站所能提供的每日挑戰與少數免費連結，這些社群地圖涵蓋更多風格與難度，適合在直播或進階遊玩時使用。
           </p>
           <p>
