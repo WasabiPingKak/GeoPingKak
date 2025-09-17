@@ -15,6 +15,7 @@ const navItems = [
   { divider: true },
   { href: "/show-proposals", label: "直播企劃提案" },
   { href: "/qna", label: "Q&A" },
+  { href: "/about", label: "關於我" },
 ];
 
 type SidebarMenuProps = {
@@ -48,9 +49,11 @@ export default function SidebarMenu({ isMobile = false, onClickLink }: SidebarMe
                 onClick={onClickLink}
                 className={clsx(
                   "block px-4 py-2 rounded-lg transition",
-                  pathname === item.href
-                    ? "bg-zinc-700 font-semibold"
-                    : "hover:bg-zinc-700"
+                  {
+                    "bg-zinc-700 font-semibold": pathname === item.href,
+                    "hover:bg-zinc-700": pathname !== item.href,
+                    "bg-green-900/80 border border-green-700 text-green-300 hover:bg-green-800/80": item.href === '/daily-challenge',
+                  }
                 )}
               >
                 {item.label}
