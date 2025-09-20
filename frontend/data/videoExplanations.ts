@@ -15,6 +15,9 @@ const VIDEO_EXPLANATIONS: Record<string, Record<string, string>> = {
   "2025-08-07": {
     "the-world": "https://youtu.be/9HJ23Ds3wNU?si=eRrL_MC_yxfD8oMB",
   },
+  "2025-08-09": {
+    "the-world": "https://youtu.be/mPXdeKjj9mU?si=HXs1LsntwO3lvcGj",
+  },
 };
 
 export default VIDEO_EXPLANATIONS;

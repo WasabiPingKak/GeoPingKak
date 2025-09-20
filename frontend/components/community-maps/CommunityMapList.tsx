@@ -58,7 +58,7 @@ export default function CommunityMapList() {
           />
           <MapLinkCard
             label="2009 年的台灣"
-            url="https://www.geoguessr.com/maps/688b7cbe957ea7281be46179"
+            url="https://www.geoguessr.com/maps/689f81606f2ee2d1da9dd93c"
             description="2009 年，Google 在台灣推出了街景服務，當時 iPhone 才出到 3GS，新北市還叫做台北縣。你知道這時候的台灣街景長什麼樣子嗎？"
             difficulty="🟡"
           />

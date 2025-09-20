@@ -36,7 +36,7 @@ export default function HomePage() {
       <div className="bg-zinc-800 border border-zinc-700 p-6 rounded-lg my-8">
         <h2 className="text-2xl font-bold mb-3">給 Vtuber 與實況主</h2>
         <p className="leading-relaxed text-zinc-300">
-          有企劃需求嗎？歡迎參考本站「直播企劃提案」中提供的企劃書與建議。可以直接使用本站的內容做為你的直播企劃，只要附上出處即可。
+          有企劃需求嗎？歡迎參考本站「直播企劃提案」中提供的企劃書與建議，可以直接使用本站的內容做為你的直播企劃。
         </p>
       </div>
 
