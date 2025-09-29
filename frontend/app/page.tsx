@@ -48,8 +48,11 @@ export default function HomePage() {
         </p>
         <p className="mb-4 leading-relaxed">
           GeoGuessr 目前有兩種付費方案：<strong>Pro Unlimited</strong> 和 <strong>Pro Elite</strong>。<br />
-          透過 <a href="https://www.geoguessr.com/referral-program/LINP-KENI-QEF0?s=rp" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">本站的邀請連結訂閱</a>，可以用與 Pro Unlimited 相同的價格，直接升級到更高級的 Pro Elite 方案。
+          透過 <a href="https://www.geoguessr.com/referral-program/LINP-KENI-QEF0?s=rp" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">本站的邀請連結訂閱</a>，可以用與 Pro Unlimited 相同的價格，直接升級到更高級的 Pro Elite 方案。<br />
         </p>
+        <div className="mt-3 p-4 bg-yellow-900/40 border-l-4 border-yellow-500 rounded-r-lg text-sm text-yellow-300">
+          此邀請連結每個帳號最多只能使用五次，如果顯示無效，也歡迎加入本站的 Discord 群，在「邀請碼分享」頻道尋找可用的推薦連結。
+        </div>
         <p className="mt-6 p-4 bg-red-900/50 border-l-4 border-red-500 rounded-r-lg font-bold text-red-400">
           注意：GeoGuessr 在 Steam 有上架，但 Steam 版是相同價格的閹割版，目前只做完對戰模式，沒有其他東西能玩。目前不建議購買 Steam 版。
         </p>

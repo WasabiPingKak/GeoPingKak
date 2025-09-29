@@ -49,6 +49,9 @@ export default function AboutPage() {
           </strong>
           ，這樣不僅能以 Pro Unlimited 的價格直接升級到 Pro Elite 方案，我也能從中獲得一點點分潤，支持我繼續維護這個網站與推廣遊戲。
         </p>
+        <div className="mt-3 p-4 bg-yellow-900/40 border-l-4 border-yellow-500 rounded-r-lg text-sm text-yellow-300">
+          此邀請連結每個帳號最多只能使用五次，如果顯示無效，也歡迎加入本站的 Discord 群，在「邀請碼分享」頻道尋找可用的推薦連結。
+        </div>
       </div>
 
     </div>
