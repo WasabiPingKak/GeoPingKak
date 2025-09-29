@@ -3,8 +3,6 @@
 import React from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/special-maps/specialMapTitles";
-import { AiFillYoutube } from "react-icons/ai";
-import VIDEO_EXPLANATIONS from "@/data/videoExplanations";
 
 interface SpecialMapCardProps {
   mapId: string;
@@ -40,40 +38,24 @@ export default function SpecialMapCard({
       )}
 
       <ul className="space-y-2">
-        {sortedEntries.map((entry, idx) => {
-          const videoUrl = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
+        {sortedEntries.map((entry, idx) => (
+          <li key={`${mapId}-${idx}`} className="flex flex-wrap items-center gap-3">
+            <a
+              href={entry.challengeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-blue-600 dark:text-blue-400"
+            >
+              {entry.title ?? `📅 ${entry.createdAt}`}
+            </a>
 
-          return (
-            <li key={`${mapId}-${idx}`} className="flex flex-wrap items-center gap-3">
-              <a
-                href={entry.challengeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-blue-600 dark:text-blue-400"
-              >
-                {entry.title ?? `📅 ${entry.createdAt}`}
-              </a>
-
-              {videoUrl && (
-                <a
-                  href={videoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
-                >
-                  <AiFillYoutube className="w-4 h-4 mr-1" />
-                  詳解精華
-                </a>
-              )}
-
-              {idx === 0 && (
-                <span className="text-xs text-muted-foreground">
-                  🕒 最後更新：{formattedDate}
-                </span>
-              )}
-            </li>
-          );
-        })}
+            {idx === 0 && (
+              <span className="text-xs text-muted-foreground">
+                🕒 最後更新：{formattedDate}
+              </span>
+            )}
+          </li>
+        ))}
       </ul>
     </div>
   );
