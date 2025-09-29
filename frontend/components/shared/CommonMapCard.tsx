@@ -3,6 +3,7 @@ import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
 import VIDEO_EXPLANATIONS from "@/data/videoExplanations";
 import { AiFillYoutube } from "react-icons/ai";
+import { BsBroadcast } from "react-icons/bs";
 
 interface CommonMapCardProps {
   entries: DailyChallengeEntry[];
@@ -26,7 +27,10 @@ export default function CommonMapCard({
   const groupedByMonth = useMemo(() => {
     const map: Record<string, DailyChallengeEntry[]> = {};
     const filtered = onlyWithVideo
-      ? entries.filter((e) => VIDEO_EXPLANATIONS[e.createdAt]?.[e.mapId])
+      ? entries.filter((e) => {
+        const videoData = VIDEO_EXPLANATIONS[e.createdAt]?.[e.mapId];
+        return videoData?.explanation || videoData?.livestream;
+      })
       : entries;
 
     for (const entry of filtered) {
@@ -46,7 +50,6 @@ export default function CommonMapCard({
     return state;
   });
 
-  // ✅ 插入這段 useEffect（讓 onlyWithVideo 開啟時展開所有月份）
   useEffect(() => {
     if (onlyWithVideo) {
       setOpenMonths((prev) => {
@@ -106,7 +109,10 @@ export default function CommonMapCard({
                   {entries
                     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
                     .map((entry) => {
-                      const videoUrl = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
+                      const videoData = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
+                      const explanationUrl = videoData?.explanation;
+                      const livestreamUrl = videoData?.livestream;
+
                       return (
                         <li
                           key={`${entry.mapId}-${entry.createdAt}`}
@@ -121,15 +127,27 @@ export default function CommonMapCard({
                             {entry.title ?? `📅 ${entry.createdAt}`}
                           </a>
 
-                          {videoUrl && (
+                          {explanationUrl && (
                             <a
-                              href={videoUrl}
+                              href={explanationUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
                             >
                               <AiFillYoutube className="w-4 h-4 mr-1" />
-                              今日詳解
+                              詳解精華
+                            </a>
+                          )}
+
+                          {livestreamUrl && (
+                            <a
+                              href={livestreamUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-sm text-blue-500 dark:text-blue-300 hover:underline"
+                            >
+                              <BsBroadcast className="w-4 h-4 mr-1" />
+                              直播記錄
                             </a>
                           )}
                         </li>

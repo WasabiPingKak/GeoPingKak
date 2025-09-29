@@ -62,7 +62,7 @@ export default function SpecialMapCard({
                   className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
                 >
                   <AiFillYoutube className="w-4 h-4 mr-1" />
-                  今日詳解
+                  詳解精華
                 </a>
               )}
 
