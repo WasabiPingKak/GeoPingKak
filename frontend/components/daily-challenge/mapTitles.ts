@@ -38,7 +38,7 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
   },
   "jp-balanced": {
     title: "日本 (中高難度)",
-    description: "平衡分佈的日本地圖，日本超級超級大，試試看就知道。",
+    description: "平衡分佈的日本地圖，日本超級超級大，為什麼可以這麼大。",
     source: "631a309ba54a618fca31960a",
   },
 

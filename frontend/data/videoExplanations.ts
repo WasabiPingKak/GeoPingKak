@@ -35,6 +35,13 @@ const VIDEO_EXPLANATIONS: Record<
     },
   },
   "2025-08-03": {
+    "the-world": {
+      livestream: "https://www.youtube.com/live/SXo60E_CUmA?si=kAb67K_EnndyjABu&t=22707",
+    },
+    "world-ACW": {
+      explanation: "https://youtu.be/UCg-lkaRfB8?si=wofrD-LHUFdLuV3A",
+      livestream: "https://www.youtube.com/live/SXo60E_CUmA?si=NX3JGju3ed3M-7R7&t=23333",
+    },
     "jp-balanced": {
       livestream: "https://www.youtube.com/live/Db-L1GDxIJI?si=nveZ_KEwmZ2_CUMg&t=698",
     },
@@ -90,15 +97,32 @@ const VIDEO_EXPLANATIONS: Record<
     "the-world": {
       livestream: "https://www.youtube.com/live/Cv4EkoI1xbs?si=KAprT_UhtGZZvvyE&t=3343",
     },
+    "world-ACW": {
+      livestream:
+        "https://www.youtube.com/live/FWmK2N2NSVQ?si=JUBQ5wr7r3vjNsMA&t=3449"
+    },
   },
   "2025-09-02": {
     "the-world": {
       livestream: "https://www.youtube.com/live/Cv4EkoI1xbs?si=GqBlR4Ddpd50r25d&t=6376",
     },
+    "": {
+      livestream: "https://www.youtube.com/live/FWmK2N2NSVQ?si=EVL7vYOzQGEqF_zL&t=446",
+    },
   },
   "2025-09-03": {
     "the-world": {
       livestream: "https://www.youtube.com/live/_JtZuCvArrI?si=vG76MplYoz1-WE7S&t=5925",
+    },
+  },
+  "2025-09-04": {
+    "jp-balanced": {
+      livestream: "https://www.youtube.com/live/KrwNuSBdnvE?si=RXpIdSueaelnncAa&t=420",
+    },
+  },
+  "2025-09-15": {
+    "the-world": {
+      livestream: "https://www.youtube.com/live/KrwNuSBdnvE?si=_5dZZy-WHmBfQmzX&t=2390",
     },
   },
 };
