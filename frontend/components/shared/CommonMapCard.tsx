@@ -127,18 +127,6 @@ export default function CommonMapCard({
                             {entry.title ?? `📅 ${entry.createdAt}`}
                           </a>
 
-                          {explanationUrl && (
-                            <a
-                              href={explanationUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
-                            >
-                              <AiFillYoutube className="w-4 h-4 mr-1" />
-                              詳解精華
-                            </a>
-                          )}
-
                           {livestreamUrl && (
                             <a
                               href={livestreamUrl}
@@ -148,6 +136,18 @@ export default function CommonMapCard({
                             >
                               <BsBroadcast className="w-4 h-4 mr-1" />
                               直播記錄
+                            </a>
+                          )}
+
+                          {explanationUrl && (
+                            <a
+                              href={explanationUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
+                            >
+                              <AiFillYoutube className="w-4 h-4 mr-1" />
+                              詳解精華
                             </a>
                           )}
                         </li>
