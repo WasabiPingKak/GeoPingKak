@@ -138,6 +138,9 @@ const VIDEO_EXPLANATIONS: Record<
     "world-ACW": {
       livestream: "https://www.youtube.com/live/adXsie-CRmU?si=l4qqbW2ymtsqDWnl&t=12315"
     },
+    "tw-balanced": {
+      livestream: "https://www.youtube.com/live/j8ZW9FJ6Pxs?si=EgnUh9lbWWTLEEuD&t=353"
+    },
   },
   "2025-10-02": {
     "jp-balanced": {
@@ -160,10 +163,21 @@ const VIDEO_EXPLANATIONS: Record<
       livestream: "",
     },
     "the-world": {
-      livestream: "",
+      livestream: "https://www.youtube.com/live/j8ZW9FJ6Pxs?si=RB_NIaXRYhbpnNXC&t=2981",
     },
     "world-ACW": {
       livestream: "https://www.youtube.com/live/FkSfmVm-JdA?si=Gk0bLE1cEPHM7NYJ&t=11120"
+    },
+  },
+  "2025-10-15": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/j8ZW9FJ6Pxs?si=Di0VmOJKmbC3euV7&t=7550"
     },
   },
 };
