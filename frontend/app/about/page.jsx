@@ -24,7 +24,7 @@ export default function AboutPage() {
       </div>
 
       {/* 嵌入 YouTube 影片 */}
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/qgUkJo5ufxI?si=D3Lul4MetUFzCYC8"
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/_v6-N_PLbic?si=5iQ6mrrvSFDd9muo"
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>

@@ -97,6 +97,7 @@ const VIDEO_EXPLANATIONS: Record<
   "2025-08-15": {
     "the-world": {
       livestream: "https://www.youtube.com/live/Db-L1GDxIJI?si=xljskajo144oznVM&t=5003",
+      explanation: "https://youtu.be/3-JJH1Y3k3Y?si=ZcaHnUtSjvzSBMls",
     },
   },
   "2025-09-01": {
@@ -111,8 +112,9 @@ const VIDEO_EXPLANATIONS: Record<
   "2025-09-02": {
     "the-world": {
       livestream: "https://www.youtube.com/live/Cv4EkoI1xbs?si=GqBlR4Ddpd50r25d&t=6376",
+      explanation: "https://youtu.be/GDtkNU7emxk?si=27CSqKTo3gQdVq39",
     },
-    "world-ACW": {
+    "jp-balanced": {
       livestream: "https://www.youtube.com/live/FWmK2N2NSVQ?si=EVL7vYOzQGEqF_zL&t=446",
     },
   },
@@ -179,6 +181,45 @@ const VIDEO_EXPLANATIONS: Record<
     "world-ACW": {
       livestream: "https://www.youtube.com/live/j8ZW9FJ6Pxs?si=Di0VmOJKmbC3euV7&t=7550"
     },
+  },
+  "2025-10-18": {
+    "jp-balanced": {
+      livestream: "https://www.youtube.com/live/5tEctX2gNAs?si=9t4zkWkSd4zRk6y7&t=300",
+    },
+    "the-world": {
+      livestream: "",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/5tEctX2gNAs?si=hQ4Sk7XnvD2FKGpe&t=4167"
+    },
+  },
+  "2025-11-01": {
+    "jp-balanced": {
+      livestream: "https://www.youtube.com/live/hqBNEpHvYfY?si=f86-HMi2YvVJdck5&t=435",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/3DknMwAeX-4?si=xFLgJ26T5QJEH_oY&t=4945",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/3DknMwAeX-4?si=MZlJpwPNuag1ie66&t=9917"
+    },
+    "tw-balanced": {
+      livestream: "https://www.youtube.com/live/3DknMwAeX-4?si=EGdH9E9T7VfRrmsh&t=435"
+    }
+  },
+  "2025-11-07": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/hqBNEpHvYfY?si=ulDefLTWJ3EVYlXk&t=3257",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/hqBNEpHvYfY?si=njKZtWu-wSoOe4bo&t=9755"
+    },
+    "tw-balanced": {
+      livestream: ""
+    }
   },
 };
 
