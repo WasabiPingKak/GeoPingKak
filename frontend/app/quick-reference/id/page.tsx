@@ -1,5 +1,7 @@
 // src/app/quick-reference/indonesia/page.tsx
 import React from "react";
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 export const metadata = {
   title: "印尼文地名速查表 | GeoPingKak",
@@ -15,13 +17,15 @@ export default function IndonesiaQuickReferencePage() {
         本頁整理了印尼常見的方位詞與行政區名稱，幫助 GeoGuessr 玩家快速辨識地名特徵。
       </p>
 
-      <div className="mb-6">
-        <img
-          src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/quick-reference/id/compass.jpg?v=20251109"
-          alt="印尼地圖指南針示意圖"
-          className="w-full max-w-md mx-auto rounded-md border border-zinc-700"
-        />
-      </div>
+      <Zoom>
+        <div className="mb-6">
+          <img
+            src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/quick-reference/id/compass.jpg?v=20251109"
+            alt="印尼地圖指南針示意圖"
+            className="w-full max-w-md mx-auto rounded-md border border-zinc-700"
+          />
+        </div>
+      </Zoom>
 
       {/* 🧭 印尼方位詞對照表 */}
       <section className="mb-10">

@@ -1,5 +1,7 @@
 // src/app/quick-reference/br/page.tsx
 import React from "react";
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 export const metadata = {
   title: "巴西電話區碼速查表 | GeoPingKak",
@@ -13,14 +15,15 @@ export default function BrazilQuickReferencePage() {
         <h1 className="text-3xl font-semibold mb-4">巴西電話區碼速查表</h1>
 
         {/* 地圖圖片 */}
-        <div className="mb-6">
-          <img
-            src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/quick-reference/br/br_area_code.png?v=20251109"
-            alt="巴西區碼地圖"
-            className="w-full max-w-xl mx-auto rounded-md border border-zinc-700"
-          />
-        </div>
-
+        <Zoom>
+          <div className="mb-6">
+            <img
+              src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/quick-reference/br/br_area_code.png?v=20251109"
+              alt="巴西區碼地圖"
+              className="w-full max-w-xl mx-auto rounded-md border border-zinc-700"
+            />
+          </div>
+        </Zoom>
         {/* 文案內容 */}
         <div className="space-y-2 text-sm text-zinc-300 leading-relaxed">
           <p>以下是每一個大區中「區碼尾數為 1」的城市，通常是該區的首府：</p>
