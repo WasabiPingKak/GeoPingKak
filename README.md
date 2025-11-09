@@ -1,3 +1,5 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/WasabiPingKak/GeoPingKak)
+
 # GeoPingKak 中文 GeoGuessr 資源推廣網站
 
 這裡是台灣 Vtuber 山葵冰角 推廣 GeoGuessr 的網站。
