@@ -11,6 +11,7 @@ const navItems = [
   { divider: true },
   { href: "/recommend_settings", label: "推薦設定" },
   { href: "/tutorial", label: "入門教學" },
+  { href: "/quick-reference/id", label: "速查筆記" },
   { href: "/community-maps", label: "社群地圖推薦" },
   { href: "/source", label: "進階學習資源" },
   { divider: true },
