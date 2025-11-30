@@ -1,30 +1,19 @@
 #!/bin/bash
 
 # ✅ 設定部署參數
+
+GOOGLE_CLOUD_PROJECT="geopingkak"
 SERVICE_NAME="geopingkak-backend"
 REGION="asia-east1"
 REPO_NAME="geopingkak-backend-repo"
 
-# ✅ 讀取環境變數
-if [ ! -f ".env" ]; then
-  echo "❌ 找不到 .env 檔案"
-  exit 1
-fi
-echo "📂 載入 .env 環境參數"
-set -o allexport
-source .env
-set +o allexport
-
-# ✅ 檢查必要變數
-if [ -z "$GOOGLE_CLOUD_PROJECT" ]; then
-  echo "❌ .env 檔案中缺少 GOOGLE_CLOUD_PROJECT 變數"
-  exit 1
-fi
+# (已移除 .env 讀取區塊)
 
 # ✅ Docker 映像名稱
 IMAGE_URI="asia-east1-docker.pkg.dev/$GOOGLE_CLOUD_PROJECT/$REPO_NAME/$SERVICE_NAME"
 
 # ✅ 設定 GCP 專案
+echo "🔧 設定 GCP 專案 ID: $GOOGLE_CLOUD_PROJECT"
 gcloud config set project "$GOOGLE_CLOUD_PROJECT"
 
 # ✅ 寫入 Git Commit Hash 至 version.txt
@@ -51,14 +40,17 @@ else
   NO_TRAFFIC_FLAG="--no-traffic"
 fi
 
-# ✅ 部署至 Cloud Run，帶入所有環境變數
+# ✅ 部署至 Cloud Run
+# 使用 --set-secrets 讀取 Secret Manager
+# 使用 --set-env-vars 設定非敏感變數
 echo "🚀 部署至 Cloud Run：$SERVICE_NAME"
 gcloud run deploy "$SERVICE_NAME" \
   --image "$IMAGE_URI" \
   --region "$REGION" \
   --allow-unauthenticated \
   $NO_TRAFFIC_FLAG \
-  --set-env-vars "DEPLOY_ENV=production,ADMIN_API_KEY=$ADMIN_API_KEY,GEOGUESSR_NCFA=$GEOGUESSR_NCFA"
+  --set-env-vars "DEPLOY_ENV=production" \
+  --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest"
 
 if [ $? -ne 0 ]; then
   echo "❌ 部署失敗"
