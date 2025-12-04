@@ -121,6 +121,7 @@ const VIDEO_EXPLANATIONS: Record<
   "2025-09-03": {
     "the-world": {
       livestream: "https://www.youtube.com/live/_JtZuCvArrI?si=vG76MplYoz1-WE7S&t=5925",
+      explanation: "https://youtu.be/JEP_jVPm4xM?si=GmdNDUJCL0A0LZvk",
     },
   },
   "2025-09-04": {
@@ -219,6 +220,20 @@ const VIDEO_EXPLANATIONS: Record<
     },
     "tw-balanced": {
       livestream: ""
+    }
+  },
+  "2025-12-01": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/SmsGoUJfjxc?si=DBIb-15wyCTeZ85i&t=3301",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/SmsGoUJfjxc?si=rWVs4jJY-MRaLbvQ&t=9790"
+    },
+    "tw-balanced": {
+      livestream: "https://www.youtube.com/live/SmsGoUJfjxc?si=sjDj4t1AkyWq9JYe&t=564"
     }
   },
 };
