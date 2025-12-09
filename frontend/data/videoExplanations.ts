@@ -236,6 +236,20 @@ const VIDEO_EXPLANATIONS: Record<
       livestream: "https://www.youtube.com/live/SmsGoUJfjxc?si=sjDj4t1AkyWq9JYe&t=564"
     }
   },
+  "2025-12-05": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/trrVdVwo6ts?si=K2wZJ5-d2brH7Oh8&t=4027",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/trrVdVwo6ts?si=SlahnTkJT3vA2QX5&t=10615"
+    },
+    "tw-balanced": {
+      livestream: "https://www.youtube.com/live/trrVdVwo6ts?si=WtQDnilPzQENDLtH&t=709"
+    }
+  },
 };
 
 export default VIDEO_EXPLANATIONS;
