@@ -36,6 +36,10 @@
         "name": "孟加拉國 (Bangladesh)"
     },
     {
+        "domain": "ba",
+        "name": "波士尼亞與赫塞哥維納 (Bosnia and Herzegovina)"
+    },
+    {
         "domain": "be",
         "name": "比利時 (Belgium)"
     },
@@ -410,6 +414,10 @@
     {
         "domain": "pt",
         "name": "葡萄牙 (Portugal)"
+    },
+    {
+        "domain": "py",
+        "name": "巴拉圭 (Paraguay)"
     },
     {
         "domain": "qa",

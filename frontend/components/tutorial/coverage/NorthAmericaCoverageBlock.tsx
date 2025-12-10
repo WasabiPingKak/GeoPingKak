@@ -11,13 +11,13 @@ export default function NorthAmericaCoverageBlock() {
       sections={[
         {
           type: "full",
-          title: "有街景：",
-          items: ["加拿大", "美國", "墨西哥", "瓜地馬拉", "巴拿馬"],
+          title: "2025/08 新增街景：",
+          items: ["哥斯大黎加"],
         },
         {
-          type: "limited",
-          title: "有限街景：",
-          items: ["哥斯大黎加：首都聖荷西的一個公園有街景，其他地方都沒有"],
+          type: "full",
+          title: "有街景：",
+          items: ["加拿大", "美國", "墨西哥", "瓜地馬拉", "巴拿馬"],
         },
         {
           type: "none",

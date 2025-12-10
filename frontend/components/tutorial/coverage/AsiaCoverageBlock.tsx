@@ -12,7 +12,7 @@ export default function AsiaCoverageBlock() {
         {
           type: "full",
           title: "2025/08 新增街景：",
-          items: ["尼泊爾"],
+          items: ["越南", "尼泊爾"],
         },
         {
           type: "none",
