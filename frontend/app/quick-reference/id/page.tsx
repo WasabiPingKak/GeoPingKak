@@ -17,6 +17,18 @@ export default function IndonesiaQuickReferencePage() {
         本頁整理了印尼常見的方位詞與行政區名稱，幫助 GeoGuessr 玩家快速辨識地名特徵。
       </p>
 
+      {/* 嵌入 YouTube 影片（支援 RWD） */}
+      <div className="relative w-full aspect-video mb-8">
+        <iframe
+          src="https://www.youtube.com/embed/mCrEzRJ4o5s?si=EezQPqs-7HU6C5Yg"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full rounded-md"
+        />
+      </div>
+
       <Zoom>
         <div className="mb-6">
           <img
