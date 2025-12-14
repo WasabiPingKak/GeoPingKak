@@ -31,7 +31,7 @@ export type GlossaryEntry = {
  */
 export const glossaryEntries: GlossaryEntry[] = [
   {
-    title: "Map - ACW (A Community World)",
+    title: "Map - A Community World (ACW)",
     content:
       "牌位賽中一張有名的競賽用地圖名稱，通常用於金牌以上的牌位。\n\n",
     images: [],
@@ -49,7 +49,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     images: [],
   },
   {
-    title: "Map - An Official World",
+    title: "Map - An Official World (AOW)",
     content:
       "牌位賽中一張有名的競賽用地圖名稱，曾經使用於 2023 年的 GeoGuess 世界賽，現在通常用於金牌以上的牌位。\n\n",
     images: [],
@@ -68,6 +68,12 @@ export const glossaryEntries: GlossaryEntry[] = [
       "牌位賽中一張有名的競賽用地圖名稱，通常用於大師以上的牌位。\n\n" +
       "混合了 **An Arbitrary World** 與 **A Dirty World** 兩張地圖的題目特性。\n\n" +
       "這張地圖主打的是**全球範圍的鄉村與非城市地區**。\n\n",
+  },
+  {
+    title: "Map - A Rainbolt World ",
+    content:
+      "牌位賽中一張有名的競賽用地圖名稱，通常用於大師以上的牌位。\n\n" +
+      "這地圖是專門針對 **NMPZ** 製作的高難度鄉村地圖。\n\n",
   },
   {
     title: "Moving / Move / MV",
