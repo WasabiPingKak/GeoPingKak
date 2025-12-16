@@ -126,6 +126,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     content:
       "Google 在 2025 年開始投入的相機世代，也有人視為第五代 (Gen 5)，但社群中一般都稱 Small Cam。\n\n" +
       "街景車本體打碼 (blur) 會接近正圓形，但車頭會有一塊突出。\n\n" +
+      "相機高度比 Gen 4 相機更低，高度的體感更類似 Low Cam。\n\n" +
       "Small Cam 是 Car Meta 的一種。",
   },
   {
@@ -167,7 +168,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     title: "Meta",
     content:
       "廣義的 Meta 通常指「能用來判斷位置的線索集合」。\n\n" +
-      "例如：車子樣式 (Car Meta)、電線桿、路牌字體、護欄端點、地面標線、郵遞區號格式等。\n\n" +
+      "例如：車子樣式 (Car Meta)、電線桿、路牌樣式、護欄種類、路樁種類、地面標線、電話區碼格式等。\n\n" +
       "將任何可觀察到的資訊整理成「可重複使用的判斷方法」。\n\n" +
       "**而狹義的 Meta 指的通常是 Car Meta。**",
   },
@@ -177,6 +178,7 @@ export const glossaryEntries: GlossaryEntry[] = [
       "指 Street View 街景車或車身痕跡 (如車頂、後照鏡、行李架、車身顏色、天線、涉水喉、blur 的形狀) 所提供的線索。\n\n" +
       "除了街景車車體本身，以下的資訊通常也會被視為 Car Meta：\n\n" +
       "- 相機世代：Gen 1~4 / Small Cam / Low Cam / Shit Cam / Trekker\n" +
+      "- 是否有隨行車 (Follow Car) 或隨行人員。\n" +
       "- 街景車行駛的方向。\n" +
       "- 街景拍攝當下的天氣、季節。\n" +
       "- 街景照片上的浮水印年份。\n" +
@@ -215,7 +217,8 @@ export const glossaryEntries: GlossaryEntry[] = [
   {
     title: "Follow Car",
     content:
-      "有些國家或地區會有隨行的警車或軍用車，Follow Car 最有名的國家為奈及利亞與突尼西亞。\n\n"
+      "有些國家或地區會有隨行的警車或軍用車，Follow Car 最有名的國家為奈及利亞與突尼西亞。\n\n" +
+      "Follow Car 是 Car Meta 的一種。"
   },
   {
     title: "Copyright (版權浮水印)",
