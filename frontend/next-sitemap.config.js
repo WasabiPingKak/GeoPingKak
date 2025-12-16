@@ -2,7 +2,7 @@
 module.exports = {
   siteUrl: "https://geopingkak.web.app",
   generateRobotsTxt: true, // 自動產生 robots.txt
-  generateIndexSitemap: true,
+  generateIndexSitemap: false,
   changefreq: "daily",
   priority: 0.7,
   sitemapSize: 5000,
