@@ -250,6 +250,77 @@ const VIDEO_EXPLANATIONS: Record<
       livestream: "https://www.youtube.com/live/trrVdVwo6ts?si=WtQDnilPzQENDLtH&t=709"
     }
   },
+  "2025-12-06": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/dqm4wcz4TYU?si=TNF2PsxbB3jqResm&t=3850",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/dqm4wcz4TYU?si=VG9pabYbK0Xtrmae&t=10786"
+    },
+    "tw-balanced": {
+      livestream: "https://www.youtube.com/live/dqm4wcz4TYU?si=2PVHuCYO2nX3HI6w&t=652"
+    }
+  },
+  "2025-12-20": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/zRw9_wIiay8?si=DV9gyGtIPAXSyO-Z&t=10121"
+    },
+    "tw-balanced": {
+      livestream: ""
+    }
+  },
+  "2025-12-21": {
+    "jp-balanced": {
+      livestream: "https://www.youtube.com/live/zRw9_wIiay8?si=KDxW-57pOgyKmWZk&t=457",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/zRw9_wIiay8?si=aTYTeOShmZqdjJcS&t=2869",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/zRw9_wIiay8?si=twavqd23cGD27eeW&t=6499"
+    },
+    "tw-balanced": {
+      livestream: ""
+    }
+  },
+  "2025-12-23": {
+    "the-world": {
+      explanation: "https://youtu.be/Xg4AYWTtohw?si=AI0-tkTd1a2QrrK0&t=27",
+    },
+  },
+  "2025-12-24": {
+    "the-world": {
+      explanation: "https://youtu.be/Xg4AYWTtohw?si=Y2N7K6VXWuXC--2Z&t=190",
+    },
+  },
+  "2025-12-25": {
+    "the-world": {
+      explanation: "https://youtu.be/Xg4AYWTtohw?si=wDySeYGSLZmpqVay&t=313",
+    },
+  },
+  "2025-12-28": {
+    "jp-balanced": {
+      livestream: "",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/-5uFISW4Nw0?si=neQcFkKIhQvAt34V&t=6481",
+    },
+    "world-ACW": {
+      livestream: ""
+    },
+    "tw-balanced": {
+      livestream: ""
+    }
+  },
 };
 
 export default VIDEO_EXPLANATIONS;
