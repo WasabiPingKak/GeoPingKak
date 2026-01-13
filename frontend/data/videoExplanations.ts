@@ -321,6 +321,28 @@ const VIDEO_EXPLANATIONS: Record<
       livestream: ""
     }
   },
+  "2026-01-01": {
+    "tw-urban": {
+      livestream: "https://www.youtube.com/live/Ifxc7hraG5g?si=e28nXt6joMVYKWmO&t=1024",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/Ifxc7hraG5g?si=jzoF0sVJ9XYKGf16&t=2920",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/Ifxc7hraG5g?si=HY65nGzwoVg3Fnp0&t=10455"
+    },
+  },
+  "2026-01-10": {
+    "tw-urban": {
+      livestream: "https://www.youtube.com/live/ZUGFuGtSI7w?si=K6jiZ3Z23gz3pbAr&t=526",
+    },
+    "the-world": {
+      livestream: "https://www.youtube.com/live/ZUGFuGtSI7w?si=g8Dft1BMBtX8nO55&t=4560",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/ZUGFuGtSI7w?si=kPCqhzo2RIyd3Yx1&t=10882"
+    },
+  },
 };
 
 export default VIDEO_EXPLANATIONS;
