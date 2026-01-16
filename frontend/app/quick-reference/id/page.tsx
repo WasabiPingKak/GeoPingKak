@@ -18,7 +18,7 @@ export default function IndonesiaQuickReferencePage() {
       </p>
 
       {/* 嵌入 YouTube 影片（支援 RWD） */}
-      <div className="relative w-full aspect-video mb-8">
+      <div className="relative w-full md:w-2/3 mx-auto aspect-video mb-8">
         <iframe
           src="https://www.youtube.com/embed/mCrEzRJ4o5s?si=EezQPqs-7HU6C5Yg"
           title="YouTube video player"

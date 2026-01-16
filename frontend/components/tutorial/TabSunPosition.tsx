@@ -9,10 +9,21 @@ export default function TabSunPosition() {
     <div className="text-muted-foreground text-base leading-relaxed space-y-6">
       <h2 className="text-xl font-bold text-white mb-4">太陽</h2>
 
+      {/* 嵌入 YouTube 影片（支援 RWD） */}
+      <div className="relative w-full md:w-2/3 mx-auto aspect-video mb-8">
+        <iframe
+          src="https://www.youtube.com/embed/q4V70DThUpY?si=hYqlPD0tLou0r3F8"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="absolute inset-0 w-full h-full rounded-md"
+        />
+      </div>
+
       {/* 概論段落 */}
       <p>
-        太陽的位置是 GeoGuessr 中能分辨「南北半球」的重要線索。<br />
-        此技巧在缺乏人造物的地區特別有用，例如非洲草原、南美山區等地。
+        太陽的位置是 GeoGuessr 中能分辨「南北半球」的重要線索。
       </p>
 
       {/* 通則強調區塊 */}
