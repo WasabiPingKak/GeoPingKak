@@ -5,6 +5,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from flask_cors import CORS
 
+import config  # 環境配置管理
 from routes.geoguessr_map_routes import init_geoguessr_map_routes
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.daily_challenge_reader import init_daily_challenge_reader_route

@@ -5,6 +5,8 @@ from google.cloud.firestore import Client
 from datetime import datetime, timezone
 import os
 
+from config import get_collection_name
+
 
 def init_special_map_routes(app, db: Client):
     bp = Blueprint("special_map", __name__, url_prefix="/api")
@@ -37,7 +39,8 @@ def init_special_map_routes(app, db: Client):
             if not field_name:
                 return jsonify({"error": f"Unknown mapId: {map_id}"}), 400
 
-            doc_ref = db.collection("special_maps").document(f"{country}_maps")
+            collection_name = get_collection_name("special_maps")
+            doc_ref = db.collection(collection_name).document(f"{country}_maps")
             doc = doc_ref.get()
             existing_data = doc.to_dict() if doc.exists else {}
 
@@ -91,6 +94,7 @@ def init_special_map_routes(app, db: Client):
             }
 
             results = []
+            collection_name = get_collection_name("special_maps")
 
             for map_id, meta in MAP_ID_TO_META.items():
                 country = meta["country"]
@@ -98,7 +102,7 @@ def init_special_map_routes(app, db: Client):
                 field_name = meta["field"]
 
                 doc_id = f"{map_id.split('-')[1]}_maps"  # e.g., tw_maps
-                doc_ref = db.collection("special_maps").document(doc_id)
+                doc_ref = db.collection(collection_name).document(doc_id)
                 doc = doc_ref.get()
 
                 if not doc.exists:

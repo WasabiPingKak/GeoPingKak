@@ -1,9 +1,34 @@
 #!/bin/bash
 
-# ✅ 設定部署參數
+# ✅ 強制要求環境參數
+if [ -z "$1" ]; then
+  echo "❌ 錯誤：必須指定部署環境"
+  echo ""
+  echo "使用方式："
+  echo "  ./deploy.sh staging    # 部署到 Staging 環境"
+  echo "  ./deploy.sh prod       # 部署到 Production 環境"
+  exit 1
+fi
 
+ENV=$1
+
+# ✅ 根據環境設定服務名稱與環境變數
+if [ "$ENV" = "staging" ]; then
+  SERVICE_NAME="geopingkak-backend-staging"
+  DEPLOY_ENV="staging"
+  echo "🟡 部署至 Staging 環境"
+elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
+  SERVICE_NAME="geopingkak-backend"
+  DEPLOY_ENV="production"
+  echo "🟢 部署至 Production 環境"
+else
+  echo "❌ 無效的環境參數: $ENV"
+  echo "使用方式: ./deploy.sh [staging|prod|production]"
+  exit 1
+fi
+
+# ✅ 設定部署參數
 GOOGLE_CLOUD_PROJECT="geopingkak"
-SERVICE_NAME="geopingkak-backend"
 REGION="asia-east1"
 REPO_NAME="geopingkak-backend-repo"
 
@@ -43,13 +68,13 @@ fi
 # ✅ 部署至 Cloud Run
 # 使用 --set-secrets 讀取 Secret Manager
 # 使用 --set-env-vars 設定非敏感變數
-echo "🚀 部署至 Cloud Run：$SERVICE_NAME"
+echo "🚀 部署至 Cloud Run：$SERVICE_NAME (DEPLOY_ENV=$DEPLOY_ENV)"
 gcloud run deploy "$SERVICE_NAME" \
   --image "$IMAGE_URI" \
   --region "$REGION" \
   --allow-unauthenticated \
   $NO_TRAFFIC_FLAG \
-  --set-env-vars "DEPLOY_ENV=production" \
+  --set-env-vars "DEPLOY_ENV=$DEPLOY_ENV" \
   --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest"
 
 if [ $? -ne 0 ]; then
@@ -79,4 +104,46 @@ if [ -n "$NO_TRAFFIC_FLAG" ]; then
   fi
 else
   echo "✅ 初次部署完成，已導流"
+fi
+
+# ✅ 取得部署後的服務 URL
+echo ""
+echo "🔍 取得服務 URL..."
+SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
+  --region="$REGION" \
+  --format="value(status.url)")
+
+if [ -z "$SERVICE_URL" ]; then
+  echo "⚠️  無法取得服務 URL，請手動更新前端 .env 檔案"
+  exit 0
+fi
+
+echo "✅ 服務 URL: $SERVICE_URL"
+
+# ✅ 自動更新前端 .env 檔案
+if [ "$ENV" = "staging" ]; then
+  ENV_FILE="../frontend/.env.staging"
+  echo ""
+  echo "📝 自動更新 frontend/.env.staging"
+elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
+  ENV_FILE="../frontend/.env.production"
+  echo ""
+  echo "📝 自動更新 frontend/.env.production"
+fi
+
+# 寫入新的 API endpoint
+echo "NEXT_PUBLIC_API_BASE=$SERVICE_URL" > "$ENV_FILE"
+
+if [ $? -eq 0 ]; then
+  echo "✅ 已更新 $ENV_FILE"
+  echo "   NEXT_PUBLIC_API_BASE=$SERVICE_URL"
+  echo ""
+  echo "🚀 下一步：部署前端"
+  if [ "$ENV" = "staging" ]; then
+    echo "   cd ../frontend && npm run deploy:staging"
+  else
+    echo "   cd ../frontend && npm run deploy:prod"
+  fi
+else
+  echo "❌ 更新 $ENV_FILE 失敗，請手動更新"
 fi

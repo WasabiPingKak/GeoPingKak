@@ -5,6 +5,7 @@ import logging
 from flask import Blueprint, request, jsonify
 from datetime import datetime, timezone, timedelta
 
+from config import get_collection_name
 from services.geoguessr_challenge import create_challenge
 
 logger = logging.getLogger(__name__)
@@ -62,7 +63,8 @@ def init_daily_challenge_writer_route(app, db):
         created_at = now_tw.isoformat()
 
         # Firestore 文件與欄位參考
-        doc_ref = db.collection("daily_challenge").document(year_month)
+        collection_name = get_collection_name("daily_challenge")
+        doc_ref = db.collection(collection_name).document(year_month)
         doc_snapshot = doc_ref.get()
         existing_data = (
             doc_snapshot.to_dict().get(day_key, []) if doc_snapshot.exists else []
