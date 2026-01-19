@@ -19,20 +19,38 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 import sys
+import os
 
 # 初始化 Firebase（使用應用預設憑證）
 if not firebase_admin._apps:
     try:
         firebase_admin.initialize_app()
-        print("✅ Firebase Admin SDK 初始化成功\n")
+        print("✅ Firebase Admin SDK 初始化成功")
     except Exception as e:
         print(f"❌ Firebase 初始化失敗: {e}")
-        print("\n請確認已執行：")
+        print("\n" + "=" * 70)
+        print("請先設定 Google Cloud 認證：")
+        print("=" * 70)
+        print("\n步驟 1: 登入 Google Cloud")
         print("  gcloud auth application-default login")
+        print("\n步驟 2: 設定專案")
         print("  gcloud config set project geopingkak")
+        print("\n步驟 3: 驗證認證")
+        print("  gcloud auth application-default print-access-token")
+        print("\n如果看到 access token，表示認證成功，再次執行此腳本即可。")
+        print("=" * 70)
         sys.exit(1)
 
-db = firestore.client()
+try:
+    db = firestore.client()
+    print("✅ Firestore Client 初始化成功\n")
+except Exception as e:
+    print(f"❌ Firestore Client 初始化失敗: {e}")
+    print("\n請確認：")
+    print("1. 已執行 gcloud auth application-default login")
+    print("2. 已設定正確的專案：gcloud config set project geopingkak")
+    print("3. 該專案已啟用 Firestore")
+    sys.exit(1)
 
 
 def copy_collection(source_name, target_name):
