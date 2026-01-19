@@ -105,7 +105,9 @@ def init_video_explanation_routes(app, db: Client):
     @bp.route("/video-explanations", methods=["POST"])
     def update_video_explanations():
         """
-        新增或更新特定日期的影片資料（覆蓋式更新）
+        新增或更新特定日期的影片資料（部分更新）
+
+        空白欄位會被忽略，只更新有提供值的地圖
 
         Request Body:
             {
@@ -114,12 +116,16 @@ def init_video_explanation_routes(app, db: Client):
                     "tw-urban": {
                         "livestream": "https://...",
                         "explanation": "https://..."
-                    }
+                    },
+                    "jp-balanced": {
+                        "livestream": "",
+                        "explanation": ""
+                    }  // 此地圖會被忽略（兩個欄位都是空字串）
                 }
             }
 
         Returns:
-            JSON: {"success": true, "message": "...", "date": "..."}
+            JSON: {"success": true, "message": "...", "date": "...", "updated_maps": [...]}
         """
         try:
             # 🔐 權限驗證
@@ -171,7 +177,9 @@ def init_video_explanation_routes(app, db: Client):
                     400,
                 )
 
-            # 驗證地圖 ID 和資料
+            # 過濾並驗證地圖資料
+            valid_maps = {}
+
             for map_id, map_data in maps.items():
                 # 驗證地圖 ID
                 if map_id not in ALLOWED_MAP_IDS:
@@ -197,22 +205,15 @@ def init_video_explanation_routes(app, db: Client):
                         400,
                     )
 
-                # 驗證至少有一個非空欄位
-                if not validate_map_entry(map_data):
-                    return (
-                        jsonify(
-                            {
-                                "error": "Bad Request",
-                                "message": f"Map '{map_id}' must have at least one of livestream or explanation",
-                            }
-                        ),
-                        400,
-                    )
-
-                # 驗證 URL 格式
                 livestream = map_data.get("livestream", "")
                 explanation = map_data.get("explanation", "")
 
+                # 跳過所有欄位都是空字串的地圖
+                if not livestream and not explanation:
+                    logger.info(f"⏭️  跳過 {map_id}（所有欄位為空）")
+                    continue
+
+                # 驗證 URL 格式
                 if livestream and not validate_youtube_url(livestream):
                     return (
                         jsonify(
@@ -235,12 +236,27 @@ def init_video_explanation_routes(app, db: Client):
                         400,
                     )
 
-            # 寫入 Firestore
+                # 加入有效地圖列表
+                valid_maps[map_id] = map_data
+
+            # 如果沒有任何有效的地圖資料，返回錯誤
+            if not valid_maps:
+                return (
+                    jsonify(
+                        {
+                            "error": "Bad Request",
+                            "message": "No valid map data provided. All maps have empty fields.",
+                        }
+                    ),
+                    400,
+                )
+
+            # 寫入 Firestore（使用 merge=True 進行部分更新）
             collection_name = get_collection_name("video_explanations")
             doc_ref = db.collection(collection_name).document(date)
-            doc_ref.set(maps)
+            doc_ref.set(valid_maps, merge=True)
 
-            logger.info(f"✅ 已更新 {date} 的影片資料（{len(maps)} 個地圖）")
+            logger.info(f"✅ 已更新 {date} 的影片資料（{len(valid_maps)} 個地圖）")
 
             return (
                 jsonify(
@@ -248,6 +264,7 @@ def init_video_explanation_routes(app, db: Client):
                         "success": True,
                         "message": f"Video explanations updated for {date}",
                         "date": date,
+                        "updated_maps": list(valid_maps.keys()),
                     }
                 ),
                 200,

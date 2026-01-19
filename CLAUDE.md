@@ -265,7 +265,12 @@ cd ../frontend
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
 - `special_map_routes.py` - Special themed maps
 - `geoguessr_map_routes.py` - GeoGuessr map integration
-- `video_explanation_routes.py` - Video explanations CRUD with Bearer token authentication
+- `video_explanation_routes.py` - Video explanations API with Bearer token authentication
+  - GET `/api/video-explanations` - 公開端點，取得所有日期的影片資料
+  - POST `/api/video-explanations` - 受保護端點（Bearer Token），部分更新影片資料
+    - 空白欄位會被自動忽略，不影響現有資料
+    - 使用 Firestore merge 模式，只更新有提供的地圖
+    - 驗證日期格式、地圖 ID 白名單、YouTube URL 格式
 
 **All route modules import and use `get_collection_name()` from `config.py` to ensure environment-aware collection access.**
 
