@@ -22,6 +22,30 @@ npm run dev
 
 ### 部署到 Staging 環境（測試環境）
 
+#### 0. 初次設定：複製資料到 Staging（僅需執行一次）
+
+**首次部署 Staging 環境時**，需要複製 Production 資料到 Staging collections：
+
+```bash
+cd backend
+
+# 確認 GCP 認證
+gcloud auth application-default login
+gcloud config set project geopingkak
+
+# 執行資料複製腳本
+python scripts/copy_to_staging.py
+```
+
+> 此腳本會複製以下資料：
+> - `daily_challenge` → `staging_daily_challenge`
+> - `special_maps` → `staging_special_maps`
+> - `geoguessr_map_index` → `staging_geoguessr_map_index`
+
+**未來更新 Staging 資料**：再次執行 `python scripts/copy_to_staging.py` 即可
+
+---
+
 #### 1. 部署後端到 Staging
 ```bash
 cd backend
