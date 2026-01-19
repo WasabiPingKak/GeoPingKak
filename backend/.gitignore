@@ -1,1 +1,5 @@
+# Environment variables
 .env*
+
+# Deployment artifacts
+version.txt

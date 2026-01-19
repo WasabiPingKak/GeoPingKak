@@ -38,6 +38,7 @@ yarn-error.log*
 # 允許 staging 和 production 環境變數模板（不含敏感資訊）
 !.env.staging
 !.env.production
+# 注意：.env.production.local 會被忽略（build:staging 的臨時檔案）
 
 # vercel
 .vercel
