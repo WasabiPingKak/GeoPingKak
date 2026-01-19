@@ -27,7 +27,8 @@ npm run dev
 cd backend
 ./deploy.sh staging
 ```
-> 部署到 Cloud Run 服務：`geopingkak-backend-staging`
+> - 部署到 Cloud Run 服務：`geopingkak-backend-staging`
+> - **自動更新** `frontend/.env.staging` 的 API endpoint
 
 #### 2. 部署前端到 Staging
 ```bash
@@ -38,7 +39,7 @@ npm run deploy:staging
 
 #### 3. 環境配置
 - **後端環境變數**: `DEPLOY_ENV=staging`
-- **前端環境變數**: 設定在 `frontend/.env.staging`
+- **前端環境變數**: 由 `deploy.sh` 自動更新至 `frontend/.env.staging`
 - **資料庫隔離**: 使用 `staging_*` collection 前綴（例：`staging_daily_challenge`）
 
 ---
@@ -50,7 +51,8 @@ npm run deploy:staging
 cd backend
 ./deploy.sh prod
 ```
-> 部署到 Cloud Run 服務：`geopingkak-backend`
+> - 部署到 Cloud Run 服務：`geopingkak-backend`
+> - **自動更新** `frontend/.env.production` 的 API endpoint
 
 #### 2. 部署前端到 Production
 ```bash
@@ -61,7 +63,7 @@ npm run deploy:prod
 
 #### 3. 環境配置
 - **後端環境變數**: `DEPLOY_ENV=production`
-- **前端環境變數**: 設定在 `frontend/.env.production`
+- **前端環境變數**: 由 `deploy.sh` 自動更新至 `frontend/.env.production`
 - **資料庫**: 使用原始 collection 名稱（例：`daily_challenge`）
 
 ---

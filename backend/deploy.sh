@@ -96,3 +96,45 @@ if [ -n "$NO_TRAFFIC_FLAG" ]; then
 else
   echo "✅ 初次部署完成，已導流"
 fi
+
+# ✅ 取得部署後的服務 URL
+echo ""
+echo "🔍 取得服務 URL..."
+SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
+  --region="$REGION" \
+  --format="value(status.url)")
+
+if [ -z "$SERVICE_URL" ]; then
+  echo "⚠️  無法取得服務 URL，請手動更新前端 .env 檔案"
+  exit 0
+fi
+
+echo "✅ 服務 URL: $SERVICE_URL"
+
+# ✅ 自動更新前端 .env 檔案
+if [ "$ENV" = "staging" ]; then
+  ENV_FILE="../frontend/.env.staging"
+  echo ""
+  echo "📝 自動更新 frontend/.env.staging"
+elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
+  ENV_FILE="../frontend/.env.production"
+  echo ""
+  echo "📝 自動更新 frontend/.env.production"
+fi
+
+# 寫入新的 API endpoint
+echo "NEXT_PUBLIC_API_BASE=$SERVICE_URL" > "$ENV_FILE"
+
+if [ $? -eq 0 ]; then
+  echo "✅ 已更新 $ENV_FILE"
+  echo "   NEXT_PUBLIC_API_BASE=$SERVICE_URL"
+  echo ""
+  echo "🚀 下一步：部署前端"
+  if [ "$ENV" = "staging" ]; then
+    echo "   cd ../frontend && npm run deploy:staging"
+  else
+    echo "   cd ../frontend && npm run deploy:prod"
+  fi
+else
+  echo "❌ 更新 $ENV_FILE 失敗，請手動更新"
+fi
