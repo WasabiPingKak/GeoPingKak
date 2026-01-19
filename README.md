@@ -18,19 +18,78 @@ npm run dev
 
 > 這個指令會啟動本地端的開發環境（使用 Turbopack）。
 
-### 部署前端到 Firebase Hosting
-```bash
-cd frontend
-./deploy.sh
-```
-> 此腳本會先執行 `npm run build`（含 sitemap 生成），再部署至 Firebase Hosting。
+---
 
-### 部署後端到 Cloud Run
+### 部署到 Staging 環境（測試環境）
+
+#### 1. 部署後端到 Staging
 ```bash
 cd backend
-./deploy.sh
+./deploy.sh staging
 ```
-> 此腳本會建構 Docker 映像並部署至 Google Cloud Run。
+> 部署到 Cloud Run 服務：`geopingkak-backend-staging`
+
+#### 2. 部署前端到 Staging
+```bash
+cd frontend
+npm run deploy:staging
+```
+> 部署到 Firebase Hosting Channel：`staging--geopingkak.web.app`（有效期 30 天）
+
+#### 3. 環境配置
+- **後端環境變數**: `DEPLOY_ENV=staging`
+- **前端環境變數**: 設定在 `frontend/.env.staging`
+- **資料庫隔離**: 使用 `staging_*` collection 前綴（例：`staging_daily_challenge`）
+
+---
+
+### 部署到 Production 環境（正式環境）
+
+#### 1. 部署後端到 Production
+```bash
+cd backend
+./deploy.sh prod
+```
+> 部署到 Cloud Run 服務：`geopingkak-backend`
+
+#### 2. 部署前端到 Production
+```bash
+cd frontend
+npm run deploy:prod
+```
+> 部署到 Firebase Hosting：`geopingkak.web.app`
+
+#### 3. 環境配置
+- **後端環境變數**: `DEPLOY_ENV=production`
+- **前端環境變數**: 設定在 `frontend/.env.production`
+- **資料庫**: 使用原始 collection 名稱（例：`daily_challenge`）
+
+---
+
+### 🔄 完整部署流程
+
+```bash
+# 開發新功能
+git checkout -b feature/new-feature
+
+# 本地測試
+cd frontend && npm run dev
+
+# 部署到 staging 測試
+cd ../backend && ./deploy.sh staging
+cd ../frontend && npm run deploy:staging
+
+# 在 staging URL 驗證功能
+# https://staging--geopingkak.web.app
+
+# 測試通過後 merge 到 main
+git checkout main
+git merge feature/new-feature
+
+# 部署到 production
+cd backend && ./deploy.sh prod
+cd ../frontend && npm run deploy:prod
+```
 
 ---
 

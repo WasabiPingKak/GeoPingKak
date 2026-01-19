@@ -1,9 +1,25 @@
 #!/bin/bash
 
-# ✅ 設定部署參數
+# ✅ 讀取環境參數（預設為 production）
+ENV=${1:-production}
 
+# ✅ 根據環境設定服務名稱與環境變數
+if [ "$ENV" = "staging" ]; then
+  SERVICE_NAME="geopingkak-backend-staging"
+  DEPLOY_ENV="staging"
+  echo "🟡 部署至 Staging 環境"
+elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
+  SERVICE_NAME="geopingkak-backend"
+  DEPLOY_ENV="production"
+  echo "🟢 部署至 Production 環境"
+else
+  echo "❌ 無效的環境參數: $ENV"
+  echo "使用方式: ./deploy.sh [staging|prod|production]"
+  exit 1
+fi
+
+# ✅ 設定部署參數
 GOOGLE_CLOUD_PROJECT="geopingkak"
-SERVICE_NAME="geopingkak-backend"
 REGION="asia-east1"
 REPO_NAME="geopingkak-backend-repo"
 
@@ -43,13 +59,13 @@ fi
 # ✅ 部署至 Cloud Run
 # 使用 --set-secrets 讀取 Secret Manager
 # 使用 --set-env-vars 設定非敏感變數
-echo "🚀 部署至 Cloud Run：$SERVICE_NAME"
+echo "🚀 部署至 Cloud Run：$SERVICE_NAME (DEPLOY_ENV=$DEPLOY_ENV)"
 gcloud run deploy "$SERVICE_NAME" \
   --image "$IMAGE_URI" \
   --region "$REGION" \
   --allow-unauthenticated \
   $NO_TRAFFIC_FLAG \
-  --set-env-vars "DEPLOY_ENV=production" \
+  --set-env-vars "DEPLOY_ENV=$DEPLOY_ENV" \
   --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest"
 
 if [ $? -ne 0 ]; then

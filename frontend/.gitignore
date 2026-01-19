@@ -35,6 +35,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# 允許 staging 和 production 環境變數模板（不含敏感資訊）
+!.env.staging
+!.env.production
 
 # vercel
 .vercel

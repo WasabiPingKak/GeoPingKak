@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 import logging
 from firebase_admin import firestore
 
+from config import get_collection_name
+
 logger = logging.getLogger(__name__)
 
 
@@ -11,7 +13,8 @@ def init_geoguessr_map_routes(app, db: firestore.Client):
     @bp.route("", methods=["GET"])
     def get_all_maps():
         try:
-            doc_ref = db.collection("geoguessr_map_index").document("map_list")
+            collection_name = get_collection_name("geoguessr_map_index")
+            doc_ref = db.collection(collection_name).document("map_list")
             doc = doc_ref.get()
             if doc.exists:
                 return jsonify(doc.to_dict())
@@ -31,7 +34,8 @@ def init_geoguessr_map_routes(app, db: firestore.Client):
             if not map_name or not map_id:
                 return jsonify({"error": "缺少 mapName 或 mapId"}), 400
 
-            doc_ref = db.collection("geoguessr_map_index").document("map_list")
+            collection_name = get_collection_name("geoguessr_map_index")
+            doc_ref = db.collection(collection_name).document("map_list")
             doc_ref.set({map_name: map_id}, merge=True)
 
             updated_doc = doc_ref.get()
