@@ -12,68 +12,88 @@
 
 ### 本地開發（啟動前端 dev server）
 ```bash
+cd frontend
 npm run dev
 ```
 
-> 這個指令會啟動本地端的開發環境。
+> 這個指令會啟動本地端的開發環境（使用 Turbopack）。
 
-### 部署到 Firebase Hosting
+### 部署前端到 Firebase Hosting
 ```bash
-firebase deploy
+cd frontend
+./deploy.sh
 ```
-> 這個指令會直接部署到 Firebase Hosintg 的正式環境。
+> 此腳本會先執行 `npm run build`（含 sitemap 生成），再部署至 Firebase Hosting。
 
-### 部署後端
+### 部署後端到 Cloud Run
 ```bash
-./deploy
+cd backend
+./deploy.sh
 ```
-
-> 執行部署腳本
+> 此腳本會建構 Docker 映像並部署至 Google Cloud Run。
 
 ---
 
 ## 📁 專案結構
 
 ```
-frontend/
-├── app/
-│   ├── layout.tsx                     ← Server Component，套用全域樣式與佈局
-│   ├── page.tsx                       ← 首頁
-│   ├── globals.css
-│   ├── favicon.ico
-│   ├── daily-challenge/
-│   │   └── page.tsx                   ← 每日挑戰主頁
-│   ├── special-maps/
-│   │   └── page.tsx                   ← 特殊主題地圖
-│   ├── tutorial/
-│   │   └── page.tsx                   ← 入門教學
-│   ├── source/
-│   │   └── page.tsx                   ← 其它學習資源
-│   └── show-proposals/
-│       └── page.tsx                   ← 企劃建議
-
-├── components/
-│   ├── QueryProvider.tsx
-│   ├── SidebarMenu.tsx
-│   ├── SocialLinks.jsx
-│   ├── layout/
-│   │   └── RootShell.tsx             ← 負責響應式 Sidebar 控制
-│   └── common/
-│       └── MobileSidebarDrawer.tsx   ← 手機滑出式側邊欄
-
-├── components/daily-challenge/
-│   ├── ChallengeDescription.tsx
-│   ├── CountryTabs.tsx
-│   ├── DailyChallengeList.tsx
-│   ├── MapChallengeCard.tsx
-│   └── mapTitles.ts
-
-├── hooks/
-│   └── useDailyChallengeData.ts
-
-├── types/
-│   └── daily-challenge.ts
+GeoPingKak/
+├── backend/                          # Flask API (Cloud Run)
+│   ├── app.py                        # Flask 入口，初始化 Firestore
+│   ├── deploy.sh                     # Cloud Run 部署腳本
+│   ├── routes/
+│   │   ├── daily_challenge_reader.py
+│   │   ├── daily_challenge_writer.py
+│   │   ├── geoguessr_map_routes.py
+│   │   └── special_map_routes.py
+│   └── services/
+│       └── geoguessr_challenge.py
+│
+├── frontend/                         # Next.js App (Firebase Hosting)
+│   ├── app/
+│   │   ├── layout.tsx                # 根佈局 (QueryProvider + RootShell)
+│   │   ├── page.tsx                  # 首頁
+│   │   ├── globals.css
+│   │   ├── community-maps/           # 社群地圖推薦
+│   │   ├── daily-challenge/          # 每日挑戰
+│   │   ├── glossary/                 # 名詞解釋
+│   │   ├── qna/                      # Q&A
+│   │   ├── quick-reference/          # 速查筆記 (br/, id/)
+│   │   ├── recommend_settings/       # 推薦設定
+│   │   ├── show-proposals/           # 直播企劃提案
+│   │   ├── source/                   # 進階學習資源
+│   │   ├── special-maps/             # 特殊主題地圖
+│   │   └── tutorial/                 # 入門教學
+│   │
+│   ├── components/
+│   │   ├── QueryProvider.tsx         # React Query Provider
+│   │   ├── SidebarMenu.tsx           # 側邊欄導覽
+│   │   ├── layout/
+│   │   │   └── RootShell.tsx         # 響應式 Sidebar 控制
+│   │   ├── common/
+│   │   │   └── MobileSidebarDrawer.tsx
+│   │   ├── shared/                   # 共用元件
+│   │   ├── community-maps/
+│   │   ├── daily-challenge/
+│   │   ├── proposals/
+│   │   ├── special-maps/
+│   │   └── tutorial/                 # 教學相關元件 (coverage/, flags/, plate/)
+│   │
+│   ├── data/
+│   │   ├── glossary.ts
+│   │   └── videoExplanations.ts
+│   │
+│   ├── hooks/
+│   │   ├── useDailyChallengeData.ts
+│   │   └── useSpecialMapData.ts
+│   │
+│   └── types/
+│       └── map-entry.ts
+│
+└── README.md
 ```
+
+> 完整目錄結構請參考 [CLAUDE.md](./CLAUDE.md)
 
 ---
 
