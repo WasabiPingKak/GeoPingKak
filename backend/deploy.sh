@@ -1,7 +1,16 @@
 #!/bin/bash
 
-# ✅ 讀取環境參數（預設為 production）
-ENV=${1:-production}
+# ✅ 強制要求環境參數
+if [ -z "$1" ]; then
+  echo "❌ 錯誤：必須指定部署環境"
+  echo ""
+  echo "使用方式："
+  echo "  ./deploy.sh staging    # 部署到 Staging 環境"
+  echo "  ./deploy.sh prod       # 部署到 Production 環境"
+  exit 1
+fi
+
+ENV=$1
 
 # ✅ 根據環境設定服務名稱與環境變數
 if [ "$ENV" = "staging" ]; then
