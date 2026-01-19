@@ -136,8 +136,7 @@ GeoPingKak/
 │   ├── services/
 │   │   └── geoguessr_challenge.py
 │   └── scripts/
-│       ├── copy_to_staging.py        # Staging 資料複製
-│       └── migrate_video_data.py     # 影片資料遷移
+│       └── copy_to_staging.py        # Staging 資料複製
 │
 ├── frontend/                         # Next.js App (Firebase Hosting)
 │   ├── app/

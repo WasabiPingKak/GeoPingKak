@@ -276,7 +276,6 @@ cd ../frontend
 
 **Scripts** (`scripts/`):
 - `copy_to_staging.py` - One-time data migration script for staging environment initialization
-- `migrate_video_data.py` - Migrate video explanation data from static file to Firestore
 
 ### Data Flow
 
