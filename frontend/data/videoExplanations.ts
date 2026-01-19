@@ -342,6 +342,18 @@ const VIDEO_EXPLANATIONS: Record<
     "world-ACW": {
       livestream: "https://www.youtube.com/live/ZUGFuGtSI7w?si=kPCqhzo2RIyd3Yx1&t=10882"
     },
+
+  },
+  "2026-01-15": {
+    "tw-urban": {
+      livestream: "https://www.youtube.com/live/evx_gpXQqUE?si=yTnpStQew1Cdkbqf&t=1028",
+    },
+    "the-world": {
+      livestream: "",
+    },
+    "world-ACW": {
+      livestream: "https://www.youtube.com/live/evx_gpXQqUE?si=CYpdqp35xWQnsjZY&t=8913"
+    },
   },
 };
 
