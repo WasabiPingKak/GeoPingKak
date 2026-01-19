@@ -41,6 +41,7 @@ python scripts/copy_to_staging.py
 > - `daily_challenge` → `staging_daily_challenge`
 > - `special_maps` → `staging_special_maps`
 > - `geoguessr_map_index` → `staging_geoguessr_map_index`
+> - `video_explanations` → `staging_video_explanations`
 
 **未來更新 Staging 資料**：再次執行 `python scripts/copy_to_staging.py` 即可
 
@@ -130,9 +131,13 @@ GeoPingKak/
 │   │   ├── daily_challenge_reader.py
 │   │   ├── daily_challenge_writer.py
 │   │   ├── geoguessr_map_routes.py
-│   │   └── special_map_routes.py
-│   └── services/
-│       └── geoguessr_challenge.py
+│   │   ├── special_map_routes.py
+│   │   └── video_explanation_routes.py  # 影片說明 API
+│   ├── services/
+│   │   └── geoguessr_challenge.py
+│   └── scripts/
+│       ├── copy_to_staging.py        # Staging 資料複製
+│       └── migrate_video_data.py     # 影片資料遷移
 │
 ├── frontend/                         # Next.js App (Firebase Hosting)
 │   ├── app/
@@ -165,12 +170,12 @@ GeoPingKak/
 │   │   └── tutorial/                 # 教學相關元件 (coverage/, flags/, plate/)
 │   │
 │   ├── data/
-│   │   ├── glossary.ts
-│   │   └── videoExplanations.ts
+│   │   └── glossary.ts               # 靜態名詞解釋資料
 │   │
 │   ├── hooks/
-│   │   ├── useDailyChallengeData.ts
-│   │   └── useSpecialMapData.ts
+│   │   ├── useDailyChallengeData.ts  # 每日挑戰 API
+│   │   ├── useSpecialMapData.ts      # 特殊地圖 API
+│   │   └── useVideoExplanations.ts   # 影片說明 API
 │   │
 │   └── types/
 │       └── map-entry.ts

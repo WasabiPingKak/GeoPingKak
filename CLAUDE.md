@@ -20,11 +20,13 @@ GeoPingKak/
 │   │   ├── daily_challenge_reader.py
 │   │   ├── daily_challenge_writer.py
 │   │   ├── geoguessr_map_routes.py
-│   │   └── special_map_routes.py
+│   │   ├── special_map_routes.py
+│   │   └── video_explanation_routes.py # 影片說明 API
 │   ├── services/
 │   │   └── geoguessr_challenge.py
 │   └── scripts/
-│       └── copy_to_staging.py        # Firestore 資料複製腳本
+│       ├── copy_to_staging.py        # Firestore 資料複製腳本
+│       └── migrate_video_data.py     # 影片資料遷移腳本
 │
 ├── frontend/                         # Next.js App (Firebase Hosting)
 │   ├── .env.staging                  # Staging 環境變數
@@ -121,12 +123,12 @@ GeoPingKak/
 │   │           └── referenceData.ts
 │   │
 │   ├── data/
-│   │   ├── glossary.ts               # 名詞解釋資料
-│   │   └── videoExplanations.ts      # 影片說明資料
+│   │   └── glossary.ts               # 名詞解釋資料
 │   │
 │   ├── hooks/
 │   │   ├── useDailyChallengeData.ts  # 每日挑戰 API hook
-│   │   └── useSpecialMapData.ts      # 特殊地圖 API hook
+│   │   ├── useSpecialMapData.ts      # 特殊地圖 API hook
+│   │   └── useVideoExplanations.ts   # 影片說明 API hook
 │   │
 │   ├── types/
 │   │   └── map-entry.ts              # TypeScript 型別定義
@@ -198,6 +200,7 @@ Collections are automatically prefixed based on the `DEPLOY_ENV` environment var
 | `daily_challenge` | `staging_daily_challenge` |
 | `special_maps` | `staging_special_maps` |
 | `geoguessr_map_index` | `staging_geoguessr_map_index` |
+| `video_explanations` | `staging_video_explanations` |
 
 This is handled by `backend/config.py`:
 ```python
@@ -238,9 +241,9 @@ cd ../frontend
 - `app/layout.tsx` - Root layout with QueryProvider wrapper and RootShell for responsive sidebar
 - `components/layout/RootShell.tsx` - Client component handling responsive sidebar (mobile drawer vs desktop fixed)
 - `components/QueryProvider.tsx` - React Query client provider
-- `hooks/` - Custom hooks using `useQuery` for API data fetching (e.g., `useDailyChallengeData.ts`)
+- `hooks/` - Custom hooks using `useQuery` for API data fetching (e.g., `useDailyChallengeData.ts`, `useVideoExplanations.ts`)
 - `types/` - TypeScript interfaces for API responses
-- `data/` - Static data files (glossary, video explanations)
+- `data/` - Static data files (glossary)
 
 **Environment variables**:
 - `NEXT_PUBLIC_API_BASE` - Backend API endpoint URL
@@ -262,11 +265,13 @@ cd ../frontend
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
 - `special_map_routes.py` - Special themed maps
 - `geoguessr_map_routes.py` - GeoGuessr map integration
+- `video_explanation_routes.py` - Video explanations CRUD with Bearer token authentication
 
 **All route modules import and use `get_collection_name()` from `config.py` to ensure environment-aware collection access.**
 
 **Scripts** (`scripts/`):
 - `copy_to_staging.py` - One-time data migration script for staging environment initialization
+- `migrate_video_data.py` - Migrate video explanation data from static file to Firestore
 
 ### Data Flow
 

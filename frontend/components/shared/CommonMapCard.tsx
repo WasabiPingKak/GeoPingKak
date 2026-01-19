@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
-import VIDEO_EXPLANATIONS from "@/data/videoExplanations";
+import { useVideoExplanations } from "@/hooks/useVideoExplanations";
 import { AiFillYoutube } from "react-icons/ai";
 import { BsBroadcast } from "react-icons/bs";
 
@@ -21,6 +21,9 @@ export default function CommonMapCard({
   const mapId = entries[0].mapId;
   const metadata = metadataMap[mapId];
 
+  // 使用 hook 取得影片資料
+  const { data: videoExplanations } = useVideoExplanations();
+
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
@@ -28,7 +31,7 @@ export default function CommonMapCard({
     const map: Record<string, DailyChallengeEntry[]> = {};
     const filtered = onlyWithVideo
       ? entries.filter((e) => {
-        const videoData = VIDEO_EXPLANATIONS[e.createdAt]?.[e.mapId];
+        const videoData = videoExplanations?.[e.createdAt]?.[e.mapId];
         return videoData?.explanation || videoData?.livestream;
       })
       : entries;
@@ -40,7 +43,7 @@ export default function CommonMapCard({
     }
 
     return map;
-  }, [entries, onlyWithVideo]);
+  }, [entries, onlyWithVideo, videoExplanations]);
 
   const [openMonths, setOpenMonths] = useState<Record<string, boolean>>(() => {
     const state: Record<string, boolean> = {};
@@ -109,7 +112,7 @@ export default function CommonMapCard({
                   {entries
                     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
                     .map((entry) => {
-                      const videoData = VIDEO_EXPLANATIONS[entry.createdAt]?.[entry.mapId];
+                      const videoData = videoExplanations?.[entry.createdAt]?.[entry.mapId];
                       const explanationUrl = videoData?.explanation;
                       const livestreamUrl = videoData?.livestream;
 
