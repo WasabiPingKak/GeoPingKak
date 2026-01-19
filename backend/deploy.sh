@@ -75,7 +75,7 @@ gcloud run deploy "$SERVICE_NAME" \
   --allow-unauthenticated \
   $NO_TRAFFIC_FLAG \
   --set-env-vars "DEPLOY_ENV=$DEPLOY_ENV" \
-  --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest"
+  --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest,VIDEO_EXPLANATIONS_ADMIN_TOKEN=VIDEO_EXPLANATIONS_ADMIN_TOKEN:latest"
 
 if [ $? -ne 0 ]; then
   echo "❌ 部署失敗"
