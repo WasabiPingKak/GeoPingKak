@@ -1,3 +1,35 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GeoGuessr 台灣中文推廣站 | 免費每日挑戰、新手教學與地圖資源 - GeoPingKak",
+  description: "GeoPingKak 是台灣最完整的 GeoGuessr 中文資源站，提供免費每日挑戰連結、新手入門教學、特殊主題地圖推薦。無需登入、不用付費，立即開始你的地理探索之旅！",
+  openGraph: {
+    title: "GeoGuessr 台灣中文推廣站 | 免費玩、免登入 - GeoPingKak",
+    description: "提供 GeoGuessr 免費每日挑戰、完整中文教學、特殊地圖推薦。新手友善、無需付費，立即開始玩！",
+    url: "https://geopingkak.web.app/",
+    siteName: "GeoPingKak",
+    locale: "zh_TW",
+    type: "website",
+    images: [
+      {
+        url: "https://geopingkak.web.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GeoPingKak - GeoGuessr 台灣中文推廣站",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GeoGuessr 台灣中文推廣站 | 免費玩 - GeoPingKak",
+    description: "免費每日挑戰、新手教學、特殊地圖推薦。完全免登入，立即開始玩！",
+    images: ["https://geopingkak.web.app/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://geopingkak.web.app/",
+  },
+};
+
 export default function HomePage() {
   return (
     <div className="max-w-4xl">

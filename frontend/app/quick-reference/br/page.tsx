@@ -4,8 +4,33 @@ import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
 export const metadata = {
-  title: "巴西電話區碼速查表 | GeoPingKak",
-  description: "GeoGuessr 玩家速查筆記：巴西行政區區碼對照與首府整理。",
+  title: "巴西電話區碼速查表 | GeoGuessr 巴西辨識工具 - GeoPingKak",
+  description: "GeoGuessr 玩家必備！完整的巴西電話區碼對照表，透過路邊電話號碼快速判斷城市位置，提升巴西地圖答題準確度。",
+  openGraph: {
+    title: "巴西電話區碼速查表 | GeoGuessr 工具 - GeoPingKak",
+    description: "根據電話號碼快速辨識巴西城市位置的實用查詢工具",
+    type: "article",
+    url: "https://geopingkak.web.app/quick-reference/br",
+    siteName: "GeoPingKak",
+    locale: "zh_TW",
+    images: [
+      {
+        url: "https://geopingkak.web.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "巴西電話區碼速查表 - GeoPingKak",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "巴西電話區碼速查表 - GeoPingKak",
+    description: "GeoGuessr 巴西辨識必備工具",
+    images: ["https://geopingkak.web.app/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://geopingkak.web.app/quick-reference/br",
+  },
 };
 
 export default function BrazilQuickReferencePage() {

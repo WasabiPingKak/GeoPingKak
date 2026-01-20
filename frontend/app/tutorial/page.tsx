@@ -1,54 +1,53 @@
-// app/tutorial/page.tsx
+// app/tutorial/page.tsx (Server Component)
 
-"use client";
+import Script from "next/script";
+import { generateMetadata } from "./metadata";
+import ClientPage from "./client";
 
-import React, { useState } from "react";
-import CommonTabs from "@/components/shared/CommonTabs";
-import TabStreetCoverage from "@/components/tutorial/TabStreetCoverage";
-import TabFlagDomain from "@/components/tutorial/TabFlagDomain";
-import TabLicensePlates from "@/components/tutorial/TabLicensePlates";
-import TabDrivingSide from "@/components/tutorial/TabDrivingSide";
-import TabLanguages from "@/components/tutorial/TabLanguages";
-import TabSunPosition from "@/components/tutorial/TabSunPosition";
-import TabIntro from "@/components/tutorial/TabIntro";
+export { generateMetadata };
 
-const TABS = [
-  "前言",
-  "街景覆蓋國家",
-  "國旗/網域",
-  "道路通行方向",
-  "太陽",
-  "車牌",
-  // "語言",
-];
-
-export default function TutorialPage() {
-  const [selectedTab, setSelectedTab] = useState(TABS[0]);
-
+export default function Page() {
   return (
-    <div className="w-full px-4 md:px-6 lg:px-8">
-      <h1 className="text-2xl font-bold mb-6">入門教學</h1>
-      <p className="mb-6">
-        GeoGuessr 是一款結合觀察與推理的地理解謎遊戲，但多數教學僅著重在國家的細節辨識。<br />
-        但初學者需要先學會從一些通用的地理觀念切入，快速縮小範圍。<br />
-        本教學將從「如何觀察世界」的角度出發，由六個基本原則出發，建立你的推理邏輯，而不是只靠死背。
-      </p>
+    <>
+      {/* HowTo 結構化資料 */}
+      <Script id="tutorial-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "GeoGuessr 新手入門攻略 - 六大辨識原則",
+          "description": "教你如何透過街景覆蓋、車牌、國旗、道路方向、太陽位置等六大原則，快速辨識 GeoGuessr 中的國家位置",
+          "inLanguage": "zh-TW",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "了解街景覆蓋國家",
+              "text": "全球只有約 100 個國家有 Google 街景，掌握這個範圍就能快速縮小可能性"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "辨識國旗與網域",
+              "text": "觀察路邊標誌、廣告、網址中的國旗和網域後綴"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "識別車牌特徵",
+              "text": "不同國家的車牌顏色、形狀、文字有明顯差異"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "觀察道路通行方向",
+              "text": "靠左行駛的國家相對少數，是重要的判斷依據"
+            },
+            {
+              "@type": "HowToStep",
+              "name": "判斷太陽位置",
+              "text": "太陽方位可以判斷南北半球與緯度範圍"
+            }
+          ]
+        })}
+      </Script>
 
-      <CommonTabs
-        options={TABS}
-        selected={selectedTab}
-        onSelect={setSelectedTab}
-      />
-
-      <div className="mt-8">
-        {selectedTab === "前言" && <TabIntro />}
-        {selectedTab === "街景覆蓋國家" && <TabStreetCoverage />}
-        {selectedTab === "國旗/網域" && <TabFlagDomain />}
-        {selectedTab === "車牌" && <TabLicensePlates />}
-        {selectedTab === "道路通行方向" && <TabDrivingSide />}
-        {selectedTab === "語言" && <TabLanguages />}
-        {selectedTab === "太陽" && <TabSunPosition />}
-      </div>
-    </div>
+      <ClientPage />
+    </>
   );
 }

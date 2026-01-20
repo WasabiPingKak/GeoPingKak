@@ -4,9 +4,33 @@ import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
 export const metadata = {
-  title: "印尼文地名速查表 | GeoPingKak",
-  description:
-    "GeoGuessr 玩家專用印尼文速查表，幫助快速辨識地名、行政區與方向詞彙，適合比賽與練習使用。",
+  title: "印尼文地名速查表 | GeoGuessr 印尼辨識工具 - GeoPingKak",
+  description: "GeoGuessr 印尼地圖專用！常見印尼文地名、行政區劃對照表，透過路牌文字快速判斷位置，提升印尼答題正確率。",
+  openGraph: {
+    title: "印尼文地名速查表 | GeoGuessr 工具 - GeoPingKak",
+    description: "快速辨識印尼地名的實用查詢工具",
+    type: "article",
+    url: "https://geopingkak.web.app/quick-reference/id",
+    siteName: "GeoPingKak",
+    locale: "zh_TW",
+    images: [
+      {
+        url: "https://geopingkak.web.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "印尼文地名速查表 - GeoPingKak",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "印尼文地名速查表 - GeoPingKak",
+    description: "GeoGuessr 印尼辨識必備工具",
+    images: ["https://geopingkak.web.app/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://geopingkak.web.app/quick-reference/id",
+  },
 };
 
 export default function IndonesiaQuickReferencePage() {

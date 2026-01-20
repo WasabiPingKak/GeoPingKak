@@ -35,6 +35,8 @@ GeoPingKak/
 │   ├── app/
 │   │   ├── layout.tsx                # 根佈局 (QueryProvider + RootShell)
 │   │   ├── page.tsx                  # 首頁
+│   │   ├── sitemap.ts                # 動態 sitemap 生成
+│   │   ├── robots.ts                 # robots.txt 生成
 │   │   ├── globals.css
 │   │   ├── community-maps/
 │   │   │   └── page.tsx
@@ -51,6 +53,7 @@ GeoPingKak/
 │   │   │   └── page.tsx
 │   │   ├── quick-reference/
 │   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx              # 速查筆記索引頁
 │   │   │   ├── br/page.tsx
 │   │   │   └── id/page.tsx
 │   │   ├── recommend_settings/
@@ -60,9 +63,13 @@ GeoPingKak/
 │   │   ├── source/
 │   │   │   └── page.tsx
 │   │   ├── special-maps/
-│   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── client.tsx
+│   │   │   └── metadata.ts
 │   │   └── tutorial/
-│   │       └── page.tsx
+│   │       ├── page.tsx
+│   │       ├── client.tsx
+│   │       └── metadata.ts
 │   │
 │   ├── components/
 │   │   ├── QueryProvider.tsx         # React Query Provider
@@ -250,6 +257,23 @@ cd ../frontend
 - Configured in `.env.staging` and `.env.production`
 - Automatically updated by backend `deploy.sh` after Cloud Run deployment
 - Build process uses `.env.production.local` (temporary, git-ignored) to override during staging builds
+
+**SEO Optimization**:
+- **sitemap.ts**: Auto-generates sitemap.xml with all pages, daily updates for `/daily-challenge`
+- **robots.ts**: Configures crawling rules, disallows `/show-proposals` (internal use)
+- **Metadata Pattern**: Pages use separate `metadata.ts` files for SEO metadata (title, description, OG, Twitter Card, canonical URL)
+- **Server/Client Split**: Pages requiring client-side state (hooks) are split into:
+  - `page.tsx` (Server Component) - exports metadata, renders JSON-LD schema
+  - `client.tsx` (Client Component) - contains interactive logic
+  - `metadata.ts` - metadata configuration
+- **JSON-LD Structured Data**:
+  - Root layout: WebSite schema
+  - `/tutorial`: HowTo schema (6 steps)
+  - `/special-maps`: ItemList schema
+  - `/glossary`: DefinedTermSet schema
+  - `/qna`: FAQPage schema
+- **All pages have canonical URLs** to prevent duplicate content issues
+- **Refer to `SEO_OPTIMIZATION_PRD.md`** for complete SEO strategy and keyword targeting
 
 ### Backend (`backend/`)
 
