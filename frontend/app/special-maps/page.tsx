@@ -1,53 +1,26 @@
-"use client";
+// app/special-maps/page.tsx (Server Component)
 
-import React, { useEffect, useState } from "react";
-import CommonTabs from "@/components/shared/CommonTabs";
-import SpecialCategoryDescription from "@/components/special-maps/SpecialCategoryDescription";
-import SpecialMapList from "@/components/special-maps/SpecialMapList";
-import { SPECIAL_MAP_TITLES } from "@/components/special-maps/specialMapTitles";
-import { useSpecialMapData } from "@/hooks/useSpecialMapData";
+import Script from "next/script";
+import { generateMetadata } from "./metadata";
+import ClientPage from "./client";
 
-export default function SpecialMapsPage() {
-  const { data: entries = [], isLoading, isError } = useSpecialMapData();
-  const categories = Array.from(new Set(entries.map((e) => e.country)));
-  const [selectedCategory, setSelectedCategory] = useState("");
+export { generateMetadata };
 
-  useEffect(() => {
-    if (categories.length > 0 && !selectedCategory) {
-      setSelectedCategory(categories[0]);
-    }
-  }, [categories, selectedCategory]);
-
-  const filteredEntries = entries.filter((e) => e.country === selectedCategory);
-
+export default function Page() {
   return (
-    <div className="max-w-4xl">
-      <h1 className="text-3xl font-bold mb-4">🧭 特殊主題地圖</h1>
-      <div className="mb-6 text-muted-foreground">
-        由我親自手選的特別題庫，規則與每日題目相同，每一個連結都是固定的五題。<br />
-        如果你走到迷路了，直接按下鍵盤的 <kbd className="px-2 py-0.5 bg-zinc-700 text-white rounded">R</kbd> 可以回到出發點，在這個模式會特別有用。
-      </div>
+    <>
+      {/* ItemList 結構化資料 */}
+      <Script id="special-maps-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "GeoGuessr 特殊主題地圖推薦",
+          "description": "精選的 GeoGuessr 主題挑戰地圖集合，包含各國特色場景與趣味題庫",
+          "inLanguage": "zh-TW",
+        })}
+      </Script>
 
-      {isLoading ? (
-        <p className="text-muted-foreground">載入中…</p>
-      ) : isError ? (
-        <p className="text-destructive">無法載入資料，請稍後再試。</p>
-      ) : (
-        <>
-          <CommonTabs
-            options={categories}
-            selected={selectedCategory}
-            onSelect={setSelectedCategory}
-          />
-
-          <SpecialCategoryDescription category={selectedCategory} />
-
-          <SpecialMapList
-            entries={filteredEntries}
-            metadataMap={SPECIAL_MAP_TITLES}
-          />
-        </>
-      )}
-    </div>
+      <ClientPage />
+    </>
   );
 }

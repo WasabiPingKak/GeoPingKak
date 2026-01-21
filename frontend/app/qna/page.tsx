@@ -3,11 +3,14 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 export const generateMetadata = (): Metadata => ({
-  title: "GeoGuessr 常見問題 Q&A | GeoPingKak 免費中文挑戰教學站",
+  title: "GeoGuessr 常見問題 FAQ | 新手疑難解答 - GeoPingKak",
   description:
     "這裡整理了 GeoGuessr 免費玩法（geoguessr free）、每日挑戰連結（geoguessr challenge）、Pro 訂閱差異與台灣地圖攻略，幫助中文玩家快速上手。",
+  alternates: {
+    canonical: "https://geopingkak.web.app/qna",
+  },
   openGraph: {
-    title: "GeoGuessr 常見問題 Q&A | GeoPingKak",
+    title: "GeoGuessr 常見問題 FAQ | 新手疑難解答 - GeoPingKak",
     description:
       "你是否在找 geoguessr free、geoguessr challenge 或中文教學？這一頁完整整理 GeoGuessr 免費遊玩方法與常見問題。",
     url: "https://geopingkak.web.app/qna",
@@ -25,7 +28,7 @@ export const generateMetadata = (): Metadata => ({
   },
   twitter: {
     card: "summary_large_image",
-    title: "GeoGuessr 免費玩法與常見問題 | GeoPingKak",
+    title: "GeoGuessr 免費玩法與常見問題 FAQ - GeoPingKak",
     description:
       "快速了解 GeoGuessr 免費挑戰、Pro 功能差異與台灣地圖推薦，幫助你輕鬆入門這款地理益智遊戲。",
     images: ["https://geopingkak.web.app/og-image.png"],

@@ -1,5 +1,15 @@
 // app/recommend_settings/page.tsx
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GeoGuessr 推薦設定 | 遊戲設定優化建議 - GeoPingKak",
+  description: "GeoGuessr 遊戲設定優化指南，包含畫面、控制、輔助功能等推薦配置，提升遊戲體驗與答題效率。",
+  alternates: {
+    canonical: "https://geopingkak.web.app/recommend_settings",
+  },
+};
+
 export default function RecommendSettingsPage() {
   return (
     <div className="max-w-4xl p-4">

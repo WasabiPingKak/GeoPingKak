@@ -1,4 +1,13 @@
 import React from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "GeoGuessr 進階學習資源 | 外部教學與工具推薦 - GeoPingKak",
+  description: "精選 GeoGuessr 進階學習資源，包含國外優質教學影片、實用工具網站、社群資源推薦，幫助你從新手晉升高手。",
+  alternates: {
+    canonical: "https://geopingkak.web.app/source",
+  },
+};
 
 export default function SourcePage() {
   const sources = [
