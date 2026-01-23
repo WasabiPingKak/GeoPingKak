@@ -6,7 +6,7 @@ import TutorialPrevNext from "@/components/tutorial/TutorialPrevNext";
 export default function IntroClient() {
   return (
     <>
-      <h1 className="text-2xl font-bold mb-6">前言</h1>
+      <h2 className="text-xl font-bold mb-6">前言</h2>
       <TabIntro />
       <TutorialPrevNext />
     </>
