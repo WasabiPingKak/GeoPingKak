@@ -1,54 +1,41 @@
-// app/tutorial/client.tsx
-
 "use client";
 
-import React, { useState } from "react";
-import CommonTabs from "@/components/shared/CommonTabs";
-import TabStreetCoverage from "@/components/tutorial/TabStreetCoverage";
-import TabFlagDomain from "@/components/tutorial/TabFlagDomain";
-import TabLicensePlates from "@/components/tutorial/TabLicensePlates";
-import TabDrivingSide from "@/components/tutorial/TabDrivingSide";
-import TabLanguages from "@/components/tutorial/TabLanguages";
-import TabSunPosition from "@/components/tutorial/TabSunPosition";
-import TabIntro from "@/components/tutorial/TabIntro";
+import Link from "next/link";
+import { TUTORIAL_SECTIONS } from "@/components/tutorial/tutorialSections";
 
-const TABS = [
-  "前言",
-  "街景覆蓋國家",
-  "國旗/網域",
-  "道路通行方向",
-  "太陽",
-  "車牌",
-  // "語言",
-];
-
-export default function TutorialClientPage() {
-  const [selectedTab, setSelectedTab] = useState(TABS[0]);
-
+export default function TutorialLandingClient() {
   return (
-    <div className="w-full px-4 md:px-6 lg:px-8">
-      <h1 className="text-2xl font-bold mb-6">入門教學</h1>
-      <p className="mb-6">
+    <>
+      <h1 className="text-2xl font-bold mb-4">入門教學</h1>
+      <p className="text-muted-foreground mb-8">
         GeoGuessr 是一款結合觀察與推理的地理解謎遊戲，但多數教學僅著重在國家的細節辨識。<br />
-        但初學者需要先學會從一些通用的地理觀念切入，快速縮小範圍。<br />
+        初學者需要先學會從一些通用的地理觀念切入，快速縮小範圍。<br />
         本教學將從「如何觀察世界」的角度出發，由六個基本原則出發，建立你的推理邏輯，而不是只靠死背。
       </p>
 
-      <CommonTabs
-        options={TABS}
-        selected={selectedTab}
-        onSelect={setSelectedTab}
-      />
-
-      <div className="mt-8">
-        {selectedTab === "前言" && <TabIntro />}
-        {selectedTab === "街景覆蓋國家" && <TabStreetCoverage />}
-        {selectedTab === "國旗/網域" && <TabFlagDomain />}
-        {selectedTab === "車牌" && <TabLicensePlates />}
-        {selectedTab === "道路通行方向" && <TabDrivingSide />}
-        {selectedTab === "語言" && <TabLanguages />}
-        {selectedTab === "太陽" && <TabSunPosition />}
+      <div className="grid gap-4 sm:grid-cols-2">
+        {TUTORIAL_SECTIONS.map((section, index) => (
+          <Link
+            key={section.slug}
+            href={`/tutorial/${section.slug}`}
+            className="block p-5 rounded-xl border border-zinc-700 bg-zinc-800/50 hover:border-blue-500/50 hover:bg-zinc-800 transition-all group"
+          >
+            <div className="flex items-start gap-3">
+              <span className="text-2xl font-bold text-zinc-600 group-hover:text-blue-500 transition-colors">
+                {index + 1}
+              </span>
+              <div>
+                <h2 className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors">
+                  {section.title}
+                </h2>
+                <p className="text-sm text-zinc-400 mt-1">
+                  {section.description}
+                </p>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
-    </div>
+    </>
   );
 }

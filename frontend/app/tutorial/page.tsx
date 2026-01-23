@@ -1,53 +1,37 @@
-// app/tutorial/page.tsx (Server Component)
-
 import Script from "next/script";
 import { generateMetadata } from "./metadata";
-import ClientPage from "./client";
+import TutorialLandingClient from "./client";
 
 export { generateMetadata };
+
+const SECTIONS = [
+  { slug: "intro", name: "前言", url: "https://geopingkak.web.app/tutorial/intro" },
+  { slug: "street-coverage", name: "街景覆蓋國家", url: "https://geopingkak.web.app/tutorial/street-coverage" },
+  { slug: "flags-domains", name: "國旗/網域", url: "https://geopingkak.web.app/tutorial/flags-domains" },
+  { slug: "driving-side", name: "道路通行方向", url: "https://geopingkak.web.app/tutorial/driving-side" },
+  { slug: "sun-position", name: "太陽位置", url: "https://geopingkak.web.app/tutorial/sun-position" },
+  { slug: "license-plates", name: "車牌辨識", url: "https://geopingkak.web.app/tutorial/license-plates" },
+];
 
 export default function Page() {
   return (
     <>
-      {/* HowTo 結構化資料 */}
       <Script id="tutorial-ld-json" type="application/ld+json" strategy="afterInteractive">
         {JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "HowTo",
-          "name": "GeoGuessr 新手入門攻略 - 六大辨識原則",
-          "description": "教你如何透過街景覆蓋、車牌、國旗、道路方向、太陽位置等六大原則，快速辨識 GeoGuessr 中的國家位置",
-          "inLanguage": "zh-TW",
-          "step": [
-            {
-              "@type": "HowToStep",
-              "name": "了解街景覆蓋國家",
-              "text": "全球只有約 100 個國家有 Google 街景，掌握這個範圍就能快速縮小可能性"
-            },
-            {
-              "@type": "HowToStep",
-              "name": "辨識國旗與網域",
-              "text": "觀察路邊標誌、廣告、網址中的國旗和網域後綴"
-            },
-            {
-              "@type": "HowToStep",
-              "name": "識別車牌特徵",
-              "text": "不同國家的車牌顏色、形狀、文字有明顯差異"
-            },
-            {
-              "@type": "HowToStep",
-              "name": "觀察道路通行方向",
-              "text": "靠左行駛的國家相對少數，是重要的判斷依據"
-            },
-            {
-              "@type": "HowToStep",
-              "name": "判斷太陽位置",
-              "text": "太陽方位可以判斷南北半球與緯度範圍"
-            }
-          ]
+          "@type": "ItemList",
+          "name": "GeoGuessr 入門教學章節",
+          "description": "六大基本原則教你快速辨識 GeoGuessr 中的國家位置",
+          "numberOfItems": SECTIONS.length,
+          "itemListElement": SECTIONS.map((section, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "name": section.name,
+            "url": section.url,
+          })),
         })}
       </Script>
-
-      <ClientPage />
+      <TutorialLandingClient />
     </>
   );
 }
