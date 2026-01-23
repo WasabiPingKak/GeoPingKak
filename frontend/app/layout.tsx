@@ -7,6 +7,9 @@ import RootShell from "@/components/layout/RootShell";
 export const metadata = {
   title: "GeoPingKak | GeoGuessr 免費中文地圖遊戲推廣站",
   description: "推廣 GeoGuessr 的中文玩家網站，提供免費每日挑戰、教學與遊戲企劃資源 ",
+  icons: {
+    icon: "/logo.png",
+  },
   alternates: {
     canonical: "https://geopingkak.web.app/",
   },

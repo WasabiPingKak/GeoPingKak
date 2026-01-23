@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 
@@ -40,7 +41,16 @@ export default function SidebarMenu({ isMobile = false, onClickLink }: SidebarMe
     >
       {/* 上方導覽 */}
       <div>
-        <h1 className="text-xl font-bold mb-6">GeoPingKak</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <Image
+            src="/logo.png"
+            alt="GeoPingKak Logo"
+            width={48}
+            height={48}
+            className="rounded-lg"
+          />
+          <h1 className="text-xl font-bold">GeoPingKak</h1>
+        </div>
         <nav className="space-y-2">
           {navItems.map((item, index) =>
             "divider" in item ? (

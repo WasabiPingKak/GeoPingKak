@@ -34,6 +34,7 @@ GeoPingKak/
 │   ├── deploy.sh                     # Firebase Hosting 部署腳本（支援環境參數）
 │   ├── app/
 │   │   ├── layout.tsx                # 根佈局 (QueryProvider + RootShell)
+│   │   ├── icon.png                  # 網站 favicon（自動識別）
 │   │   ├── page.tsx                  # 首頁
 │   │   ├── sitemap.ts                # 動態 sitemap 生成
 │   │   ├── robots.ts                 # robots.txt 生成
@@ -141,6 +142,8 @@ GeoPingKak/
 │   │   └── map-entry.ts              # TypeScript 型別定義
 │   │
 │   ├── public/
+│   │   ├── logo.png                  # 網站 Logo（用於側邊欄）
+│   │   ├── og-image.png              # Open Graph 預覽圖
 │   │   └── data/
 │   │       └── countries.json
 │   │
@@ -246,11 +249,18 @@ cd ../frontend
 
 **Key patterns**:
 - `app/layout.tsx` - Root layout with QueryProvider wrapper and RootShell for responsive sidebar
+- `app/icon.png` - Favicon automatically recognized by Next.js (displays in browser tabs and search results)
 - `components/layout/RootShell.tsx` - Client component handling responsive sidebar (mobile drawer vs desktop fixed)
+- `components/SidebarMenu.tsx` - Sidebar navigation with logo display at the top
 - `components/QueryProvider.tsx` - React Query client provider
 - `hooks/` - Custom hooks using `useQuery` for API data fetching (e.g., `useDailyChallengeData.ts`, `useVideoExplanations.ts`)
 - `types/` - TypeScript interfaces for API responses
 - `data/` - Static data files (glossary)
+
+**Branding Assets**:
+- `public/logo.png` - Main website logo (GeoPingKak duck icon), displayed in sidebar header
+- `app/icon.png` - Favicon version (same image, auto-detected by Next.js for browser tabs)
+- Logo features the iconic duck character representing the brand identity
 
 **Environment variables**:
 - `NEXT_PUBLIC_API_BASE` - Backend API endpoint URL
