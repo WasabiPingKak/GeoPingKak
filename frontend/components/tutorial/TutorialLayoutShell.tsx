@@ -1,18 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import TutorialNav from "./TutorialNav";
 import TutorialMobileNav from "./TutorialMobileNav";
 import TutorialBreadcrumb from "./TutorialBreadcrumb";
 
 export default function TutorialLayoutShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const isLandingPage = pathname === "/tutorial";
-
-  if (isLandingPage) {
-    return <>{children}</>;
-  }
-
   return (
     <>
       <TutorialBreadcrumb />
