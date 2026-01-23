@@ -63,8 +63,8 @@ export default function SidebarMenu({ isMobile = false, onClickLink }: SidebarMe
                 className={clsx(
                   "block px-4 py-2 rounded-lg transition",
                   {
-                    "bg-zinc-700 font-semibold": pathname === item.href,
-                    "hover:bg-zinc-700": pathname !== item.href,
+                    "bg-zinc-700 font-semibold": pathname === item.href || (item.href === '/tutorial' && pathname.startsWith('/tutorial/')),
+                    "hover:bg-zinc-700": pathname !== item.href && !(item.href === '/tutorial' && pathname.startsWith('/tutorial/')),
                     "bg-green-900/80 border border-green-700 text-green-300 hover:bg-green-800/80": item.href === '/daily-challenge',
                   }
                 )}

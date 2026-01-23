@@ -7,6 +7,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/daily-challenge',
     '/tutorial',
+    '/tutorial/intro',
+    '/tutorial/street-coverage',
+    '/tutorial/flags-domains',
+    '/tutorial/driving-side',
+    '/tutorial/sun-position',
+    '/tutorial/license-plates',
     '/special-maps',
     '/glossary',
     '/qna',
@@ -21,6 +27,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: route === '/daily-challenge' ? 'daily' : 'weekly',
-    priority: route === '' ? 1.0 : route === '/tutorial' ? 0.9 : 0.8,
+    priority: route === '' ? 1.0 : route.startsWith('/tutorial') ? 0.9 : 0.8,
   }));
 }
