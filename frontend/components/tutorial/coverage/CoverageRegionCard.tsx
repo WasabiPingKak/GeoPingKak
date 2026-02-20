@@ -1,4 +1,6 @@
 import React from "react";
+import CoverageMap from "./CoverageMap";
+import { REGION_CONFIGS, type RegionKey } from "@/data/coverageData";
 
 interface CoverageSection {
   type: "full" | "limited" | "none";
@@ -10,7 +12,7 @@ interface CoverageRegionCardProps {
   title: string;
   sections: CoverageSection[];
   notes?: React.ReactNode;
-  imgSrc?: string;
+  regionKey?: RegionKey;
 }
 
 const styleMap: Record<CoverageSection["type"], string> = {
@@ -23,24 +25,20 @@ export default function CoverageRegionCard({
   title,
   sections,
   notes,
-  imgSrc,
+  regionKey,
 }: CoverageRegionCardProps) {
   const isHorizontalLayout = title === "非洲";
 
   return (
     <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4">
-      <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
+      <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
 
-      {/* 非洲為左右排版，其餘為圖片在上 */}
-      {imgSrc &&
+      {/* 非洲為左右排版，其餘為地圖在上 */}
+      {regionKey &&
         (isHorizontalLayout ? (
           <div className="flex flex-col md:flex-row gap-4 mb-4">
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src={imgSrc}
-                alt={`${title} 示意圖`}
-                className="rounded-lg border border-zinc-700 shadow-md h-[600px] object-contain"
-              />
+            <div className="w-full md:w-1/2">
+              <CoverageMap config={REGION_CONFIGS[regionKey]} height={500} />
             </div>
             <div className="w-full md:w-1/2">
               {sections.map((section, idx) => (
@@ -63,12 +61,8 @@ export default function CoverageRegionCard({
             </div>
           </div>
         ) : (
-          <div className="mb-4 flex justify-center">
-            <img
-              src={imgSrc}
-              alt={`${title} 示意圖`}
-              className="rounded-lg border border-zinc-700 shadow-md max-w-full h-[300px] object-contain"
-            />
+          <div className="mb-2">
+            <CoverageMap config={REGION_CONFIGS[regionKey]} />
           </div>
         ))}
 
