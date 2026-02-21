@@ -1,4 +1,6 @@
 import React from "react";
+import CoverageMap from "@/components/tutorial/coverage/CoverageMap";
+import { REGION_CONFIGS } from "@/data/coverageData";
 import AsiaCoverageBlock from "@/components/tutorial/coverage/AsiaCoverageBlock";
 import EuropeCoverageBlock from "@/components/tutorial/coverage/EuropeCoverageBlock";
 import NorthAmericaCoverageBlock from "@/components/tutorial/coverage/NorthAmericaCoverageBlock";
@@ -10,8 +12,6 @@ import AfricaCoverageBlock from "@/components/tutorial/coverage/AfricaCoverageBl
 export default function TabStreetCoverage() {
   return (
     <div className="text-muted-foreground text-base leading-relaxed space-y-4">
-      <h2 className="text-xl font-bold text-white mb-4">街景覆蓋國家</h2>
-
       <p>
         GeoGuessr 的遊戲資料來自 Google Street View，因此知道街景的涵蓋國家對判斷地點非常重要。<br />
         了解哪些地區有街景、哪些地區完全沒有收錄，可以在一開始就快速排除不可能的國家。
@@ -37,13 +37,9 @@ export default function TabStreetCoverage() {
           這個網頁
         </a>。
       </p>
-      <div className="flex flex-col items-center space-y-2">
-        <img
-          src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/Coverage.jpg?v=20250808"
-          alt="街景覆蓋地圖"
-          className="rounded-lg border border-zinc-700 shadow-md max-w-full"
-        />
-        <p className="text-xs text-muted-foreground">
+      <div className="space-y-2">
+        <CoverageMap config={REGION_CONFIGS.world} height={450} />
+        <p className="text-xs text-muted-foreground text-center">
           資料來源：{" "}
           <a
             href="https://geohints.com/meta/countries"
@@ -57,16 +53,15 @@ export default function TabStreetCoverage() {
       </div>
 
       <p>
-        這張圖中，<span className="text-red-400 font-medium">紅色</span>的國家是有完整的官方街景覆蓋。<br />
+        這張地圖中，<span className="font-bold" style={{ color: "#1d7374" }}>深青綠色</span>的國家是有完整的官方街景覆蓋。<br />
       </p>
       <p>
-        <span className="text-gray-400 font-medium">灰色</span>代表完全沒有官方街景，
+        <span className="text-gray-400 font-bold">灰色</span>代表完全沒有官方街景，
         在 GeoGuessr 中，你可以當作這個國家不存在。
       </p>
 
       <p>
-        <span className="text-blue-400 font-medium">藍色</span>與
-        <span className="text-pink-400 font-medium">粉紅色</span>的國家則是「有限街景覆蓋」。
+        <span className="font-bold" style={{ color: "#39e5e5" }}>亮青色</span>的國家則是「有限街景覆蓋」。
         通常只有首都的一小部分，或是世界文化遺產等景點，並非全境都有街景。
       </p>
 

@@ -27,8 +27,11 @@ export interface RegionConfig {
   titleTw: string;
   center: [number, number];
   scale: number;
+  height?: number;           // SVG 畫布高度（px），控制長寬比。預設 350，對應 800:350 ≈ 2.3:1 橫向
   countries: CoverageCountry[];
   smallNations: SmallNationMarker[];
+  // TopoJSON 中無 numeric ID 的地區（如 Kosovo、N. Cyprus、Somaliland），以名稱做匹配
+  nameMap?: Record<string, { nameTw: string; status: CoverageStatus; note?: string }>;
 }
 
 // 配色
@@ -98,19 +101,21 @@ const asiaCountries: CoverageCountry[] = [
   { id: "682", nameTw: "沙烏地阿拉伯", status: "none" },
   { id: "414", nameTw: "科威特", status: "none" },
   { id: "368", nameTw: "伊拉克", status: "limited", note: "僅巴格達國家博物館中庭與室內" },
-  { id: "364", nameTw: "伊朗", status: "full" },
+  { id: "364", nameTw: "伊朗", status: "none" },
   { id: "760", nameTw: "敘利亞", status: "none" },
   { id: "887", nameTw: "葉門", status: "none" },
   { id: "275", nameTw: "巴勒斯坦", status: "full" },
   // 高加索
-  { id: "268", nameTw: "喬治亞", status: "full" },
-  { id: "051", nameTw: "亞美尼亞", status: "full" },
-  { id: "031", nameTw: "亞塞拜然", status: "full" },
+  { id: "268", nameTw: "喬治亞", status: "none" },
+  { id: "051", nameTw: "亞美尼亞", status: "none" },
+  { id: "031", nameTw: "亞塞拜然", status: "none" },
 ];
 
 const asiaSmallNations: SmallNationMarker[] = [
   { id: "096", nameTw: "汶萊", status: "none", coordinates: [114.9, 4.9] },
   { id: "702", nameTw: "新加坡", status: "full", coordinates: [103.8, 1.35] },
+  { id: "344", nameTw: "香港", status: "full", coordinates: [114.2, 22.35] },
+  { id: "446", nameTw: "澳門", status: "full", coordinates: [113.5, 22.2] },
 ];
 
 // ----- 歐洲 -----
@@ -235,6 +240,7 @@ const oceaniaCountries: CoverageCountry[] = [
 const oceaniaSmallNations: SmallNationMarker[] = [
   { id: "580", nameTw: "北馬利安那群島", status: "full", coordinates: [145.7, 15.2] },
   { id: "316", nameTw: "關島", status: "full", coordinates: [144.8, 13.4] },
+  { id: "016", nameTw: "美屬薩摩亞", status: "full", coordinates: [-170.7, -14.3] },
   { id: "548", nameTw: "萬那杜", status: "limited", coordinates: [168.3, -17.7], note: "僅少數自然景觀處，幾乎不會遇到" },
   { id: "162", nameTw: "聖誕島", status: "full", coordinates: [105.7, -10.5] },
   { id: "166", nameTw: "科科斯群島", status: "full", coordinates: [96.8, -12.2] },
@@ -340,30 +346,46 @@ export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
     titleTw: "全球街景覆蓋",
     center: [0, 20],
     scale: 147,
+    height: 420,             // 800:420 ≈ 1.9:1 — 全球視圖稍高一點以容納南北兩極
     countries: allCountries,
     smallNations: allSmallNations,
+    nameMap: {
+      "Kosovo": { nameTw: "科索沃", status: "none" },
+      "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
+      "Somaliland": { nameTw: "索馬利蘭", status: "none" },
+    },
   },
   asia: {
     key: "asia",
     titleTw: "亞洲",
-    center: [80, 28],
-    scale: 450,
+    center: [90, 30],
+    scale: 420,
+    height: 350,             // 800:350 ≈ 2.3:1 — 橫向，覆蓋東亞到中東
     countries: asiaCountries,
     smallNations: asiaSmallNations,
+    nameMap: {
+      "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
+    },
   },
   europe: {
     key: "europe",
     titleTw: "歐洲",
     center: [15, 54],
     scale: 750,
+    height: 400,             // 800:400 = 2:1 — 歐洲東西向較寬，稍高一點以包含北歐
     countries: europeCountries,
     smallNations: europeSmallNations,
+    nameMap: {
+      "Kosovo": { nameTw: "科索沃", status: "none" },
+      "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
+    },
   },
   northAmerica: {
     key: "northAmerica",
     titleTw: "北美洲大陸",
     center: [-100, 30],
     scale: 450,
+    height: 420,             // 800:420 ≈ 1.9:1 — 加拿大縱深大，稍高以容納北部
     countries: northAmericaCountries,
     smallNations: northAmericaSmallNations,
   },
@@ -372,6 +394,7 @@ export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
     titleTw: "南美洲大陸",
     center: [-58, -20],
     scale: 500,
+    height: 500,             // 800:500 = 1.6:1 — 南美洲南北縱深深，偏正方形
     countries: southAmericaCountries,
     smallNations: southAmericaSmallNations,
   },
@@ -380,6 +403,7 @@ export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
     titleTw: "加勒比海島國",
     center: [-72, 18],
     scale: 1500,
+    height: 300,             // 800:300 ≈ 2.7:1 — 加勒比海島群橫向分布，寬扁
     countries: caribbeanCountries,
     smallNations: caribbeanSmallNations,
   },
@@ -388,6 +412,7 @@ export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
     titleTw: "大洋洲",
     center: [148, -22],
     scale: 500,
+    height: 340,             // 800:340 ≈ 2.35:1 — 大洋洲橫向分布
     countries: oceaniaCountries,
     smallNations: oceaniaSmallNations,
   },
@@ -396,7 +421,11 @@ export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
     titleTw: "非洲",
     center: [20, 3],
     scale: 450,
+    height: 560,             // 800:560 ≈ 1.43:1 — 非洲縱向深，接近直向
     countries: africaCountries,
     smallNations: africaSmallNations,
+    nameMap: {
+      "Somaliland": { nameTw: "索馬利蘭", status: "none" },
+    },
   },
 };
