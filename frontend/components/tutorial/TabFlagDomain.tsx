@@ -46,8 +46,6 @@ export default function TabFlagDomain() {
 
   return (
     <div className="text-muted-foreground text-base leading-relaxed space-y-4">
-      <h2 className="text-xl font-bold text-white mb-4">國旗 / 網域</h2>
-
       <p>
         國旗和網址網域是 GeoGuessr 中最直觀的線索之一。許多政府機關、學校或公共建築都會掛上國旗，若能辨認出該國國旗，可以有效判斷所在國家。
       </p>
