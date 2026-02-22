@@ -22,7 +22,7 @@ export default function AfricaCoverageBlock() {
         {
           type: "full",
           title: "西非：",
-          items: ["塞內加爾", "迦納", "奈及利亞"],
+          items: ["塞內加爾", "迦納", "奈及利亞", "聖多美普林西比"],
         },
         {
           type: "full",

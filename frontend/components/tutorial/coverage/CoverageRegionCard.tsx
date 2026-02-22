@@ -14,7 +14,7 @@ interface CoverageRegionCardProps {
 }
 
 const styleMap: Record<CoverageSection["type"], string> = {
-  full: "bg-red-800/30",
+  full: "bg-[#1d7374]/30",
   limited: "bg-blue-800/30",
   none: "bg-zinc-800",
 };
