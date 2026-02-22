@@ -7,8 +7,6 @@ import 'react-medium-image-zoom/dist/styles.css'
 export default function TabSunPosition() {
   return (
     <div className="text-muted-foreground text-base leading-relaxed space-y-6">
-      <h2 className="text-xl font-bold text-white mb-4">太陽</h2>
-
       {/* 嵌入 YouTube 影片（支援 RWD） */}
       <div className="relative w-full md:w-2/3 mx-auto aspect-video mb-8">
         <iframe

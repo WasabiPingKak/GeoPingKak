@@ -19,7 +19,6 @@ import { AFRICA_SPECIAL_PLATES } from "./plate/plateAfricaPlates";
 export default function TabLicensePlates() {
   return (
     <div className="text-muted-foreground text-sm leading-relaxed">
-      <h2 className="text-xl font-bold text-white mb-4">車牌</h2>
       <p className="mb-10">
         車牌是 GeoGuessr 中非常重要的地理線索之一。許多國家的車牌在顏色、樣式上都具有獨特風格，熟悉這些差異能快速縮小猜測範圍。<br />
         本頁不會列出所有國家的車牌樣式，僅特別強調有特色的車牌。<br />

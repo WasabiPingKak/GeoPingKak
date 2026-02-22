@@ -7,8 +7,6 @@ import 'react-medium-image-zoom/dist/styles.css'
 export default function TabDrivingSide() {
   return (
     <div className="text-muted-foreground text-base leading-relaxed space-y-4">
-      <h2 className="text-xl font-bold text-white mb-4">道路通行方向</h2>
-
       <p>
         確認通行方向後，通常能立刻排除世界上約一半的國家，是極具價值的第一步線索。
       </p>
