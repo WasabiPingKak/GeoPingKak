@@ -11,7 +11,7 @@ export default function TabDrivingSide() {
         確認通行方向後，通常能立刻排除世界上約一半的國家，是極具價值的第一步線索。
       </p>
       <p>
-        有很多方法可以用來分辨左右駕，但遊戲中通常我們要找的是<span className="font-bold text-blue-500">靠左駕駛的國家(相對比較少)</span>
+        有很多方法可以用來分辨左右行駛，但遊戲中通常我們要找的是<span className="font-bold text-blue-500">靠左行駛的國家(相對比較少)</span>
       </p>
       <p>
         這是 GeoGuessr 內有街景的國家的各個通行方向的示意圖。
@@ -45,14 +45,14 @@ export default function TabDrivingSide() {
 
         <p>
           在亞洲，東亞與南亞<strong>幾乎都是</strong>跟英國一樣，
-          <span className="font-bold text-blue-500">靠左駕駛</span>。<br />
+          <span className="font-bold text-blue-500">靠左行駛</span>。<br />
           除了以下幾個國家是
-          <span className="font-bold text-red-500">靠右駕駛</span>：南韓、台灣、菲律賓、寮國、柬埔寨。
+          <span className="font-bold text-red-500">靠右行駛</span>：南韓、台灣、菲律賓、寮國、柬埔寨。
         </p>
 
         <p>
           在非洲，東非與南部非洲都是
-          <span className="font-bold text-blue-500">靠左駕駛</span>，
+          <span className="font-bold text-blue-500">靠左行駛</span>，
           <strong>除了一個例外</strong>：盧安達。
         </p>
       </div>
@@ -115,7 +115,7 @@ export default function TabDrivingSide() {
         </div>
         <div>
           <p className="text-base mb-2 text-muted-foreground">
-            觀察路標面對的方向，路標在道路左側面對駕駛：靠左駕駛的國家。
+            觀察路標面對的方向，路標在道路左側面對駕駛：靠左行駛的國家。
           </p>
           <Zoom>
             <img
