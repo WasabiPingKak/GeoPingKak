@@ -110,3 +110,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
           entryPoint: frontend
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
