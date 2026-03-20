@@ -35,7 +35,7 @@ export default function SidebarMenu({ isMobile = false, onClickLink }: SidebarMe
       className={clsx(
         isMobile
           ? "w-full h-full p-4"
-          : "w-60 min-h-screen p-4 border-r border-zinc-700",
+          : "w-60 h-screen p-4 border-r border-zinc-700 overflow-y-auto sidebar-scroll",
         "bg-zinc-800 text-white flex flex-col justify-between"
       )}
     >
