@@ -33,10 +33,10 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <div className="max-w-4xl">
-      <h1 className="text-3xl font-bold mb-4">歡迎來到 GeoPingKak 中文推廣站</h1>
+      <h1 className="text-3xl font-bold mb-4">GeoGuessr 台灣中文攻略站 — GeoPingKak</h1>
 
       <p className="mb-4 text-lg leading-relaxed">
-        這是一個為台灣及中文圈玩家設立的 GeoGuessr 推廣網站，目標是擴大社群、提供新手友善的教學與遊玩資源。
+        這是一個為台灣及中文圈玩家設立的 GeoGuessr 攻略網站，目標是擴大社群、提供新手友善的教學與遊玩資源。
       </p>
 
       <p className="mb-8 p-4 bg-green-900/50 border-l-4 border-green-500 rounded-r-lg">
@@ -60,15 +60,31 @@ export default function HomePage() {
       {/* 引言區塊 (取代原本的純文字段落) */}
       <div className="my-10 px-6 py-4 bg-zinc-800/60 border-l-4 border-blue-500 rounded-r-lg">
         <p className="leading-relaxed text-zinc-200">
-          GeoGuessr 的入門門檻偏高，官方免費版限制多，新手難以練習。因此，本站希望提供更多新手友善的遊玩連結與教學資源，讓大家有機會體驗這款遊戲的魅力。
+          GeoGuessr 的入門門檻偏高，官方免費版限制多，新手難以練習。因此，本站希望提供更多新手友善的遊玩連結與<a href="/tutorial" className="text-blue-400 underline hover:text-blue-300">教學資源</a>，讓大家有機會體驗這款遊戲的魅力。
         </p>
+      </div>
+
+      {/* 快速導覽 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+        <a href="/daily-challenge" className="bg-zinc-800 border border-zinc-700 p-5 rounded-lg hover:border-blue-500 transition-colors group">
+          <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">每日免費挑戰</h3>
+          <p className="text-sm text-zinc-400">每天更新的世界、台灣、日本地圖，免登入直接玩。</p>
+        </a>
+        <a href="/tutorial" className="bg-zinc-800 border border-zinc-700 p-5 rounded-lg hover:border-blue-500 transition-colors group">
+          <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">新手教學攻略</h3>
+          <p className="text-sm text-zinc-400">從零開始學習 GeoGuessr，掌握車牌、國旗、街景等判斷技巧。</p>
+        </a>
+        <a href="/special-maps" className="bg-zinc-800 border border-zinc-700 p-5 rounded-lg hover:border-blue-500 transition-colors group">
+          <h3 className="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">特殊主題地圖</h3>
+          <p className="text-sm text-zinc-400">精選趣味挑戰題庫，各國特色場景免費遊玩。</p>
+        </a>
       </div>
 
       {/* 卡片 2: 給實況主的建議 */}
       <div className="bg-zinc-800 border border-zinc-700 p-6 rounded-lg my-8">
         <h2 className="text-2xl font-bold mb-3">給 Vtuber 與實況主</h2>
         <p className="leading-relaxed text-zinc-300">
-          有企劃需求嗎？歡迎參考本站「直播企劃提案」中提供的企劃書與建議，可以直接使用本站的內容做為你的直播企劃。
+          有企劃需求嗎？歡迎參考本站<a href="/show-proposals" className="text-blue-400 underline hover:text-blue-300">「直播企劃提案」</a>中提供的企劃書與建議，可以直接使用本站的內容做為你的直播企劃。
         </p>
       </div>
 
