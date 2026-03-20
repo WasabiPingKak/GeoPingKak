@@ -87,6 +87,8 @@ jobs:
         run: |
           npm ci
           npm run build:prod
+        env:
+          NEXT_PUBLIC_API_BASE: https://geopingkak-backend-7xgrga7zxa-de.a.run.app
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
