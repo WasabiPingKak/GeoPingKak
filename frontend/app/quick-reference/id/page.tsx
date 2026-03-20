@@ -1,5 +1,6 @@
 // src/app/quick-reference/indonesia/page.tsx
 import React from "react";
+import Script from "next/script";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
@@ -36,6 +37,30 @@ export const metadata = {
 export default function IndonesiaQuickReferencePage() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-8 text-white">
+      <Script id="qr-id-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+              { "@type": "ListItem", "position": 2, "name": "速查筆記", "item": "https://geopingkak.web.app/quick-reference" },
+              { "@type": "ListItem", "position": 3, "name": "印尼文地名" }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "VideoObject",
+            "name": "GeoGuessr 印尼文地名辨識教學",
+            "description": "GeoGuessr 印尼地圖專用教學影片，教你如何透過印尼文地名快速判斷位置。",
+            "thumbnailUrl": "https://img.youtube.com/vi/mCrEzRJ4o5s/maxresdefault.jpg",
+            "uploadDate": "2025-11-09",
+            "contentUrl": "https://www.youtube.com/watch?v=mCrEzRJ4o5s",
+            "embedUrl": "https://www.youtube.com/embed/mCrEzRJ4o5s",
+            "inLanguage": "zh-TW"
+          }
+        ])}
+      </Script>
       <h1 className="text-3xl font-bold mb-2">印尼文地名速查表</h1>
       <p className="text-zinc-400 mb-8">
         本頁整理了印尼常見的方位詞與行政區名稱，幫助 GeoGuessr 玩家快速辨識地名特徵。

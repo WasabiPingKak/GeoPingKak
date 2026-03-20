@@ -2,10 +2,32 @@ import React from "react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GeoGuessr 進階學習資源 | 外部教學與工具推薦 - GeoPingKak",
-  description: "精選 GeoGuessr 進階學習資源，包含國外優質教學影片、實用工具網站、社群資源推薦，幫助你從新手晉升高手。",
+  title: "GeoGuessr 進階學習資源 | 攻略網站與工具推薦 - GeoPingKak",
+  description: "精選 GeoGuessr 進階學習資源：Plonk It、GeoTips、GeoHints 等攻略網站介紹，幫助你從新手晉升高手。",
   alternates: {
     canonical: "https://geopingkak.web.app/source",
+  },
+  openGraph: {
+    title: "GeoGuessr 進階學習資源 | 攻略網站與工具推薦 - GeoPingKak",
+    description: "精選 GeoGuessr 進階學習資源：Plonk It、GeoTips、GeoHints 等攻略網站介紹。",
+    url: "https://geopingkak.web.app/source",
+    siteName: "GeoPingKak",
+    locale: "zh_TW",
+    type: "website",
+    images: [
+      {
+        url: "https://geopingkak.web.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GeoGuessr 進階學習資源 - GeoPingKak",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GeoGuessr 進階學習資源 - GeoPingKak",
+    description: "Plonk It、GeoTips、GeoHints 等攻略網站介紹，從新手晉升高手。",
+    images: ["https://geopingkak.web.app/og-image.png"],
   },
 };
 

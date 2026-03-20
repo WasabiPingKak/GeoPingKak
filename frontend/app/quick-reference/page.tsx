@@ -8,6 +8,28 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://geopingkak.web.app/quick-reference",
   },
+  openGraph: {
+    title: "GeoGuessr 速查筆記 | 巴西、印尼辨識工具 - GeoPingKak",
+    description: "GeoGuessr 實用速查工具：巴西電話區碼對照表、印尼文地名查詢，快速提升答題準確度。",
+    url: "https://geopingkak.web.app/quick-reference",
+    siteName: "GeoPingKak",
+    locale: "zh_TW",
+    type: "website",
+    images: [
+      {
+        url: "https://geopingkak.web.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GeoGuessr 速查筆記 - GeoPingKak",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GeoGuessr 速查筆記 - GeoPingKak",
+    description: "巴西電話區碼、印尼文地名等 GeoGuessr 實用速查工具。",
+    images: ["https://geopingkak.web.app/og-image.png"],
+  },
 };
 
 export default function QuickReferencePage() {

@@ -3,16 +3,16 @@
 import type { Metadata } from "next";
 
 export const generateMetadata = (): Metadata => ({
-  title: "GeoGuessr 免費每日挑戰 | 台灣、日本、世界地圖 - 免登入立即玩 - GeoPingKak",
+  title: "GeoGuessr 免費玩！每日挑戰連結 | 免登入、免註冊 - GeoPingKak",
   description:
-    "每天更新！GeoGuessr 免費挑戰模式（challenge links），提供世界、台灣、日本地圖，完全免費、免登入、不限時間。過去的連結也可以重複練習，適合新手玩家。",
+    "每天更新的 GeoGuessr 免費挑戰連結！不用付費、不用註冊，點開就能玩。提供世界、台灣、日本等地圖，過去的題目也可以重複練習，新手老手都適合。",
   alternates: {
     canonical: "https://geopingkak.web.app/daily-challenge",
   },
   openGraph: {
-    title: "GeoGuessr 免費每日挑戰 | 台灣、日本、世界地圖 - 免登入 - GeoPingKak",
+    title: "GeoGuessr 免費玩！每日挑戰連結 | 免登入即玩 - GeoPingKak",
     description:
-      "每天更新 GeoGuessr 免費挑戰模式（challenge links），提供世界、台灣、日本地圖。完全免費、免登入、不限時間，適合新手玩家。",
+      "每天更新的 GeoGuessr 免費挑戰連結！不用付費、不用註冊，點開就能玩。世界、台灣、日本地圖每日更新。",
     url: "https://geopingkak.web.app/daily-challenge",
     siteName: "GeoPingKak",
     locale: "zh_TW",
@@ -28,9 +28,9 @@ export const generateMetadata = (): Metadata => ({
   },
   twitter: {
     card: "summary_large_image",
-    title: "GeoGuessr 免費每日挑戰 | 免登入立即玩 - GeoPingKak",
+    title: "GeoGuessr 免費玩！每日挑戰連結 - GeoPingKak",
     description:
-      "每天更新！提供世界、台灣、日本地圖。完全免費、免登入、不限時間，過去連結可重複練習。",
+      "每天更新！不用付費、不用註冊，點開就能玩。世界、台灣、日本地圖每日更新，歷史題目可重複練習。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
 });

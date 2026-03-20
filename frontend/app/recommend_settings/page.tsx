@@ -3,10 +3,32 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GeoGuessr 推薦設定 | 遊戲設定優化建議 - GeoPingKak",
-  description: "GeoGuessr 遊戲設定優化指南，包含畫面、控制、輔助功能等推薦配置，提升遊戲體驗與答題效率。",
+  title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
+  description: "GeoGuessr 遊戲設定優化指南與實用快捷鍵整理：圖形化指南針、快速回到起始位置等，提升遊戲體驗與答題效率。",
   alternates: {
     canonical: "https://geopingkak.web.app/recommend_settings",
+  },
+  openGraph: {
+    title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
+    description: "GeoGuessr 遊戲設定優化指南與實用快捷鍵整理，提升遊戲體驗與答題效率。",
+    url: "https://geopingkak.web.app/recommend_settings",
+    siteName: "GeoPingKak",
+    locale: "zh_TW",
+    type: "article",
+    images: [
+      {
+        url: "https://geopingkak.web.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GeoGuessr 推薦設定 - GeoPingKak",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GeoGuessr 推薦設定與快捷鍵 - GeoPingKak",
+    description: "遊戲設定優化指南與快捷鍵整理，提升答題效率。",
+    images: ["https://geopingkak.web.app/og-image.png"],
   },
 };
 

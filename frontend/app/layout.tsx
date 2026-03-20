@@ -5,14 +5,14 @@ import QueryProvider from "@/components/QueryProvider";
 import RootShell from "@/components/layout/RootShell";
 
 export const metadata = {
-  title: "GeoPingKak | GeoGuessr 免費中文地圖遊戲推廣站",
-  description: "推廣 GeoGuessr 的中文玩家網站，提供免費每日挑戰、教學與遊戲企劃資源 ",
+  title: "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
+  description: "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
   alternates: {
     canonical: "https://geopingkak.web.app/",
   },
   openGraph: {
-    title: "GeoPingKak | GeoGuessr 免費中文地圖遊戲推廣站",
-    description: "推廣 GeoGuessr 的中文玩家網站，提供免費每日挑戰、教學與遊戲企劃資源",
+    title: "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
+    description: "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
     url: "https://geopingkak.web.app/",
     siteName: "GeoPingKak",
     images: [
@@ -28,8 +28,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GeoPingKak | GeoGuessr 免費中文地圖遊戲推廣站",
-    description: "推廣 GeoGuessr 的中文玩家網站，提供免費每日挑戰、教學與遊戲企劃資源",
+    title: "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
+    description: "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
     images: ["https://geopingkak.web.app/og-image.png"],
     site: "@wasabi_pingkak",
   },
@@ -61,10 +61,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "GeoPingKak | GeoGuessr 免費中文地圖遊戲推廣站",
+            "name": "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
             "url": "https://geopingkak.web.app/",
             "inLanguage": "zh-TW",
-            "description": "推廣 GeoGuessr 的中文玩家網站，提供免費每日挑戰、教學與遊戲企劃資源",
+            "description": "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
             "creator": {
               "@type": "Person",
               "name": "山葵冰角 Wasabi Pingkak",

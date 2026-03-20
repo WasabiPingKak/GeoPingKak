@@ -5,13 +5,16 @@ import GlossaryClientPage from "./client";
 import { glossaryEntries } from "@/data/glossary";
 
 export const generateMetadata = (): Metadata => ({
-  title: "名詞解釋 | GeoPingKak",
+  title: "GeoGuessr 術語與名詞解釋 | 中文對照字典 - GeoPingKak",
   description:
-    "GeoGuessr 相關名詞解釋字典：以卡片式目錄整理常見術語，支援搜尋與圖片輔助。",
+    "GeoGuessr 常見術語中文解釋：NMPZ、移動限制、Meta 等遊戲名詞一次搞懂。支援搜尋、卡片式瀏覽與圖片輔助說明。",
+  alternates: {
+    canonical: "https://geopingkak.web.app/glossary",
+  },
   openGraph: {
-    title: "名詞解釋 | GeoPingKak",
+    title: "GeoGuessr 術語與名詞解釋 | 中文對照字典 - GeoPingKak",
     description:
-      "GeoGuessr 相關名詞解釋字典：以卡片式目錄整理常見術語，支援搜尋與圖片輔助。",
+      "GeoGuessr 常見術語中文解釋：NMPZ、移動限制、Meta 等遊戲名詞一次搞懂。支援搜尋與圖片輔助。",
     url: "https://geopingkak.web.app/glossary",
     siteName: "GeoPingKak",
     locale: "zh_TW",
@@ -21,15 +24,15 @@ export const generateMetadata = (): Metadata => ({
         url: "https://geopingkak.web.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "GeoPingKak 名詞解釋頁",
+        alt: "GeoGuessr 術語名詞解釋 - GeoPingKak",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "名詞解釋 | GeoPingKak",
+    title: "GeoGuessr 術語與名詞解釋 - GeoPingKak",
     description:
-      "GeoGuessr 相關名詞解釋字典：支援搜尋與圖片輔助，快速查詢常見術語。",
+      "NMPZ、移動限制、Meta 等 GeoGuessr 常見術語中文解釋，快速查詢搞懂遊戲名詞。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
 });

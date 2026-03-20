@@ -1,5 +1,6 @@
 // src/app/quick-reference/br/page.tsx
 import React from "react";
+import Script from "next/script";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
@@ -36,6 +37,17 @@ export const metadata = {
 export default function BrazilQuickReferencePage() {
   return (
     <main className="max-w-4xl mx-auto px-4 py-8 text-white">
+      <Script id="qr-br-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+            { "@type": "ListItem", "position": 2, "name": "速查筆記", "item": "https://geopingkak.web.app/quick-reference" },
+            { "@type": "ListItem", "position": 3, "name": "巴西電話區碼" }
+          ]
+        })}
+      </Script>
       <div className="text-white">
         <h1 className="text-3xl font-semibold mb-4">巴西電話區碼速查表</h1>
 

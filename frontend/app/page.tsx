@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GeoGuessr 台灣中文推廣站 | 免費每日挑戰、新手教學與地圖資源 - GeoPingKak",
-  description: "GeoPingKak 是台灣最完整的 GeoGuessr 中文資源站，提供免費每日挑戰連結、新手入門教學、特殊主題地圖推薦。無需登入、不用付費，立即開始你的地理探索之旅！",
+  title: "GeoGuessr 台灣中文攻略站 | 教學、地圖資源與每日挑戰 - GeoPingKak",
+  description: "GeoPingKak 是台灣最完整的 GeoGuessr 中文資源站，提供新手入門教學、攻略技巧、特殊主題地圖與每日挑戰連結。加入中文 GeoGuessr 社群，一起探索世界！",
   openGraph: {
-    title: "GeoGuessr 台灣中文推廣站 | 免費玩、免登入 - GeoPingKak",
-    description: "提供 GeoGuessr 免費每日挑戰、完整中文教學、特殊地圖推薦。新手友善、無需付費，立即開始玩！",
+    title: "GeoGuessr 台灣中文攻略站 | 教學與地圖資源 - GeoPingKak",
+    description: "台灣最完整的 GeoGuessr 中文資源站：新手教學、攻略技巧、特殊地圖推薦與每日挑戰。加入社群一起玩！",
     url: "https://geopingkak.web.app/",
     siteName: "GeoPingKak",
     locale: "zh_TW",
@@ -15,14 +15,14 @@ export const metadata: Metadata = {
         url: "https://geopingkak.web.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "GeoPingKak - GeoGuessr 台灣中文推廣站",
+        alt: "GeoPingKak - GeoGuessr 台灣中文攻略站",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GeoGuessr 台灣中文推廣站 | 免費玩 - GeoPingKak",
-    description: "免費每日挑戰、新手教學、特殊地圖推薦。完全免登入，立即開始玩！",
+    title: "GeoGuessr 台灣中文攻略站 - GeoPingKak",
+    description: "新手教學、攻略技巧、特殊地圖推薦與每日挑戰。台灣最完整的 GeoGuessr 中文資源站！",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   alternates: {
@@ -41,7 +41,7 @@ export default function HomePage() {
 
       <p className="mb-8 p-4 bg-green-900/50 border-l-4 border-green-500 rounded-r-lg">
         <span className="text-green-400 font-bold">
-          長話短說：來玩遊戲就直接點每日題目，Nickname 隨便打，不用登入也不用錢，合法的。
+          長話短說：來玩遊戲就直接點<a href="/daily-challenge" className="underline hover:text-green-300">每日免費挑戰</a>，Nickname 隨便打，不用登入也不用錢，合法的。
         </span>
       </p>
 
@@ -50,7 +50,7 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold mb-3">什麼是「挑戰模式 Challenge Mode」？</h2>
         <p className="mb-4 leading-relaxed">
           自 2024 年起，GeoGuessr 改為訂閱制。但透過付費玩家建立的 <strong>挑戰模式</strong>，
-          只要取得連結，即使未登入也能免費遊玩！
+          只要取得連結，即使未登入也能<a href="/daily-challenge" className="text-blue-400 underline hover:text-blue-300">免費遊玩</a>！
         </p>
         <p className="leading-relaxed text-zinc-300">
           這是目前官方唯一可以讓非訂閱玩家免費遊玩的管道。挑戰模式是付費玩家可以挑選遊戲內任一張地圖，產生一個固定五題的連結，每個知道連結的玩家都會玩到一模一樣的題目。除了題目是固定的、無法多人對戰以外，遊玩方式皆與正常遊戲相同。

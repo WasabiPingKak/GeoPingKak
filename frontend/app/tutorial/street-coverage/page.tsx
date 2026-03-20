@@ -8,16 +8,27 @@ export default function Page() {
   return (
     <>
       <Script id="tutorial-street-coverage-ld-json" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": "GeoGuessr 街景覆蓋國家一覽",
-          "description": "掌握全球 Google 街景覆蓋範圍，了解哪些國家有街景，快速排除不可能的國家。",
-          "author": { "@type": "Organization", "name": "GeoPingKak" },
-          "publisher": { "@type": "Organization", "name": "GeoPingKak" },
-          "inLanguage": "zh-TW",
-          "mainEntityOfPage": "https://geopingkak.web.app/tutorial/street-coverage"
-        })}
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "GeoGuessr 街景覆蓋國家一覽",
+            "description": "掌握全球 Google 街景覆蓋範圍，了解哪些國家有街景，快速排除不可能的國家。",
+            "author": { "@type": "Organization", "name": "GeoPingKak" },
+            "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "inLanguage": "zh-TW",
+            "mainEntityOfPage": "https://geopingkak.web.app/tutorial/street-coverage"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+              { "@type": "ListItem", "position": 2, "name": "教學", "item": "https://geopingkak.web.app/tutorial" },
+              { "@type": "ListItem", "position": 3, "name": "街景覆蓋" }
+            ]
+          }
+        ])}
       </Script>
       <StreetCoverageClient />
     </>
