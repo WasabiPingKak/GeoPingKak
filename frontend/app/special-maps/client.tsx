@@ -2,13 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import CommonTabs from "@/components/shared/CommonTabs";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
+import ErrorRetry from "@/components/shared/ErrorRetry";
 import SpecialCategoryDescription from "@/components/special-maps/SpecialCategoryDescription";
 import SpecialMapList from "@/components/special-maps/SpecialMapList";
 import { SPECIAL_MAP_TITLES } from "@/components/special-maps/specialMapTitles";
 import { useSpecialMapData } from "@/hooks/useSpecialMapData";
 
 export default function SpecialMapsClientPage() {
-  const { data: entries = [], isLoading, isError } = useSpecialMapData();
+  const { data: entries = [], isLoading, isError, refetch } = useSpecialMapData();
   const categories = Array.from(new Set(entries.map((e) => e.country)));
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -29,9 +31,9 @@ export default function SpecialMapsClientPage() {
       </div>
 
       {isLoading ? (
-        <p className="text-muted-foreground">載入中…</p>
+        <LoadingSkeleton rows={3} />
       ) : isError ? (
-        <p className="text-destructive">無法載入資料，請稍後再試。</p>
+        <ErrorRetry onRetry={() => refetch()} />
       ) : (
         <>
           <CommonTabs

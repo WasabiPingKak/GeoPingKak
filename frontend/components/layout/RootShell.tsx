@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import SidebarMenu from "@/components/SidebarMenu";
 import MobileSidebarDrawer from "@/components/common/MobileSidebarDrawer";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 declare global {
   interface Window {
@@ -49,8 +50,10 @@ export default function RootShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* 主內容 */}
-        <main className="flex-1 md:ml-60 p-6 overflow-y-auto">{children}</main>
+        <main className="flex-1 md:ml-60 px-4 py-5 md:p-6 overflow-y-auto">{children}</main>
       </div>
+
+      <ScrollToTop />
     </>
   );
 }

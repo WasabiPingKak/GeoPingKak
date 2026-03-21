@@ -5,6 +5,8 @@
 import React, { useState } from "react";
 import CommonMapList from "@/components/shared/CommonMapList";
 import CommonTabs from "@/components/shared/CommonTabs";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
+import ErrorRetry from "@/components/shared/ErrorRetry";
 import ChallengeDescription from "@/components/daily-challenge/ChallengeDescription";
 import { useDailyChallengeData } from "@/hooks/useDailyChallengeData";
 import { MAP_DISPLAY_TITLES } from "@/components/daily-challenge/mapTitles";
@@ -21,7 +23,7 @@ const COUNTRY_MAP: Record<string, string> = {
 
 export default function ClientPage() {
   const [selectedCountry, setSelectedCountry] = useState("世界");
-  const { data, isLoading, isError } = useDailyChallengeData();
+  const { data, isLoading, isError, refetch } = useDailyChallengeData();
 
   const filteredEntries =
     data?.filter((entry) => entry.country === COUNTRY_MAP[selectedCountry]) ?? [];
@@ -46,8 +48,8 @@ export default function ClientPage() {
 
       <ChallengeDescription country={selectedCountry} />
 
-      {isLoading && <p className="mt-4">載入中...</p>}
-      {isError && <p className="mt-4 text-red-500">資料載入失敗，請稍後再試。</p>}
+      {isLoading && <LoadingSkeleton rows={3} />}
+      {isError && <ErrorRetry onRetry={() => refetch()} />}
       {!isLoading && !isError && (
         <CommonMapList entries={filteredEntries} metadataMap={MAP_DISPLAY_TITLES} />
       )}
