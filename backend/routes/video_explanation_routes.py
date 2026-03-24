@@ -4,11 +4,11 @@ from flask import Blueprint, request, jsonify
 from google.cloud.firestore import Client
 from datetime import datetime
 import os
-import hmac
 import re
 import logging
 
 from config import get_collection_name
+from auth import verify_bearer_token
 
 logger = logging.getLogger(__name__)
 
@@ -26,22 +26,7 @@ def init_video_explanation_routes(app, db: Client):
         "tw-urban",
     ]
 
-    def verify_token(request):
-        """驗證 Bearer Token"""
-        auth_header = request.headers.get("Authorization", "")
-
-        if not auth_header.startswith("Bearer "):
-            return False
-
-        provided_token = auth_header[7:]  # Remove 'Bearer ' prefix
-        correct_token = os.getenv("VIDEO_EXPLANATIONS_ADMIN_TOKEN", "")
-
-        if not correct_token:
-            logger.error("❌ VIDEO_EXPLANATIONS_ADMIN_TOKEN 環境變數未設定")
-            return False
-
-        # Constant-time comparison
-        return hmac.compare_digest(provided_token, correct_token)
+    VIDEO_ADMIN_TOKEN = os.getenv("VIDEO_EXPLANATIONS_ADMIN_TOKEN", "")
 
     def validate_date(date_str):
         """驗證日期格式 YYYY-MM-DD"""
@@ -128,9 +113,10 @@ def init_video_explanation_routes(app, db: Client):
             JSON: {"success": true, "message": "...", "date": "...", "updated_maps": [...]}
         """
         try:
-            # 🔐 權限驗證
-            if not verify_token(request):
-                logger.warning("⚠️ 未授權的影片資料更新嘗試")
+            # 權限驗證
+            auth_header = request.headers.get("Authorization", "")
+            if not verify_bearer_token(auth_header, VIDEO_ADMIN_TOKEN):
+                logger.warning("未授權的影片資料更新嘗試")
                 return (
                     jsonify({"error": "Unauthorized", "message": "Invalid or missing token"}),
                     401,

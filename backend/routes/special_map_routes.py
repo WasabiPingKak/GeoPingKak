@@ -4,8 +4,12 @@ from flask import Blueprint, request, jsonify
 from google.cloud.firestore import Client
 from datetime import datetime, timezone
 import os
+import logging
 
 from config import get_collection_name
+from auth import verify_bearer_token
+
+logger = logging.getLogger(__name__)
 
 
 def init_special_map_routes(app, db: Client):
@@ -20,10 +24,9 @@ def init_special_map_routes(app, db: Client):
     @bp.route("/special-map", methods=["POST"])
     def add_special_map_entry():
         try:
-            # 🔐 權限驗證
+            # 權限驗證
             auth_header = request.headers.get("Authorization", "")
-            token = auth_header.replace("Bearer ", "").strip()
-            if token != os.getenv("ADMIN_API_KEY"):
+            if not verify_bearer_token(auth_header, os.getenv("ADMIN_API_KEY", "")):
                 return jsonify({"error": "Unauthorized"}), 401
 
             data = request.get_json()
@@ -69,7 +72,8 @@ def init_special_map_routes(app, db: Client):
             )
 
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            logger.exception("寫入特殊地圖失敗")
+            return jsonify({"error": "寫入特殊地圖失敗"}), 500
 
     @bp.route("/special-map", methods=["GET"])
     def get_special_map_entries():
@@ -130,6 +134,7 @@ def init_special_map_routes(app, db: Client):
             return jsonify(results), 200
 
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            logger.exception("讀取特殊地圖失敗")
+            return jsonify({"error": "讀取特殊地圖失敗"}), 500
 
     app.register_blueprint(bp)

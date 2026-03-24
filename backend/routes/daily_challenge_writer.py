@@ -6,12 +6,13 @@ from flask import Blueprint, request, jsonify
 from datetime import datetime, timezone, timedelta
 
 from config import get_collection_name
+from auth import verify_bearer_token
 from services.geoguessr_challenge import create_challenge
 
 logger = logging.getLogger(__name__)
 bp = Blueprint("daily_challenge_writer", __name__)
 
-ADMIN_API_KEY = os.getenv("ADMIN_API_KEY")
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 
 # ✅ 地圖對應表
 DAILY_MAPS = {
@@ -41,14 +42,13 @@ def init_daily_challenge_writer_route(app, db):
     def update_daily_challenge():
         # 驗證 API 金鑰
         auth_header = request.headers.get("Authorization", "")
-        if (
-            not auth_header.startswith("Bearer ")
-            or auth_header.split(" ", 1)[1] != ADMIN_API_KEY
-        ):
+        if not verify_bearer_token(auth_header, ADMIN_API_KEY):
             return jsonify({"error": "Unauthorized"}), 401
 
         # 驗證 country
         body = request.get_json()
+        if not body:
+            return jsonify({"error": "Request body is required"}), 400
         country = body.get("country")
         if country not in DAILY_MAPS:
             return jsonify({"error": f"Invalid country: {country}"}), 400

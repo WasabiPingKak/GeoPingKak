@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, jsonify
 import logging
 from firebase_admin import firestore
 
@@ -19,30 +19,9 @@ def init_geoguessr_map_routes(app, db: firestore.Client):
             if doc.exists:
                 return jsonify(doc.to_dict())
             else:
-                return jsonify({})  # 空對應表
+                return jsonify({})
         except Exception as e:
-            logger.exception("🔥 無法讀取地圖對應表")
-            return jsonify({"error": "無法讀取地圖對應表", "detail": str(e)}), 500
-
-    @bp.route("", methods=["POST"])
-    def add_or_update_map():
-        try:
-            data = request.get_json()
-            map_name = data.get("mapName")
-            map_id = data.get("mapId")
-
-            if not map_name or not map_id:
-                return jsonify({"error": "缺少 mapName 或 mapId"}), 400
-
-            collection_name = get_collection_name("geoguessr_map_index")
-            doc_ref = db.collection(collection_name).document("map_list")
-            doc_ref.set({map_name: map_id}, merge=True)
-
-            updated_doc = doc_ref.get()
-            return jsonify(updated_doc.to_dict())
-
-        except Exception as e:
-            logger.exception("🔥 寫入地圖對應失敗")
-            return jsonify({"error": "無法寫入地圖對應", "detail": str(e)}), 500
+            logger.exception("無法讀取地圖對應表")
+            return jsonify({"error": "無法讀取地圖對應表"}), 500
 
     app.register_blueprint(bp)
