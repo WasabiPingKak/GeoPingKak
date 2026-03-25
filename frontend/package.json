@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "next dev --turbopack",
+        "dev": "cp .env.staging .env.development.local && next dev --turbopack",
         "build": "next build",
         "build:staging": "cp .env.staging .env.production.local && next build",
         "build:prod": "rm -f .env.production.local && next build",
@@ -11,7 +11,7 @@
         "lint": "next lint",
         "postbuild": "next-sitemap",
         "deploy:staging": "npm run build:staging && firebase hosting:channel:deploy staging --expires 30d",
-        "deploy:prod": "npm run build:prod && firebase deploy --only hosting"
+        "deploy:prod": "echo 'Production deploy is handled by CI/CD. Push to main branch.' && exit 1"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.83.0",

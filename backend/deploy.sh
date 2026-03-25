@@ -1,52 +1,39 @@
 #!/bin/bash
 
-# ✅ 強制要求環境參數
-if [ -z "$1" ]; then
-  echo "❌ 錯誤：必須指定部署環境"
-  echo ""
+# 部署 GeoPingKak 後端到 Staging 環境（Cloud Run）
+# Production 部署請使用 CI/CD（push 到 main 自動觸發 GitHub Actions）
+
+set -e
+
+# 驗證環境參數
+if [ "$1" != "staging" ]; then
   echo "使用方式："
   echo "  ./deploy.sh staging    # 部署到 Staging 環境"
-  echo "  ./deploy.sh prod       # 部署到 Production 環境"
+  echo ""
+  echo "Production 部署請 push 到 main branch，由 GitHub Actions 自動執行。"
   exit 1
 fi
 
-ENV=$1
+echo "🟡 部署至 Staging 環境"
 
-# ✅ 根據環境設定服務名稱與環境變數
-if [ "$ENV" = "staging" ]; then
-  SERVICE_NAME="geopingkak-backend-staging"
-  DEPLOY_ENV="staging"
-  echo "🟡 部署至 Staging 環境"
-elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
-  SERVICE_NAME="geopingkak-backend"
-  DEPLOY_ENV="production"
-  echo "🟢 部署至 Production 環境"
-else
-  echo "❌ 無效的環境參數: $ENV"
-  echo "使用方式: ./deploy.sh [staging|prod|production]"
-  exit 1
-fi
-
-# ✅ 設定部署參數
+# 設定部署參數
+SERVICE_NAME="geopingkak-backend-staging"
+DEPLOY_ENV="staging"
 GOOGLE_CLOUD_PROJECT="geopingkak"
 REGION="asia-east1"
 REPO_NAME="geopingkak-backend-repo"
-
-# (已移除 .env 讀取區塊)
-
-# ✅ Docker 映像名稱
 IMAGE_URI="asia-east1-docker.pkg.dev/$GOOGLE_CLOUD_PROJECT/$REPO_NAME/$SERVICE_NAME"
 
-# ✅ 設定 GCP 專案
+# 設定 GCP 專案
 echo "🔧 設定 GCP 專案 ID: $GOOGLE_CLOUD_PROJECT"
 gcloud config set project "$GOOGLE_CLOUD_PROJECT"
 
-# ✅ 寫入 Git Commit Hash 至 version.txt
+# 寫入 Git Commit Hash 至 version.txt
 commit_hash=$(git rev-parse --short=6 HEAD)
 echo "🔖 寫入 Git Commit Hash: $commit_hash"
 echo "$commit_hash" > version.txt
 
-# ✅ 建構與推送 Docker 映像
+# 建構與推送 Docker 映像
 echo "📦 建立 Docker 映像..."
 docker build -t "$IMAGE_URI" .
 docker push "$IMAGE_URI"
@@ -55,7 +42,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# ✅ 確認 Cloud Run 服務是否存在
+# 確認 Cloud Run 服務是否存在
 SERVICE_EXISTS=$(gcloud run services describe "$SERVICE_NAME" --region="$REGION" --format="value(metadata.name)" 2>/dev/null)
 if [ -z "$SERVICE_EXISTS" ]; then
   echo "🆕 初次建立服務（直接導流）"
@@ -65,9 +52,7 @@ else
   NO_TRAFFIC_FLAG="--no-traffic"
 fi
 
-# ✅ 部署至 Cloud Run
-# 使用 --set-secrets 讀取 Secret Manager
-# 使用 --set-env-vars 設定非敏感變數
+# 部署至 Cloud Run
 echo "🚀 部署至 Cloud Run：$SERVICE_NAME (DEPLOY_ENV=$DEPLOY_ENV)"
 gcloud run deploy "$SERVICE_NAME" \
   --image "$IMAGE_URI" \
@@ -82,7 +67,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# ✅ 切換流量（若服務已存在）
+# 切換流量（若服務已存在）
 if [ -n "$NO_TRAFFIC_FLAG" ]; then
   echo "🔍 查詢 READY revision..."
   LATEST_READY_REVISION=$(gcloud run revisions list \
@@ -106,7 +91,7 @@ else
   echo "✅ 初次部署完成，已導流"
 fi
 
-# ✅ 取得部署後的服務 URL
+# 取得部署後的服務 URL 並更新前端 .env.staging
 echo ""
 echo "🔍 取得服務 URL..."
 SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
@@ -120,18 +105,9 @@ fi
 
 echo "✅ 服務 URL: $SERVICE_URL"
 
-# ✅ 自動更新前端 .env 檔案
-if [ "$ENV" = "staging" ]; then
-  ENV_FILE="../frontend/.env.staging"
-  echo ""
-  echo "📝 自動更新 frontend/.env.staging"
-elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
-  ENV_FILE="../frontend/.env.production"
-  echo ""
-  echo "📝 自動更新 frontend/.env.production"
-fi
-
-# 寫入新的 API endpoint
+ENV_FILE="../frontend/.env.staging"
+echo ""
+echo "📝 自動更新 frontend/.env.staging"
 echo "NEXT_PUBLIC_API_BASE=$SERVICE_URL" > "$ENV_FILE"
 
 if [ $? -eq 0 ]; then
@@ -139,11 +115,7 @@ if [ $? -eq 0 ]; then
   echo "   NEXT_PUBLIC_API_BASE=$SERVICE_URL"
   echo ""
   echo "🚀 下一步：部署前端"
-  if [ "$ENV" = "staging" ]; then
-    echo "   cd ../frontend && npm run deploy:staging"
-  else
-    echo "   cd ../frontend && npm run deploy:prod"
-  fi
+  echo "   cd ../frontend && ./deploy.sh staging"
 else
   echo "❌ 更新 $ENV_FILE 失敗，請手動更新"
 fi

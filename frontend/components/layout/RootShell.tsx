@@ -19,7 +19,7 @@ export default function RootShell({ children }: { children: React.ReactNode }) {
   // ✅ 分頁變動時送出 page view
   useEffect(() => {
     if (typeof window.gtag === "function") {
-      window.gtag("config", "G-3C6D7CMCKV", {
+      window.gtag("config", process.env.NEXT_PUBLIC_GA_ID!, {
         page_path: pathname,
       });
     }

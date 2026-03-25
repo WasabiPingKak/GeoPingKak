@@ -20,7 +20,21 @@ npm run dev
 
 ---
 
+### 部署到 Production 環境（正式環境）
+
+Production 部署由 **GitHub Actions CI/CD** 自動執行：
+
+- **觸發條件**：push 到 `main` branch
+- **流程**：自動建構 Docker image → 部署 Cloud Run 後端 → 建構並部署 Firebase Hosting 前端
+- **Workflow 檔案**：`.github/workflows/deploy-production.yml`
+
+> 不需要手動執行任何部署指令，push 到 main 即完成部署。
+
+---
+
 ### 部署到 Staging 環境（測試環境）
+
+Staging 環境使用本地腳本手動部署。
 
 #### 0. 初次設定：複製資料到 Staging（僅需執行一次）
 
@@ -58,7 +72,7 @@ cd backend
 #### 2. 部署前端到 Staging
 ```bash
 cd frontend
-npm run deploy:staging
+./deploy.sh staging
 ```
 > 部署到 Firebase Hosting Channel：`staging--geopingkak.web.app`（有效期 30 天）
 
@@ -69,31 +83,7 @@ npm run deploy:staging
 
 ---
 
-### 部署到 Production 環境（正式環境）
-
-#### 1. 部署後端到 Production
-```bash
-cd backend
-./deploy.sh prod
-```
-> - 部署到 Cloud Run 服務：`geopingkak-backend`
-> - **自動更新** `frontend/.env.production` 的 API endpoint
-
-#### 2. 部署前端到 Production
-```bash
-cd frontend
-npm run deploy:prod
-```
-> 部署到 Firebase Hosting：`geopingkak.web.app`
-
-#### 3. 環境配置
-- **後端環境變數**: `DEPLOY_ENV=production`
-- **前端環境變數**: 由 `deploy.sh` 自動更新至 `frontend/.env.production`
-- **資料庫**: 使用原始 collection 名稱（例：`daily_challenge`）
-
----
-
-### 🔄 完整部署流程
+### 🔄 完整開發流程
 
 ```bash
 # 開發新功能
@@ -104,18 +94,15 @@ cd frontend && npm run dev
 
 # 部署到 staging 測試
 cd ../backend && ./deploy.sh staging
-cd ../frontend && npm run deploy:staging
+cd ../frontend && ./deploy.sh staging
 
 # 在 staging URL 驗證功能
 # https://staging--geopingkak.web.app
 
-# 測試通過後 merge 到 main
+# 測試通過後 merge 到 main，CI/CD 自動部署 production
 git checkout main
 git merge feature/new-feature
-
-# 部署到 production
-cd backend && ./deploy.sh prod
-cd ../frontend && npm run deploy:prod
+git push origin main
 ```
 
 ---
@@ -124,15 +111,20 @@ cd ../frontend && npm run deploy:prod
 
 ```
 GeoPingKak/
+├── .github/workflows/
+│   └── deploy-production.yml         # CI/CD：push main 自動部署
+│
 ├── backend/                          # Flask API (Cloud Run)
 │   ├── app.py                        # Flask 入口，初始化 Firestore
-│   ├── deploy.sh                     # Cloud Run 部署腳本
+│   ├── auth.py                       # 共用認證工具（Bearer token 驗證）
+│   ├── config.py                     # 環境配置管理（staging/production 隔離）
+│   ├── deploy.sh                     # Staging 部署腳本
 │   ├── routes/
 │   │   ├── daily_challenge_reader.py
 │   │   ├── daily_challenge_writer.py
 │   │   ├── geoguessr_map_routes.py
 │   │   ├── special_map_routes.py
-│   │   └── video_explanation_routes.py  # 影片說明 API
+│   │   └── video_explanation_routes.py
 │   ├── services/
 │   │   └── geoguessr_challenge.py
 │   └── scripts/
@@ -143,6 +135,7 @@ GeoPingKak/
 │   │   ├── layout.tsx                # 根佈局 (QueryProvider + RootShell)
 │   │   ├── page.tsx                  # 首頁
 │   │   ├── globals.css
+│   │   ├── about/                    # 關於管理者
 │   │   ├── community-maps/           # 社群地圖推薦
 │   │   ├── daily-challenge/          # 每日挑戰
 │   │   ├── glossary/                 # 名詞解釋
@@ -157,6 +150,7 @@ GeoPingKak/
 │   ├── components/
 │   │   ├── QueryProvider.tsx         # React Query Provider
 │   │   ├── SidebarMenu.tsx           # 側邊欄導覽
+│   │   ├── SocialLinks.tsx           # 社群連結元件
 │   │   ├── layout/
 │   │   │   └── RootShell.tsx         # 響應式 Sidebar 控制
 │   │   ├── common/
@@ -185,4 +179,3 @@ GeoPingKak/
 > 完整目錄結構請參考 [CLAUDE.md](./CLAUDE.md)
 
 ---
-

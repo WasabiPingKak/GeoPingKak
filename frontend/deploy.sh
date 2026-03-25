@@ -1,32 +1,20 @@
 #!/bin/bash
 
-# ❇️ 部署 GeoPingKak 前端到 Firebase Hosting
-# 若出錯將停止執行
+# 部署 GeoPingKak 前端到 Staging 環境（Firebase Hosting Channel）
+# Production 部署請使用 CI/CD（push 到 main 自動觸發 GitHub Actions）
+
 set -e
 
-# ✅ 強制要求環境參數
-if [ -z "$1" ]; then
-  echo "❌ 錯誤：必須指定部署環境"
-  echo ""
+# 驗證環境參數
+if [ "$1" != "staging" ]; then
   echo "使用方式："
   echo "  ./deploy.sh staging    # 部署到 Staging 環境 (Firebase Hosting Channel)"
-  echo "  ./deploy.sh prod       # 部署到 Production 環境 (Firebase Hosting)"
+  echo ""
+  echo "Production 部署請 push 到 main branch，由 GitHub Actions 自動執行。"
   exit 1
 fi
 
-ENV=$1
-
-# ✅ 根據環境執行對應的部署指令
-if [ "$ENV" = "staging" ]; then
-  echo "🟡 部署至 Staging 環境"
-  npm run deploy:staging
-elif [ "$ENV" = "prod" ] || [ "$ENV" = "production" ]; then
-  echo "🟢 部署至 Production 環境"
-  npm run deploy:prod
-else
-  echo "❌ 無效的環境參數: $ENV"
-  echo "使用方式: ./deploy.sh [staging|prod]"
-  exit 1
-fi
+echo "🟡 部署至 Staging 環境"
+npm run deploy:staging
 
 echo "✅ 部署完成！"

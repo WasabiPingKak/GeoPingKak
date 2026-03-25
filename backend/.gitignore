@@ -3,3 +3,7 @@
 
 # Deployment artifacts
 version.txt
+
+# Python
+__pycache__/
+*.pyc

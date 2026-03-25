@@ -13,7 +13,8 @@ GeoPingKak/
 ├── backend/                          # Flask API (Cloud Run)
 │   ├── app.py                        # Flask 入口，初始化 Firestore
 │   ├── config.py                     # 環境配置管理（staging/production）
-│   ├── deploy.sh                     # Cloud Run 部署腳本（支援環境參數）
+│   ├── auth.py                       # 共用認證工具（Bearer token 驗證）
+│   ├── deploy.sh                     # Staging 部署腳本（Production 由 CI/CD 處理）
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   ├── routes/
@@ -30,8 +31,8 @@ GeoPingKak/
 │
 ├── frontend/                         # Next.js App (Firebase Hosting)
 │   ├── .env.staging                  # Staging 環境變數
-│   ├── .env.production               # Production 環境變數
-│   ├── deploy.sh                     # Firebase Hosting 部署腳本（支援環境參數）
+│   ├── .env.production               # Production 環境變數（本地 build 用，CI/CD 由 workflow 注入）
+│   ├── deploy.sh                     # Staging 部署腳本（Production 由 CI/CD 處理）
 │   ├── app/
 │   │   ├── layout.tsx                # 根佈局 (QueryProvider + RootShell)
 │   │   ├── icon.png                  # 網站 favicon（自動識別）
@@ -169,23 +170,25 @@ npm run lint              # Run ESLint
 
 ### Deployment
 
-The project supports two environments: **Staging** and **Production**. All deployment scripts require explicit environment parameter to prevent accidental deployments.
+The project supports two environments: **Staging** and **Production**.
 
-#### Backend Deployment
+#### Production Deployment (CI/CD)
+
+Production is deployed automatically via GitHub Actions when pushing to `main` branch.
+- **Workflow**: `.github/workflows/deploy-production.yml`
+- **Process**: Build Docker image → Deploy Cloud Run backend → Build and deploy Firebase Hosting frontend
+- **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
+
+#### Staging Deployment (Manual)
 ```bash
 cd backend
 ./deploy.sh staging      # Deploy to geopingkak-backend-staging (auto-updates frontend/.env.staging)
-./deploy.sh prod         # Deploy to geopingkak-backend (auto-updates frontend/.env.production)
-```
 
-#### Frontend Deployment
-```bash
-cd frontend
+cd ../frontend
 ./deploy.sh staging      # Deploy to Firebase Hosting Channel (staging--geopingkak.web.app)
-./deploy.sh prod         # Deploy to Firebase Hosting (geopingkak.web.app)
 ```
 
-**Note**: Running `./deploy.sh` without parameters will show usage instructions.
+**Note**: Deploy scripts only support staging. Production must go through CI/CD.
 
 ## Environment Configuration
 
@@ -264,8 +267,9 @@ cd ../frontend
 
 **Environment variables**:
 - `NEXT_PUBLIC_API_BASE` - Backend API endpoint URL
-- Configured in `.env.staging` and `.env.production`
-- Automatically updated by backend `deploy.sh` after Cloud Run deployment
+- `NEXT_PUBLIC_GA_ID` - Google Analytics tracking ID (only set in production)
+- **Production**: Injected via GitHub Actions workflow `env:` at build time
+- **Staging**: Read from `.env.staging` (auto-updated by backend `deploy.sh`); no GA tracking
 - Build process uses `.env.production.local` (temporary, git-ignored) to override during staging builds
 
 **SEO Optimization**:
@@ -294,11 +298,12 @@ cd ../frontend
 **Core modules**:
 - `app.py` - Flask application entry point, initializes Firestore client
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
+- `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
 
 **Route modules** (`routes/`):
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
 - `special_map_routes.py` - Special themed maps
-- `geoguessr_map_routes.py` - GeoGuessr map integration
+- `geoguessr_map_routes.py` - GeoGuessr map index (read-only)
 - `video_explanation_routes.py` - Video explanations API with Bearer token authentication
   - GET `/api/video-explanations` - 公開端點，取得所有日期的影片資料
   - POST `/api/video-explanations` - 受保護端點（Bearer Token），部分更新影片資料
@@ -343,21 +348,15 @@ cd ../frontend
 # 4. Test on staging URL
 # Visit: https://staging--geopingkak.web.app
 
-# 5. If tests pass, merge to main
+# 5. If tests pass, merge to main and push (CI/CD auto-deploys production)
 git checkout main
 git merge feature/new-feature
-
-# 6. Deploy to production
-cd backend
-./deploy.sh prod
-
-cd ../frontend
-./deploy.sh prod
+git push origin main
 ```
 
 ### Important Notes
 
-- **Always test in staging before deploying to production**
-- **Deploy scripts require explicit environment parameter** - no defaults to prevent accidents
-- **Backend deployment automatically updates frontend .env files** with the deployed service URL
+- **Production deployment is fully automated** via GitHub Actions CI/CD (push to main)
+- **Deploy scripts only support staging** - production must go through CI/CD
+- **Backend staging deployment automatically updates frontend `.env.staging`** with the deployed service URL
 - **Staging and production data are completely isolated** via Firestore collection prefixes
