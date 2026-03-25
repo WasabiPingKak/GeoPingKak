@@ -14,6 +14,5 @@ export function useDailyChallengeData() {
       if (!res.ok) throw new Error("資料載入失敗");
       return res.json();
     },
-    gcTime: 1000 * 60 * 0,
   });
 }
