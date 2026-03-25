@@ -20,6 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run backend tests
+        working-directory: backend
+        run: |
+          pip install pytest
+          pytest tests/ -v
+
       - id: auth
         uses: google-github-actions/auth@v2
         with:

@@ -164,9 +164,17 @@ All frontend commands run from the `frontend/` directory:
 cd frontend
 npm run dev               # Start Next.js dev server with Turbopack
 npm run build:staging     # Build with staging environment variables
-npm run build:prod        # Build with production environment variables
 npm run lint              # Run ESLint
 ```
+
+Backend tests run from the `backend/` directory:
+
+```bash
+cd backend
+pytest tests/ -v          # Run all backend tests
+```
+
+Tests are also executed automatically in the CI/CD pipeline before deployment.
 
 ### Deployment
 
@@ -315,6 +323,9 @@ cd ../frontend
 
 **Scripts** (`scripts/`):
 - `copy_to_staging.py` - One-time data migration script for staging environment initialization
+
+**Tests** (`tests/`):
+- `test_auth.py` - Unit tests for shared authentication utilities (Bearer token extraction and verification)
 
 ### Data Flow
 
