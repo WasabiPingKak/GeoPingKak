@@ -58,7 +58,7 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --no-traffic \
-            --set-env-vars "DEPLOY_ENV=production" \
+            --set-env-vars "DEPLOY_ENV=production,CORS_ORIGINS=https://geopingkak.web.app" \
             --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest,VIDEO_EXPLANATIONS_ADMIN_TOKEN=VIDEO_EXPLANATIONS_ADMIN_TOKEN:latest"
 
       - name: Route traffic to latest revision

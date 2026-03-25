@@ -15,7 +15,7 @@ from routes.video_explanation_routes import init_video_explanation_routes
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 
-CORS(app, supports_credentials=True)
+CORS(app, origins=os.getenv("CORS_ORIGINS", "*").split(","), supports_credentials=True)
 
 
 # ✅ Firestore 初始化（自動使用 Cloud Run 身份）
