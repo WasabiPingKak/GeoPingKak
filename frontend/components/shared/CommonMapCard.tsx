@@ -127,7 +127,7 @@ export default function CommonMapCard({
                             rel="noopener noreferrer"
                             className="underline text-blue-600 dark:text-blue-400"
                           >
-                            {entry.title ?? `📅 ${entry.createdAt}`}
+                            {`📅 ${entry.createdAt}`}
                           </a>
 
                           {livestreamUrl && (
