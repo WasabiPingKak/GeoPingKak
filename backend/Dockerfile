@@ -1,18 +1,16 @@
-# 使用輕量級 Python 映像
 FROM python:3.11-slim
 
-# 設定工作目錄
+RUN adduser --system --no-create-home appuser
+
 WORKDIR /app
 
-# 複製檔案並安裝依賴
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY --chown=appuser:appuser . .
 
-# 以非 root 身份運行
-RUN adduser --disabled-password --no-create-home appuser
 USER appuser
 
-# 使用 gunicorn 作為伺服器
+EXPOSE 8080
+
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
