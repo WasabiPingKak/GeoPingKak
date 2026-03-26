@@ -28,7 +28,7 @@ def parse_cors_origins(raw):
             origins.append(origin)
     return origins
 
-CORS(app, origins=parse_cors_origins(os.getenv("CORS_ORIGINS", "*")), supports_credentials=True)
+CORS(app, origins=parse_cors_origins(os.getenv("CORS_ORIGINS", "http://localhost:3000")))
 
 # ✅ Rate Limiting（per-IP）
 limiter = Limiter(
@@ -70,10 +70,3 @@ init_video_explanation_routes(app, db)
 @app.route("/ping")
 def ping():
     return jsonify({"message": "pong"})
-
-
-@app.route("/test-firestore")
-def test_firestore():
-    doc_ref = db.collection("test").document("hello")
-    doc_ref.set({"msg": "Hello from Cloud Run"})
-    return jsonify({"status": "ok"})

@@ -10,5 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# 以非 root 身份運行
+RUN adduser --disabled-password --no-create-home appuser
+USER appuser
+
 # 使用 gunicorn 作為伺服器
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]

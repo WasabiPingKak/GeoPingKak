@@ -1,11 +1,14 @@
 # routes/daily_challenge_reader.py
 
+import re
 import logging
 from flask import Blueprint, jsonify, request
 from datetime import datetime, timezone, timedelta
 from google.cloud.firestore import Client
 
 from config import get_collection_name
+
+MONTH_PATTERN = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
 
 bp = Blueprint("daily_challenge_reader", __name__)
 logger = logging.getLogger(__name__)
@@ -57,6 +60,8 @@ def init_daily_challenge_reader_route(app, db: Client):
             month_param = request.args.get("month")
 
             if month_param:
+                if not MONTH_PATTERN.match(month_param):
+                    return jsonify({"error": "Invalid month format, expected YYYY-MM"}), 400
                 # 指定月份：只撈該月
                 entries = read_month(collection_name, month_param)
                 logger.info(f"📦 回傳 {month_param} 共 {len(entries)} 筆")
