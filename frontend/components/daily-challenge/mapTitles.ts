@@ -6,6 +6,11 @@ export interface MapMetadata {
   source?: string; // 可選，避免 future 錯誤
 }
 
+// 地圖替換映射：舊 mapId → 新 mapId（用於合併顯示）
+export const MAP_REPLACEMENTS: Record<string, string> = {
+  "world-acw": "world-figsy",
+};
+
 export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
   "world-theworld": {
     title: "世界地圖 - The World (低難度)",
@@ -16,6 +21,11 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
     title: "世界地圖 - ACW (高難度)",
     description: "全名為 \"A Community World\" 的官方正式競賽地圖，真正的世界地圖。",
     source: "62a44b22040f04bd36e8a914",
+  },
+  "world-figsy": {
+    title: "世界地圖 - A Figsy World (高難度)",
+    description: "2026/03 起替代 ACW 成為官方金牌以下積分模式使用的世界地圖，由社群精選的高品質地點組成。",
+    source: "6983611e411dbe3f3b2a8c5b",
   },
 
   // 台灣

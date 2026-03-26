@@ -16,7 +16,7 @@ export default function ChallengeDescription({ country }: ChallengeDescriptionPr
   };
 
   const countrySpecific2: Record<string, string> = {
-    世界: "左邊的都市地圖為官方牌位模式中在銅牌與銀牌所使用的地圖，右邊的 ACW 為官方牌位模式中金牌以上的牌位所使用的地圖。",
+    世界: "左邊的都市地圖為官方牌位模式中曾經在銅牌與銀牌所使用的地圖，右邊的 A Figsy World 為 2026/03 起替代 ACW 的官方金牌以下積分地圖。",
     台灣: " ",
     日本: " ",
     馬來西亞: " ",

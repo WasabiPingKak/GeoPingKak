@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
+import { MAP_REPLACEMENTS } from "@/components/daily-challenge/mapTitles";
 import { AiFillYoutube } from "react-icons/ai";
 import CommonMapCard from "./CommonMapCard";
 
@@ -17,10 +18,12 @@ export default function CommonMapList({
 }: CommonMapListProps) {
   const [onlyWithVideo, setOnlyWithVideo] = useState(false);
 
+  // 依 displayMapId 分組，被替換的舊地圖歸入新地圖同一欄
   const groupedByMap = entries.reduce<Record<string, DailyChallengeEntry[]>>(
     (acc, entry) => {
-      if (!acc[entry.mapId]) acc[entry.mapId] = [];
-      acc[entry.mapId].push(entry);
+      const displayMapId = MAP_REPLACEMENTS[entry.mapId] || entry.mapId;
+      if (!acc[displayMapId]) acc[displayMapId] = [];
+      acc[displayMapId].push(entry);
       return acc;
     },
     {}
@@ -57,9 +60,10 @@ export default function CommonMapList({
 
       {/* Map Cards */}
       <div className={`grid ${isTwoColumns ? "md:grid-cols-2 gap-6" : "grid-cols-1"}`}>
-        {Object.entries(groupedByMap).map(([mapId, entries]) => (
+        {Object.entries(groupedByMap).map(([displayMapId, entries]) => (
           <CommonMapCard
-            key={mapId}
+            key={displayMapId}
+            displayMapId={displayMapId}
             entries={entries}
             metadataMap={metadataMap}
             showSourceLink={showSourceLink}

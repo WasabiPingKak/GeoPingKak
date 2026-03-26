@@ -1,11 +1,18 @@
 import React, { useMemo, useState, useEffect } from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
+import { MAP_REPLACEMENTS } from "@/components/daily-challenge/mapTitles";
 import { useVideoExplanations } from "@/hooks/useVideoExplanations";
 import { AiFillYoutube } from "react-icons/ai";
 import { BsBroadcast } from "react-icons/bs";
 
+// 被替換地圖的簡短標籤（顯示在日期旁）
+const REPLACED_MAP_LABELS: Record<string, string> = {
+  "world-acw": "ACW",
+};
+
 interface CommonMapCardProps {
+  displayMapId: string;
   entries: DailyChallengeEntry[];
   metadataMap: Record<string, MapMetadata>;
   showSourceLink?: boolean;
@@ -13,13 +20,13 @@ interface CommonMapCardProps {
 }
 
 export default function CommonMapCard({
+  displayMapId,
   entries,
   metadataMap,
   showSourceLink = true,
   onlyWithVideo = false,
 }: CommonMapCardProps) {
-  const mapId = entries[0].mapId;
-  const metadata = metadataMap[mapId];
+  const metadata = metadataMap[displayMapId];
 
   // 使用 hook 取得影片資料
   const { data: videoExplanations } = useVideoExplanations();
@@ -74,7 +81,7 @@ export default function CommonMapCard({
 
   return (
     <div className="rounded-xl border p-4 bg-card shadow-sm">
-      <h2 className="text-xl font-semibold mb-2">{metadata?.title ?? mapId}</h2>
+      <h2 className="text-xl font-semibold mb-2">{metadata?.title ?? displayMapId}</h2>
       <p className="text-sm text-muted-foreground mb-3">
         {metadata?.description ?? "（尚無說明）"}
       </p>
@@ -116,6 +123,9 @@ export default function CommonMapCard({
                       const explanationUrl = videoData?.explanation;
                       const livestreamUrl = videoData?.livestream;
 
+                      const isReplaced = entry.mapId in MAP_REPLACEMENTS;
+                      const replacedLabel = REPLACED_MAP_LABELS[entry.mapId];
+
                       return (
                         <li
                           key={`${entry.mapId}-${entry.createdAt}`}
@@ -129,6 +139,12 @@ export default function CommonMapCard({
                           >
                             {`📅 ${entry.createdAt}`}
                           </a>
+
+                          {isReplaced && replacedLabel && (
+                            <span className="text-xs px-1.5 py-0.5 rounded bg-zinc-700 text-zinc-300">
+                              {replacedLabel}
+                            </span>
+                          )}
 
                           {livestreamUrl && (
                             <a

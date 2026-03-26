@@ -22,6 +22,7 @@ def init_video_explanation_routes(app, db: Client):
         "jp-balanced",
         "world-theworld",
         "world-acw",
+        "world-figsy",
         "tw-balanced",
         "tw-urban",
     ]
