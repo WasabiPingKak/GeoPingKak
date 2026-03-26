@@ -28,17 +28,24 @@ export default function CommonMapList({
     {}
   );
 
-  const isTwoColumns = Object.keys(groupedByMap).length >= 2;
+  // 依 metadataMap 定義順序排序，確保切換篩選時欄位順序不變
+  const metadataKeys = Object.keys(metadataMap);
+  const sortedMapIds = Object.keys(groupedByMap).sort(
+    (a, b) => (metadataKeys.indexOf(a) === -1 ? Infinity : metadataKeys.indexOf(a))
+          - (metadataKeys.indexOf(b) === -1 ? Infinity : metadataKeys.indexOf(b))
+  );
+
+  const isTwoColumns = sortedMapIds.length >= 2;
 
   return (
     <div className="space-y-4">
       {/* Map Cards */}
       <div className={`grid ${isTwoColumns ? "md:grid-cols-2 gap-6" : "grid-cols-1"}`}>
-        {Object.entries(groupedByMap).map(([displayMapId, entries]) => (
+        {sortedMapIds.map((displayMapId) => (
           <CommonMapCard
             key={displayMapId}
             displayMapId={displayMapId}
-            entries={entries}
+            entries={groupedByMap[displayMapId]}
             metadataMap={metadataMap}
             showSourceLink={showSourceLink}
             expandAll={expandAll}
