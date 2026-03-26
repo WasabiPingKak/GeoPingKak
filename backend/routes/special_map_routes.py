@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 from google.cloud.firestore import Client
 from datetime import datetime, timezone
 import os
+import re
 import logging
 
 from config import get_collection_name
@@ -37,6 +38,10 @@ def init_special_map_routes(app, db: Client):
         },
     }
 
+    GEOGUESSR_URL_PATTERN = re.compile(
+        r"^https://(www\.)?geoguessr\.com/challenge/[A-Za-z0-9]+$"
+    )
+
     @bp.route("/special-map", methods=["POST"])
     def add_special_map_entry():
         try:
@@ -45,11 +50,17 @@ def init_special_map_routes(app, db: Client):
                 return jsonify({"error": "Unauthorized"}), 401
 
             data = request.get_json()
+            if not data or not isinstance(data, dict):
+                return jsonify({"error": "Request body is required"}), 400
+
             challenge_url = data.get("challengeUrl", "").strip()
             map_id = data.get("mapId", "").strip()
 
             if not challenge_url or not map_id:
                 return jsonify({"error": "Missing required fields"}), 400
+
+            if not GEOGUESSR_URL_PATTERN.match(challenge_url):
+                return jsonify({"error": "Invalid challengeUrl format. Must be a GeoGuessr challenge URL"}), 400
 
             meta = MAP_ID_TO_META.get(map_id)
             if not meta:
