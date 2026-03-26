@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import CommonTabs from "@/components/shared/CommonTabs";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import ErrorRetry from "@/components/shared/ErrorRetry";
@@ -11,16 +11,15 @@ import { useSpecialMapData } from "@/hooks/useSpecialMapData";
 
 export default function SpecialMapsClientPage() {
   const { data: entries = [], isLoading, isError, refetch } = useSpecialMapData();
-  const categories = Array.from(new Set(entries.map((e) => e.country)));
+  const categories = useMemo(
+    () => Array.from(new Set(entries.map((e) => e.country))),
+    [entries]
+  );
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  useEffect(() => {
-    if (categories.length > 0 && !selectedCategory) {
-      setSelectedCategory(categories[0]);
-    }
-  }, [categories, selectedCategory]);
+  const activeCategory = selectedCategory || categories[0] || "";
 
-  const filteredEntries = entries.filter((e) => e.country === selectedCategory);
+  const filteredEntries = entries.filter((e) => e.country === activeCategory);
 
   return (
     <div className="max-w-4xl">
@@ -38,11 +37,11 @@ export default function SpecialMapsClientPage() {
         <>
           <CommonTabs
             options={categories}
-            selected={selectedCategory}
+            selected={activeCategory}
             onSelect={setSelectedCategory}
           />
 
-          <SpecialCategoryDescription category={selectedCategory} />
+          <SpecialCategoryDescription category={activeCategory} />
 
           <SpecialMapList
             entries={filteredEntries}

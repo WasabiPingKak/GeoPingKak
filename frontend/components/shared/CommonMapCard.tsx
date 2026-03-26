@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
 import { MAP_REPLACEMENTS } from "@/components/daily-challenge/mapTitles";
@@ -44,28 +44,25 @@ export default function CommonMapCard({
     return map;
   }, [entries]);
 
-  const [openMonths, setOpenMonths] = useState<Record<string, boolean>>(() => {
+  const defaultOpenMonths = useMemo(() => {
     const state: Record<string, boolean> = {};
     for (const month of Object.keys(groupedByMonth)) {
       state[month] = expandAll || month === currentMonth;
     }
     return state;
-  });
-
-  useEffect(() => {
-    setOpenMonths(() => {
-      const state: Record<string, boolean> = {};
-      for (const month of Object.keys(groupedByMonth)) {
-        state[month] = expandAll || month === currentMonth;
-      }
-      return state;
-    });
   }, [expandAll, groupedByMonth, currentMonth]);
 
+  const [monthOverrides, setMonthOverrides] = useState<Record<string, boolean>>({});
+
+  const openMonths = useMemo(
+    () => ({ ...defaultOpenMonths, ...monthOverrides }),
+    [defaultOpenMonths, monthOverrides]
+  );
+
   const toggleMonth = (month: string) => {
-    setOpenMonths((prev) => ({
+    setMonthOverrides((prev) => ({
       ...prev,
-      [month]: !prev[month],
+      [month]: !openMonths[month],
     }));
   };
 
