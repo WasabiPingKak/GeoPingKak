@@ -2,14 +2,17 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import CommonMapList from "@/components/shared/CommonMapList";
 import CommonTabs from "@/components/shared/CommonTabs";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import ErrorRetry from "@/components/shared/ErrorRetry";
 import ChallengeDescription from "@/components/daily-challenge/ChallengeDescription";
 import { useDailyChallengeData } from "@/hooks/useDailyChallengeData";
+import { useVideoExplanations } from "@/hooks/useVideoExplanations";
 import { MAP_DISPLAY_TITLES } from "@/components/daily-challenge/mapTitles";
+import { AiFillYoutube } from "react-icons/ai";
+import type { DailyChallengeEntry } from "@/types/map-entry";
 
 const VISIBLE_COUNTRIES = ["世界", "台灣", "日本"];
 
@@ -23,10 +26,46 @@ const COUNTRY_MAP: Record<string, string> = {
 
 export default function ClientPage() {
   const [selectedCountry, setSelectedCountry] = useState("世界");
-  const { data, isLoading, isError, refetch } = useDailyChallengeData();
+  const [onlyWithVideo, setOnlyWithVideo] = useState(false);
 
-  const filteredEntries =
-    data?.filter((entry) => entry.country === COUNTRY_MAP[selectedCountry]) ?? [];
+  const {
+    data,
+    isLoading,
+    isError,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useDailyChallengeData();
+
+  const { data: videoExplanations } = useVideoExplanations();
+
+  // 從 video explanations 建立 entries（有影片模式用）
+  const videoEntries = useMemo(() => {
+    if (!videoExplanations) return [];
+    const entries: DailyChallengeEntry[] = [];
+    for (const [date, maps] of Object.entries(videoExplanations)) {
+      for (const [mapId, videoData] of Object.entries(maps)) {
+        if (!videoData.challengeUrl) continue;
+        if (!videoData.explanation && !videoData.livestream) continue;
+        entries.push({
+          country: mapId.split("-")[0],
+          mapId,
+          challengeUrl: videoData.challengeUrl,
+          createdAt: date,
+        });
+      }
+    }
+    return entries;
+  }, [videoExplanations]);
+
+  const allEntries = onlyWithVideo
+    ? videoEntries
+    : data?.pages.flat() ?? [];
+
+  const filteredEntries = allEntries.filter(
+    (entry) => entry.country === COUNTRY_MAP[selectedCountry]
+  );
 
   return (
     <div className="max-w-4xl">
@@ -48,10 +87,53 @@ export default function ClientPage() {
 
       <ChallengeDescription country={selectedCountry} />
 
+      {/* 影片篩選開關 */}
+      <div className="flex items-center gap-2 mb-4">
+        <label className="flex items-center gap-1 text-base text-red-600">
+          <AiFillYoutube className="text-red-600" />
+          只顯示有影片詳解的題目
+        </label>
+        <button
+          role="switch"
+          aria-checked={onlyWithVideo}
+          onClick={() => setOnlyWithVideo((prev) => !prev)}
+          className={`ml-2 relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+            onlyWithVideo
+              ? "bg-blue-600 dark:bg-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400"
+              : "bg-gray-300 dark:bg-zinc-600 focus:ring-blue-500 dark:focus:ring-blue-400"
+          }`}
+        >
+          <span
+            className={`inline-block h-4 w-4 transform rounded-full transition-transform ${
+              onlyWithVideo ? "translate-x-6" : "translate-x-1"
+            } bg-white dark:bg-gray-200`}
+          />
+        </button>
+      </div>
+
       {isLoading && <LoadingSkeleton rows={3} />}
       {isError && <ErrorRetry onRetry={() => refetch()} />}
       {!isLoading && !isError && (
-        <CommonMapList entries={filteredEntries} metadataMap={MAP_DISPLAY_TITLES} />
+        <>
+          <CommonMapList
+            entries={filteredEntries}
+            metadataMap={MAP_DISPLAY_TITLES}
+            expandAll={onlyWithVideo}
+          />
+
+          {/* 載入更多按鈕（僅一般模式顯示） */}
+          {!onlyWithVideo && hasNextPage && (
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="px-6 py-2 rounded-lg border border-zinc-600 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors disabled:opacity-50"
+              >
+                {isFetchingNextPage ? "載入中..." : "載入更早的題目"}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -16,7 +16,7 @@ interface CommonMapCardProps {
   entries: DailyChallengeEntry[];
   metadataMap: Record<string, MapMetadata>;
   showSourceLink?: boolean;
-  onlyWithVideo?: boolean;
+  expandAll?: boolean;
 }
 
 export default function CommonMapCard({
@@ -24,7 +24,7 @@ export default function CommonMapCard({
   entries,
   metadataMap,
   showSourceLink = true,
-  onlyWithVideo = false,
+  expandAll = false,
 }: CommonMapCardProps) {
   const metadata = metadataMap[displayMapId];
 
@@ -36,41 +36,31 @@ export default function CommonMapCard({
 
   const groupedByMonth = useMemo(() => {
     const map: Record<string, DailyChallengeEntry[]> = {};
-    const filtered = onlyWithVideo
-      ? entries.filter((e) => {
-        const videoData = videoExplanations?.[e.createdAt]?.[e.mapId];
-        return videoData?.explanation || videoData?.livestream;
-      })
-      : entries;
-
-    for (const entry of filtered) {
+    for (const entry of entries) {
       const monthKey = entry.createdAt.slice(0, 7); // YYYY-MM
       if (!map[monthKey]) map[monthKey] = [];
       map[monthKey].push(entry);
     }
-
     return map;
-  }, [entries, onlyWithVideo, videoExplanations]);
+  }, [entries]);
 
   const [openMonths, setOpenMonths] = useState<Record<string, boolean>>(() => {
     const state: Record<string, boolean> = {};
     for (const month of Object.keys(groupedByMonth)) {
-      state[month] = month === currentMonth;
+      state[month] = expandAll || month === currentMonth;
     }
     return state;
   });
 
   useEffect(() => {
-    if (onlyWithVideo) {
-      setOpenMonths((prev) => {
-        const allOpen: Record<string, boolean> = {};
-        for (const month of Object.keys(groupedByMonth)) {
-          allOpen[month] = true;
-        }
-        return allOpen;
-      });
-    }
-  }, [onlyWithVideo, groupedByMonth]);
+    setOpenMonths(() => {
+      const state: Record<string, boolean> = {};
+      for (const month of Object.keys(groupedByMonth)) {
+        state[month] = expandAll || month === currentMonth;
+      }
+      return state;
+    });
+  }, [expandAll, groupedByMonth, currentMonth]);
 
   const toggleMonth = (month: string) => {
     setOpenMonths((prev) => ({

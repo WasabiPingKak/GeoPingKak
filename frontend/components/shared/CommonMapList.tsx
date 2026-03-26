@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/daily-challenge/mapTitles";
 import { MAP_REPLACEMENTS } from "@/components/daily-challenge/mapTitles";
-import { AiFillYoutube } from "react-icons/ai";
 import CommonMapCard from "./CommonMapCard";
 
 interface CommonMapListProps {
   entries: DailyChallengeEntry[];
   metadataMap: Record<string, MapMetadata>;
   showSourceLink?: boolean;
+  expandAll?: boolean;
 }
 
 export default function CommonMapList({
   entries,
   metadataMap,
   showSourceLink = true,
+  expandAll = false,
 }: CommonMapListProps) {
-  const [onlyWithVideo, setOnlyWithVideo] = useState(false);
-
   // 依 displayMapId 分組，被替換的舊地圖歸入新地圖同一欄
   const groupedByMap = entries.reduce<Record<string, DailyChallengeEntry[]>>(
     (acc, entry) => {
@@ -33,31 +32,6 @@ export default function CommonMapList({
 
   return (
     <div className="space-y-4">
-      {/* Toggle filter switch */}
-      <div className="flex items-center gap-2">
-        <label
-          htmlFor="toggle-video"
-          className="flex items-center gap-1 text-base text-red-600"
-        >
-          <AiFillYoutube className="text-red-600" />
-          只顯示有影片詳解的題目
-        </label>
-        <button
-          role="switch"
-          aria-checked={onlyWithVideo}
-          onClick={() => setOnlyWithVideo((prev) => !prev)}
-          className={`ml-2 relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${onlyWithVideo
-            ? "bg-blue-600 dark:bg-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400"
-            : "bg-gray-300 dark:bg-zinc-600 focus:ring-blue-500 dark:focus:ring-blue-400"
-            }`}
-        >
-          <span
-            className={`inline-block h-4 w-4 transform rounded-full transition-transform ${onlyWithVideo ? "translate-x-6" : "translate-x-1"
-              } bg-white dark:bg-gray-200`}
-          />
-        </button>
-      </div>
-
       {/* Map Cards */}
       <div className={`grid ${isTwoColumns ? "md:grid-cols-2 gap-6" : "grid-cols-1"}`}>
         {Object.entries(groupedByMap).map(([displayMapId, entries]) => (
@@ -67,7 +41,7 @@ export default function CommonMapList({
             entries={entries}
             metadataMap={metadataMap}
             showSourceLink={showSourceLink}
-            onlyWithVideo={onlyWithVideo}
+            expandAll={expandAll}
           />
         ))}
       </div>

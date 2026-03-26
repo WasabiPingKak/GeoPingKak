@@ -9,10 +9,10 @@ mapId 值不變（維持 special-tw-funny、special-tw-pun、special-other）。
 
 使用方式：
   # Dry run（預設）
-  python scripts/migrate_special_map_fields.py staging
+  python scripts/migrate_special_map_fields.py --staging
 
   # 實際執行
-  python scripts/migrate_special_map_fields.py staging --apply
+  python scripts/migrate_special_map_fields.py --staging --apply
 
 注意：
   - 需要先設定 GCP 認證：gcloud auth application-default login
@@ -71,11 +71,11 @@ def migrate_special_maps(db, collection_name, dry_run=True):
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in ("staging", "production"):
-        print("使用方式: python scripts/migrate_special_map_fields.py <staging|production> [--apply]")
+    if len(sys.argv) < 2 or sys.argv[1] not in ("--staging", "--production"):
+        print("使用方式: python scripts/migrate_special_map_fields.py <--staging|--production> [--apply]")
         sys.exit(1)
 
-    env = sys.argv[1]
+    env = sys.argv[1].lstrip("-")
     dry_run = "--apply" not in sys.argv
     prefix = "staging_" if env == "staging" else ""
 

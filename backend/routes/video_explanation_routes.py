@@ -53,6 +53,26 @@ def init_video_explanation_routes(app, db: Client):
             return False
         return True
 
+    def lookup_challenge_url(date, map_id):
+        """從 daily_challenge 查找對應的 challengeUrl"""
+        month = date[:7]  # "2026-01-15" → "2026-01"
+        day = date[8:]    # "2026-01-15" → "15"
+
+        collection_name = get_collection_name("daily_challenge")
+        doc = db.collection(collection_name).document(month).get()
+        if not doc.exists:
+            return None
+
+        data = doc.to_dict()
+        entries = data.get(day, [])
+        if not isinstance(entries, list):
+            return None
+
+        for entry in entries:
+            if entry.get("mapId") == map_id:
+                return entry.get("challengeUrl")
+        return None
+
     @bp.route("/video-explanations", methods=["GET"])
     def get_video_explanations():
         """
@@ -222,6 +242,21 @@ def init_video_explanation_routes(app, db: Client):
                         ),
                         400,
                     )
+
+                # 查找對應的 challengeUrl
+                challenge_url = lookup_challenge_url(date, map_id)
+                if not challenge_url:
+                    return (
+                        jsonify(
+                            {
+                                "error": "Not Found",
+                                "message": f"Cannot find challengeUrl for date '{date}', map '{map_id}' in daily_challenge",
+                            }
+                        ),
+                        404,
+                    )
+
+                map_data["challengeUrl"] = challenge_url
 
                 # 加入有效地圖列表
                 valid_maps[map_id] = map_data

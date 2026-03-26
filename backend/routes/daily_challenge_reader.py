@@ -1,7 +1,7 @@
 # routes/daily_challenge_reader.py
 
 import logging
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from datetime import datetime, timezone, timedelta
 from google.cloud.firestore import Client
 
@@ -12,42 +12,70 @@ logger = logging.getLogger(__name__)
 
 
 def init_daily_challenge_reader_route(app, db: Client):
+    def read_month(collection_name, month_id):
+        """讀取指定月份的所有 entries"""
+        entries = []
+        doc = db.collection(collection_name).document(month_id).get()
+        if not doc.exists:
+            logger.info(f"📄 文件不存在: daily_challenge/{month_id}")
+            return entries
+
+        doc_data = doc.to_dict()
+        if not doc_data:
+            logger.warning(f"⚠️ 文件內容為空: {month_id}")
+            return entries
+
+        for day_key, entry_list in doc_data.items():
+            if not isinstance(entry_list, list):
+                logger.warning(f"⛔ 無效資料格式: {month_id}-{day_key}")
+                continue
+
+            for entry in entry_list:
+                entry["createdAt"] = f"{month_id}-{day_key}"
+                entries.append(entry)
+
+        logger.info(f"📄 讀取 {month_id} 共 {len(entries)} 筆")
+        return entries
+
+    def get_prev_month(year, month):
+        """取得上一個月的 year, month"""
+        if month == 1:
+            return year - 1, 12
+        return year, month - 1
+
     @bp.route("/api/daily-challenge", methods=["GET"])
     def get_daily_challenge():
+        """
+        取得每日挑戰資料（按月份分批載入）
+
+        Query params:
+            month: 指定月份 (YYYY-MM)，回傳該月資料
+                   不帶此參數則回傳當月 + 上月
+        """
         try:
-            tz_taiwan = timezone(timedelta(hours=8))
-            today = datetime.now(tz=tz_taiwan)
-
-            logger.info(f"📅 當前日期: {today.strftime('%Y-%m-%d')}")
-
-            entries = []
-
-            # 🔄 讀取所有月份的 daily_challenge 文件
             collection_name = get_collection_name("daily_challenge")
-            all_docs = db.collection(collection_name).stream()
-            for doc in all_docs:
-                month_id = doc.id
-                logger.info(f"📄 查詢 Firestore 文件: daily_challenge/{month_id}")
-                doc_data = doc.to_dict()
+            month_param = request.args.get("month")
 
-                if not doc_data:
-                    logger.warning(f"⚠️ 文件內容為空: {month_id}")
-                    continue
+            if month_param:
+                # 指定月份：只撈該月
+                entries = read_month(collection_name, month_param)
+                logger.info(f"📦 回傳 {month_param} 共 {len(entries)} 筆")
+                return jsonify(entries)
+            else:
+                # 預設：當月 + 上月
+                tz_taiwan = timezone(timedelta(hours=8))
+                today = datetime.now(tz=tz_taiwan)
+                curr_year, curr_month = today.year, today.month
+                prev_year, prev_month = get_prev_month(curr_year, curr_month)
 
-                for day_key, entry_list in doc_data.items():
-                    if not isinstance(entry_list, list):
-                        logger.warning(f"⛔ 無效資料格式: {month_id}-{day_key}")
-                        continue
+                curr_month_id = f"{curr_year}-{curr_month:02d}"
+                prev_month_id = f"{prev_year}-{prev_month:02d}"
 
-                    logger.info(f"✅ 讀取 {month_id}-{day_key} 共 {len(entry_list)} 筆")
+                entries = read_month(collection_name, curr_month_id)
+                entries += read_month(collection_name, prev_month_id)
 
-                    for entry in entry_list:
-                        # 強制統一 createdAt 格式
-                        entry["createdAt"] = f"{month_id}-{day_key}"
-                        entries.append(entry)
-
-            logger.info(f"📦 總共回傳 {len(entries)} 筆資料")
-            return jsonify(entries)
+                logger.info(f"📦 回傳 {curr_month_id} + {prev_month_id} 共 {len(entries)} 筆")
+                return jsonify(entries)
 
         except Exception:
             logger.error("❌ 讀取每日題目資料失敗", exc_info=True)

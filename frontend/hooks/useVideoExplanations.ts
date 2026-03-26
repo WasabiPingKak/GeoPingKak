@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 interface VideoLink {
   livestream?: string;
   explanation?: string;
+  challengeUrl?: string;
 }
 
 /**

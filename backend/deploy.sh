@@ -6,9 +6,9 @@
 set -e
 
 # 驗證環境參數
-if [ "$1" != "staging" ]; then
+if [ "$1" != "--staging" ]; then
   echo "使用方式："
-  echo "  ./deploy.sh staging    # 部署到 Staging 環境"
+  echo "  ./deploy.sh --staging    # 部署到 Staging 環境"
   echo ""
   echo "Production 部署請 push 到 main branch，由 GitHub Actions 自動執行。"
   exit 1
@@ -116,7 +116,7 @@ if [ $? -eq 0 ]; then
   echo "   NEXT_PUBLIC_API_BASE=$SERVICE_URL"
   echo ""
   echo "🚀 下一步：部署前端"
-  echo "   cd ../frontend && ./deploy.sh staging"
+  echo "   cd ../frontend && ./deploy.sh --staging"
 else
   echo "❌ 更新 $ENV_FILE 失敗，請手動更新"
 fi
