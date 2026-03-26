@@ -20,8 +20,8 @@ def init_video_explanation_routes(app, db: Client):
     ALLOWED_MAP_IDS = [
         "jp-urban",
         "jp-balanced",
-        "the-world",
-        "world-ACW",
+        "world-theworld",
+        "world-acw",
         "tw-balanced",
         "tw-urban",
     ]

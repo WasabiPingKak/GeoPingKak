@@ -20,7 +20,6 @@ GeoPingKak/
 │   ├── routes/
 │   │   ├── daily_challenge_reader.py
 │   │   ├── daily_challenge_writer.py
-│   │   ├── geoguessr_map_routes.py
 │   │   ├── special_map_routes.py
 │   │   └── video_explanation_routes.py # 影片說明 API
 │   ├── services/
@@ -220,7 +219,6 @@ Collections are automatically prefixed based on the `DEPLOY_ENV` environment var
 |-----------|---------|
 | `daily_challenge` | `staging_daily_challenge` |
 | `special_maps` | `staging_special_maps` |
-| `geoguessr_map_index` | `staging_geoguessr_map_index` |
 | `video_explanations` | `staging_video_explanations` |
 
 This is handled by `backend/config.py`:
@@ -311,7 +309,6 @@ cd ../frontend
 **Route modules** (`routes/`):
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
 - `special_map_routes.py` - Special themed maps
-- `geoguessr_map_routes.py` - GeoGuessr map index (read-only)
 - `video_explanation_routes.py` - Video explanations API with Bearer token authentication
   - GET `/api/video-explanations` - 公開端點，取得所有日期的影片資料
   - POST `/api/video-explanations` - 受保護端點（Bearer Token），部分更新影片資料

@@ -5,7 +5,6 @@
 此腳本會將以下 collections 複製到 staging 環境：
 - daily_challenge → staging_daily_challenge
 - special_maps → staging_special_maps
-- geoguessr_map_index → staging_geoguessr_map_index
 
 使用方式：
   python scripts/copy_to_staging.py
@@ -21,10 +20,12 @@ from firebase_admin import credentials, firestore
 import sys
 import os
 
+GCP_PROJECT_ID = "geopingkak"
+
 # 初始化 Firebase（使用應用預設憑證）
 if not firebase_admin._apps:
     try:
-        firebase_admin.initialize_app()
+        firebase_admin.initialize_app(options={"projectId": GCP_PROJECT_ID})
         print("✅ Firebase Admin SDK 初始化成功")
     except Exception as e:
         print(f"❌ Firebase 初始化失敗: {e}")
@@ -102,7 +103,7 @@ def main():
     collections_to_copy = [
         ("daily_challenge", "staging_daily_challenge"),
         ("special_maps", "staging_special_maps"),
-        ("geoguessr_map_index", "staging_geoguessr_map_index"),
+        ("video_explanations", "staging_video_explanations"),
     ]
 
     total = 0

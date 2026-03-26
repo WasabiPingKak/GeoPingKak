@@ -6,7 +6,6 @@ from firebase_admin import credentials, firestore
 from flask_cors import CORS
 
 import config  # 環境配置管理
-from routes.geoguessr_map_routes import init_geoguessr_map_routes
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
 from routes.special_map_routes import init_special_map_routes
@@ -39,7 +38,6 @@ except Exception:
     raise
 
 # ✅ 註冊所有路由模組
-init_geoguessr_map_routes(app, db)
 init_daily_challenge_writer_route(app, db)
 init_daily_challenge_reader_route(app, db)
 init_special_map_routes(app, db)
