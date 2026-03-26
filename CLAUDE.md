@@ -28,7 +28,7 @@ GeoPingKak/
 │       ├── copy_to_staging.py        # Firestore 資料複製腳本
 │       ├── migrate_map_ids.py        # mapId 命名遷移腳本
 │       ├── migrate_special_map_fields.py # 特殊地圖欄位名遷移腳本
-│       └── migrate_video_data.py     # 影片資料遷移腳本
+│       └── migrate_video_challenge_urls.py # 影片資料補 challengeUrl 遷移腳本
 │
 ├── frontend/                         # Next.js App (Firebase Hosting)
 │   ├── .env.staging                  # Staging 環境變數
@@ -191,10 +191,10 @@ Production is deployed automatically via GitHub Actions when pushing to `main` b
 #### Staging Deployment (Manual)
 ```bash
 cd backend
-./deploy.sh staging      # Deploy to geopingkak-backend-staging (auto-updates frontend/.env.staging)
+./deploy.sh --staging      # Deploy to geopingkak-backend-staging (auto-updates frontend/.env.staging)
 
 cd ../frontend
-./deploy.sh staging      # Deploy to Firebase Hosting Channel (staging--geopingkak.web.app)
+./deploy.sh --staging      # Deploy to Firebase Hosting Channel (staging--geopingkak.web.app)
 ```
 
 **Note**: Deploy scripts only support staging. Production must go through CI/CD.
@@ -243,11 +243,11 @@ gcloud config set project geopingkak
 python scripts/copy_to_staging.py
 
 # 2. Deploy backend to staging
-./deploy.sh staging
+./deploy.sh --staging
 
 # 3. Deploy frontend to staging
 cd ../frontend
-./deploy.sh staging
+./deploy.sh --staging
 ```
 
 ## Architecture
@@ -264,7 +264,7 @@ cd ../frontend
 - `components/layout/RootShell.tsx` - Client component handling responsive sidebar (mobile drawer vs desktop fixed)
 - `components/SidebarMenu.tsx` - Sidebar navigation with logo display at the top
 - `components/QueryProvider.tsx` - React Query client provider
-- `hooks/` - Custom hooks using `useQuery` for API data fetching (e.g., `useDailyChallengeData.ts`, `useVideoExplanations.ts`)
+- `hooks/` - Custom hooks for API data fetching (`useDailyChallengeData.ts` uses `useInfiniteQuery` for paginated loading, `useVideoExplanations.ts` uses `useQuery`)
 - `types/` - TypeScript interfaces for API responses
 - `data/` - Static data files (glossary)
 
@@ -310,12 +310,15 @@ cd ../frontend
 
 **Route modules** (`routes/`):
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
+  - GET `/api/daily-challenge` - 按月份分批載入，預設回傳當月+上月
+  - GET `/api/daily-challenge?month=YYYY-MM` - 指定月份載入
 - `special_map_routes.py` - Special themed maps
 - `video_explanation_routes.py` - Video explanations API with Bearer token authentication
-  - GET `/api/video-explanations` - 公開端點，取得所有日期的影片資料
+  - GET `/api/video-explanations` - 公開端點，取得所有日期的影片資料（含 challengeUrl）
   - POST `/api/video-explanations` - 受保護端點（Bearer Token），部分更新影片資料
     - 空白欄位會被自動忽略，不影響現有資料
     - 使用 Firestore merge 模式，只更新有提供的地圖
+    - 自動從 daily_challenge 查找並存入 challengeUrl，找不到則回傳 404
     - 驗證日期格式、地圖 ID 白名單、YouTube URL 格式
 
 **All route modules import and use `get_collection_name()` from `config.py` to ensure environment-aware collection access.**
@@ -324,6 +327,7 @@ cd ../frontend
 - `copy_to_staging.py` - Copy production Firestore data to staging collections
 - `migrate_map_ids.py` - Rename daily challenge / video explanation mapId values
 - `migrate_special_map_fields.py` - Rename special_maps Firestore field names
+- `migrate_video_challenge_urls.py` - Backfill challengeUrl into video_explanations from daily_challenge
 
 **Tests** (`tests/`):
 - `test_auth.py` - Unit tests for shared authentication utilities (Bearer token extraction and verification)
@@ -352,10 +356,10 @@ npm run dev
 
 # 3. Deploy to staging for testing
 cd ../backend
-./deploy.sh staging
+./deploy.sh --staging
 
 cd ../frontend
-./deploy.sh staging
+./deploy.sh --staging
 
 # 4. Test on staging URL
 # Visit: https://staging--geopingkak.web.app
