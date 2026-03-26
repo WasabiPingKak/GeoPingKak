@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import os
+import re
 import logging
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -14,7 +15,18 @@ from routes.video_explanation_routes import init_video_explanation_routes
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 
-CORS(app, origins=os.getenv("CORS_ORIGINS", "*").split(","), supports_credentials=True)
+def parse_cors_origins(raw):
+    """解析 CORS origins，支援 regex pattern（以 re: 開頭）"""
+    origins = []
+    for origin in raw.split(","):
+        origin = origin.strip()
+        if origin.startswith("re:"):
+            origins.append(re.compile(origin[3:]))
+        else:
+            origins.append(origin)
+    return origins
+
+CORS(app, origins=parse_cors_origins(os.getenv("CORS_ORIGINS", "*")), supports_credentials=True)
 
 
 # ✅ Firestore 初始化（自動使用 Cloud Run 身份）

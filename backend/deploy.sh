@@ -59,7 +59,8 @@ gcloud run deploy "$SERVICE_NAME" \
   --region "$REGION" \
   --allow-unauthenticated \
   $NO_TRAFFIC_FLAG \
-  --set-env-vars "DEPLOY_ENV=$DEPLOY_ENV,CORS_ORIGINS=https://staging--geopingkak.web.app" \
+  --set-env-vars "DEPLOY_ENV=$DEPLOY_ENV" \
+  --set-env-vars "CORS_ORIGINS=re:https://geopingkak--staging.*\.web\.app" \
   --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest,VIDEO_EXPLANATIONS_ADMIN_TOKEN=VIDEO_EXPLANATIONS_ADMIN_TOKEN:latest"
 
 if [ $? -ne 0 ]; then
