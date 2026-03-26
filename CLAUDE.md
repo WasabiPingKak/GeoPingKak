@@ -26,6 +26,8 @@ GeoPingKak/
 │   │   └── geoguessr_challenge.py
 │   └── scripts/
 │       ├── copy_to_staging.py        # Firestore 資料複製腳本
+│       ├── migrate_map_ids.py        # mapId 命名遷移腳本
+│       ├── migrate_special_map_fields.py # 特殊地圖欄位名遷移腳本
 │       └── migrate_video_data.py     # 影片資料遷移腳本
 │
 ├── frontend/                         # Next.js App (Firebase Hosting)
@@ -319,7 +321,9 @@ cd ../frontend
 **All route modules import and use `get_collection_name()` from `config.py` to ensure environment-aware collection access.**
 
 **Scripts** (`scripts/`):
-- `copy_to_staging.py` - One-time data migration script for staging environment initialization
+- `copy_to_staging.py` - Copy production Firestore data to staging collections
+- `migrate_map_ids.py` - Rename daily challenge / video explanation mapId values
+- `migrate_special_map_fields.py` - Rename special_maps Firestore field names
 
 **Tests** (`tests/`):
 - `test_auth.py` - Unit tests for shared authentication utilities (Bearer token extraction and verification)
