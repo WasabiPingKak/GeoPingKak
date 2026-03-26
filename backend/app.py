@@ -5,6 +5,8 @@ import logging
 import firebase_admin
 from firebase_admin import credentials, firestore
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 import config  # 環境配置管理
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
@@ -27,6 +29,14 @@ def parse_cors_origins(raw):
     return origins
 
 CORS(app, origins=parse_cors_origins(os.getenv("CORS_ORIGINS", "*")), supports_credentials=True)
+
+# ✅ Rate Limiting（per-IP）
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["60 per minute"],
+    storage_uri="memory://",
+)
 
 
 # ✅ Firestore 初始化（自動使用 Cloud Run 身份）
