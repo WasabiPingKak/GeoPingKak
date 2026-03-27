@@ -10,11 +10,13 @@ GeoPingKak is a Chinese-language GeoGuessr resource website promoting the game f
 
 ```
 GeoPingKak/
+├── .pre-commit-config.yaml           # Pre-commit hooks（Ruff + ESLint）
 ├── backend/                          # Flask API (Cloud Run)
 │   ├── app.py                        # Flask 入口，初始化 Firestore
 │   ├── config.py                     # 環境配置管理（staging/production）
 │   ├── auth.py                       # 共用認證工具（Bearer token 驗證）
 │   ├── deploy.sh                     # Staging 部署腳本（Production 由 CI/CD 處理）
+│   ├── ruff.toml                     # Ruff linter 設定
 │   ├── Dockerfile
 │   ├── requirements.txt
 │   ├── routes/
@@ -168,14 +170,26 @@ npm run build:staging     # Build with staging environment variables
 npm run lint              # Run ESLint
 ```
 
-Backend tests run from the `backend/` directory:
+Backend commands run from the `backend/` directory:
 
 ```bash
 cd backend
+ruff check .              # Run Ruff linter
 pytest tests/ -v          # Run all backend tests
 ```
 
-Tests are also executed automatically in the CI/CD pipeline before deployment.
+### Pre-commit Hooks
+
+The project uses [pre-commit](https://pre-commit.com/) framework (`.pre-commit-config.yaml`):
+- **Ruff**: Lints `backend/` Python files (E/F/W/I rules)
+- **ESLint**: Lints `frontend/` JS/TS files
+
+Global git hooks (`~/.git-hooks/pre-commit`) chain: `.env` file protection → pre-commit framework.
+
+```bash
+pip install pre-commit    # First-time setup (already chained via global hooks)
+pre-commit run --all-files  # Manual full check
+```
 
 ### Deployment
 
@@ -185,7 +199,8 @@ The project supports two environments: **Staging** and **Production**.
 
 Production is deployed automatically via GitHub Actions when pushing to `main` branch.
 - **Workflow**: `.github/workflows/deploy-production.yml`
-- **Process**: Build Docker image → Deploy Cloud Run backend → Build and deploy Firebase Hosting frontend
+- **Process**: Quality check (Ruff + pytest + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting frontend (parallel)
+- **Quality gate**: `quality-check` job must pass before either deploy job starts
 - **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
 
 #### Staging Deployment (Manual)
