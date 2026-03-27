@@ -18,9 +18,10 @@ mapId 值不變（維持 special-tw-funny、special-tw-pun、special-other）。
   - 需要先設定 GCP 認證：gcloud auth application-default login
 """
 
+import sys
+
 import firebase_admin
 from firebase_admin import firestore
-import sys
 
 GCP_PROJECT_ID = "geopingkak"
 

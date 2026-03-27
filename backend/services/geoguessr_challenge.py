@@ -1,9 +1,9 @@
 # services/geoguessr_challenge.py
 
-import os
 import logging
+import os
+
 import requests
-from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +41,6 @@ def create_challenge(map_id: str) -> str | None:
             return None
         return f"https://www.geoguessr.com/challenge/{token}"
 
-    except Exception as e:
+    except Exception:
         logger.error("❌ 建立 GeoGuessr 挑戰失敗", exc_info=True)
         return None

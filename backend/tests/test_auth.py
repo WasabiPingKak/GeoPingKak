@@ -1,6 +1,5 @@
 from auth import extract_bearer_token, verify_bearer_token
 
-
 # --- extract_bearer_token ---
 
 class TestExtractBearerToken:

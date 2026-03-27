@@ -1,12 +1,13 @@
 # routes/daily_challenge_writer.py
 
-import os
 import logging
-from flask import Blueprint, request, jsonify
-from datetime import datetime, timezone, timedelta
+import os
+from datetime import datetime, timedelta, timezone
 
-from config import get_collection_name
+from flask import Blueprint, jsonify, request
+
 from auth import verify_bearer_token
+from config import get_collection_name
 from services.geoguessr_challenge import create_challenge
 
 logger = logging.getLogger(__name__)
@@ -71,7 +72,6 @@ def init_daily_challenge_writer_route(app, db):
         )
 
         updated_list = existing_data.copy()
-        map_id_set = {entry["mapId"] for entry in existing_data}
 
         # 執行每張地圖挑戰
         for item in DAILY_MAPS[country]:

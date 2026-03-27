@@ -1,14 +1,15 @@
 # routes/special_map_routes.py
 
-from flask import Blueprint, request, jsonify
-from google.cloud.firestore import Client
-from datetime import datetime, timezone
+import logging
 import os
 import re
-import logging
+from datetime import datetime, timezone
 
-from config import get_collection_name
+from flask import Blueprint, jsonify, request
+from google.cloud.firestore import Client
+
 from auth import verify_bearer_token
+from config import get_collection_name
 
 logger = logging.getLogger(__name__)
 
@@ -96,7 +97,7 @@ def init_special_map_routes(app, db: Client):
                 200,
             )
 
-        except Exception as e:
+        except Exception:
             logger.exception("寫入特殊地圖失敗")
             return jsonify({"error": "寫入特殊地圖失敗"}), 500
 
@@ -138,7 +139,7 @@ def init_special_map_routes(app, db: Client):
 
             return jsonify(results), 200
 
-        except Exception as e:
+        except Exception:
             logger.exception("讀取特殊地圖失敗")
             return jsonify({"error": "讀取特殊地圖失敗"}), 500
 

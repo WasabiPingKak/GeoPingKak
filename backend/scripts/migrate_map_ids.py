@@ -20,9 +20,10 @@
   - 需要設定正確的專案：gcloud config set project geopingkak
 """
 
+import sys
+
 import firebase_admin
 from firebase_admin import firestore
-import sys
 
 GCP_PROJECT_ID = "geopingkak"
 

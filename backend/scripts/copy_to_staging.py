@@ -15,10 +15,10 @@
 - 如果 staging collections 已存在，會覆蓋同名文件
 """
 
-import firebase_admin
-from firebase_admin import credentials, firestore
 import sys
-import os
+
+import firebase_admin
+from firebase_admin import firestore
 
 GCP_PROJECT_ID = "geopingkak"
 

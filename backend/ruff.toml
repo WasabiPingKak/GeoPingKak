@@ -1,0 +1,13 @@
+target-version = "py311"
+line-length = 120
+src = ["backend"]
+
+[lint]
+select = ["E", "F", "W", "I"]
+
+[lint.per-file-ignores]
+"backend/scripts/*.py" = ["F541"]
+"scripts/*.py" = ["F541"]
+
+[lint.isort]
+known-first-party = ["config", "auth", "routes", "services"]

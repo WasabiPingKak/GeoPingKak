@@ -1,14 +1,15 @@
 # routes/video_explanation_routes.py
 
-from flask import Blueprint, request, jsonify
-from google.cloud.firestore import Client
-from datetime import datetime
+import logging
 import os
 import re
-import logging
+from datetime import datetime
 
-from config import get_collection_name
+from flask import Blueprint, jsonify, request
+from google.cloud.firestore import Client
+
 from auth import verify_bearer_token
+from config import get_collection_name
 
 logger = logging.getLogger(__name__)
 
@@ -250,7 +251,8 @@ def init_video_explanation_routes(app, db: Client):
                         jsonify(
                             {
                                 "error": "Not Found",
-                                "message": f"Cannot find challengeUrl for date '{date}', map '{map_id}' in daily_challenge",
+                                "message": f"Cannot find challengeUrl for date '{date}',"
+                                f" map '{map_id}' in daily_challenge",
                             }
                         ),
                         404,

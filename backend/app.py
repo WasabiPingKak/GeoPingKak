@@ -1,16 +1,16 @@
-from flask import Flask, jsonify
+import logging
 import os
 import re
-import logging
+
 import firebase_admin
 from firebase_admin import credentials, firestore
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-import config  # 環境配置管理
-from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
+from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.special_map_routes import init_special_map_routes
 from routes.video_explanation_routes import init_video_explanation_routes
 

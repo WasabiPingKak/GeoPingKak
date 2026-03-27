@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.0
+    hooks:
+      - id: ruff
+        args: [--config, backend/ruff.toml]
+        files: ^backend/
+
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint (frontend)
+        entry: bash -c 'cd frontend && npx eslint --no-warn-ignored "${@/frontend\//}"' --
+        language: system
+        files: ^frontend/.*\.[jt]sx?$
+        exclude: ^frontend/node_modules/
