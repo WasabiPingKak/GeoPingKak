@@ -1,6 +1,7 @@
 // components/special-maps/SpecialMapCard.tsx
 
 import React from "react";
+import Image from "next/image";
 import type { DailyChallengeEntry } from "@/types/map-entry";
 import type { MapMetadata } from "@/components/special-maps/specialMapTitles";
 
@@ -30,11 +31,15 @@ export default function SpecialMapCard({
 
       {/* ✅ 顯示圖片（標題與描述下方） */}
       {metadata?.img_src && (
-        <img
-          src={metadata.img_src}
-          alt={metadata.title}
-          className="w-full h-48 object-contain rounded-lg mb-4"
-        />
+        <div className="relative w-full h-48 mb-4">
+          <Image
+            src={metadata.img_src}
+            alt={metadata.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-contain rounded-lg"
+          />
+        </div>
       )}
 
       <ul className="space-y-2">

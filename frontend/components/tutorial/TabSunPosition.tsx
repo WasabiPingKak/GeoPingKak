@@ -1,6 +1,7 @@
 // components/tutorial/TabSunPosition.tsx
 
 import React from "react";
+import Image from "next/image";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
@@ -39,10 +40,13 @@ export default function TabSunPosition() {
           {/* 北半球圖片 */}
           <div className="flex-1 text-center space-y-2">
             <Zoom>
-              <img
+              <Image
                 src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/example_N.jpg?v=20250808"
                 alt="北半球觀察太陽的位置"
-                className="w-full rounded-md border border-orange-600 shadow-md"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto rounded-md border border-orange-600 shadow-md"
               />
             </Zoom>
             <p className="text-sm text-orange-300">北半球時，太陽會出現在南方</p>
@@ -51,10 +55,13 @@ export default function TabSunPosition() {
           {/* 南半球圖片 */}
           <div className="flex-1 text-center space-y-2">
             <Zoom>
-              <img
+              <Image
                 src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/example_S.jpg?v=20250808"
                 alt="南半球觀察太陽的位置"
-                className="w-full rounded-md border border-orange-600 shadow-md"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto rounded-md border border-orange-600 shadow-md"
               />
             </Zoom>
             <p className="text-sm text-orange-300">南半球時，太陽會出現在北方</p>
@@ -74,10 +81,13 @@ export default function TabSunPosition() {
 
         <div className="text-center">
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/shadow.jpg?v=20250808"
               alt="透過影子判斷太陽位置"
-              className="w-full md:w-2/3 mx-auto rounded-md border border-zinc-700 shadow-md"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full md:w-2/3 h-auto mx-auto rounded-md border border-zinc-700 shadow-md"
             />
           </Zoom>
           <p className="mt-2 text-sm text-muted-foreground">透過影子的方向推斷太陽位置與赤道方位</p>
@@ -111,10 +121,13 @@ export default function TabSunPosition() {
         當你位在南半球時，太陽則會在北方。
       </p>
       <Zoom>
-        <img
+        <Image
           src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/sun_and_axial_tilt.jpg?v=20250808"
           alt="太陽直射位置與地軸傾角示意圖"
-          className="mt-2 rounded-lg border border-zinc-700 shadow-md w-full"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="mt-2 rounded-lg border border-zinc-700 shadow-md w-full h-auto"
         />
         <p className="mt-2 text-sm text-muted-foreground text-center">
           資料來源：{" "}
@@ -131,10 +144,13 @@ export default function TabSunPosition() {
 
       <p className="mt-6">下圖是完整的緯度覆蓋範圍：</p>
       <Zoom>
-        <img
+        <Image
           src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/World_map_with_major_latitude_circles.png?v=20250808"
           alt="世界地圖與主要緯線（赤道、回歸線、極圈）"
-          className="mt-2 w-full rounded-lg border border-zinc-700 shadow-md"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="mt-2 w-full h-auto rounded-lg border border-zinc-700 shadow-md"
         />
       </Zoom>
       <p className="mt-2 text-sm text-muted-foreground text-center">
@@ -161,20 +177,26 @@ export default function TabSunPosition() {
         <div className="flex flex-col md:flex-row gap-4">
           {/* 北半球接收器 */}
           <div className="flex-1 text-center space-y-2">
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/satellite_dish_north.jpg?v=20250808"
               alt="北半球衛星接收器"
-              className="w-full rounded-md border border-zinc-700 shadow-md"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto rounded-md border border-zinc-700 shadow-md"
             />
             <p className="text-sm text-muted-foreground">北半球：衛星接收器朝向南方（赤道方向）</p>
           </div>
 
           {/* 南半球接收器 */}
           <div className="flex-1 text-center space-y-2">
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/sun_position/satellite_dish_south.jpg?v=20250808"
               alt="南半球衛星接收器"
-              className="w-full rounded-md border border-zinc-700 shadow-md"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto rounded-md border border-zinc-700 shadow-md"
             />
             <p className="text-sm text-muted-foreground">南半球：衛星接收器朝向北方（赤道方向）</p>
           </div>

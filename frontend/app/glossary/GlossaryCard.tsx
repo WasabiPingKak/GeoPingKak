@@ -2,6 +2,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
@@ -36,10 +37,13 @@ export default function GlossaryCard({
               {/* 限制縮圖最大寬度：桌機不滿版，手機仍可接近滿寬 */}
               <div className="w-full max-w-md md:max-w-lg">
                 <Zoom>
-                  <img
+                  <Image
                     src={img.src}
                     alt={img.alt}
-                    className="rounded-lg border border-zinc-700 shadow-md w-full"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="rounded-lg border border-zinc-700 shadow-md w-full h-auto"
                   />
                 </Zoom>
 

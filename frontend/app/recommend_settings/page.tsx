@@ -1,6 +1,9 @@
 // app/recommend_settings/page.tsx
 
 import type { Metadata } from "next";
+import Image from "next/image";
+import imgUI01 from "@/public/settings/UI_01.jpg";
+import imgSettings from "@/public/settings/settings.jpg";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
@@ -60,8 +63,8 @@ export default function RecommendSettingsPage() {
         {/* 🔹 第一組說明區塊 */}
         <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="w-full md:w-1/2 flex justify-center">
-            <img
-              src="/settings/UI_01.jpg"
+            <Image
+              src={imgUI01}
               alt="圖形化指南針設定"
               className="rounded-lg border border-zinc-700 shadow-md"
             />
@@ -77,8 +80,8 @@ export default function RecommendSettingsPage() {
         {/* 🔹 第二組說明區塊 */}
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="w-full md:w-1/2 flex justify-center">
-            <img
-              src="/settings/settings.jpg"
+            <Image
+              src={imgSettings}
               alt="推薦設定項目"
               className="rounded-lg border border-zinc-700 shadow-md"
             />

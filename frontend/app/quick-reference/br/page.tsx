@@ -1,5 +1,6 @@
 // src/app/quick-reference/br/page.tsx
 import React from "react";
+import Image from "next/image";
 import Script from "next/script";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
@@ -54,10 +55,13 @@ export default function BrazilQuickReferencePage() {
         {/* 地圖圖片 */}
         <Zoom>
           <div className="mb-6">
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/quick-reference/br/br_area_code.png?v=20251109"
               alt="巴西區碼地圖"
-              className="w-full max-w-xl mx-auto rounded-md border border-zinc-700"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto max-w-xl mx-auto rounded-md border border-zinc-700"
             />
           </div>
         </Zoom>

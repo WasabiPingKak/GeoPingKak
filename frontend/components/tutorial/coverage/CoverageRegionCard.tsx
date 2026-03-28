@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface CoverageSection {
   type: "full" | "limited" | "none";
@@ -35,11 +36,13 @@ export default function CoverageRegionCard({
       {imgSrc &&
         (isHorizontalLayout ? (
           <div className="flex flex-col md:flex-row gap-4 mb-4">
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
+            <div className="relative w-full md:w-1/2 h-[600px]">
+              <Image
                 src={imgSrc}
                 alt={`${title} 示意圖`}
-                className="rounded-lg border border-zinc-700 shadow-md h-[600px] object-contain"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="rounded-lg border border-zinc-700 shadow-md object-contain"
               />
             </div>
             <div className="w-full md:w-1/2">
@@ -63,11 +66,13 @@ export default function CoverageRegionCard({
             </div>
           </div>
         ) : (
-          <div className="mb-4 flex justify-center">
-            <img
+          <div className="relative mb-4 w-full h-[300px]">
+            <Image
               src={imgSrc}
               alt={`${title} 示意圖`}
-              className="rounded-lg border border-zinc-700 shadow-md max-w-full h-[300px] object-contain"
+              fill
+              sizes="100vw"
+              className="rounded-lg border border-zinc-700 shadow-md object-contain"
             />
           </div>
         ))}

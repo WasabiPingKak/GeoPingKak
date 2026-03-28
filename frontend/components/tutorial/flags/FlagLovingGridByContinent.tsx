@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 // 國旗元件：每洲的國旗愛用國家清單（使用 Grid 呈現，RWD 友善）
 export default function FlagLovingGridByContinent({
@@ -46,10 +47,12 @@ export default function FlagLovingGridByContinent({
                   className="border border-zinc-700 rounded-lg p-4 text-center"
                 >
                   {/* 國旗 */}
-                  <img
+                  <Image
                     src={`https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/flags/${country.domain}.png?v=20250808`}
                     alt={`${country.name} 國旗`}
-                    className="h-24 mx-auto mb-2"
+                    width={96}
+                    height={96}
+                    className="h-24 w-auto mx-auto mb-2"
                   />
                   {/* 國名 */}
                   <p className="text-base mb-2">{country.name}</p>
@@ -57,10 +60,12 @@ export default function FlagLovingGridByContinent({
                   {/* 特例：玻利維亞加上 Wiphala */}
                   {country.domain === "bo" && (
                     <div className="mt-4">
-                      <img
+                      <Image
                         src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/flags/bo_wiphala.png?v=20250808"
                         alt="科利亞蘇尤印加旗"
-                        className="h-24 mx-auto mb-2"
+                        width={96}
+                        height={96}
+                        className="h-24 w-auto mx-auto mb-2"
                       />
                       <p className="text-sm text-zinc-300">
                         科利亞蘇尤印加旗（Wiphala）<br />

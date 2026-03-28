@@ -1,6 +1,7 @@
 // components/proposals/RecreationalProposalTab.tsx
 import React from "react";
 
+import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
@@ -187,10 +188,13 @@ export default function RecreationalProposalTab() {
             玩家社群所做出來的地圖才是這遊戲真正的精髓，連正式比賽都是使用社群地圖，強力推薦優先使用社群地圖。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/classic_map.jpg?v=20250808"
               alt="官方地圖介面"
-              className="w-full mr-auto md:max-w-lg rounded border border-border shadow"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto mr-auto md:max-w-lg rounded border border-border shadow"
             />
           </Zoom>
         </div>
@@ -201,10 +205,13 @@ export default function RecreationalProposalTab() {
             即可在對戰模式中選擇「Liked maps」快速選擇。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/like_a_community_map.jpg?v=20250808"
               alt="點選社群地圖的愛心"
-              className="w-full mr-auto md:max-w-lg rounded border border-border shadow"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto mr-auto md:max-w-lg rounded border border-border shadow"
             />
           </Zoom>
         </div>
@@ -215,17 +222,23 @@ export default function RecreationalProposalTab() {
             點擊 MAP 更換地圖，切換到 Liked maps 分頁，選擇你已經點過愛心的地圖：
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/change_map.jpg?v=20250808"
               alt="Party 頁面點擊更換地圖"
-              className="w-full mr-auto md:max-w-lg rounded border border-border shadow"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto mr-auto md:max-w-lg rounded border border-border shadow"
             />
           </Zoom>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/choose_map.jpg?v=20250808"
               alt="從 Liked maps 分頁選擇地圖"
-              className="w-full mr-auto md:max-w-lg rounded border border-border shadow"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto mr-auto md:max-w-lg rounded border border-border shadow"
             />
           </Zoom>
         </div>
@@ -236,10 +249,13 @@ export default function RecreationalProposalTab() {
             掌握好這些操作，無論單人還是多人模式，都能玩得更順利、也更適合直播呈現。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/show-proposals/switch_custom_map.jpg?v=20250813"
               alt="Party 頁面更換社群地圖"
-              className="w-full mr-auto md:max-w-lg rounded border border-border shadow"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto mr-auto md:max-w-lg rounded border border-border shadow"
             />
           </Zoom>
         </div>
