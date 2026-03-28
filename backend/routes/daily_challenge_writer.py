@@ -9,6 +9,7 @@ from flask import Blueprint, jsonify, request
 from auth import verify_bearer_token
 from config import get_collection_name
 from services.geoguessr_challenge import create_challenge
+from utils.rate_limiter import limiter
 
 logger = logging.getLogger(__name__)
 bp = Blueprint("daily_challenge_writer", __name__)
@@ -40,6 +41,7 @@ DAILY_MAPS = {
 
 def init_daily_challenge_writer_route(app, db):
     @bp.route("/api/admin/update-daily-challenge", methods=["POST"])
+    @limiter.limit("10 per minute")
     def update_daily_challenge():
         # 驗證 API 金鑰
         auth_header = request.headers.get("Authorization", "")
