@@ -32,15 +32,22 @@ function getCurrentMonth(): string {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 }
 
+function getPreviousMonth(month: string): string {
+  const [year, mon] = month.split("-").map(Number);
+  const prev = mon === 1 ? new Date(year - 1, 11) : new Date(year, mon - 2);
+  return `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}`;
+}
+
 export default function ClientPage() {
   const [selectedCountry, setSelectedCountry] = useState("世界");
   const [onlyWithVideo, setOnlyWithVideo] = useState(false);
 
   const currentMonth = useMemo(() => getCurrentMonth(), []);
+  const previousMonth = useMemo(() => getPreviousMonth(currentMonth), [currentMonth]);
 
-  // 展開的月份（預設展開當月）
+  // 展開的月份（預設展開當月＋上月）
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(
-    () => new Set([currentMonth])
+    () => new Set([currentMonth, previousMonth])
   );
 
   const toggleMonth = useCallback((month: string) => {
