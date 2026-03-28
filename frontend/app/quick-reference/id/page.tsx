@@ -1,5 +1,6 @@
 // src/app/quick-reference/indonesia/page.tsx
 import React from "react";
+import Image from "next/image";
 import Script from "next/script";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
@@ -80,10 +81,13 @@ export default function IndonesiaQuickReferencePage() {
 
       <Zoom>
         <div className="mb-6">
-          <img
+          <Image
             src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/quick-reference/id/compass.jpg?v=20251109"
             alt="印尼地圖指南針示意圖"
-            className="w-full max-w-md mx-auto rounded-md border border-zinc-700"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-full h-auto max-w-md mx-auto rounded-md border border-zinc-700"
           />
         </div>
       </Zoom>

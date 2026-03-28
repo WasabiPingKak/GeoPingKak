@@ -1,6 +1,7 @@
 // components/tutorial/TabDrivingSide.tsx
 
 import React from "react";
+import Image from "next/image";
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
@@ -20,10 +21,13 @@ export default function TabDrivingSide() {
       <div className="bg-muted/30 p-4 rounded-xl border border-border space-y-4">
         <div>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_map.png?v=20250808"
               alt="世界道路通行方向地圖"
-              className="w-full rounded-xl shadow-md border border-border"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-full h-auto rounded-xl shadow-md border border-border"
             />
           </Zoom>
           <p className="text-xs text-center mt-2 text-muted-foreground">
@@ -63,9 +67,12 @@ export default function TabDrivingSide() {
           非常明顯，不需要解釋。
         </p>
         <Zoom>
-          <img
+          <Image
             src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_car.jpg?v=20250808"
             alt="道路通行方向"
+            width={0}
+            height={0}
+            sizes="100vw"
             className="max-w-[700px] w-full h-auto rounded-xl shadow-md border border-border cursor-zoom-in"
           />
         </Zoom>
@@ -78,9 +85,12 @@ export default function TabDrivingSide() {
             觀察順向停車的方向。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_parking_01.jpg?v=20250808"
               alt="停車方向"
+              width={0}
+              height={0}
+              sizes="100vw"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
           </Zoom>
@@ -91,9 +101,12 @@ export default function TabDrivingSide() {
             觀察駕駛座位置。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_parking_02.jpg?v=20250808"
               alt="停車方向"
+              width={0}
+              height={0}
+              sizes="100vw"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
           </Zoom>
@@ -106,9 +119,12 @@ export default function TabDrivingSide() {
             觀察停止線的位置。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_lines.jpg?v=20250808"
               alt="道路標線"
+              width={0}
+              height={0}
+              sizes="100vw"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
           </Zoom>
@@ -118,9 +134,12 @@ export default function TabDrivingSide() {
             觀察路標面對的方向，路標在道路左側面對駕駛：靠左行駛的國家。
           </p>
           <Zoom>
-            <img
+            <Image
               src="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/driving_side/driving_side_sign.jpg?v=20250808"
               alt="停車方向"
+              width={0}
+              height={0}
+              sizes="100vw"
               className="w-full h-auto rounded-xl shadow-md border border-border"
             />
           </Zoom>

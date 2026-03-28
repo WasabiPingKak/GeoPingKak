@@ -1,6 +1,7 @@
 // components/tutorial/plate/EuroPlateSection.tsx
 
 import React from "react";
+import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
@@ -20,10 +21,13 @@ export default function EuroPlateSection({ data }: { data: EuroPlateInfo }) {
           <div className="md:w-1/3 flex flex-col gap-2 items-center">
             {data.images.map((img, idx) => (
               <Zoom key={idx}>
-                <img
+                <Image
                   src={img.src}
                   alt={img.alt}
-                  className="rounded-lg border border-zinc-700 shadow-md w-full"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="rounded-lg border border-zinc-700 shadow-md w-full h-auto"
                 />
               </Zoom>
             ))}

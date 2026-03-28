@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import type { PlateInfo } from "./plateData";
@@ -21,10 +22,13 @@ export default function PlateBlock({ title, data }: PlateBlockProps) {
           >
             <div className="md:w-1/3 flex justify-center">
               <Zoom>
-                <img
+                <Image
                   src={image}
                   alt={`${country}車牌`}
-                  className="rounded-lg border border-zinc-700 shadow-md max-w-full"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="rounded-lg border border-zinc-700 shadow-md w-full h-auto"
                 />
               </Zoom>
             </div>
