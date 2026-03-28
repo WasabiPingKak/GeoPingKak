@@ -2,17 +2,20 @@
 
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
+import { useQueries } from "@tanstack/react-query";
 import CommonMapList from "@/components/shared/CommonMapList";
 import CommonTabs from "@/components/shared/CommonTabs";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import ErrorRetry from "@/components/shared/ErrorRetry";
 import ChallengeDescription from "@/components/daily-challenge/ChallengeDescription";
-import { useDailyChallengeData } from "@/hooks/useDailyChallengeData";
+import { useDailyChallengeMonths } from "@/hooks/useDailyChallengeData";
 import { useVideoExplanations } from "@/hooks/useVideoExplanations";
 import { MAP_DISPLAY_TITLES } from "@/components/daily-challenge/mapTitles";
 import { AiFillYoutube } from "react-icons/ai";
 import type { DailyChallengeEntry } from "@/types/map-entry";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
 
 const VISIBLE_COUNTRIES = ["世界", "台灣", "日本"];
 
@@ -24,19 +27,71 @@ const COUNTRY_MAP: Record<string, string> = {
   香港: "hk",
 };
 
+function getCurrentMonth(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+}
+
 export default function ClientPage() {
   const [selectedCountry, setSelectedCountry] = useState("世界");
   const [onlyWithVideo, setOnlyWithVideo] = useState(false);
 
+  const currentMonth = useMemo(() => getCurrentMonth(), []);
+
+  // 展開的月份（預設展開當月）
+  const [expandedMonths, setExpandedMonths] = useState<Set<string>>(
+    () => new Set([currentMonth])
+  );
+
+  const toggleMonth = useCallback((month: string) => {
+    setExpandedMonths((prev) => {
+      const next = new Set(prev);
+      if (next.has(month)) {
+        next.delete(month);
+      } else {
+        next.add(month);
+      }
+      return next;
+    });
+  }, []);
+
+  // 取得可用月份列表
   const {
-    data,
-    isLoading,
-    isError,
-    refetch,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useDailyChallengeData();
+    data: availableMonths,
+    isLoading: isLoadingMonths,
+    isError: isErrorMonths,
+    refetch: refetchMonths,
+  } = useDailyChallengeMonths();
+
+  // 對所有已展開的月份發送 query
+  const monthQueries = useQueries({
+    queries: [...expandedMonths].map((month) => ({
+      queryKey: ["daily-challenge", month],
+      queryFn: async () => {
+        const res = await fetch(
+          `${API_BASE}/api/daily-challenge?month=${month}`
+        );
+        if (!res.ok) throw new Error("資料載入失敗");
+        return res.json() as Promise<DailyChallengeEntry[]>;
+      },
+    })),
+  });
+
+  // 正在載入的月份
+  const loadingMonths = useMemo(() => {
+    const set = new Set<string>();
+    const expandedArr = [...expandedMonths];
+    monthQueries.forEach((q, i) => {
+      if (q.isLoading) set.add(expandedArr[i]);
+    });
+    return set;
+  }, [monthQueries, expandedMonths]);
+
+  // 彙整所有已載入的 entries
+  const allEntries = useMemo(
+    () => monthQueries.flatMap((q) => q.data ?? []),
+    [monthQueries]
+  );
 
   const { data: videoExplanations } = useVideoExplanations();
 
@@ -59,11 +114,9 @@ export default function ClientPage() {
     return entries;
   }, [videoExplanations]);
 
-  const allEntries = onlyWithVideo
-    ? videoEntries
-    : data?.pages.flat() ?? [];
+  const entries = onlyWithVideo ? videoEntries : allEntries;
 
-  const filteredEntries = allEntries.filter(
+  const filteredEntries = entries.filter(
     (entry) => entry.country === COUNTRY_MAP[selectedCountry]
   );
 
@@ -111,29 +164,18 @@ export default function ClientPage() {
         </button>
       </div>
 
-      {isLoading && <LoadingSkeleton rows={3} />}
-      {isError && <ErrorRetry onRetry={() => refetch()} />}
-      {!isLoading && !isError && (
-        <>
-          <CommonMapList
-            entries={filteredEntries}
-            metadataMap={MAP_DISPLAY_TITLES}
-            expandAll={onlyWithVideo}
-          />
-
-          {/* 載入更多按鈕（僅一般模式顯示） */}
-          {!onlyWithVideo && hasNextPage && (
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => fetchNextPage()}
-                disabled={isFetchingNextPage}
-                className="px-6 py-2 rounded-lg border border-zinc-600 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors disabled:opacity-50"
-              >
-                {isFetchingNextPage ? "載入中..." : "載入更早的題目"}
-              </button>
-            </div>
-          )}
-        </>
+      {isLoadingMonths && <LoadingSkeleton rows={3} />}
+      {isErrorMonths && <ErrorRetry onRetry={() => refetchMonths()} />}
+      {!isLoadingMonths && !isErrorMonths && (
+        <CommonMapList
+          entries={filteredEntries}
+          metadataMap={MAP_DISPLAY_TITLES}
+          expandAll={onlyWithVideo}
+          availableMonths={onlyWithVideo ? undefined : availableMonths}
+          expandedMonths={expandedMonths}
+          loadingMonths={loadingMonths}
+          onToggleMonth={toggleMonth}
+        />
       )}
     </div>
   );

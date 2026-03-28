@@ -17,6 +17,14 @@ interface CommonMapCardProps {
   metadataMap: Record<string, MapMetadata>;
   showSourceLink?: boolean;
   expandAll?: boolean;
+  /** 所有可用月份（月份導航模式，由外部控制展開） */
+  availableMonths?: string[];
+  /** 目前展開的月份（月份導航模式） */
+  expandedMonths?: Set<string>;
+  /** 正在載入的月份（月份導航模式） */
+  loadingMonths?: Set<string>;
+  /** 切換月份展開/收合（月份導航模式） */
+  onToggleMonth?: (month: string) => void;
 }
 
 export default function CommonMapCard({
@@ -25,25 +33,32 @@ export default function CommonMapCard({
   metadataMap,
   showSourceLink = true,
   expandAll = false,
+  availableMonths,
+  expandedMonths,
+  loadingMonths,
+  onToggleMonth,
 }: CommonMapCardProps) {
   const metadata = metadataMap[displayMapId];
-
-  // 使用 hook 取得影片資料
   const { data: videoExplanations } = useVideoExplanations();
 
   const now = new Date();
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
+  // 是否使用外部月份導航模式
+  const useExternalMonths = !!(availableMonths && expandedMonths && onToggleMonth);
+
+  // 將 entries 依月份分組
   const groupedByMonth = useMemo(() => {
     const map: Record<string, DailyChallengeEntry[]> = {};
     for (const entry of entries) {
-      const monthKey = entry.createdAt.slice(0, 7); // YYYY-MM
+      const monthKey = entry.createdAt.slice(0, 7);
       if (!map[monthKey]) map[monthKey] = [];
       map[monthKey].push(entry);
     }
     return map;
   }, [entries]);
 
+  // --- 內部月份展開狀態（expandAll / 影片模式用） ---
   const defaultOpenMonths = useMemo(() => {
     const state: Record<string, boolean> = {};
     for (const month of Object.keys(groupedByMonth)) {
@@ -54,17 +69,28 @@ export default function CommonMapCard({
 
   const [monthOverrides, setMonthOverrides] = useState<Record<string, boolean>>({});
 
-  const openMonths = useMemo(
+  const internalOpenMonths = useMemo(
     () => ({ ...defaultOpenMonths, ...monthOverrides }),
     [defaultOpenMonths, monthOverrides]
   );
 
-  const toggleMonth = (month: string) => {
+  const internalToggle = (month: string) => {
     setMonthOverrides((prev) => ({
       ...prev,
-      [month]: !openMonths[month],
+      [month]: !internalOpenMonths[month],
     }));
   };
+
+  // --- 決定要顯示的月份列表與展開狀態 ---
+  const monthsToShow = useExternalMonths
+    ? availableMonths
+    : Object.keys(groupedByMonth).sort((a, b) => b.localeCompare(a));
+
+  const isMonthOpen = (month: string) =>
+    useExternalMonths ? expandedMonths.has(month) : !!internalOpenMonths[month];
+
+  const handleToggle = (month: string) =>
+    useExternalMonths ? onToggleMonth(month) : internalToggle(month);
 
   return (
     <div className="rounded-xl border p-4 bg-card shadow-sm">
@@ -87,23 +113,32 @@ export default function CommonMapCard({
       )}
 
       <div className="space-y-4">
-        {Object.entries(groupedByMonth)
-          .sort((a, b) => b[0].localeCompare(a[0])) // 最新月份在上
-          .map(([month, entries]) => (
+        {monthsToShow.map((month) => {
+          const monthEntries = groupedByMonth[month] ?? [];
+          const isOpen = isMonthOpen(month);
+          const isLoading = loadingMonths?.has(month) ?? false;
+
+          return (
             <div key={month} className="border border-muted rounded-lg bg-zinc-800 p-4">
               <button
-                onClick={() => toggleMonth(month)}
-                className="flex items-center gap-2 mb-2 text-base font-semibold text-white"
+                onClick={() => handleToggle(month)}
+                className="flex items-center gap-2 text-base font-semibold text-white"
               >
                 <span>{month}</span>
                 <span className="text-sm text-muted-foreground">
-                  {openMonths[month] ? "[-] 收合" : "[+] 展開"}
+                  {isOpen ? "[-] 收合" : "[+] 展開"}
                 </span>
               </button>
 
-              {openMonths[month] && (
-                <ul className="space-y-2">
-                  {entries
+              {isOpen && isLoading && (
+                <p className="mt-2 text-sm text-muted-foreground animate-pulse">
+                  載入中...
+                </p>
+              )}
+
+              {isOpen && !isLoading && monthEntries.length > 0 && (
+                <ul className="mt-2 space-y-2">
+                  {monthEntries
                     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
                     .map((entry) => {
                       const videoData = videoExplanations?.[entry.createdAt]?.[entry.mapId];
@@ -162,7 +197,8 @@ export default function CommonMapCard({
                 </ul>
               )}
             </div>
-          ))}
+          );
+        })}
       </div>
     </div>
   );

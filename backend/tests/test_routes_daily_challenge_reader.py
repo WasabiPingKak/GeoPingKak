@@ -49,6 +49,33 @@ class TestGetWithMonthParam:
         assert resp.status_code == 400
 
 
+class TestGetAvailableMonths:
+    """GET /api/daily-challenge/months"""
+
+    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    def test_returns_sorted_months(self, _col, client, mock_db):
+        # list_documents returns an iterator of document references
+        doc_refs = []
+        for month_id in ["2025-11", "2026-03", "2026-01"]:
+            ref = MagicMock()
+            ref.id = month_id
+            doc_refs.append(ref)
+        mock_db.return_value.list_documents.return_value = doc_refs
+
+        resp = client.get("/api/daily-challenge/months")
+        assert resp.status_code == 200
+        data = resp.get_json()
+        assert data == ["2026-03", "2026-01", "2025-11"]
+
+    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    def test_empty_collection(self, _col, client, mock_db):
+        mock_db.return_value.list_documents.return_value = []
+
+        resp = client.get("/api/daily-challenge/months")
+        assert resp.status_code == 200
+        assert resp.get_json() == []
+
+
 class TestGetDefault:
     """GET /api/daily-challenge (no param — current + previous month)"""
 

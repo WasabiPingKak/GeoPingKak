@@ -47,6 +47,19 @@ def init_daily_challenge_reader_route(app, db: Client):  # noqa: C901
             return year - 1, 12
         return year, month - 1
 
+    @bp.route("/api/daily-challenge/months", methods=["GET"])
+    def get_available_months():
+        """回傳所有已存在的月份 ID 列表（降冪排序）"""
+        try:
+            collection_name = get_collection_name("daily_challenge")
+            docs = db.collection(collection_name).list_documents()
+            months = sorted([doc.id for doc in docs], reverse=True)
+            logger.info(f"📅 回傳 {len(months)} 個可用月份")
+            return jsonify(months)
+        except Exception:
+            logger.error("❌ 讀取可用月份失敗", exc_info=True)
+            return jsonify({"error": "Internal server error"}), 500
+
     @bp.route("/api/daily-challenge", methods=["GET"])
     def get_daily_challenge():
         """
