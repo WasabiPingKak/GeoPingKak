@@ -14,3 +14,18 @@ repos:
         language: system
         files: ^frontend/.*\.[jt]sx?$
         exclude: ^frontend/node_modules/
+
+      - id: tsc
+        name: tsc (frontend type check)
+        entry: bash -c 'cd frontend && npx tsc --noEmit'
+        language: system
+        files: ^frontend/.*\.[jt]sx?$
+        exclude: ^frontend/node_modules/
+        pass_filenames: false
+
+      - id: pytest
+        name: pytest (backend)
+        entry: bash -c 'cd backend && python -m pytest tests/ -v'
+        language: system
+        files: ^backend/.*\.py$
+        pass_filenames: false
