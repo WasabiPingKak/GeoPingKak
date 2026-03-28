@@ -40,11 +40,11 @@ class TestValidation:
         assert resp.status_code == 400
 
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
-    def test_no_content_type_returns_error(self, client):
-        """No JSON content-type triggers global error handler."""
+    def test_no_content_type_returns_415(self, client):
+        """No JSON content-type returns 415 Unsupported Media Type."""
         resp = client.post("/api/admin/update-daily-challenge", headers=AUTH_HEADER)
-        assert resp.status_code == 500
-        assert resp.get_json()["error"] == "Internal server error"
+        assert resp.status_code == 415
+        assert resp.get_json()["error"] == "Unsupported Media Type"
 
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_invalid_country(self, client):

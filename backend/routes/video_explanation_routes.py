@@ -5,6 +5,7 @@ import os
 
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
+from werkzeug.exceptions import HTTPException
 
 from auth import verify_bearer_token
 from config import get_collection_name
@@ -135,6 +136,8 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
             logger.info(f"✅ 成功讀取 {len(result)} 個日期的影片資料")
             return jsonify(result), 200
 
+        except HTTPException:
+            raise
         except Exception as e:
             logger.error(f"❌ 讀取影片說明資料失敗: {e}", exc_info=True)
             return jsonify({"error": "Internal server error"}), 500
@@ -188,6 +191,8 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
                 "updated_maps": list(valid_maps.keys()),
             }), 200
 
+        except HTTPException:
+            raise
         except Exception as e:
             logger.error(f"❌ 更新影片說明資料失敗: {e}", exc_info=True)
             return jsonify({"error": "Internal server error"}), 500

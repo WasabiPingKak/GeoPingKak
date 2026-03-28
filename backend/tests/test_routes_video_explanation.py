@@ -61,10 +61,10 @@ class TestPostVideoExplanationsValidation:
         assert resp.status_code == 400
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
-    def test_no_content_type_returns_500(self, _auth, client):
-        """No JSON content-type triggers route's exception handler."""
+    def test_no_content_type_returns_415(self, _auth, client):
+        """No JSON content-type returns 415 Unsupported Media Type."""
         resp = client.post("/api/video-explanations", headers=AUTH_HEADER)
-        assert resp.status_code == 500
+        assert resp.status_code == 415
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
     def test_missing_date(self, _auth, client):
