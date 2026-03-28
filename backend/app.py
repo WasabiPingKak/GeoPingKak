@@ -9,6 +9,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from flask import Flask, g, jsonify, request
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
@@ -130,6 +131,11 @@ def method_not_allowed(e):
 @app.errorhandler(429)
 def rate_limit_exceeded(e):
     return jsonify({"error": "Too many requests"}), 429
+
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(e):
+    return jsonify({"error": e.name}), e.code
 
 
 @app.errorhandler(Exception)
