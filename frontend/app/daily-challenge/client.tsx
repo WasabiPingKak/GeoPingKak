@@ -11,9 +11,11 @@ import ErrorRetry from "@/components/shared/ErrorRetry";
 import ChallengeDescription from "@/components/daily-challenge/ChallengeDescription";
 import { useDailyChallengeMonths } from "@/hooks/useDailyChallengeData";
 import { useVideoExplanations } from "@/hooks/useVideoExplanations";
-import { MAP_DISPLAY_TITLES } from "@/components/daily-challenge/mapTitles";
+import { MAP_DISPLAY_TITLES, MAP_REPLACEMENTS } from "@/components/daily-challenge/mapTitles";
 import { AiFillYoutube } from "react-icons/ai";
 import type { DailyChallengeEntry } from "@/types/map-entry";
+
+const REPLACED_MAP_IDS = new Set(Object.keys(MAP_REPLACEMENTS));
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "";
 
@@ -45,10 +47,17 @@ export default function ClientPage() {
   const currentMonth = useMemo(() => getCurrentMonth(), []);
   const previousMonth = useMemo(() => getPreviousMonth(currentMonth), [currentMonth]);
 
-  // 展開的月份（預設展開當月＋上月）
+  // 展開的月份（預設只展開當月）
   const [expandedMonths, setExpandedMonths] = useState<Set<string>>(
-    () => new Set([currentMonth, previousMonth])
+    () => new Set([currentMonth])
   );
+
+  // 需要載入資料的月份 = 已展開 + 上月（預載但不展開）
+  const monthsToFetch = useMemo(() => {
+    const set = new Set(expandedMonths);
+    set.add(previousMonth);
+    return set;
+  }, [expandedMonths, previousMonth]);
 
   const toggleMonth = useCallback((month: string) => {
     setExpandedMonths((prev) => {
@@ -70,9 +79,10 @@ export default function ClientPage() {
     refetch: refetchMonths,
   } = useDailyChallengeMonths();
 
-  // 對所有已展開的月份發送 query
+  // 對所有需要載入的月份發送 query（已展開 + 預載上月）
+  const monthsToFetchArr = useMemo(() => [...monthsToFetch], [monthsToFetch]);
   const monthQueries = useQueries({
-    queries: [...expandedMonths].map((month) => ({
+    queries: monthsToFetchArr.map((month) => ({
       queryKey: ["daily-challenge", month],
       queryFn: async () => {
         const res = await fetch(
@@ -87,12 +97,11 @@ export default function ClientPage() {
   // 正在載入的月份
   const loadingMonths = useMemo(() => {
     const set = new Set<string>();
-    const expandedArr = [...expandedMonths];
     monthQueries.forEach((q, i) => {
-      if (q.isLoading) set.add(expandedArr[i]);
+      if (q.isLoading) set.add(monthsToFetchArr[i]);
     });
     return set;
-  }, [monthQueries, expandedMonths]);
+  }, [monthQueries, monthsToFetchArr]);
 
   // 彙整所有已載入的 entries
   const allEntries = useMemo(
@@ -127,12 +136,12 @@ export default function ClientPage() {
     (entry) => entry.country === COUNTRY_MAP[selectedCountry]
   );
 
-  // 只保留當前國家的地圖 metadata，避免月份導航模式顯示其他國家的卡片
+  // 只保留當前國家的地圖 metadata，排除已被替換的地圖（如 ACW → Figsy）
   const countryCode = COUNTRY_MAP[selectedCountry];
   const filteredMetadata = useMemo(() => {
     const result: Record<string, typeof MAP_DISPLAY_TITLES[string]> = {};
     for (const [mapId, meta] of Object.entries(MAP_DISPLAY_TITLES)) {
-      if (mapId.startsWith(`${countryCode}-`)) {
+      if (mapId.startsWith(`${countryCode}-`) && !REPLACED_MAP_IDS.has(mapId)) {
         result[mapId] = meta;
       }
     }
