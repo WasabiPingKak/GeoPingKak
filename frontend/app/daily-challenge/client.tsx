@@ -127,6 +127,18 @@ export default function ClientPage() {
     (entry) => entry.country === COUNTRY_MAP[selectedCountry]
   );
 
+  // 只保留當前國家的地圖 metadata，避免月份導航模式顯示其他國家的卡片
+  const countryCode = COUNTRY_MAP[selectedCountry];
+  const filteredMetadata = useMemo(() => {
+    const result: Record<string, typeof MAP_DISPLAY_TITLES[string]> = {};
+    for (const [mapId, meta] of Object.entries(MAP_DISPLAY_TITLES)) {
+      if (mapId.startsWith(`${countryCode}-`)) {
+        result[mapId] = meta;
+      }
+    }
+    return result;
+  }, [countryCode]);
+
   return (
     <div className="max-w-4xl">
       <h1 className="text-3xl font-bold mb-4">GeoGuessr 每日免費挑戰</h1>
@@ -176,7 +188,7 @@ export default function ClientPage() {
       {!isLoadingMonths && !isErrorMonths && (
         <CommonMapList
           entries={filteredEntries}
-          metadataMap={MAP_DISPLAY_TITLES}
+          metadataMap={filteredMetadata}
           expandAll={onlyWithVideo}
           availableMonths={onlyWithVideo ? undefined : availableMonths}
           expandedMonths={expandedMonths}
