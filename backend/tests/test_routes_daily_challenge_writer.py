@@ -59,7 +59,7 @@ class TestValidation:
 
 class TestSuccess:
     @patch("routes.daily_challenge_writer.create_challenge", return_value="https://www.geoguessr.com/challenge/abc123")
-    @patch("routes.daily_challenge_writer.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_creates_challenge_and_writes(self, _col, mock_create, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
@@ -78,7 +78,7 @@ class TestSuccess:
         mock_db.return_value.document.return_value.set.assert_called_once()
 
     @patch("routes.daily_challenge_writer.create_challenge", return_value=None)
-    @patch("routes.daily_challenge_writer.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_skips_failed_challenge_creation(self, _col, mock_create, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)

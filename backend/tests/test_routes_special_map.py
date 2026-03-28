@@ -15,7 +15,7 @@ AUTH_HEADER = {"Authorization": f"Bearer {VALID_TOKEN}"}
 
 
 class TestGetSpecialMap:
-    @patch("routes.special_map_routes.get_collection_name", return_value="special_maps")
+    @patch("repositories.special_map_repo.get_collection_name", return_value="special_maps")
     def test_returns_entries(self, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(
             data={
@@ -35,7 +35,7 @@ class TestGetSpecialMap:
         data = resp.get_json()
         assert any(e["mapId"] == "special-tw-funny" for e in data)
 
-    @patch("routes.special_map_routes.get_collection_name", return_value="special_maps")
+    @patch("repositories.special_map_repo.get_collection_name", return_value="special_maps")
     def test_empty_collection(self, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
 
@@ -74,7 +74,7 @@ class TestPostSpecialMap:
         assert resp.status_code == 400
         assert "Unknown mapId" in resp.get_json()["error"]
 
-    @patch("routes.special_map_routes.get_collection_name", return_value="special_maps")
+    @patch("repositories.special_map_repo.get_collection_name", return_value="special_maps")
     @patch("routes.special_map_routes.verify_bearer_token", return_value=True)
     def test_successful_add(self, _auth, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(
@@ -91,7 +91,7 @@ class TestPostSpecialMap:
         assert data["length"] == 1
         mock_db.return_value.document.return_value.set.assert_called_once()
 
-    @patch("routes.special_map_routes.get_collection_name", return_value="special_maps")
+    @patch("repositories.special_map_repo.get_collection_name", return_value="special_maps")
     @patch("routes.special_map_routes.verify_bearer_token", return_value=True)
     def test_duplicate_url_returns_duplicate(self, _auth, _col, client, mock_db):
         existing_url = "https://www.geoguessr.com/challenge/existing"

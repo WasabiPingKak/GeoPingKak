@@ -13,7 +13,7 @@ def _mock_doc(exists=True, data=None):
 class TestGetWithMonthParam:
     """GET /api/daily-challenge?month=YYYY-MM"""
 
-    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     def test_returns_entries(self, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(
             data={
@@ -31,7 +31,7 @@ class TestGetWithMonthParam:
         assert "2026-03-01" in dates
         assert "2026-03-15" in dates
 
-    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     def test_nonexistent_month_returns_empty(self, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
 
@@ -52,7 +52,7 @@ class TestGetWithMonthParam:
 class TestGetAvailableMonths:
     """GET /api/daily-challenge/months"""
 
-    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     def test_returns_sorted_months(self, _col, client, mock_db):
         # list_documents returns an iterator of document references
         doc_refs = []
@@ -67,7 +67,7 @@ class TestGetAvailableMonths:
         data = resp.get_json()
         assert data == ["2026-03", "2026-01", "2025-11"]
 
-    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     def test_empty_collection(self, _col, client, mock_db):
         mock_db.return_value.list_documents.return_value = []
 
@@ -79,7 +79,7 @@ class TestGetAvailableMonths:
 class TestGetDefault:
     """GET /api/daily-challenge (no param — current + previous month)"""
 
-    @patch("routes.daily_challenge_reader.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     def test_returns_two_months(self, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(
             data={"10": [{"mapId": "tw-urban", "challengeUrl": "https://geo.com/x"}]}

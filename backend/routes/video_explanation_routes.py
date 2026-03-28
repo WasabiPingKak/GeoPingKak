@@ -5,10 +5,11 @@ import os
 
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
+from repositories.daily_challenge_repo import DailyChallengeRepo
+from repositories.video_explanation_repo import VideoExplanationRepo
 from werkzeug.exceptions import HTTPException
 
 from auth import verify_bearer_token
-from config import get_collection_name
 from utils.rate_limiter import limiter
 from validators import validate_date, validate_youtube_url
 
@@ -28,28 +29,7 @@ ALLOWED_MAP_IDS = [
 VIDEO_ADMIN_TOKEN = os.getenv("VIDEO_EXPLANATIONS_ADMIN_TOKEN", "")
 
 
-def _lookup_challenge_url(db, date, map_id):
-    """從 daily_challenge 查找對應的 challengeUrl"""
-    month = date[:7]  # "2026-01-15" → "2026-01"
-    day = date[8:]    # "2026-01-15" → "15"
-
-    collection_name = get_collection_name("daily_challenge")
-    doc = db.collection(collection_name).document(month).get()
-    if not doc.exists:
-        return None
-
-    data = doc.to_dict()
-    entries = data.get(day, [])
-    if not isinstance(entries, list):
-        return None
-
-    for entry in entries:
-        if entry.get("mapId") == map_id:
-            return entry.get("challengeUrl")
-    return None
-
-
-def _validate_maps(maps, date, db):
+def _validate_maps(maps, date, daily_challenge_repo):
     """驗證並過濾地圖資料。
 
     Returns:
@@ -92,7 +72,7 @@ def _validate_maps(maps, date, db):
                 )
 
         # 查找對應的 challengeUrl
-        challenge_url = _lookup_challenge_url(db, date, map_id)
+        challenge_url = daily_challenge_repo.lookup_challenge_url(date, map_id)
         if not challenge_url:
             return None, (
                 jsonify({
@@ -116,23 +96,15 @@ def _validate_maps(maps, date, db):
 
 def init_video_explanation_routes(app, db: Client):  # noqa: C901
     bp = Blueprint("video_explanation", __name__, url_prefix="/api")
+    repo = VideoExplanationRepo(db)
+    daily_challenge_repo = DailyChallengeRepo(db)
 
     @bp.route("/video-explanations", methods=["GET"])
     def get_video_explanations():
         """取得所有日期的影片資料"""
         try:
-            collection_name = get_collection_name("video_explanations")
-            logger.info(f"📹 讀取影片說明資料: {collection_name}")
-
-            result = {}
-            docs = db.collection(collection_name).stream()
-
-            for doc in docs:
-                date = doc.id
-                maps_data = doc.to_dict()
-                if maps_data:
-                    result[date] = maps_data
-
+            logger.info("📹 讀取影片說明資料")
+            result = repo.get_all()
             logger.info(f"✅ 成功讀取 {len(result)} 個日期的影片資料")
             return jsonify(result), 200
 
@@ -174,14 +146,12 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
                 return jsonify({"error": "Bad Request", "message": "Invalid date format. Expected YYYY-MM-DD"}), 400
 
             # 4. 驗證地圖資料
-            valid_maps, error_response = _validate_maps(maps, date, db)
+            valid_maps, error_response = _validate_maps(maps, date, daily_challenge_repo)
             if error_response:
                 return error_response
 
             # 5. 寫入 Firestore
-            collection_name = get_collection_name("video_explanations")
-            doc_ref = db.collection(collection_name).document(date)
-            doc_ref.set(valid_maps, merge=True)
+            repo.save(date, valid_maps)
 
             logger.info(f"✅ 已更新 {date} 的影片資料（{len(valid_maps)} 個地圖）")
             return jsonify({
