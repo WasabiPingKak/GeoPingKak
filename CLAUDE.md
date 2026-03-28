@@ -204,7 +204,16 @@ Production is deployed automatically via GitHub Actions when pushing to `main` b
 - **Quality gate**: `quality-check` job must pass before either deploy job starts
 - **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
 
-#### Staging Deployment (Manual)
+#### Staging Deployment (CI/CD)
+
+Staging is deployed automatically via GitHub Actions when pushing to `develop` branch.
+- **Workflow**: `.github/workflows/deploy-staging.yml`
+- **Process**: Same quality check → Deploy Cloud Run backend (staging) + Firebase Hosting staging channel (parallel)
+- **Frontend**: Deployed to Firebase Hosting channel `staging` (expires 30d)
+- **No GA tracking** in staging environment
+- **`cancel-in-progress: true`** — 新的 push 會取消正在跑的 staging deploy
+
+#### Staging Deployment (Manual fallback)
 ```bash
 cd backend
 ./deploy.sh --staging      # Deploy to geopingkak-backend-staging (auto-updates frontend/.env.staging)
@@ -212,8 +221,6 @@ cd backend
 cd ../frontend
 ./deploy.sh --staging      # Deploy to Firebase Hosting Channel (staging--geopingkak.web.app)
 ```
-
-**Note**: Deploy scripts only support staging. Production must go through CI/CD.
 
 ## Environment Configuration
 
@@ -369,35 +376,31 @@ The codebase uses:
 
 ## Development Workflow
 
+### Branch Strategy
+
+- **`main`** — Production branch. Push triggers production CI/CD.
+- **`develop`** — Staging integration branch. Push triggers staging CI/CD.
+- **`feature/*`** — Feature branches, created from `develop`.
+
 ### Feature Development
 
+Feature branch / worktree 規則見全域 `~/.claude/CLAUDE.md`。
+
 ```bash
-# 1. Create feature branch
-git checkout -b feature/new-feature
+# 1. 使用 EnterWorktree 從 develop 建立 feature branch
 
 # 2. Develop locally
 cd frontend
 npm run dev
 
-# 3. Deploy to staging for testing
-cd ../backend
-./deploy.sh --staging
-
-cd ../frontend
-./deploy.sh --staging
-
-# 4. Test on staging URL
-# Visit: https://staging--geopingkak.web.app
-
-# 5. If tests pass, merge to main and push (CI/CD auto-deploys production)
-git checkout main
-git merge feature/new-feature
-git push origin main
+# 3. Merge to develop and push (CI/CD auto-deploys staging)
+# 4. Test on staging: https://staging--geopingkak.web.app
+# 5. If tests pass, merge develop to main (CI/CD auto-deploys production)
 ```
 
 ### Important Notes
 
-- **Production deployment is fully automated** via GitHub Actions CI/CD (push to main)
-- **Deploy scripts only support staging** - production must go through CI/CD
-- **Backend staging deployment automatically updates frontend `.env.staging`** with the deployed service URL
+- **Production deployment**: Push to `main` → GitHub Actions auto-deploys
+- **Staging deployment**: Push to `develop` → GitHub Actions auto-deploys
+- **Manual deploy scripts** (`deploy.sh --staging`) still available as fallback
 - **Staging and production data are completely isolated** via Firestore collection prefixes

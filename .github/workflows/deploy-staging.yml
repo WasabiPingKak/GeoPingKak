@@ -1,0 +1,145 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [develop]
+
+concurrency:
+  group: staging-deploy
+  cancel-in-progress: true
+
+env:
+  GCP_REGION: asia-east1
+  DOCKER_REGISTRY: asia-east1-docker.pkg.dev
+  CLOUD_RUN_SERVICE: geopingkak-backend-staging
+  REPO_NAME: geopingkak-backend-repo
+  NEXT_PUBLIC_API_BASE: https://geopingkak-backend-staging-7xgrga7zxa-de.a.run.app
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Lint backend (Ruff)
+        working-directory: backend
+        run: |
+          pip install ruff
+          ruff check .
+
+      - name: Run backend tests
+        working-directory: backend
+        run: |
+          pip install -r requirements.txt pytest
+          pytest tests/ -v
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint and type check frontend
+        working-directory: frontend
+        run: |
+          npm run lint
+          npx tsc --noEmit
+
+  deploy-backend:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.DOCKER_REGISTRY }} --quiet
+
+      - name: Write version.txt
+        run: echo "$(git rev-parse --short=6 HEAD)" > backend/version.txt
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE=${{ env.DOCKER_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.CLOUD_RUN_SERVICE }}:${{ github.sha }}
+          docker build -t $IMAGE backend/
+          docker push $IMAGE
+
+      - name: Deploy to Cloud Run
+        run: |
+          IMAGE=${{ env.DOCKER_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.CLOUD_RUN_SERVICE }}:${{ github.sha }}
+          gcloud run deploy ${{ env.CLOUD_RUN_SERVICE }} \
+            --image $IMAGE \
+            --region ${{ env.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --no-traffic \
+            --set-env-vars "DEPLOY_ENV=staging,CORS_ORIGINS=re:https://geopingkak--staging.*\.web\.app" \
+            --set-secrets "ADMIN_API_KEY=ADMIN_API_KEY:latest,GEOGUESSR_NCFA=GEOGUESSR_NCFA:latest,VIDEO_EXPLANATIONS_ADMIN_TOKEN=VIDEO_EXPLANATIONS_ADMIN_TOKEN:latest"
+
+      - name: Route traffic to latest revision
+        run: |
+          LATEST_READY_REVISION=$(gcloud run revisions list \
+            --service=${{ env.CLOUD_RUN_SERVICE }} \
+            --region=${{ env.GCP_REGION }} \
+            --filter="status.conditions.type=Ready AND status.conditions.status=True" \
+            --sort-by="~metadata.creationTimestamp" \
+            --limit=1 \
+            --format="value(metadata.name)")
+
+          if [ -z "$LATEST_READY_REVISION" ]; then
+            echo "::error::No ready revision found"
+            exit 1
+          fi
+
+          echo "Routing 100% traffic to $LATEST_READY_REVISION"
+          gcloud run services update-traffic ${{ env.CLOUD_RUN_SERVICE }} \
+            --region=${{ env.GCP_REGION }} \
+            --to-revisions="$LATEST_READY_REVISION=100"
+
+  deploy-frontend:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build:prod
+        env:
+          NEXT_PUBLIC_API_BASE: ${{ env.NEXT_PUBLIC_API_BASE }}
+
+      - name: Deploy to Firebase Hosting (staging channel)
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: staging
+          expires: 30d
+          entryPoint: frontend
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
+          NEXT_PUBLIC_API_BASE: ${{ env.NEXT_PUBLIC_API_BASE }}
