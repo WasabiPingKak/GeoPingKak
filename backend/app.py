@@ -66,6 +66,23 @@ init_special_map_routes(app, db)
 init_video_explanation_routes(app, db)
 
 
+# ✅ 全域錯誤處理：確保未預期例外回傳 JSON 而非 HTML
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({"error": "Not found"}), 404
+
+
+@app.errorhandler(405)
+def method_not_allowed(e):
+    return jsonify({"error": "Method not allowed"}), 405
+
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    logging.exception("Unhandled exception")
+    return jsonify({"error": "Internal server error"}), 500
+
+
 # ✅ 測試端點
 @app.route("/ping")
 def ping():

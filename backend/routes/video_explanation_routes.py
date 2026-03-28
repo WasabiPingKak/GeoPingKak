@@ -14,7 +14,7 @@ from config import get_collection_name
 logger = logging.getLogger(__name__)
 
 
-def init_video_explanation_routes(app, db: Client):
+def init_video_explanation_routes(app, db: Client):  # noqa: C901
     bp = Blueprint("video_explanation", __name__, url_prefix="/api")
 
     # 地圖 ID 白名單
@@ -110,7 +110,7 @@ def init_video_explanation_routes(app, db: Client):
             return jsonify({"error": "Internal server error"}), 500
 
     @bp.route("/video-explanations", methods=["POST"])
-    def update_video_explanations():
+    def update_video_explanations():  # noqa: C901
         """
         新增或更新特定日期的影片資料（部分更新）
 

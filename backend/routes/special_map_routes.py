@@ -14,7 +14,7 @@ from config import get_collection_name
 logger = logging.getLogger(__name__)
 
 
-def init_special_map_routes(app, db: Client):
+def init_special_map_routes(app, db: Client):  # noqa: C901
     bp = Blueprint("special_map", __name__, url_prefix="/api")
 
     # mapId → Firestore 欄位名、document ID、顯示用 metadata

@@ -3,11 +3,13 @@ line-length = 120
 src = ["backend"]
 
 [lint]
-select = ["E", "F", "W", "I"]
+select = ["E", "F", "W", "I", "B", "S", "C901"]
 
 [lint.per-file-ignores]
 "backend/scripts/*.py" = ["F541"]
 "scripts/*.py" = ["F541"]
+"tests/*.py" = ["S101", "S105"]
+"backend/tests/*.py" = ["S101", "S105"]
 
 [lint.isort]
 known-first-party = ["config", "auth", "routes", "services"]

@@ -15,7 +15,7 @@ bp = Blueprint("daily_challenge_reader", __name__)
 logger = logging.getLogger(__name__)
 
 
-def init_daily_challenge_reader_route(app, db: Client):
+def init_daily_challenge_reader_route(app, db: Client):  # noqa: C901
     def read_month(collection_name, month_id):
         """讀取指定月份的所有 entries"""
         entries = []
