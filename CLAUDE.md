@@ -12,7 +12,7 @@ GeoPingKak is a Chinese-language GeoGuessr resource website promoting the game f
 GeoPingKak/
 ├── .pre-commit-config.yaml           # Pre-commit hooks（Ruff + ESLint）
 ├── backend/                          # Flask API (Cloud Run)
-│   ├── app.py                        # Flask 入口，初始化 Firestore，全域 error handler
+│   ├── app.py                        # Flask 入口，初始化 Firestore，全域 error handler，structured logging + request ID
 │   ├── config.py                     # 環境配置管理（staging/production）
 │   ├── auth.py                       # 共用認證工具（Bearer token 驗證）
 │   ├── validators.py                 # 共用驗證工具（日期、YouTube URL、GeoGuessr URL）
@@ -320,7 +320,7 @@ cd ../frontend
 - **Hosting**: Google Cloud Run
 
 **Core modules**:
-- `app.py` - Flask application entry point, initializes Firestore client
+- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
 - `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
 - `validators.py` - Shared validation utilities (`validate_date`, `validate_youtube_url`, `validate_geoguessr_url`)

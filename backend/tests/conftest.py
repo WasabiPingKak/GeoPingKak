@@ -4,7 +4,17 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-import app as app_module
+# Patch Firebase initialization BEFORE importing app module.
+# In CI, GCP credentials are unavailable, so firebase_admin.firestore.client()
+# would raise DefaultCredentialsError at import time.
+_mock_db = MagicMock()
+patch("firebase_admin._apps", {"[DEFAULT]": MagicMock()}).start()
+patch("firebase_admin.firestore.client", return_value=_mock_db).start()
+
+import app as app_module  # noqa: E402
+
+# Replace the db reference so route closures use our mock
+app_module.db = _mock_db
 
 
 @pytest.fixture()
