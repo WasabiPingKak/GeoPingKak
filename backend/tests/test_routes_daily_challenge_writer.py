@@ -40,11 +40,11 @@ class TestValidation:
         assert resp.status_code == 400
 
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
-    def test_no_content_type_returns_error(self, client):
-        """No JSON content-type triggers global error handler."""
+    def test_no_content_type_returns_415(self, client):
+        """No JSON content-type returns 415 Unsupported Media Type."""
         resp = client.post("/api/admin/update-daily-challenge", headers=AUTH_HEADER)
-        assert resp.status_code == 500
-        assert resp.get_json()["error"] == "Internal server error"
+        assert resp.status_code == 415
+        assert resp.get_json()["error"] == "Unsupported Media Type"
 
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_invalid_country(self, client):
@@ -59,7 +59,7 @@ class TestValidation:
 
 class TestSuccess:
     @patch("routes.daily_challenge_writer.create_challenge", return_value="https://www.geoguessr.com/challenge/abc123")
-    @patch("routes.daily_challenge_writer.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_creates_challenge_and_writes(self, _col, mock_create, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
@@ -78,7 +78,7 @@ class TestSuccess:
         mock_db.return_value.document.return_value.set.assert_called_once()
 
     @patch("routes.daily_challenge_writer.create_challenge", return_value=None)
-    @patch("routes.daily_challenge_writer.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_skips_failed_challenge_creation(self, _col, mock_create, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)

@@ -16,7 +16,7 @@ AUTH_HEADER = {"Authorization": f"Bearer {VALID_TOKEN}"}
 
 
 class TestGetVideoExplanations:
-    @patch("routes.video_explanation_routes.get_collection_name", return_value="video_explanations")
+    @patch("repositories.video_explanation_repo.get_collection_name", return_value="video_explanations")
     def test_returns_all_dates(self, _col, client, mock_db):
         doc1 = _mock_doc(data={"tw-urban": {"livestream": "https://youtube.com/1"}})
         doc1.id = "2026-01-15"
@@ -30,7 +30,7 @@ class TestGetVideoExplanations:
         assert "2026-01-15" in data
         assert "2026-01-16" in data
 
-    @patch("routes.video_explanation_routes.get_collection_name", return_value="video_explanations")
+    @patch("repositories.video_explanation_repo.get_collection_name", return_value="video_explanations")
     def test_empty_collection(self, _col, client, mock_db):
         mock_db.return_value.stream.return_value = []
 
@@ -61,10 +61,10 @@ class TestPostVideoExplanationsValidation:
         assert resp.status_code == 400
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
-    def test_no_content_type_returns_500(self, _auth, client):
-        """No JSON content-type triggers route's exception handler."""
+    def test_no_content_type_returns_415(self, _auth, client):
+        """No JSON content-type returns 415 Unsupported Media Type."""
         resp = client.post("/api/video-explanations", headers=AUTH_HEADER)
-        assert resp.status_code == 500
+        assert resp.status_code == 415
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
     def test_missing_date(self, _auth, client):
@@ -117,9 +117,10 @@ class TestPostVideoExplanationsValidation:
 
 
 class TestPostVideoExplanationsSuccess:
-    @patch("routes.video_explanation_routes.get_collection_name", return_value="video_explanations")
+    @patch("repositories.video_explanation_repo.get_collection_name", return_value="video_explanations")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
-    def test_writes_with_challenge_url(self, _auth, _col, client, mock_db):
+    def test_writes_with_challenge_url(self, _auth, _dc_col, _ve_col, client, mock_db):
         # Mock daily_challenge lookup
         daily_doc = MagicMock()
         daily_doc.exists = True
@@ -143,7 +144,7 @@ class TestPostVideoExplanationsSuccess:
         assert data["success"] is True
         assert "tw-urban" in data["updated_maps"]
 
-    @patch("routes.video_explanation_routes.get_collection_name", return_value="daily_challenge")
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
     def test_missing_challenge_url_returns_404(self, _auth, _col, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)

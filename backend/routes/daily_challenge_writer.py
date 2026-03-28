@@ -5,9 +5,9 @@ import os
 from datetime import datetime, timedelta, timezone
 
 from flask import Blueprint, jsonify, request
+from repositories.daily_challenge_repo import DailyChallengeRepo
 
 from auth import verify_bearer_token
-from config import get_collection_name
 from services.geoguessr_challenge import create_challenge
 from utils.rate_limiter import limiter
 
@@ -40,6 +40,8 @@ DAILY_MAPS = {
 
 
 def init_daily_challenge_writer_route(app, db):
+    repo = DailyChallengeRepo(db)
+
     @bp.route("/api/admin/update-daily-challenge", methods=["POST"])
     @limiter.limit("10 per minute")
     def update_daily_challenge():
@@ -65,14 +67,7 @@ def init_daily_challenge_writer_route(app, db):
         day_key = now_tw.strftime("%d")
         created_at = now_tw.isoformat()
 
-        # Firestore 文件與欄位參考
-        collection_name = get_collection_name("daily_challenge")
-        doc_ref = db.collection(collection_name).document(year_month)
-        doc_snapshot = doc_ref.get()
-        existing_data = (
-            doc_snapshot.to_dict().get(day_key, []) if doc_snapshot.exists else []
-        )
-
+        existing_data = repo.read_day_entries(year_month, day_key)
         updated_list = existing_data.copy()
 
         # 執行每張地圖挑戰
@@ -97,7 +92,7 @@ def init_daily_challenge_writer_route(app, db):
 
         # 寫入 Firestore
         try:
-            doc_ref.set({day_key: updated_list}, merge=True)
+            repo.write_day_entries(year_month, day_key, updated_list)
             return jsonify({"status": "ok", "count": len(updated_list)})
         except Exception:
             logger.error("🔥 寫入 Firestore 失敗", exc_info=True)

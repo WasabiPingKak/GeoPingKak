@@ -6,9 +6,9 @@ from datetime import datetime, timezone
 
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
+from repositories.special_map_repo import SpecialMapRepo
 
 from auth import verify_bearer_token
-from config import get_collection_name
 from utils.rate_limiter import limiter
 from validators import validate_geoguessr_url
 
@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 def init_special_map_routes(app, db: Client):  # noqa: C901
     bp = Blueprint("special_map", __name__, url_prefix="/api")
+    repo = SpecialMapRepo(db)
 
     # mapId → Firestore 欄位名、document ID、顯示用 metadata
     MAP_ID_TO_META = {
@@ -68,11 +69,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
             field_name = meta["field"]
             doc_id = meta["doc_id"]
 
-            collection_name = get_collection_name("special_maps")
-            doc_ref = db.collection(collection_name).document(doc_id)
-            doc = doc_ref.get()
-            existing_data = doc.to_dict() if doc.exists else {}
-
+            existing_data = repo.get_document(doc_id)
             entries = existing_data.get(field_name, [])
 
             if any(entry.get("challengeUrl") == challenge_url for entry in entries):
@@ -86,7 +83,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
             }
 
             entries.append(new_entry)
-            doc_ref.set({field_name: entries}, merge=True)
+            repo.save_entries(doc_id, field_name, entries)
 
             return (
                 jsonify(
@@ -103,19 +100,12 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
     def get_special_map_entries():
         try:
             results = []
-            collection_name = get_collection_name("special_maps")
 
             for map_id, meta in MAP_ID_TO_META.items():
                 field_name = meta["field"]
                 doc_id = meta["doc_id"]
 
-                doc_ref = db.collection(collection_name).document(doc_id)
-                doc = doc_ref.get()
-
-                if not doc.exists:
-                    continue
-
-                data = doc.to_dict()
+                data = repo.get_document(doc_id)
                 entries = data.get(field_name, [])
 
                 for i, entry in enumerate(entries):
