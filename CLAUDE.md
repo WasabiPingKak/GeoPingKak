@@ -12,9 +12,10 @@ GeoPingKak is a Chinese-language GeoGuessr resource website promoting the game f
 GeoPingKak/
 ├── .pre-commit-config.yaml           # Pre-commit hooks（Ruff + ESLint）
 ├── backend/                          # Flask API (Cloud Run)
-│   ├── app.py                        # Flask 入口，初始化 Firestore
+│   ├── app.py                        # Flask 入口，初始化 Firestore，全域 error handler
 │   ├── config.py                     # 環境配置管理（staging/production）
 │   ├── auth.py                       # 共用認證工具（Bearer token 驗證）
+│   ├── validators.py                 # 共用驗證工具（日期、YouTube URL、GeoGuessr URL）
 │   ├── deploy.sh                     # Staging 部署腳本（Production 由 CI/CD 處理）
 │   ├── ruff.toml                     # Ruff linter 設定
 │   ├── Dockerfile
@@ -322,6 +323,7 @@ cd ../frontend
 - `app.py` - Flask application entry point, initializes Firestore client
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
 - `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
+- `validators.py` - Shared validation utilities (`validate_date`, `validate_youtube_url`, `validate_geoguessr_url`)
 
 **Route modules** (`routes/`):
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
@@ -345,7 +347,15 @@ cd ../frontend
 - `migrate_video_challenge_urls.py` - Backfill challengeUrl into video_explanations from daily_challenge
 
 **Tests** (`tests/`):
-- `test_auth.py` - Unit tests for shared authentication utilities (Bearer token extraction and verification)
+- `conftest.py` - Shared fixtures (Flask test client, mock Firestore)
+- `test_auth.py` - Unit tests for auth utilities (Bearer token extraction and verification)
+- `test_geoguessr_challenge.py` - Unit tests for GeoGuessr API service (success + failure paths)
+- `test_validators.py` - Unit tests for shared validators (date, YouTube URL, GeoGuessr URL)
+- `test_routes_ping.py` - Integration tests for /ping and global error handlers (404/405/500)
+- `test_routes_daily_challenge_reader.py` - Integration tests for GET /api/daily-challenge
+- `test_routes_daily_challenge_writer.py` - Integration tests for POST /api/admin/update-daily-challenge
+- `test_routes_special_map.py` - Integration tests for /api/special-map (GET + POST)
+- `test_routes_video_explanation.py` - Integration tests for /api/video-explanations (GET + POST)
 
 ### Data Flow
 
