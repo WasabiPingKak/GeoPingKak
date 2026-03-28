@@ -12,4 +12,4 @@ select = ["E", "F", "W", "I", "B", "S", "C901"]
 "backend/tests/*.py" = ["S101", "S105"]
 
 [lint.isort]
-known-first-party = ["config", "auth", "routes", "services"]
+known-first-party = ["app", "config", "auth", "routes", "services", "validators"]

@@ -2,7 +2,6 @@
 
 import logging
 import os
-import re
 from datetime import datetime, timezone
 
 from flask import Blueprint, jsonify, request
@@ -10,6 +9,7 @@ from google.cloud.firestore import Client
 
 from auth import verify_bearer_token
 from config import get_collection_name
+from validators import validate_geoguessr_url
 
 logger = logging.getLogger(__name__)
 
@@ -39,10 +39,6 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
         },
     }
 
-    GEOGUESSR_URL_PATTERN = re.compile(
-        r"^https://(www\.)?geoguessr\.com/challenge/[A-Za-z0-9]+$"
-    )
-
     @bp.route("/special-map", methods=["POST"])
     def add_special_map_entry():
         try:
@@ -60,7 +56,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
             if not challenge_url or not map_id:
                 return jsonify({"error": "Missing required fields"}), 400
 
-            if not GEOGUESSR_URL_PATTERN.match(challenge_url):
+            if not validate_geoguessr_url(challenge_url):
                 return jsonify({"error": "Invalid challengeUrl format. Must be a GeoGuessr challenge URL"}), 400
 
             meta = MAP_ID_TO_META.get(map_id)
