@@ -27,6 +27,8 @@ GeoPingKak/
 │   │   └── video_explanation_routes.py # 影片說明 API
 │   ├── services/
 │   │   └── geoguessr_challenge.py
+│   ├── utils/
+│   │   └── rate_limiter.py             # Rate Limiter 模組（storage 可透過 env-var 切換 Redis）
 │   └── scripts/
 │       ├── copy_to_staging.py        # Firestore 資料複製腳本
 │       ├── migrate_map_ids.py        # mapId 命名遷移腳本
@@ -327,7 +329,8 @@ cd ../frontend
 - **Hosting**: Google Cloud Run
 
 **Core modules**:
-- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers
+- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers, 429 error handler
+- `utils/rate_limiter.py` - Rate Limiter module, storage backend configurable via `RATE_LIMIT_STORAGE_URL` env var (default `memory://`, switchable to Redis). Global default 60/min, write endpoints 10/min
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
 - `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
 - `validators.py` - Shared validation utilities (`validate_date`, `validate_youtube_url`, `validate_geoguessr_url`)
