@@ -337,6 +337,7 @@ cd ../frontend
 
 **Route modules** (`routes/`):
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
+  - GET `/api/daily-challenge/months` - 回傳所有已存在的月份 ID 列表（降冪排序）
   - GET `/api/daily-challenge` - 按月份分批載入，預設回傳當月+上月
   - GET `/api/daily-challenge?month=YYYY-MM` - 指定月份載入
 - `special_map_routes.py` - Special themed maps
