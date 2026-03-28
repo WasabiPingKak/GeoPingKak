@@ -25,6 +25,10 @@ GeoPingKak/
 │   │   ├── daily_challenge_writer.py
 │   │   ├── special_map_routes.py
 │   │   └── video_explanation_routes.py # 影片說明 API
+│   ├── repositories/
+│   │   ├── daily_challenge_repo.py   # 每日挑戰 Firestore 存取
+│   │   ├── special_map_repo.py       # 特殊地圖 Firestore 存取
+│   │   └── video_explanation_repo.py # 影片說明 Firestore 存取
 │   ├── services/
 │   │   └── geoguessr_challenge.py
 │   ├── utils/
@@ -329,11 +333,16 @@ cd ../frontend
 - **Hosting**: Google Cloud Run
 
 **Core modules**:
-- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers, 429 error handler
+- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers, HTTPException/429 error handler
 - `utils/rate_limiter.py` - Rate Limiter module, storage backend configurable via `RATE_LIMIT_STORAGE_URL` env var (default `memory://`, switchable to Redis). Global default 60/min, write endpoints 10/min
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
 - `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
 - `validators.py` - Shared validation utilities (`validate_date`, `validate_youtube_url`, `validate_geoguessr_url`)
+
+**Repository modules** (`repositories/`):
+- `daily_challenge_repo.py` - `DailyChallengeRepo`: `read_month`, `list_months`, `read_day_entries`, `write_day_entries`, `lookup_challenge_url`
+- `special_map_repo.py` - `SpecialMapRepo`: `get_document`, `save_entries`
+- `video_explanation_repo.py` - `VideoExplanationRepo`: `get_all`, `save`
 
 **Route modules** (`routes/`):
 - `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
@@ -349,7 +358,7 @@ cd ../frontend
     - 自動從 daily_challenge 查找並存入 challengeUrl，找不到則回傳 404
     - 驗證日期格式、地圖 ID 白名單、YouTube URL 格式
 
-**All route modules import and use `get_collection_name()` from `config.py` to ensure environment-aware collection access.**
+**Architecture**: Routes handle HTTP concerns (validation, response formatting) and delegate data access to repository classes. Repositories encapsulate all Firestore operations and use `get_collection_name()` from `config.py` for environment-aware collection access.
 
 **Scripts** (`scripts/`):
 - `copy_to_staging.py` - Copy production Firestore data to staging collections
