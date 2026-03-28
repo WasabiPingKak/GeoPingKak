@@ -9,6 +9,7 @@ from google.cloud.firestore import Client
 
 from auth import verify_bearer_token
 from config import get_collection_name
+from utils.rate_limiter import limiter
 from validators import validate_geoguessr_url
 
 logger = logging.getLogger(__name__)
@@ -40,6 +41,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
     }
 
     @bp.route("/special-map", methods=["POST"])
+    @limiter.limit("10 per minute")
     def add_special_map_entry():
         try:
             auth_header = request.headers.get("Authorization", "")

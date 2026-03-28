@@ -9,13 +9,12 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from flask import Flask, g, jsonify, request
 from flask_cors import CORS
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.special_map_routes import init_special_map_routes
 from routes.video_explanation_routes import init_video_explanation_routes
+from utils.rate_limiter import limiter
 
 
 # ✅ Structured JSON logging with request ID
@@ -86,13 +85,8 @@ def after_request_hook(response):
 
     return response
 
-# ✅ Rate Limiting（per-IP）
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["60 per minute"],
-    storage_uri="memory://",
-)
+# ✅ Rate Limiting（per-IP，storage 可透過 RATE_LIMIT_STORAGE_URL 切換 Redis）
+limiter.init_app(app)
 
 
 # ✅ Firestore 初始化（自動使用 Cloud Run 身份）
@@ -131,6 +125,11 @@ def not_found(e):
 @app.errorhandler(405)
 def method_not_allowed(e):
     return jsonify({"error": "Method not allowed"}), 405
+
+
+@app.errorhandler(429)
+def rate_limit_exceeded(e):
+    return jsonify({"error": "Too many requests"}), 429
 
 
 @app.errorhandler(Exception)

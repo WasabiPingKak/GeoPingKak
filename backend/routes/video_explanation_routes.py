@@ -8,6 +8,7 @@ from google.cloud.firestore import Client
 
 from auth import verify_bearer_token
 from config import get_collection_name
+from utils.rate_limiter import limiter
 from validators import validate_date, validate_youtube_url
 
 logger = logging.getLogger(__name__)
@@ -139,6 +140,7 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
             return jsonify({"error": "Internal server error"}), 500
 
     @bp.route("/video-explanations", methods=["POST"])
+    @limiter.limit("10 per minute")
     def update_video_explanations():
         """新增或更新特定日期的影片資料（部分更新）"""
         try:
