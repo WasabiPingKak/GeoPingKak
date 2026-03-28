@@ -2,8 +2,6 @@
 
 import type { Metadata } from "next";
 import Image from "next/image";
-import imgUI01 from "@/public/settings/UI_01.jpg";
-import imgSettings from "@/public/settings/settings.jpg";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
@@ -64,8 +62,10 @@ export default function RecommendSettingsPage() {
         <div className="flex flex-col md:flex-row gap-6 items-start">
           <div className="w-full md:w-1/2 flex justify-center">
             <Image
-              src={imgUI01}
+              src="/settings/UI_01.jpg"
               alt="圖形化指南針設定"
+              width={187}
+              height={375}
               className="rounded-lg border border-zinc-700 shadow-md"
             />
           </div>
@@ -81,8 +81,10 @@ export default function RecommendSettingsPage() {
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="w-full md:w-1/2 flex justify-center">
             <Image
-              src={imgSettings}
+              src="/settings/settings.jpg"
               alt="推薦設定項目"
+              width={728}
+              height={1163}
               className="rounded-lg border border-zinc-700 shadow-md"
             />
           </div>
