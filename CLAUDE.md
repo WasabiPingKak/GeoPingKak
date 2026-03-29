@@ -341,6 +341,9 @@ cd ../frontend
 - `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
 - `validators.py` - Shared validation utilities (`validate_date`, `validate_youtube_url`, `validate_geoguessr_url`)
 
+**Service modules** (`services/`):
+- `geoguessr_challenge.py` - GeoGuessr API client with retry/exponential backoff (tenacity). Auto-retries on ConnectionError/Timeout up to 3 attempts
+
 **Repository modules** (`repositories/`):
 - `daily_challenge_repo.py` - `DailyChallengeRepo`: `read_month`, `list_months`, `read_day_entries`, `write_day_entries`, `lookup_challenge_url`
 - `special_map_repo.py` - `SpecialMapRepo`: `get_document`, `save_entries`
@@ -371,7 +374,7 @@ cd ../frontend
 **Tests** (`tests/`):
 - `conftest.py` - Shared fixtures (Flask test client, mock Firestore)
 - `test_auth.py` - Unit tests for auth utilities (Bearer token extraction and verification)
-- `test_geoguessr_challenge.py` - Unit tests for GeoGuessr API service (success + failure paths)
+- `test_geoguessr_challenge.py` - Unit tests for GeoGuessr API service (success, retry/backoff, failure paths)
 - `test_validators.py` - Unit tests for shared validators (date, YouTube URL, GeoGuessr URL)
 - `test_routes_ping.py` - Integration tests for /ping and global error handlers (404/405/500)
 - `test_routes_daily_challenge_reader.py` - Integration tests for GET /api/daily-challenge
