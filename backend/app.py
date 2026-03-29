@@ -11,6 +11,7 @@ from flask import Flask, g, jsonify, request
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
 from werkzeug.exceptions import HTTPException
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
@@ -40,6 +41,7 @@ handler.setFormatter(JSONFormatter())
 logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 def parse_cors_origins(raw):
     """解析 CORS origins，支援 regex pattern（以 re: 開頭）"""
