@@ -189,7 +189,7 @@ pytest tests/ -v          # Run all backend tests
 ### Pre-commit Hooks
 
 The project uses [pre-commit](https://pre-commit.com/) framework (`.pre-commit-config.yaml`):
-- **Ruff**: Lints `backend/` Python files (E/F/W/I rules)
+- **Ruff**: Lints + formats `backend/` Python files (E/F/W/I rules + ruff-format)
 - **ESLint**: Lints `frontend/` JS/TS files
 
 Global git hooks (`~/.git-hooks/pre-commit`) chain: `.env` file protection → pre-commit framework.
@@ -334,7 +334,7 @@ cd ../frontend
 - **Hosting**: Google Cloud Run
 
 **Core modules**:
-- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers, HTTPException/429 error handler, Swagger UI (`/api/docs/`)
+- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID (RequestIDFilter auto-injects from Flask g), Cache-Control headers, HTTPException/429 error handler, Swagger UI (`/api/docs/`)
 - `openapi.yaml` - OpenAPI 3.0 spec, served at `/api/openapi.yaml`
 - `utils/rate_limiter.py` - Rate Limiter module, storage backend configurable via `RATE_LIMIT_STORAGE_URL` env var (default `memory://`, switchable to Redis). Global default 60/min, write endpoints 10/min
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
@@ -378,6 +378,9 @@ cd ../frontend
 - `test_routes_daily_challenge_writer.py` - Integration tests for POST /api/admin/update-daily-challenge
 - `test_routes_special_map.py` - Integration tests for /api/special-map (GET + POST)
 - `test_routes_video_explanation.py` - Integration tests for /api/video-explanations (GET + POST)
+- `test_repo_daily_challenge.py` - Unit tests for DailyChallengeRepo (list/read/write/lookup)
+- `test_repo_special_map.py` - Unit tests for SpecialMapRepo (get/save)
+- `test_repo_video_explanation.py` - Unit tests for VideoExplanationRepo (get_all/save)
 
 ### Data Flow
 
