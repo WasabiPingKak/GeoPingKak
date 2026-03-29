@@ -6,9 +6,9 @@ from datetime import datetime, timezone
 
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
-from repositories.special_map_repo import SpecialMapRepo
 
 from auth import verify_bearer_token
+from repositories.special_map_repo import SpecialMapRepo
 from utils.rate_limiter import limiter
 from validators import validate_geoguessr_url
 

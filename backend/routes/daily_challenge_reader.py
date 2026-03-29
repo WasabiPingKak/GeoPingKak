@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
+
 from repositories.daily_challenge_repo import DailyChallengeRepo
 
 MONTH_PATTERN = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")

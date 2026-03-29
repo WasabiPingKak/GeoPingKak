@@ -3,6 +3,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
+
 from repositories.daily_challenge_repo import DailyChallengeRepo
 
 

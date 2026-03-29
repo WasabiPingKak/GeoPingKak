@@ -5,9 +5,9 @@ import os
 from datetime import datetime, timedelta, timezone
 
 from flask import Blueprint, jsonify, request
-from repositories.daily_challenge_repo import DailyChallengeRepo
 
 from auth import verify_bearer_token
+from repositories.daily_challenge_repo import DailyChallengeRepo
 from services.geoguessr_challenge import create_challenge
 from utils.rate_limiter import limiter
 

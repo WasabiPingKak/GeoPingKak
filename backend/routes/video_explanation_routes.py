@@ -5,11 +5,11 @@ import os
 
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
-from repositories.daily_challenge_repo import DailyChallengeRepo
-from repositories.video_explanation_repo import VideoExplanationRepo
 from werkzeug.exceptions import HTTPException
 
 from auth import verify_bearer_token
+from repositories.daily_challenge_repo import DailyChallengeRepo
+from repositories.video_explanation_repo import VideoExplanationRepo
 from utils.rate_limiter import limiter
 from validators import validate_date, validate_youtube_url
 

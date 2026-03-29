@@ -1,6 +1,6 @@
 target-version = "py311"
 line-length = 120
-src = ["backend"]
+src = [".", "backend"]
 
 [lint]
 select = ["E", "F", "W", "I", "B", "S", "C901"]
@@ -12,4 +12,4 @@ select = ["E", "F", "W", "I", "B", "S", "C901"]
 "backend/tests/*.py" = ["S101", "S105"]
 
 [lint.isort]
-known-first-party = ["app", "config", "auth", "routes", "services", "utils", "validators"]
+known-first-party = ["app", "config", "auth", "repositories", "routes", "services", "utils", "validators"]

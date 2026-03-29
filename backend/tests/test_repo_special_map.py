@@ -3,6 +3,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
+
 from repositories.special_map_repo import SpecialMapRepo
 
 
