@@ -1,0 +1,388 @@
+openapi: 3.0.3
+info:
+  title: GeoPingKak API
+  description: |
+    GeoGuessr resource website API for daily challenges, special maps, and video explanations.
+
+    - Public endpoints require no authentication.
+    - Admin endpoints require a `Bearer` token in the `Authorization` header.
+    - All endpoints are rate-limited (global 60 req/min, admin 10 req/min).
+  version: 1.0.0
+
+servers:
+  - url: https://geopingkak-backend-staging-xxxxx-de.a.run.app
+    description: Staging
+  - url: https://geopingkak-backend-xxxxx-de.a.run.app
+    description: Production
+
+tags:
+  - name: Health
+    description: Health check
+  - name: Daily Challenge
+    description: Daily GeoGuessr challenge data
+  - name: Special Maps
+    description: Themed special map collections
+  - name: Video Explanations
+    description: Video explanation resources linked to daily challenges
+
+paths:
+  /ping:
+    get:
+      tags: [Health]
+      summary: Health check
+      operationId: ping
+      responses:
+        "200":
+          description: Service is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: pong
+
+  /api/daily-challenge/months:
+    get:
+      tags: [Daily Challenge]
+      summary: List available months
+      description: Returns all month IDs that have daily challenge data, sorted in descending order.
+      operationId: listMonths
+      responses:
+        "200":
+          description: Array of month IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  pattern: ^\d{4}-(0[1-9]|1[0-2])$
+                example: ["2026-03", "2026-02", "2026-01"]
+
+  /api/daily-challenge:
+    get:
+      tags: [Daily Challenge]
+      summary: Get daily challenge entries
+      description: |
+        Returns daily challenge entries by month.
+        - With `month` param: returns that month's data.
+        - Without param: returns current month + previous month (Taiwan timezone).
+      operationId: getDailyChallenge
+      parameters:
+        - name: month
+          in: query
+          required: false
+          description: Target month in `YYYY-MM` format
+          schema:
+            type: string
+            pattern: ^\d{4}-(0[1-9]|1[0-2])$
+            example: "2026-03"
+      responses:
+        "200":
+          description: Array of challenge entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DailyChallengeEntry"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /api/admin/update-daily-challenge:
+    post:
+      tags: [Daily Challenge]
+      summary: Create daily challenges for a country
+      description: |
+        Calls the GeoGuessr API to generate challenge URLs for all maps of the specified country,
+        then stores them in Firestore under today's date (Taiwan timezone).
+      operationId: updateDailyChallenge
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [country]
+              properties:
+                country:
+                  type: string
+                  enum: [world, tw, jp, my, hk]
+                  description: Country code
+            example:
+              country: tw
+      responses:
+        "200":
+          description: Challenges created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  count:
+                    type: integer
+                    example: 2
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+
+  /api/special-map:
+    get:
+      tags: [Special Maps]
+      summary: Get all special map entries
+      description: Returns all special map entries across all categories.
+      operationId: getSpecialMaps
+      responses:
+        "200":
+          description: Array of special map entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SpecialMapEntry"
+
+    post:
+      tags: [Special Maps]
+      summary: Add a special map entry
+      description: Adds a new challenge URL to the specified special map category. Duplicates are detected and skipped.
+      operationId: addSpecialMap
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mapId, challengeUrl]
+              properties:
+                mapId:
+                  type: string
+                  enum: [special-tw-funny, special-tw-pun, special-other]
+                  description: Special map category ID
+                challengeUrl:
+                  type: string
+                  format: uri
+                  description: GeoGuessr challenge URL
+            example:
+              mapId: special-tw-funny
+              challengeUrl: https://www.geoguessr.com/challenge/xxxx
+      responses:
+        "200":
+          description: Entry added or duplicate detected
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    description: Successfully added
+                    properties:
+                      added:
+                        $ref: "#/components/schemas/SpecialMapEntry"
+                      field:
+                        type: string
+                      length:
+                        type: integer
+                  - type: object
+                    description: Duplicate
+                    properties:
+                      status:
+                        type: string
+                        example: duplicate
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+
+  /api/video-explanations:
+    get:
+      tags: [Video Explanations]
+      summary: Get all video explanations
+      description: Returns video explanation data for all dates, including linked challenge URLs.
+      operationId: getVideoExplanations
+      responses:
+        "200":
+          description: Array of date-grouped video data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/VideoExplanationDate"
+
+    post:
+      tags: [Video Explanations]
+      summary: Update video explanations for a date
+      description: |
+        Partial update for a specific date's video data. Uses Firestore merge mode.
+        - Empty fields are ignored (won't overwrite existing data).
+        - Automatically looks up and stores `challengeUrl` from daily challenge data.
+      operationId: updateVideoExplanations
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [date, maps]
+              properties:
+                date:
+                  type: string
+                  format: date
+                  description: Target date (`YYYY-MM-DD`)
+                maps:
+                  type: object
+                  description: Map ID to video data mapping
+                  additionalProperties:
+                    $ref: "#/components/schemas/VideoMapData"
+            example:
+              date: "2026-03-29"
+              maps:
+                tw-balanced:
+                  livestream: https://youtu.be/example1
+                  explanation: https://youtu.be/example2
+      responses:
+        "200":
+          description: Update successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                  date:
+                    type: string
+                  updated_maps:
+                    type: array
+                    items:
+                      type: string
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: Challenge URL not found for the given date and map
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Admin token managed via GCP Secret Manager
+
+  schemas:
+    DailyChallengeEntry:
+      type: object
+      properties:
+        country:
+          type: string
+          example: tw
+        mapId:
+          type: string
+          example: tw-balanced
+        challengeUrl:
+          type: string
+          format: uri
+          example: https://www.geoguessr.com/challenge/xxxx
+        createdAt:
+          type: string
+          format: date-time
+
+    SpecialMapEntry:
+      type: object
+      properties:
+        mapId:
+          type: string
+          example: special-tw-funny
+        challengeUrl:
+          type: string
+          format: uri
+        createdAt:
+          type: string
+          example: "2026-03-15"
+        country:
+          type: string
+          example: "台灣主題"
+        title:
+          type: string
+          example: "奇怪地名 01"
+
+    VideoExplanationDate:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        maps:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/VideoMapData"
+
+    VideoMapData:
+      type: object
+      properties:
+        livestream:
+          type: string
+          format: uri
+          description: YouTube livestream URL
+        explanation:
+          type: string
+          format: uri
+          description: YouTube explanation video URL
+        challengeUrl:
+          type: string
+          format: uri
+          description: Auto-populated from daily challenge data
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Missing or invalid Bearer token
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
