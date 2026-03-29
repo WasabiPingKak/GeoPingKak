@@ -35,8 +35,20 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_entry, ensure_ascii=False)
 
 
+class RequestIDFilter(logging.Filter):
+    """自動從 Flask g 注入 request_id 到每筆 log record"""
+
+    def filter(self, record):
+        try:
+            record.request_id = g.request_id
+        except (AttributeError, RuntimeError):
+            record.request_id = None
+        return True
+
+
 handler = logging.StreamHandler()
 handler.setFormatter(JSONFormatter())
+handler.addFilter(RequestIDFilter())
 logging.basicConfig(level=logging.INFO, handlers=[handler])
 
 app = Flask(__name__)
@@ -78,7 +90,6 @@ def after_request_hook(response):
         request.path,
         response.status_code,
         duration_ms,
-        extra={"request_id": request_id},
     )
 
     # Cache-Control：公開 GET 端點加快取標頭
