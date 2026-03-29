@@ -38,11 +38,11 @@ jobs:
           ruff check .
           ruff format --check .
 
-      - name: Run backend tests
+      - name: Run backend tests with coverage
         working-directory: backend
         run: |
-          pip install -r requirements.txt pytest
-          pytest tests/ -v
+          pip install -r requirements.txt pytest pytest-cov
+          pytest tests/ -v --cov --cov-report=term-missing
 
       - name: Install frontend dependencies
         working-directory: frontend

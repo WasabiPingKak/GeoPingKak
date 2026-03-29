@@ -10,9 +10,9 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://geopingkak-backend-staging-xxxxx-de.a.run.app
+  - url: https://geopingkak-backend-staging-7xgrga7zxa-de.a.run.app
     description: Staging
-  - url: https://geopingkak-backend-xxxxx-de.a.run.app
+  - url: https://geopingkak-backend-7xgrga7zxa-de.a.run.app
     description: Production
 
 tags:
@@ -60,6 +60,8 @@ paths:
                   type: string
                   pattern: ^\d{4}-(0[1-9]|1[0-2])$
                 example: ["2026-03", "2026-02", "2026-01"]
+        "500":
+          $ref: "#/components/responses/InternalError"
 
   /api/daily-challenge:
     get:
@@ -90,6 +92,8 @@ paths:
                   $ref: "#/components/schemas/DailyChallengeEntry"
         "400":
           $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
   /api/admin/update-daily-challenge:
     post:
@@ -135,6 +139,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "429":
           $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
   /api/special-map:
     get:
@@ -151,6 +157,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/SpecialMapEntry"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
     post:
       tags: [Special Maps]
@@ -187,15 +195,32 @@ paths:
                 oneOf:
                   - type: object
                     description: Successfully added
+                    required: [added, field, length]
                     properties:
                       added:
-                        $ref: "#/components/schemas/SpecialMapEntry"
+                        type: object
+                        description: The created entry (without computed `title`)
+                        required: [challengeUrl, country, mapId, createdAt]
+                        properties:
+                          challengeUrl:
+                            type: string
+                            format: uri
+                          country:
+                            type: string
+                          mapId:
+                            type: string
+                          createdAt:
+                            type: string
+                            format: date-time
                       field:
                         type: string
+                        example: tw-funny
                       length:
                         type: integer
+                        example: 42
                   - type: object
                     description: Duplicate
+                    required: [status]
                     properties:
                       status:
                         type: string
@@ -206,6 +231,8 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "429":
           $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
   /api/video-explanations:
     get:
@@ -222,6 +249,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/VideoExplanationDate"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
     post:
       tags: [Video Explanations]
@@ -287,6 +316,8 @@ paths:
                 $ref: "#/components/schemas/Error"
         "429":
           $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalError"
 
 components:
   securitySchemes:
@@ -298,6 +329,7 @@ components:
   schemas:
     DailyChallengeEntry:
       type: object
+      required: [country, mapId, challengeUrl, createdAt]
       properties:
         country:
           type: string
@@ -315,6 +347,7 @@ components:
 
     SpecialMapEntry:
       type: object
+      required: [mapId, challengeUrl, createdAt, country, title]
       properties:
         mapId:
           type: string
@@ -324,16 +357,20 @@ components:
           format: uri
         createdAt:
           type: string
+          format: date
+          description: Date portion of the ISO timestamp (YYYY-MM-DD)
           example: "2026-03-15"
         country:
           type: string
           example: "台灣主題"
         title:
           type: string
+          description: Computed from category prefix + sequence number (GET only)
           example: "奇怪地名 01"
 
     VideoExplanationDate:
       type: object
+      required: [date, maps]
       properties:
         date:
           type: string
@@ -361,11 +398,14 @@ components:
 
     Error:
       type: object
+      required: [error]
       properties:
         error:
           type: string
+          description: Error category or short description
         message:
           type: string
+          description: Detailed error message (optional, included on validation errors)
 
   responses:
     BadRequest:
@@ -382,6 +422,12 @@ components:
             $ref: "#/components/schemas/Error"
     TooManyRequests:
       description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    InternalError:
+      description: Unexpected server error
       content:
         application/json:
           schema:

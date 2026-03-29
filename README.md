@@ -1,6 +1,7 @@
 [![Deploy Production](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-production.yml)
 [![Deploy Staging](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-staging.yml/badge.svg?branch=develop)](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-staging.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/WasabiPingKak/GeoPingKak)
+![Backend Coverage](https://img.shields.io/badge/backend_coverage-95%25-brightgreen)
 
 # GeoPingKak
 
@@ -162,7 +163,7 @@ GeoPingKak/
 |------|------|------|
 | **Web 框架** | Flask（同步） | Firestore SDK 為同步 API，async 框架無效能優勢；CRUD 為主的 API 不需要 WebSocket 或長連線 |
 | **認證方式** | 固定 Bearer Token | 單人操作 admin API，不需要多角色權限模型；token 由 GCP Secret Manager 管理，驗證使用 `hmac.compare_digest` 防 timing attack |
-| **測試策略** | Mock-based 整合測試 | Firestore 操作僅 `get()` / `set(merge=True)`，行為明確，mock 與真實差異極小；78 tests 在 0.2s 內完成，CI 回饋快速 |
+| **測試策略** | Mock-based 整合測試 | Firestore 操作僅 `get()` / `set(merge=True)`，行為明確，mock 與真實差異極小；103 tests、95% coverage，CI 回饋快速 |
 | **Rate Limiter Storage** | In-memory（可切 Redis） | 目前流量低，單 instance 即可；已透過環境變數 `RATE_LIMIT_STORAGE_URL` 預留 Redis 切換，零程式碼修改 |
 | **資料寫入** | 單 document 操作 | 資料模型設計為每月一個 document，每次 API 呼叫只涉及單一 document，天然原子性，不需要 batch write |
 | **監控告警** | Structured logging，未設 alerting | 已具備 JSON logging + request ID + Cloud Logging 查詢能力；個人專案無 on-call 需求，未設定 alerting policy |
