@@ -84,9 +84,7 @@ class TestCreateChallengeFailure:
         """API 回傳 4xx/5xx（非 retryable，不重試）"""
         import requests
 
-        mock_post.return_value.raise_for_status.side_effect = (
-            requests.exceptions.HTTPError()
-        )
+        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError()
         assert create_challenge(MAP_ID) is None
 
     @patch("services.geoguessr_challenge.NCFA_COOKIE", "valid-cookie")

@@ -27,9 +27,7 @@ MAX_RETRIES = 3
 )
 def _post_challenge(headers: dict, payload: dict) -> dict:
     """發送 POST 請求，連線失敗或 timeout 時自動重試（指數退避）。"""
-    response = requests.post(
-        GEOGUESSR_API_URL, headers=headers, json=payload, timeout=10
-    )
+    response = requests.post(GEOGUESSR_API_URL, headers=headers, json=payload, timeout=10)
     response.raise_for_status()
     return response.json()
 
