@@ -43,11 +43,11 @@ class TestListMonths:
 
 class TestReadMonth:
     def test_returns_entries_with_created_at(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data={
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(
+            data={
                 "01": [{"mapId": "world", "challengeUrl": "https://geo.com/1"}],
                 "15": [{"mapId": "tw", "challengeUrl": "https://geo.com/2"}],
-            })
+            }
         )
 
         entries = repo.read_month("2026-03")
@@ -56,23 +56,19 @@ class TestReadMonth:
         assert dates == {"2026-03-01", "2026-03-15"}
 
     def test_doc_not_exists(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(exists=False)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
         assert repo.read_month("2026-01") == []
 
     def test_doc_empty_dict(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data=None)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(data=None)
         assert repo.read_month("2026-01") == []
 
     def test_skips_non_list_entries(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data={
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(
+            data={
                 "01": [{"mapId": "world"}],
                 "02": "invalid",
-            })
+            }
         )
         entries = repo.read_month("2026-03")
         assert len(entries) == 1
@@ -82,21 +78,17 @@ class TestReadMonth:
 class TestReadDayEntries:
     def test_returns_day_entries(self, repo):
         expected = [{"mapId": "world", "challengeUrl": "https://geo.com/1"}]
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data={"15": expected})
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(data={"15": expected})
         assert repo.read_day_entries("2026-03", "15") == expected
 
     def test_missing_day_key(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data={"01": [{"mapId": "world"}]})
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(
+            data={"01": [{"mapId": "world"}]}
         )
         assert repo.read_day_entries("2026-03", "15") == []
 
     def test_doc_not_exists(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(exists=False)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
         assert repo.read_day_entries("2026-03", "15") == []
 
 
@@ -111,24 +103,22 @@ class TestWriteDayEntries:
 
 class TestLookupChallengeUrl:
     def test_found(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data={
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(
+            data={
                 "15": [
                     {"mapId": "world", "challengeUrl": "https://geo.com/abc"},
                     {"mapId": "tw", "challengeUrl": "https://geo.com/def"},
                 ],
-            })
+            }
         )
         assert repo.lookup_challenge_url("2026-03-15", "tw") == "https://geo.com/def"
 
     def test_not_found(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data={"15": [{"mapId": "world"}]})
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(
+            data={"15": [{"mapId": "world"}]}
         )
         assert repo.lookup_challenge_url("2026-03-15", "tw") is None
 
     def test_no_entries_for_day(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(exists=False)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
         assert repo.lookup_challenge_url("2026-03-15", "tw") is None

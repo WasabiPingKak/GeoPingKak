@@ -130,9 +130,7 @@ def main():
     url_index = build_challenge_url_index(db, f"{prefix}daily_challenge")
 
     # 補寫到 video_explanations
-    updated, missing = migrate_video_explanations(
-        db, f"{prefix}video_explanations", url_index, dry_run
-    )
+    updated, missing = migrate_video_explanations(db, f"{prefix}video_explanations", url_index, dry_run)
 
     print(f"\n{'=' * 60}")
     if dry_run:

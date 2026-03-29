@@ -46,7 +46,10 @@ class TestGetSpecialMap:
 
 class TestPostSpecialMap:
     def test_no_auth_returns_401(self, client):
-        resp = client.post("/api/special-map", json={"mapId": "special-tw-funny", "challengeUrl": "https://www.geoguessr.com/challenge/abc"})
+        resp = client.post(
+            "/api/special-map",
+            json={"mapId": "special-tw-funny", "challengeUrl": "https://www.geoguessr.com/challenge/abc"},
+        )
         assert resp.status_code == 401
 
     @patch("routes.special_map_routes.verify_bearer_token", return_value=True)
@@ -77,9 +80,7 @@ class TestPostSpecialMap:
     @patch("repositories.special_map_repo.get_collection_name", return_value="special_maps")
     @patch("routes.special_map_routes.verify_bearer_token", return_value=True)
     def test_successful_add(self, _auth, _col, client, mock_db):
-        mock_db.return_value.document.return_value.get.return_value = _mock_doc(
-            data={"tw-funny": []}
-        )
+        mock_db.return_value.document.return_value.get.return_value = _mock_doc(data={"tw-funny": []})
 
         resp = client.post(
             "/api/special-map",

@@ -56,8 +56,8 @@ class DailyChallengeRepo:
 
     def lookup_challenge_url(self, date, map_id):
         """從 daily_challenge 查找對應的 challengeUrl"""
-        month = date[:7]   # "2026-01-15" → "2026-01"
-        day = date[8:]     # "2026-01-15" → "15"
+        month = date[:7]  # "2026-01-15" → "2026-01"
+        day = date[8:]  # "2026-01-15" → "15"
 
         entries = self.read_day_entries(month, day)
         if not isinstance(entries, list):

@@ -64,10 +64,12 @@ def _validate_maps(maps, date, daily_challenge_repo):
             value = map_data.get(field_name, "")
             if value and not validate_youtube_url(value):
                 return None, (
-                    jsonify({
-                        "error": "Bad Request",
-                        "message": f"Invalid URL format for {field_name} in '{map_id}'. Must be a YouTube URL",
-                    }),
+                    jsonify(
+                        {
+                            "error": "Bad Request",
+                            "message": f"Invalid URL format for {field_name} in '{map_id}'. Must be a YouTube URL",
+                        }
+                    ),
                     400,
                 )
 
@@ -75,10 +77,12 @@ def _validate_maps(maps, date, daily_challenge_repo):
         challenge_url = daily_challenge_repo.lookup_challenge_url(date, map_id)
         if not challenge_url:
             return None, (
-                jsonify({
-                    "error": "Not Found",
-                    "message": f"Cannot find challengeUrl for date '{date}', map '{map_id}' in daily_challenge",
-                }),
+                jsonify(
+                    {
+                        "error": "Not Found",
+                        "message": f"Cannot find challengeUrl for date '{date}', map '{map_id}' in daily_challenge",
+                    }
+                ),
                 404,
             )
 
@@ -154,12 +158,14 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
             repo.save(date, valid_maps)
 
             logger.info(f"✅ 已更新 {date} 的影片資料（{len(valid_maps)} 個地圖）")
-            return jsonify({
-                "success": True,
-                "message": f"Video explanations updated for {date}",
-                "date": date,
-                "updated_maps": list(valid_maps.keys()),
-            }), 200
+            return jsonify(
+                {
+                    "success": True,
+                    "message": f"Video explanations updated for {date}",
+                    "date": date,
+                    "updated_maps": list(valid_maps.keys()),
+                }
+            ), 200
 
         except HTTPException:
             raise

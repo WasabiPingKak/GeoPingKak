@@ -86,9 +86,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
             repo.save_entries(doc_id, field_name, entries)
 
             return (
-                jsonify(
-                    {"added": new_entry, "field": field_name, "length": len(entries)}
-                ),
+                jsonify({"added": new_entry, "field": field_name, "length": len(entries)}),
                 200,
             )
 
@@ -117,11 +115,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
                             "challengeUrl": entry.get("challengeUrl", ""),
                             "createdAt": created_date,
                             "country": meta["country"],
-                            "title": (
-                                f"{title_prefix} {str(i+1).zfill(2)}"
-                                if title_prefix
-                                else ""
-                            ),
+                            "title": (f"{title_prefix} {str(i + 1).zfill(2)}" if title_prefix else ""),
                         }
                     )
 

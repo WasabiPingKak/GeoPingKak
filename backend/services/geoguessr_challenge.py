@@ -30,9 +30,7 @@ def create_challenge(map_id: str) -> str | None:
     }
 
     try:
-        response = requests.post(
-            GEOGUESSR_API_URL, headers=headers, json=payload, timeout=10
-        )
+        response = requests.post(GEOGUESSR_API_URL, headers=headers, json=payload, timeout=10)
         response.raise_for_status()
         data = response.json()
         token = data.get("token")

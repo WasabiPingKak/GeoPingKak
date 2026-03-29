@@ -5,6 +5,9 @@ repos:
       - id: ruff
         args: [--config, backend/ruff.toml]
         files: ^backend/
+      - id: ruff-format
+        args: [--config, backend/ruff.toml]
+        files: ^backend/
 
   - repo: local
     hooks:

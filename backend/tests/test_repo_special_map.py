@@ -26,21 +26,15 @@ def repo():
 class TestGetDocument:
     def test_returns_data(self, repo):
         expected = {"entries": [{"name": "Map A"}]}
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data=expected)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(data=expected)
         assert repo.get_document("themed") == expected
 
     def test_doc_not_exists(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(exists=False)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
         assert repo.get_document("themed") == {}
 
     def test_doc_empty_dict(self, repo):
-        repo.db.collection.return_value.document.return_value.get.return_value = (
-            _mock_doc(data=None)
-        )
+        repo.db.collection.return_value.document.return_value.get.return_value = _mock_doc(data=None)
         assert repo.get_document("themed") == {}
 
 

@@ -4,13 +4,9 @@
 import re
 from datetime import datetime
 
-_YOUTUBE_URL_PATTERN = re.compile(
-    r"^https://(www\.)?(youtube\.com|youtu\.be)/.*$"
-)
+_YOUTUBE_URL_PATTERN = re.compile(r"^https://(www\.)?(youtube\.com|youtu\.be)/.*$")
 
-_GEOGUESSR_URL_PATTERN = re.compile(
-    r"^https://(www\.)?geoguessr\.com/challenge/[A-Za-z0-9]+$"
-)
+_GEOGUESSR_URL_PATTERN = re.compile(r"^https://(www\.)?geoguessr\.com/challenge/[A-Za-z0-9]+$")
 
 
 def validate_date(date_str: str) -> bool:

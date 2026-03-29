@@ -36,6 +36,7 @@ jobs:
         run: |
           pip install ruff
           ruff check .
+          ruff format --check .
 
       - name: Run backend tests
         working-directory: backend

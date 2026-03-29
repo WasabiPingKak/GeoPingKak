@@ -2,6 +2,7 @@ from auth import extract_bearer_token, verify_bearer_token
 
 # --- extract_bearer_token ---
 
+
 class TestExtractBearerToken:
     def test_valid_header(self):
         assert extract_bearer_token("Bearer my-token") == "my-token"
@@ -26,6 +27,7 @@ class TestExtractBearerToken:
 
 
 # --- verify_bearer_token ---
+
 
 class TestVerifyBearerToken:
     def test_valid_token(self):

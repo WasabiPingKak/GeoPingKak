@@ -124,12 +124,8 @@ def main():
     print(f"🚀 遷移 mapId — 環境: {env} — {mode}")
     print(f"{'=' * 60}")
 
-    daily_count = migrate_daily_challenge(
-        db, f"{prefix}daily_challenge", dry_run
-    )
-    video_count = migrate_video_explanations(
-        db, f"{prefix}video_explanations", dry_run
-    )
+    daily_count = migrate_daily_challenge(db, f"{prefix}daily_challenge", dry_run)
+    video_count = migrate_video_explanations(db, f"{prefix}video_explanations", dry_run)
 
     total = daily_count + video_count
     print(f"\n{'=' * 60}")

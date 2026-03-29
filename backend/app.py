@@ -55,6 +55,7 @@ logging.basicConfig(level=logging.INFO, handlers=[handler])
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
+
 def parse_cors_origins(raw):
     """解析 CORS origins，支援 regex pattern（以 re: 開頭）"""
     origins = []
@@ -65,6 +66,7 @@ def parse_cors_origins(raw):
         else:
             origins.append(origin)
     return origins
+
 
 CORS(app, origins=parse_cors_origins(os.getenv("CORS_ORIGINS", "http://localhost:3000")))
 
@@ -99,6 +101,7 @@ def after_request_hook(response):
         response.headers.setdefault("Cache-Control", "public, max-age=60, stale-while-revalidate=300")
 
     return response
+
 
 # ✅ Rate Limiting（per-IP，storage 可透過 RATE_LIMIT_STORAGE_URL 切換 Redis）
 limiter.init_app(app)
@@ -136,6 +139,7 @@ app.register_blueprint(swagger_ui, url_prefix=SWAGGER_URL)
 def serve_openapi_spec():
     """提供 OpenAPI spec 檔案"""
     from flask import send_from_directory
+
     return send_from_directory(os.path.dirname(__file__), "openapi.yaml", mimetype="text/yaml")
 
 
