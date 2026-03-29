@@ -9,7 +9,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from flask import Flask, g, jsonify, request
 from flask_cors import CORS
-from flask_swagger_ui import get_swaggerui_blueprint
+from config import DEPLOY_ENV
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -127,20 +127,26 @@ except Exception:
     logging.error("🔥 初始化 Firebase 失敗，服務無法啟動", exc_info=True)
     raise
 
-# ✅ OpenAPI / Swagger UI（/api/docs）
-SWAGGER_URL = "/api/docs"
-API_SPEC_URL = "/api/openapi.yaml"
+# ✅ OpenAPI / Swagger UI（僅 staging 環境啟用）
+if DEPLOY_ENV == "staging":
+    from flask_swagger_ui import get_swaggerui_blueprint
 
-swagger_ui = get_swaggerui_blueprint(SWAGGER_URL, API_SPEC_URL, config={"app_name": "GeoPingKak API"})
-app.register_blueprint(swagger_ui, url_prefix=SWAGGER_URL)
+    SWAGGER_URL = "/api/docs"
+    API_SPEC_URL = "/api/openapi.yaml"
 
+    swagger_ui = get_swaggerui_blueprint(
+        SWAGGER_URL, API_SPEC_URL, config={"app_name": "GeoPingKak API"}
+    )
+    app.register_blueprint(swagger_ui, url_prefix=SWAGGER_URL)
 
-@app.route(API_SPEC_URL)
-def serve_openapi_spec():
-    """提供 OpenAPI spec 檔案"""
-    from flask import send_from_directory
+    @app.route(API_SPEC_URL)
+    def serve_openapi_spec():
+        """提供 OpenAPI spec 檔案"""
+        from flask import send_from_directory
 
-    return send_from_directory(os.path.dirname(__file__), "openapi.yaml", mimetype="text/yaml")
+        return send_from_directory(
+            os.path.dirname(__file__), "openapi.yaml", mimetype="text/yaml"
+        )
 
 
 # ✅ 註冊所有路由模組
