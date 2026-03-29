@@ -9,10 +9,10 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from flask import Flask, g, jsonify, request
 from flask_cors import CORS
-from config import DEPLOY_ENV
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from config import DEPLOY_ENV
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.special_map_routes import init_special_map_routes
@@ -134,9 +134,7 @@ if DEPLOY_ENV == "staging":
     SWAGGER_URL = "/api/docs"
     API_SPEC_URL = "/api/openapi.yaml"
 
-    swagger_ui = get_swaggerui_blueprint(
-        SWAGGER_URL, API_SPEC_URL, config={"app_name": "GeoPingKak API"}
-    )
+    swagger_ui = get_swaggerui_blueprint(SWAGGER_URL, API_SPEC_URL, config={"app_name": "GeoPingKak API"})
     app.register_blueprint(swagger_ui, url_prefix=SWAGGER_URL)
 
     @app.route(API_SPEC_URL)
@@ -144,9 +142,7 @@ if DEPLOY_ENV == "staging":
         """提供 OpenAPI spec 檔案"""
         from flask import send_from_directory
 
-        return send_from_directory(
-            os.path.dirname(__file__), "openapi.yaml", mimetype="text/yaml"
-        )
+        return send_from_directory(os.path.dirname(__file__), "openapi.yaml", mimetype="text/yaml")
 
 
 # ✅ 註冊所有路由模組
