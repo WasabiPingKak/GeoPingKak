@@ -3,7 +3,6 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from repositories.video_explanation_repo import VideoExplanationRepo
 
 
