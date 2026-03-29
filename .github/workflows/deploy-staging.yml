@@ -34,7 +34,7 @@ jobs:
       - name: Lint backend (Ruff)
         working-directory: backend
         run: |
-          pip install ruff
+          pip install ruff==0.12.0
           ruff check .
           ruff format --check .
 
