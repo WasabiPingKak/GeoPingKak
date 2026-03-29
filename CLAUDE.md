@@ -17,6 +17,7 @@ GeoPingKak/
 │   ├── auth.py                       # 共用認證工具（Bearer token 驗證）
 │   ├── validators.py                 # 共用驗證工具（日期、YouTube URL、GeoGuessr URL）
 │   ├── deploy.sh                     # Staging 部署腳本（Production 由 CI/CD 處理）
+│   ├── openapi.yaml                  # OpenAPI 3.0 spec（Swagger UI 用）
 │   ├── ruff.toml                     # Ruff linter 設定
 │   ├── Dockerfile
 │   ├── requirements.txt
@@ -333,7 +334,8 @@ cd ../frontend
 - **Hosting**: Google Cloud Run
 
 **Core modules**:
-- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers, HTTPException/429 error handler
+- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID, Cache-Control headers, HTTPException/429 error handler, Swagger UI (`/api/docs/`)
+- `openapi.yaml` - OpenAPI 3.0 spec, served at `/api/openapi.yaml`
 - `utils/rate_limiter.py` - Rate Limiter module, storage backend configurable via `RATE_LIMIT_STORAGE_URL` env var (default `memory://`, switchable to Redis). Global default 60/min, write endpoints 10/min
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
 - `auth.py` - Shared authentication utilities, provides `verify_bearer_token()` with constant-time comparison
