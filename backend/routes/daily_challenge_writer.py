@@ -12,7 +12,7 @@ from services.geoguessr_challenge import create_challenge
 from utils.rate_limiter import limiter
 
 logger = logging.getLogger(__name__)
-bp = Blueprint("daily_challenge_writer", __name__)
+bp = Blueprint("daily_challenge_writer", __name__, url_prefix="/api")
 
 ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 
@@ -42,7 +42,7 @@ DAILY_MAPS = {
 def init_daily_challenge_writer_route(app, db):
     repo = DailyChallengeRepo(db)
 
-    @bp.route("/api/admin/update-daily-challenge", methods=["POST"])
+    @bp.route("/admin/update-daily-challenge", methods=["POST"])
     @limiter.limit("10 per minute")
     def update_daily_challenge():
         # 驗證 API 金鑰

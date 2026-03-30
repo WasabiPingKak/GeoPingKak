@@ -11,7 +11,7 @@ from repositories.daily_challenge_repo import DailyChallengeRepo
 
 MONTH_PATTERN = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
 
-bp = Blueprint("daily_challenge_reader", __name__)
+bp = Blueprint("daily_challenge_reader", __name__, url_prefix="/api")
 logger = logging.getLogger(__name__)
 
 
@@ -24,7 +24,7 @@ def init_daily_challenge_reader_route(app, db: Client):
             return year - 1, 12
         return year, month - 1
 
-    @bp.route("/api/daily-challenge/months", methods=["GET"])
+    @bp.route("/daily-challenge/months", methods=["GET"])
     def get_available_months():
         """回傳所有已存在的月份 ID 列表（降冪排序）"""
         try:
@@ -35,7 +35,7 @@ def init_daily_challenge_reader_route(app, db: Client):
             logger.error("❌ 讀取可用月份失敗", exc_info=True)
             return jsonify({"error": "Internal server error"}), 500
 
-    @bp.route("/api/daily-challenge", methods=["GET"])
+    @bp.route("/daily-challenge", methods=["GET"])
     def get_daily_challenge():
         """
         取得每日挑戰資料（按月份分批載入）
