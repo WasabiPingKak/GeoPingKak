@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
 
+from error_codes import ErrorCode, json_error
 from repositories.daily_challenge_repo import DailyChallengeRepo
 
 MONTH_PATTERN = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
@@ -33,7 +34,7 @@ def init_daily_challenge_reader_route(app, db: Client):
             return jsonify(months)
         except Exception:
             logger.error("❌ 讀取可用月份失敗", exc_info=True)
-            return jsonify({"error": "Internal server error"}), 500
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     @bp.route("/api/daily-challenge", methods=["GET"])
     def get_daily_challenge():
@@ -49,7 +50,7 @@ def init_daily_challenge_reader_route(app, db: Client):
 
             if month_param:
                 if not MONTH_PATTERN.match(month_param):
-                    return jsonify({"error": "Invalid month format, expected YYYY-MM"}), 400
+                    return json_error(400, ErrorCode.INVALID_FORMAT, "Invalid month format, expected YYYY-MM")
                 entries = repo.read_month(month_param)
                 logger.info(f"📦 回傳 {month_param} 共 {len(entries)} 筆")
                 return jsonify(entries)
@@ -70,6 +71,6 @@ def init_daily_challenge_reader_route(app, db: Client):
 
         except Exception:
             logger.error("❌ 讀取每日題目資料失敗", exc_info=True)
-            return jsonify({"error": "Internal server error"}), 500
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     app.register_blueprint(bp)

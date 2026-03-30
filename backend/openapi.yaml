@@ -398,14 +398,26 @@ components:
 
     Error:
       type: object
-      required: [error]
+      required: [error_code, error]
       properties:
+        error_code:
+          type: string
+          description: Machine-readable error code for client consumption
+          enum:
+            - UNAUTHORIZED
+            - INVALID_FORMAT
+            - MISSING_FIELD
+            - INVALID_FIELD
+            - NOT_FOUND
+            - RATE_LIMITED
+            - METHOD_NOT_ALLOWED
+            - INTERNAL_ERROR
         error:
           type: string
-          description: Error category or short description
+          description: HTTP status category (e.g. "Bad Request", "Unauthorized")
         message:
           type: string
-          description: Detailed error message (optional, included on validation errors)
+          description: Human-readable error detail
 
   responses:
     BadRequest:

@@ -8,6 +8,7 @@ from flask import Blueprint, jsonify, request
 from google.cloud.firestore import Client
 
 from auth import verify_bearer_token
+from error_codes import ErrorCode, json_error
 from repositories.special_map_repo import SpecialMapRepo
 from utils.rate_limiter import limiter
 from validators import validate_geoguessr_url
@@ -47,24 +48,26 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
         try:
             auth_header = request.headers.get("Authorization", "")
             if not verify_bearer_token(auth_header, os.getenv("ADMIN_API_KEY", "")):
-                return jsonify({"error": "Unauthorized"}), 401
+                return json_error(401, ErrorCode.UNAUTHORIZED, "Invalid or missing token")
 
             data = request.get_json()
             if not data or not isinstance(data, dict):
-                return jsonify({"error": "Request body is required"}), 400
+                return json_error(400, ErrorCode.MISSING_FIELD, "Request body is required")
 
             challenge_url = data.get("challengeUrl", "").strip()
             map_id = data.get("mapId", "").strip()
 
             if not challenge_url or not map_id:
-                return jsonify({"error": "Missing required fields"}), 400
+                return json_error(400, ErrorCode.MISSING_FIELD, "Missing required fields: mapId, challengeUrl")
 
             if not validate_geoguessr_url(challenge_url):
-                return jsonify({"error": "Invalid challengeUrl format. Must be a GeoGuessr challenge URL"}), 400
+                return json_error(
+                    400, ErrorCode.INVALID_FORMAT, "Invalid challengeUrl format. Must be a GeoGuessr challenge URL"
+                )
 
             meta = MAP_ID_TO_META.get(map_id)
             if not meta:
-                return jsonify({"error": f"Unknown mapId: {map_id}"}), 400
+                return json_error(400, ErrorCode.INVALID_FIELD, f"Unknown mapId: {map_id}")
 
             field_name = meta["field"]
             doc_id = meta["doc_id"]
@@ -91,8 +94,8 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
             )
 
         except Exception:
-            logger.exception("寫入特殊地圖失敗")
-            return jsonify({"error": "寫入特殊地圖失敗"}), 500
+            logger.exception("Failed to write special map")
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Failed to write special map")
 
     @bp.route("/special-map", methods=["GET"])
     def get_special_map_entries():
@@ -122,7 +125,7 @@ def init_special_map_routes(app, db: Client):  # noqa: C901
             return jsonify(results), 200
 
         except Exception:
-            logger.exception("讀取特殊地圖失敗")
-            return jsonify({"error": "讀取特殊地圖失敗"}), 500
+            logger.exception("Failed to read special maps")
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Failed to read special maps")
 
     app.register_blueprint(bp)

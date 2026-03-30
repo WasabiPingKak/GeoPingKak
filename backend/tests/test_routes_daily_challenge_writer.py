@@ -44,7 +44,7 @@ class TestValidation:
         """No JSON content-type returns 415 Unsupported Media Type."""
         resp = client.post("/api/admin/update-daily-challenge", headers=AUTH_HEADER)
         assert resp.status_code == 415
-        assert resp.get_json()["error"] == "Unsupported Media Type"
+        assert resp.get_json()["message"] == "Unsupported Media Type"
 
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_invalid_country(self, client):
@@ -54,7 +54,9 @@ class TestValidation:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "Invalid country" in resp.get_json()["error"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FIELD"
+        assert "Invalid country" in data["message"]
 
 
 class TestSuccess:

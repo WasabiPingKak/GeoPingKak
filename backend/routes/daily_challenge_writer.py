@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Blueprint, jsonify, request
 
 from auth import verify_bearer_token
+from error_codes import ErrorCode, json_error
 from repositories.daily_challenge_repo import DailyChallengeRepo
 from services.geoguessr_challenge import create_challenge
 from utils.rate_limiter import limiter
@@ -48,15 +49,15 @@ def init_daily_challenge_writer_route(app, db):
         # 驗證 API 金鑰
         auth_header = request.headers.get("Authorization", "")
         if not verify_bearer_token(auth_header, ADMIN_API_KEY):
-            return jsonify({"error": "Unauthorized"}), 401
+            return json_error(401, ErrorCode.UNAUTHORIZED, "Invalid or missing token")
 
         # 驗證 country
         body = request.get_json()
         if not body:
-            return jsonify({"error": "Request body is required"}), 400
+            return json_error(400, ErrorCode.MISSING_FIELD, "Request body is required")
         country = body.get("country")
         if country not in DAILY_MAPS:
-            return jsonify({"error": f"Invalid country: {country}"}), 400
+            return json_error(400, ErrorCode.INVALID_FIELD, f"Invalid country: {country}")
 
         # ✅ 使用台灣時區（UTC+8）取得當地時間
         now_utc = datetime.now(timezone.utc)
@@ -96,6 +97,6 @@ def init_daily_challenge_writer_route(app, db):
             return jsonify({"status": "ok", "count": len(updated_list)})
         except Exception:
             logger.error("🔥 寫入 Firestore 失敗", exc_info=True)
-            return jsonify({"error": "Firestore write failed"}), 500
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Firestore write failed")
 
     app.register_blueprint(bp)

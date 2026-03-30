@@ -8,6 +8,7 @@ from google.cloud.firestore import Client
 from werkzeug.exceptions import HTTPException
 
 from auth import verify_bearer_token
+from error_codes import ErrorCode, json_error
 from repositories.daily_challenge_repo import DailyChallengeRepo
 from repositories.video_explanation_repo import VideoExplanationRepo
 from utils.rate_limiter import limiter
@@ -40,16 +41,10 @@ def _validate_maps(maps, date, daily_challenge_repo):
     for map_id, map_data in maps.items():
         if map_id not in ALLOWED_MAP_IDS:
             allowed = ", ".join(ALLOWED_MAP_IDS)
-            return None, (
-                jsonify({"error": "Bad Request", "message": f"Invalid map ID: '{map_id}'. Allowed: {allowed}"}),
-                400,
-            )
+            return None, json_error(400, ErrorCode.INVALID_FIELD, f"Invalid map ID: '{map_id}'. Allowed: {allowed}")
 
         if not isinstance(map_data, dict):
-            return None, (
-                jsonify({"error": "Bad Request", "message": f"Map data for '{map_id}' must be an object"}),
-                400,
-            )
+            return None, json_error(400, ErrorCode.INVALID_FORMAT, f"Map data for '{map_id}' must be an object")
 
         livestream = map_data.get("livestream", "")
         explanation = map_data.get("explanation", "")
@@ -63,37 +58,26 @@ def _validate_maps(maps, date, daily_challenge_repo):
         for field_name in ("livestream", "explanation"):
             value = map_data.get(field_name, "")
             if value and not validate_youtube_url(value):
-                return None, (
-                    jsonify(
-                        {
-                            "error": "Bad Request",
-                            "message": f"Invalid URL format for {field_name} in '{map_id}'. Must be a YouTube URL",
-                        }
-                    ),
+                return None, json_error(
                     400,
+                    ErrorCode.INVALID_FORMAT,
+                    f"Invalid URL format for {field_name} in '{map_id}'. Must be a YouTube URL",
                 )
 
         # 查找對應的 challengeUrl
         challenge_url = daily_challenge_repo.lookup_challenge_url(date, map_id)
         if not challenge_url:
-            return None, (
-                jsonify(
-                    {
-                        "error": "Not Found",
-                        "message": f"Cannot find challengeUrl for date '{date}', map '{map_id}' in daily_challenge",
-                    }
-                ),
+            return None, json_error(
                 404,
+                ErrorCode.NOT_FOUND,
+                f"Cannot find challengeUrl for date '{date}', map '{map_id}' in daily_challenge",
             )
 
         map_data["challengeUrl"] = challenge_url
         valid_maps[map_id] = map_data
 
     if not valid_maps:
-        return None, (
-            jsonify({"error": "Bad Request", "message": "No valid map data provided. All maps have empty fields."}),
-            400,
-        )
+        return None, json_error(400, ErrorCode.INVALID_FIELD, "No valid map data provided. All maps have empty fields.")
 
     return valid_maps, None
 
@@ -116,7 +100,7 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
             raise
         except Exception as e:
             logger.error(f"❌ 讀取影片說明資料失敗: {e}", exc_info=True)
-            return jsonify({"error": "Internal server error"}), 500
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     @bp.route("/video-explanations", methods=["POST"])
     @limiter.limit("10 per minute")
@@ -127,27 +111,24 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
             auth_header = request.headers.get("Authorization", "")
             if not verify_bearer_token(auth_header, VIDEO_ADMIN_TOKEN):
                 logger.warning("未授權的影片資料更新嘗試")
-                return jsonify({"error": "Unauthorized", "message": "Invalid or missing token"}), 401
+                return json_error(401, ErrorCode.UNAUTHORIZED, "Invalid or missing token")
 
             # 2. 解析 body + 基本欄位檢查
             data = request.get_json()
             if not data:
-                return jsonify({"error": "Bad Request", "message": "Request body is required"}), 400
+                return json_error(400, ErrorCode.MISSING_FIELD, "Request body is required")
 
             date = data.get("date", "").strip()
             maps = data.get("maps", {})
 
             if not date:
-                return jsonify({"error": "Bad Request", "message": "Field 'date' is required"}), 400
+                return json_error(400, ErrorCode.MISSING_FIELD, "Field 'date' is required")
             if not maps or not isinstance(maps, dict):
-                return (
-                    jsonify({"error": "Bad Request", "message": "Field 'maps' is required and must be an object"}),
-                    400,
-                )
+                return json_error(400, ErrorCode.MISSING_FIELD, "Field 'maps' is required and must be an object")
 
             # 3. 驗證日期格式
             if not validate_date(date):
-                return jsonify({"error": "Bad Request", "message": "Invalid date format. Expected YYYY-MM-DD"}), 400
+                return json_error(400, ErrorCode.INVALID_FORMAT, "Invalid date format. Expected YYYY-MM-DD")
 
             # 4. 驗證地圖資料
             valid_maps, error_response = _validate_maps(maps, date, daily_challenge_repo)
@@ -171,6 +152,6 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
             raise
         except Exception as e:
             logger.error(f"❌ 更新影片說明資料失敗: {e}", exc_info=True)
-            return jsonify({"error": "Internal server error"}), 500
+            return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     app.register_blueprint(bp)
