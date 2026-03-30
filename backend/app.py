@@ -13,6 +13,7 @@ from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import DEPLOY_ENV
+from error_codes import ErrorCode, json_error
 from routes.daily_challenge_reader import init_daily_challenge_reader_route
 from routes.daily_challenge_writer import init_daily_challenge_writer_route
 from routes.special_map_routes import init_special_map_routes
@@ -155,28 +156,28 @@ init_video_explanation_routes(app, db)
 # ✅ 全域錯誤處理：確保未預期例外回傳 JSON 而非 HTML
 @app.errorhandler(404)
 def not_found(e):
-    return jsonify({"error": "Not found"}), 404
+    return json_error(404, ErrorCode.NOT_FOUND, "Not found")
 
 
 @app.errorhandler(405)
 def method_not_allowed(e):
-    return jsonify({"error": "Method not allowed"}), 405
+    return json_error(405, ErrorCode.METHOD_NOT_ALLOWED, "Method not allowed")
 
 
 @app.errorhandler(429)
 def rate_limit_exceeded(e):
-    return jsonify({"error": "Too many requests"}), 429
+    return json_error(429, ErrorCode.RATE_LIMITED, "Too many requests")
 
 
 @app.errorhandler(HTTPException)
 def handle_http_exception(e):
-    return jsonify({"error": e.name}), e.code
+    return json_error(e.code, ErrorCode.INTERNAL_ERROR, e.name)
 
 
 @app.errorhandler(Exception)
 def handle_exception(e):
     logging.exception("Unhandled exception")
-    return jsonify({"error": "Internal server error"}), 500
+    return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
 
 # ✅ 測試端點

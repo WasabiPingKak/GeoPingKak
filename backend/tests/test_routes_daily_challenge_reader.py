@@ -42,7 +42,9 @@ class TestGetWithMonthParam:
     def test_invalid_month_format(self, client):
         resp = client.get("/api/daily-challenge?month=bad")
         assert resp.status_code == 400
-        assert "Invalid month format" in resp.get_json()["error"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FORMAT"
+        assert "Invalid month format" in data["message"]
 
     def test_invalid_month_13(self, client):
         resp = client.get("/api/daily-challenge?month=2026-13")

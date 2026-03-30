@@ -65,7 +65,9 @@ class TestPostSpecialMap:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "Invalid challengeUrl" in resp.get_json()["error"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FORMAT"
+        assert "Invalid challengeUrl" in data["message"]
 
     @patch("routes.special_map_routes.verify_bearer_token", return_value=True)
     def test_unknown_map_id_returns_400(self, _auth, client):
@@ -75,7 +77,9 @@ class TestPostSpecialMap:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "Unknown mapId" in resp.get_json()["error"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FIELD"
+        assert "Unknown mapId" in data["message"]
 
     @patch("repositories.special_map_repo.get_collection_name", return_value="special_maps")
     @patch("routes.special_map_routes.verify_bearer_token", return_value=True)

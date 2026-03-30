@@ -83,7 +83,9 @@ class TestPostVideoExplanationsValidation:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "Invalid date format" in resp.get_json()["message"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FORMAT"
+        assert "Invalid date format" in data["message"]
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
     def test_invalid_map_id(self, _auth, client):
@@ -93,7 +95,9 @@ class TestPostVideoExplanationsValidation:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "Invalid map ID" in resp.get_json()["message"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FIELD"
+        assert "Invalid map ID" in data["message"]
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
     def test_invalid_youtube_url(self, _auth, client):
@@ -103,7 +107,9 @@ class TestPostVideoExplanationsValidation:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "YouTube URL" in resp.get_json()["message"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FORMAT"
+        assert "YouTube URL" in data["message"]
 
     @patch("routes.video_explanation_routes.verify_bearer_token", return_value=True)
     def test_all_empty_maps_returns_400(self, _auth, client):
@@ -113,7 +119,9 @@ class TestPostVideoExplanationsValidation:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 400
-        assert "No valid map data" in resp.get_json()["message"]
+        data = resp.get_json()
+        assert data["error_code"] == "INVALID_FIELD"
+        assert "No valid map data" in data["message"]
 
 
 class TestPostVideoExplanationsSuccess:
@@ -158,4 +166,6 @@ class TestPostVideoExplanationsSuccess:
             headers=AUTH_HEADER,
         )
         assert resp.status_code == 404
-        assert "Cannot find challengeUrl" in resp.get_json()["message"]
+        data = resp.get_json()
+        assert data["error_code"] == "NOT_FOUND"
+        assert "Cannot find challengeUrl" in data["message"]
