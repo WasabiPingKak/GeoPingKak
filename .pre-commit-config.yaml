@@ -33,6 +33,14 @@ repos:
         exclude: ^frontend/node_modules/
         pass_filenames: false
 
+      - id: vitest
+        name: vitest (frontend tests)
+        entry: bash -c 'cd frontend && npx vitest run --reporter=dot'
+        language: system
+        files: ^frontend/.*\.[jt]sx?$
+        exclude: ^frontend/node_modules/
+        pass_filenames: false
+
       - id: pytest
         name: pytest (backend)
         entry: bash -c 'cd backend && python -m pytest tests/ -x -q'

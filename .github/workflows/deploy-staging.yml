@@ -48,11 +48,12 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Lint and type check frontend
+      - name: Lint, type check, and test frontend
         working-directory: frontend
         run: |
           npm run lint
           npx tsc --noEmit
+          npm test
 
   deploy-backend:
     needs: quality-check
