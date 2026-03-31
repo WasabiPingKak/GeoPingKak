@@ -24,6 +24,7 @@ class ErrorCode(str, Enum):
 
     # Server
     INTERNAL_ERROR = "INTERNAL_ERROR"
+    UPSTREAM_FAILURE = "UPSTREAM_FAILURE"
 
     # Method
     METHOD_NOT_ALLOWED = "METHOD_NOT_ALLOWED"
@@ -46,6 +47,7 @@ def json_error(status_code, error_code: ErrorCode, message: str):
         405: "Method Not Allowed",
         429: "Too Many Requests",
         500: "Internal Server Error",
+        502: "Bad Gateway",
     }
     return (
         jsonify(

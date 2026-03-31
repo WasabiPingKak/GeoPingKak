@@ -23,6 +23,10 @@ from utils.rate_limiter import limiter
 
 # ✅ Structured JSON logging with request ID
 class JSONFormatter(logging.Formatter):
+    _RESERVED_ATTRS = frozenset(
+        logging.LogRecord("", 0, "", 0, "", (), None).__dict__.keys() | {"message", "request_id"}
+    )
+
     def format(self, record):
         log_entry = {
             "timestamp": self.formatTime(record),
@@ -34,6 +38,9 @@ class JSONFormatter(logging.Formatter):
             log_entry["request_id"] = record.request_id
         if record.exc_info and record.exc_info[0]:
             log_entry["exception"] = self.formatException(record.exc_info)
+        for key, value in record.__dict__.items():
+            if key not in self._RESERVED_ATTRS and not key.startswith("_"):
+                log_entry[key] = value
         return json.dumps(log_entry, ensure_ascii=False)
 
 
