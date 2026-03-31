@@ -77,10 +77,15 @@ def init_daily_challenge_writer_route(app, db):
             map_id = item["mapId"]
             result = create_challenge(item["map"])
             if not result.url:
-                logger.warning(f"❌ mapId={map_id} 建立失敗，略過")
-                failed_maps.append(
-                    {"mapId": map_id, "reason": result.failure.value if result.failure else "unknown"}
+                logger.warning(
+                    "Challenge creation failed for map",
+                    extra={
+                        "event": "daily_challenge_update",
+                        "map_id": map_id,
+                        "failure_reason": result.failure.value if result.failure else "unknown",
+                    },
                 )
+                failed_maps.append({"mapId": map_id, "reason": result.failure.value if result.failure else "unknown"})
                 continue
 
             # 移除舊的相同 mapId
@@ -98,8 +103,21 @@ def init_daily_challenge_writer_route(app, db):
         total_maps = len(DAILY_MAPS[country])
         all_failed = len(failed_maps) == total_maps
 
+        success_count = total_maps - len(failed_maps)
+        outcome = "success" if not failed_maps else ("all_failed" if all_failed else "partial")
+
         # 全部失敗：不寫入 Firestore，回 502
         if all_failed:
+            logger.error(
+                "Daily challenge update failed",
+                extra={
+                    "event": "daily_challenge_update",
+                    "outcome": outcome,
+                    "country": country,
+                    "success_count": 0,
+                    "fail_count": len(failed_maps),
+                },
+            )
             return (
                 jsonify(
                     {
@@ -116,13 +134,26 @@ def init_daily_challenge_writer_route(app, db):
         try:
             repo.write_day_entries(year_month, day_key, updated_list)
         except Exception:
-            logger.error("🔥 寫入 Firestore 失敗", exc_info=True)
+            logger.error(
+                "Firestore write failed",
+                exc_info=True,
+                extra={"event": "daily_challenge_update", "outcome": "firestore_error", "country": country},
+            )
             return json_error(500, ErrorCode.INTERNAL_ERROR, "Firestore write failed")
 
+        logger.info(
+            "Daily challenge update completed",
+            extra={
+                "event": "daily_challenge_update",
+                "outcome": outcome,
+                "country": country,
+                "success_count": success_count,
+                "fail_count": len(failed_maps),
+            },
+        )
+
         if failed_maps:
-            return jsonify(
-                {"status": "partial", "count": len(updated_list), "failed_maps": failed_maps}
-            )
+            return jsonify({"status": "partial", "count": len(updated_list), "failed_maps": failed_maps})
 
         return jsonify({"status": "ok", "count": len(updated_list)})
 

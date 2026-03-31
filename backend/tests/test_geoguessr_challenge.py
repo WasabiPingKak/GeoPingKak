@@ -101,9 +101,7 @@ class TestCreateChallengeFailure:
 
         mock_response = MagicMock()
         mock_response.status_code = 403
-        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
-            response=mock_response
-        )
+        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(response=mock_response)
 
         result = create_challenge(MAP_ID)
         assert result.url is None
@@ -118,9 +116,7 @@ class TestCreateChallengeFailure:
 
         mock_response = MagicMock()
         mock_response.status_code = 500
-        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
-            response=mock_response
-        )
+        mock_post.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(response=mock_response)
 
         result = create_challenge(MAP_ID)
         assert result.url is None
