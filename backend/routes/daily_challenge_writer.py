@@ -75,10 +75,12 @@ def init_daily_challenge_writer_route(app, db):
         # 執行每張地圖挑戰
         for item in DAILY_MAPS[country]:
             map_id = item["mapId"]
-            challenge_url = create_challenge(item["map"])
-            if not challenge_url:
+            result = create_challenge(item["map"])
+            if not result.url:
                 logger.warning(f"❌ mapId={map_id} 建立失敗，略過")
-                failed_maps.append(map_id)
+                failed_maps.append(
+                    {"mapId": map_id, "reason": result.failure.value if result.failure else "unknown"}
+                )
                 continue
 
             # 移除舊的相同 mapId
@@ -88,7 +90,7 @@ def init_daily_challenge_writer_route(app, db):
                 {
                     "country": country,
                     "mapId": map_id,
-                    "challengeUrl": challenge_url,
+                    "challengeUrl": result.url,
                     "createdAt": created_at,
                 }
             )

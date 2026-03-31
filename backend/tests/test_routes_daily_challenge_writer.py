@@ -2,12 +2,22 @@
 
 from unittest.mock import MagicMock, patch
 
+from services.geoguessr_challenge import ChallengeFailure, ChallengeResult
+
 
 def _mock_doc(exists=True, data=None):
     doc = MagicMock()
     doc.exists = exists
     doc.to_dict.return_value = data or {}
     return doc
+
+
+def _ok(url="https://www.geoguessr.com/challenge/abc123"):
+    return ChallengeResult(url=url)
+
+
+def _fail(failure=ChallengeFailure.TIMEOUT):
+    return ChallengeResult(failure=failure)
 
 
 VALID_TOKEN = "test-admin-key"
@@ -60,7 +70,7 @@ class TestValidation:
 
 
 class TestSuccess:
-    @patch("routes.daily_challenge_writer.create_challenge", return_value="https://www.geoguessr.com/challenge/abc123")
+    @patch("routes.daily_challenge_writer.create_challenge", return_value=_ok())
     @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_creates_challenge_and_writes(self, _col, mock_create, client, mock_db):
@@ -79,7 +89,7 @@ class TestSuccess:
         # Verify Firestore set was called
         mock_db.return_value.document.return_value.set.assert_called_once()
 
-    @patch("routes.daily_challenge_writer.create_challenge", return_value=None)
+    @patch("routes.daily_challenge_writer.create_challenge", return_value=_fail())
     @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_all_fail_single_map_returns_502(self, _col, mock_create, client, mock_db):
@@ -93,7 +103,7 @@ class TestSuccess:
         assert resp.status_code == 502
         data = resp.get_json()
         assert data["error_code"] == "UPSTREAM_FAILURE"
-        assert data["failed_maps"] == ["hk-main"]
+        assert data["failed_maps"] == [{"mapId": "hk-main", "reason": "timeout"}]
 
         # Firestore should NOT be written
         mock_db.return_value.document.return_value.set.assert_not_called()
@@ -102,7 +112,7 @@ class TestSuccess:
 class TestPartialFailure:
     @patch(
         "routes.daily_challenge_writer.create_challenge",
-        side_effect=[None, "https://www.geoguessr.com/challenge/abc123"],
+        side_effect=[_fail(), _ok()],
     )
     @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
@@ -117,13 +127,13 @@ class TestPartialFailure:
         assert resp.status_code == 200
         data = resp.get_json()
         assert data["status"] == "partial"
-        assert data["failed_maps"] == ["tw-urban"]
+        assert data["failed_maps"] == [{"mapId": "tw-urban", "reason": "timeout"}]
         assert data["count"] == 1
 
         # Firestore should still be written for the successful map
         mock_db.return_value.document.return_value.set.assert_called_once()
 
-    @patch("routes.daily_challenge_writer.create_challenge", return_value=None)
+    @patch("routes.daily_challenge_writer.create_challenge", return_value=_fail())
     @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
     def test_all_fail_multi_map_returns_502(self, _col, mock_create, client, mock_db):
@@ -137,4 +147,5 @@ class TestPartialFailure:
         assert resp.status_code == 502
         data = resp.get_json()
         assert data["error_code"] == "UPSTREAM_FAILURE"
-        assert set(data["failed_maps"]) == {"tw-urban", "tw-balanced"}
+        failed_map_ids = {m["mapId"] for m in data["failed_maps"]}
+        assert failed_map_ids == {"tw-urban", "tw-balanced"}
