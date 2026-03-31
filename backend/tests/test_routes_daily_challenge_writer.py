@@ -82,7 +82,7 @@ class TestSuccess:
     @patch("routes.daily_challenge_writer.create_challenge", return_value=None)
     @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
     @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
-    def test_skips_failed_challenge_creation(self, _col, mock_create, client, mock_db):
+    def test_all_fail_single_map_returns_502(self, _col, mock_create, client, mock_db):
         mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
 
         resp = client.post(
@@ -90,5 +90,51 @@ class TestSuccess:
             json={"country": "hk"},
             headers=AUTH_HEADER,
         )
+        assert resp.status_code == 502
+        data = resp.get_json()
+        assert data["error_code"] == "UPSTREAM_FAILURE"
+        assert data["failed_maps"] == ["hk-main"]
+
+        # Firestore should NOT be written
+        mock_db.return_value.document.return_value.set.assert_not_called()
+
+
+class TestPartialFailure:
+    @patch(
+        "routes.daily_challenge_writer.create_challenge",
+        side_effect=[None, "https://www.geoguessr.com/challenge/abc123"],
+    )
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
+    @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
+    def test_partial_fail_returns_200_with_failed_maps(self, _col, mock_create, client, mock_db):
+        mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
+
+        resp = client.post(
+            "/api/admin/update-daily-challenge",
+            json={"country": "tw"},
+            headers=AUTH_HEADER,
+        )
         assert resp.status_code == 200
-        assert resp.get_json()["count"] == 0
+        data = resp.get_json()
+        assert data["status"] == "partial"
+        assert data["failed_maps"] == ["tw-urban"]
+        assert data["count"] == 1
+
+        # Firestore should still be written for the successful map
+        mock_db.return_value.document.return_value.set.assert_called_once()
+
+    @patch("routes.daily_challenge_writer.create_challenge", return_value=None)
+    @patch("repositories.daily_challenge_repo.get_collection_name", return_value="daily_challenge")
+    @patch("routes.daily_challenge_writer.ADMIN_API_KEY", VALID_TOKEN)
+    def test_all_fail_multi_map_returns_502(self, _col, mock_create, client, mock_db):
+        mock_db.return_value.document.return_value.get.return_value = _mock_doc(exists=False)
+
+        resp = client.post(
+            "/api/admin/update-daily-challenge",
+            json={"country": "tw"},
+            headers=AUTH_HEADER,
+        )
+        assert resp.status_code == 502
+        data = resp.get_json()
+        assert data["error_code"] == "UPSTREAM_FAILURE"
+        assert set(data["failed_maps"]) == {"tw-urban", "tw-balanced"}

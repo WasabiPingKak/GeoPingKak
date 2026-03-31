@@ -70,6 +70,7 @@ def init_daily_challenge_writer_route(app, db):
 
         existing_data = repo.read_day_entries(year_month, day_key)
         updated_list = existing_data.copy()
+        failed_maps = []
 
         # 執行每張地圖挑戰
         for item in DAILY_MAPS[country]:
@@ -77,6 +78,7 @@ def init_daily_challenge_writer_route(app, db):
             challenge_url = create_challenge(item["map"])
             if not challenge_url:
                 logger.warning(f"❌ mapId={map_id} 建立失敗，略過")
+                failed_maps.append(map_id)
                 continue
 
             # 移除舊的相同 mapId
@@ -91,12 +93,35 @@ def init_daily_challenge_writer_route(app, db):
                 }
             )
 
-        # 寫入 Firestore
+        total_maps = len(DAILY_MAPS[country])
+        all_failed = len(failed_maps) == total_maps
+
+        # 全部失敗：不寫入 Firestore，回 502
+        if all_failed:
+            return (
+                jsonify(
+                    {
+                        "error_code": ErrorCode.UPSTREAM_FAILURE.value,
+                        "error": "Bad Gateway",
+                        "message": "All challenge creations failed",
+                        "failed_maps": failed_maps,
+                    }
+                ),
+                502,
+            )
+
+        # 寫入 Firestore（全成功或部分成功）
         try:
             repo.write_day_entries(year_month, day_key, updated_list)
-            return jsonify({"status": "ok", "count": len(updated_list)})
         except Exception:
             logger.error("🔥 寫入 Firestore 失敗", exc_info=True)
             return json_error(500, ErrorCode.INTERNAL_ERROR, "Firestore write failed")
+
+        if failed_maps:
+            return jsonify(
+                {"status": "partial", "count": len(updated_list), "failed_maps": failed_maps}
+            )
+
+        return jsonify({"status": "ok", "count": len(updated_list)})
 
     app.register_blueprint(bp)
