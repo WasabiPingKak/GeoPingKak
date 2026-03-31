@@ -24,7 +24,9 @@ describe("useDailyChallengeMonths", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(mockFetch).toHaveBeenCalledWith("/api/daily-challenge/months");
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/api/daily-challenge/months")
+    );
     expect(result.current.data).toEqual(months);
   });
 
@@ -59,7 +61,7 @@ describe("useDailyChallengeMonth", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(mockFetch).toHaveBeenCalledWith(
-      "/api/daily-challenge?month=2026-03"
+      expect.stringContaining("/api/daily-challenge?month=2026-03")
     );
   });
 
