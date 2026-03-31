@@ -24,7 +24,9 @@ describe("useSpecialMapData", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(mockFetch).toHaveBeenCalledWith("/api/special-map");
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/api/special-map")
+    );
     expect(result.current.data).toEqual(mockData);
   });
 

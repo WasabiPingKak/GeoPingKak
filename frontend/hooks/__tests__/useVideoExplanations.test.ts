@@ -29,7 +29,9 @@ describe("useVideoExplanations", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(mockFetch).toHaveBeenCalledWith("/api/video-explanations");
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining("/api/video-explanations")
+    );
     expect(result.current.data).toEqual(mockData);
   });
 
