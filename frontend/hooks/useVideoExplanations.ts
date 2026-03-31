@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || '';
+
 /**
  * 影片連結介面
  */
@@ -50,7 +52,7 @@ export function useVideoExplanations() {
     queryKey: ['video-explanations'],
     queryFn: async () => {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE}/api/video-explanations`
+        `${API_BASE}/api/video-explanations`
       );
 
       if (!response.ok) {

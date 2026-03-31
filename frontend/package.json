@@ -9,6 +9,8 @@
         "build:prod": "rm -f .env.production.local && next build",
         "start": "next start",
         "lint": "eslint .",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "postbuild": "next-sitemap",
         "deploy:staging": "npm run build:staging && firebase hosting:channel:deploy staging --expires 30d",
         "deploy:prod": "echo 'Production deploy is handled by CI/CD. Push to main branch.' && exit 1"
@@ -29,6 +31,9 @@
     },
     "devDependencies": {
         "@tailwindcss/postcss": "^4",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.2",
+        "@testing-library/user-event": "^14.6.1",
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
@@ -36,8 +41,10 @@
         "baseline-browser-mapping": "^2.10.0",
         "eslint": "^9.39.4",
         "eslint-config-next": "^16.2.1",
+        "happy-dom": "^20.8.9",
         "postcss": "^8.5.6",
         "tailwindcss": "^3.4.3",
-        "typescript": "^5"
+        "typescript": "^5",
+        "vitest": "^4.1.2"
     }
 }
