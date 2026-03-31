@@ -8,4 +8,5 @@ Thumbs.db
 # Temp screenshots
 Snipaste_*
 
-
+# Test coverage
+.coverage
