@@ -334,7 +334,7 @@ cd ../frontend
 - **Hosting**: Google Cloud Run
 
 **Core modules**:
-- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID (RequestIDFilter auto-injects from Flask g), Cache-Control headers, HTTPException/429 error handler, Swagger UI (`/api/docs/`)
+- `app.py` - Flask application entry point, initializes Firestore client, structured JSON logging with request ID (RequestIDFilter auto-injects from Flask g, JSONFormatter forwards extra fields to JSON output), Cache-Control headers, HTTPException/429 error handler, Swagger UI (`/api/docs/`)
 - `openapi.yaml` - OpenAPI 3.0 spec, served at `/api/openapi.yaml`
 - `utils/rate_limiter.py` - Rate Limiter module, storage backend configurable via `RATE_LIMIT_STORAGE_URL` env var (default `memory://`, switchable to Redis). Global default 60/min, write endpoints 10/min
 - `config.py` - Environment configuration management, provides `get_collection_name()` helper
@@ -342,7 +342,7 @@ cd ../frontend
 - `validators.py` - Shared validation utilities (`validate_date`, `validate_youtube_url`, `validate_geoguessr_url`)
 
 **Service modules** (`services/`):
-- `geoguessr_challenge.py` - GeoGuessr API client with retry/exponential backoff (tenacity). Auto-retries on ConnectionError/Timeout up to 3 attempts
+- `geoguessr_challenge.py` - GeoGuessr API client with retry/exponential backoff (tenacity). Auto-retries on ConnectionError/Timeout up to 3 attempts. Returns `ChallengeResult` dataclass with typed `ChallengeFailure` enum (timeout, connection_error, http_4xx, http_5xx, invalid_json, missing_token). Structured log fields: event, outcome, map_id, status_code, retry_count
 
 **Repository modules** (`repositories/`):
 - `daily_challenge_repo.py` - `DailyChallengeRepo`: `read_month`, `list_months`, `read_day_entries`, `write_day_entries`, `lookup_challenge_url`
@@ -350,7 +350,7 @@ cd ../frontend
 - `video_explanation_repo.py` - `VideoExplanationRepo`: `get_all`, `save`
 
 **Route modules** (`routes/`):
-- `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD
+- `daily_challenge_reader.py` / `daily_challenge_writer.py` - Daily challenge CRUD. Writer returns 502 UPSTREAM_FAILURE when all maps fail, 200 partial with failed_maps on mixed results
   - GET `/api/daily-challenge/months` - 回傳所有已存在的月份 ID 列表（降冪排序）
   - GET `/api/daily-challenge` - 按月份分批載入，預設回傳當月+上月
   - GET `/api/daily-challenge?month=YYYY-MM` - 指定月份載入
