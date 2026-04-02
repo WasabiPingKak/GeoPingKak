@@ -50,9 +50,7 @@ def emulator_db():
         app = firebase_admin.get_app(app_name)
     except ValueError:
         cred = credentials.ApplicationDefault()
-        app = firebase_admin.initialize_app(
-            cred, {"projectId": PROJECT_ID}, name=app_name
-        )
+        app = firebase_admin.initialize_app(cred, {"projectId": PROJECT_ID}, name=app_name)
 
     db = firestore.client(app)
     yield db
@@ -75,9 +73,7 @@ def _clean_firestore():
 def daily_challenge_repo(emulator_db):
     from repositories.daily_challenge_repo import DailyChallengeRepo
 
-    with patch(
-        "repositories.daily_challenge_repo.get_collection_name", side_effect=lambda x: x
-    ):
+    with patch("repositories.daily_challenge_repo.get_collection_name", side_effect=lambda x: x):
         yield DailyChallengeRepo(emulator_db)
 
 
@@ -85,9 +81,7 @@ def daily_challenge_repo(emulator_db):
 def special_map_repo(emulator_db):
     from repositories.special_map_repo import SpecialMapRepo
 
-    with patch(
-        "repositories.special_map_repo.get_collection_name", side_effect=lambda x: x
-    ):
+    with patch("repositories.special_map_repo.get_collection_name", side_effect=lambda x: x):
         yield SpecialMapRepo(emulator_db)
 
 
@@ -95,7 +89,5 @@ def special_map_repo(emulator_db):
 def video_explanation_repo(emulator_db):
     from repositories.video_explanation_repo import VideoExplanationRepo
 
-    with patch(
-        "repositories.video_explanation_repo.get_collection_name", side_effect=lambda x: x
-    ):
+    with patch("repositories.video_explanation_repo.get_collection_name", side_effect=lambda x: x):
         yield VideoExplanationRepo(emulator_db)

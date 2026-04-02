@@ -44,12 +44,8 @@ class TestReadMonth:
         assert result[0]["mapId"] == "world"
 
     def test_multiple_days(self, daily_challenge_repo):
-        daily_challenge_repo.write_day_entries(
-            "2026-04", "01", [{"mapId": "world", "challengeUrl": "url1"}]
-        )
-        daily_challenge_repo.write_day_entries(
-            "2026-04", "02", [{"mapId": "tw", "challengeUrl": "url2"}]
-        )
+        daily_challenge_repo.write_day_entries("2026-04", "01", [{"mapId": "world", "challengeUrl": "url1"}])
+        daily_challenge_repo.write_day_entries("2026-04", "02", [{"mapId": "tw", "challengeUrl": "url2"}])
 
         result = daily_challenge_repo.read_month("2026-04")
         assert len(result) == 2
@@ -62,15 +58,9 @@ class TestReadMonth:
 
 class TestListMonths:
     def test_returns_sorted_descending(self, daily_challenge_repo):
-        daily_challenge_repo.write_day_entries(
-            "2026-01", "01", [{"mapId": "world"}]
-        )
-        daily_challenge_repo.write_day_entries(
-            "2026-03", "01", [{"mapId": "world"}]
-        )
-        daily_challenge_repo.write_day_entries(
-            "2026-02", "01", [{"mapId": "world"}]
-        )
+        daily_challenge_repo.write_day_entries("2026-01", "01", [{"mapId": "world"}])
+        daily_challenge_repo.write_day_entries("2026-03", "01", [{"mapId": "world"}])
+        daily_challenge_repo.write_day_entries("2026-02", "01", [{"mapId": "world"}])
 
         months = daily_challenge_repo.list_months()
         assert months == ["2026-03", "2026-02", "2026-01"]

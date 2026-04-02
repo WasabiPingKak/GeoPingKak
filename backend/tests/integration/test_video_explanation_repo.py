@@ -6,12 +6,8 @@ class TestGetAll:
         assert video_explanation_repo.get_all() == {}
 
     def test_returns_all_dates(self, video_explanation_repo):
-        video_explanation_repo.save(
-            "2026-04-01", {"world": {"videoUrl": "https://youtube.com/watch?v=aaa"}}
-        )
-        video_explanation_repo.save(
-            "2026-04-02", {"tw": {"videoUrl": "https://youtube.com/watch?v=bbb"}}
-        )
+        video_explanation_repo.save("2026-04-01", {"world": {"videoUrl": "https://youtube.com/watch?v=aaa"}})
+        video_explanation_repo.save("2026-04-02", {"tw": {"videoUrl": "https://youtube.com/watch?v=bbb"}})
 
         result = video_explanation_repo.get_all()
         assert len(result) == 2
@@ -33,12 +29,8 @@ class TestSave:
 
     def test_merge_preserves_other_maps(self, video_explanation_repo):
         """Writing map B should not overwrite map A in the same date doc."""
-        video_explanation_repo.save(
-            "2026-04-03", {"world": {"videoUrl": "https://youtube.com/watch?v=aaa"}}
-        )
-        video_explanation_repo.save(
-            "2026-04-03", {"tw": {"videoUrl": "https://youtube.com/watch?v=bbb"}}
-        )
+        video_explanation_repo.save("2026-04-03", {"world": {"videoUrl": "https://youtube.com/watch?v=aaa"}})
+        video_explanation_repo.save("2026-04-03", {"tw": {"videoUrl": "https://youtube.com/watch?v=bbb"}})
 
         result = video_explanation_repo.get_all()
         data = result["2026-04-03"]
@@ -46,12 +38,8 @@ class TestSave:
         assert data["tw"]["videoUrl"] == "https://youtube.com/watch?v=bbb"
 
     def test_overwrite_same_map(self, video_explanation_repo):
-        video_explanation_repo.save(
-            "2026-04-03", {"world": {"videoUrl": "https://youtube.com/watch?v=old"}}
-        )
-        video_explanation_repo.save(
-            "2026-04-03", {"world": {"videoUrl": "https://youtube.com/watch?v=new"}}
-        )
+        video_explanation_repo.save("2026-04-03", {"world": {"videoUrl": "https://youtube.com/watch?v=old"}})
+        video_explanation_repo.save("2026-04-03", {"world": {"videoUrl": "https://youtube.com/watch?v=new"}})
 
         result = video_explanation_repo.get_all()
         assert result["2026-04-03"]["world"]["videoUrl"] == "https://youtube.com/watch?v=new"
