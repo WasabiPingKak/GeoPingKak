@@ -94,3 +94,27 @@ def video_explanation_repo(emulator_db):
 
     with patch("repositories.video_explanation_repo.get_collection_name", side_effect=lambda x: x):
         yield VideoExplanationRepo(emulator_db)
+
+
+@pytest.fixture()
+def client(emulator_db):
+    """Flask test client with routes connected to Firestore emulator.
+
+    Patches app_module.db.collection so all repos (which captured db via
+    closure at init time) route their Firestore calls to the emulator.
+    """
+    import app as app_module
+    from utils.rate_limiter import limiter
+
+    original_collection = app_module.db.collection
+    app_module.db.collection = emulator_db.collection
+
+    app_module.app.config["TESTING"] = True
+    app_module.app.config["RATELIMIT_ENABLED"] = False
+    limiter.reset()
+
+    with patch("config.get_collection_name", side_effect=lambda x: x):
+        with app_module.app.test_client() as c:
+            yield c
+
+    app_module.db.collection = original_collection
