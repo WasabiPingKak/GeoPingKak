@@ -11,6 +11,7 @@ Tests are auto-skipped when the emulator is not running.
 
 import os
 import socket
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -30,11 +31,13 @@ def _emulator_is_running():
 
 
 def pytest_collection_modifyitems(config, items):
-    """Auto-skip all integration tests when emulator is not running."""
+    """Auto-skip integration tests when emulator is not running."""
     if not _emulator_is_running():
         skip = pytest.mark.skip(reason="Firestore emulator not running on " + EMULATOR_HOST)
+        integration_dir = str(Path(__file__).parent)
         for item in items:
-            item.add_marker(skip)
+            if str(item.fspath).startswith(integration_dir):
+                item.add_marker(skip)
 
 
 @pytest.fixture(scope="session")
