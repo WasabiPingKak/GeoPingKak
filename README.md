@@ -158,17 +158,3 @@ GeoPingKak/
 │   └── public/               # 靜態資源
 └── README.md
 ```
-
-## Technical Decisions
-
-本專案是單人開發的中小型產品，以下記錄有意識的技術取捨：
-
-| 決策 | 選擇 | 原因 |
-|------|------|------|
-| **Web 框架** | Flask（同步） | Firestore SDK 為同步 API，async 框架無效能優勢；CRUD 為主的 API 不需要 WebSocket 或長連線 |
-| **認證方式** | 固定 Bearer Token | 單人操作 admin API，不需要多角色權限模型；token 由 GCP Secret Manager 管理，驗證使用 `hmac.compare_digest` 防 timing attack |
-| **測試策略** | Mock 單元測試 + Firestore Emulator 整合測試 | 106 unit tests（mock-based，CI 必跑）+ 34 integration tests（需 Firestore Emulator，CI auto-skip）；unit test coverage 91% |
-| **Rate Limiter Storage** | In-memory（可切 Redis） | 目前流量低，單 instance 即可；已透過環境變數 `RATE_LIMIT_STORAGE_URL` 預留 Redis 切換，零程式碼修改 |
-| **資料寫入** | 單 document 操作 | 資料模型設計為每月一個 document，每次 API 呼叫只涉及單一 document，天然原子性，不需要 batch write |
-| **監控告警** | Structured logging，未設 alerting | 已具備 JSON logging + request ID + Cloud Logging 查詢能力；個人專案無 on-call 需求，未設定 alerting policy |
-| **API 文件** | OpenAPI 3.0 + Swagger UI | 提供 `/api/docs/` 互動式文件與 `/api/openapi.yaml` 機器可讀規格 |
