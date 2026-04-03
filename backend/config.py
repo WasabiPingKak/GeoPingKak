@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 # 從環境變數讀取部署環境，預設為 production
 DEPLOY_ENV = os.getenv("DEPLOY_ENV", "production")
 
+VALID_ENVS = {"production", "staging"}
+if DEPLOY_ENV not in VALID_ENVS:
+    raise ValueError(f"Invalid DEPLOY_ENV: {DEPLOY_ENV!r}, must be one of {VALID_ENVS}")
+
 logger.info(f"🌍 當前部署環境: {DEPLOY_ENV}")
 
 
