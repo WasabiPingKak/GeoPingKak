@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-GeoPingKak is a Chinese-language GeoGuessr resource website promoting the game for Taiwanese Vtuber 山葵冰角 (Wasabi Pingkak). The site provides daily challenges, tutorials, special maps, and community resources.
+GeoGuessr 繁體中文資源站。Next.js 16 + Flask + Firestore，前端 Firebase Hosting、後端 Cloud Run。
 
 ## Directory Structure
 
