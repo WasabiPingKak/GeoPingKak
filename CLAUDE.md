@@ -40,6 +40,7 @@ GeoPingKak/
 │       ├── migrate_special_map_fields.py # 特殊地圖欄位名遷移腳本
 │       └── migrate_video_challenge_urls.py # 影片資料補 challengeUrl 遷移腳本
 │
+├── firebase.json                     # Firestore Emulator 設定（port 8080）
 ├── frontend/                         # Next.js App (Firebase Hosting)
 │   ├── .env.staging                  # Staging 環境變數
 │   ├── .env.production               # Production 環境變數（本地 build 用，CI/CD 由 workflow 注入）
@@ -183,8 +184,26 @@ Backend commands run from the `backend/` directory:
 ```bash
 cd backend
 ruff check .              # Run Ruff linter
-pytest tests/ -v          # Run all backend tests
+pytest tests/ -v          # Run all backend tests (integration tests auto-skip without emulator)
 ```
+
+### Firestore Emulator Integration Tests
+
+Integration tests require the Firestore Emulator (Java 11+ required):
+
+```bash
+# Start emulator (from project root)
+firebase emulators:start --only firestore --project demo-geopingkak
+
+# Run integration tests only (in another terminal)
+cd backend
+pytest tests/integration/ -v
+
+# Run all tests (unit + integration)
+pytest tests/ -v
+```
+
+Integration tests auto-skip when the emulator is not running, so CI and `pytest tests/` always pass.
 
 ### Pre-commit Hooks
 
@@ -376,14 +395,24 @@ cd ../frontend
 - `test_auth.py` - Unit tests for auth utilities (Bearer token extraction and verification)
 - `test_geoguessr_challenge.py` - Unit tests for GeoGuessr API service (success, retry/backoff, failure paths)
 - `test_validators.py` - Unit tests for shared validators (date, YouTube URL, GeoGuessr URL)
-- `test_routes_ping.py` - Integration tests for /ping and global error handlers (404/405/500)
-- `test_routes_daily_challenge_reader.py` - Integration tests for GET /api/daily-challenge
-- `test_routes_daily_challenge_writer.py` - Integration tests for POST /api/admin/update-daily-challenge
-- `test_routes_special_map.py` - Integration tests for /api/special-map (GET + POST)
-- `test_routes_video_explanation.py` - Integration tests for /api/video-explanations (GET + POST)
+- `test_routes_ping.py` - Route tests for /ping and global error handlers (404/405/500)
+- `test_routes_daily_challenge_reader.py` - Route tests for GET /api/daily-challenge (mock Firestore)
+- `test_routes_daily_challenge_writer.py` - Route tests for POST /api/admin/update-daily-challenge (mock Firestore)
+- `test_routes_special_map.py` - Route tests for /api/special-map GET + POST (mock Firestore)
+- `test_routes_video_explanation.py` - Route tests for /api/video-explanations GET + POST (mock Firestore)
 - `test_repo_daily_challenge.py` - Unit tests for DailyChallengeRepo (list/read/write/lookup)
 - `test_repo_special_map.py` - Unit tests for SpecialMapRepo (get/save)
 - `test_repo_video_explanation.py` - Unit tests for VideoExplanationRepo (get_all/save)
+
+**Integration tests** (`tests/integration/`) — require Firestore Emulator, auto-skip when unavailable:
+- `conftest.py` - Emulator connection, per-test data cleanup, Flask client + repo fixtures
+- `test_daily_challenge_repo.py` - DailyChallengeRepo against real Firestore (CRUD, merge, list_documents, lookup)
+- `test_special_map_repo.py` - SpecialMapRepo against real Firestore (CRUD, merge semantics)
+- `test_video_explanation_repo.py` - VideoExplanationRepo against real Firestore (CRUD, stream, merge)
+- `test_routes_daily_challenge_reader.py` - GET routes with real Firestore data
+- `test_routes_daily_challenge_writer.py` - POST write flow with real Firestore (GeoGuessr API still mocked)
+- `test_routes_special_map.py` - GET/POST with real Firestore (duplicate detection)
+- `test_routes_video_explanation.py` - GET/POST with real Firestore (cross-collection challengeUrl lookup)
 
 ### Data Flow
 

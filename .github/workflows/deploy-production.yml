@@ -1,6 +1,8 @@
 name: Deploy Production
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
 
@@ -43,7 +45,18 @@ jobs:
         working-directory: backend
         run: |
           pip install -r requirements.txt pytest pytest-cov
-          pytest tests/ -v --cov --cov-report=term-missing
+          pytest tests/ -v --cov --cov-report=term-missing:skip-covered --cov-report=xml:coverage.xml
+
+      - name: Coverage comment on PR
+        if: github.event_name == 'pull_request'
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: backend/coverage.xml
+          title: Backend Coverage Report
+          badge-title: coverage
+          hide-badge: false
+          hide-report: false
+          junitxml-path: ""
 
       - name: Install frontend dependencies
         working-directory: frontend
@@ -58,6 +71,7 @@ jobs:
 
   deploy-backend:
     needs: quality-check
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -116,6 +130,7 @@ jobs:
 
   deploy-frontend:
     needs: quality-check
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
