@@ -1,7 +1,7 @@
 [![Deploy Production](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-production.yml)
 [![Deploy Staging](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-staging.yml/badge.svg?branch=develop)](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-staging.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/WasabiPingKak/GeoPingKak)
-![Backend Coverage](https://img.shields.io/badge/backend_coverage-91%25-brightgreen)
+[![Backend Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/WasabiPingKak/9a0c8caabb59e8a45d4e1cd3653bc2a4/raw/geopingkak-coverage-badge.json)](https://github.com/WasabiPingKak/GeoPingKak/actions/workflows/deploy-staging.yml)
 
 # GeoPingKak
 

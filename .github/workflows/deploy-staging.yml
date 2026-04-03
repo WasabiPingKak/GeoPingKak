@@ -1,6 +1,8 @@
 name: Deploy Staging
 
 on:
+  pull_request:
+    branches: [develop]
   push:
     branches: [develop]
 
@@ -42,7 +44,43 @@ jobs:
         working-directory: backend
         run: |
           pip install -r requirements.txt pytest pytest-cov
-          pytest tests/ -v --cov --cov-report=term-missing
+          pytest tests/ -v --cov --cov-report=term-missing:skip-covered --cov-report=xml:coverage.xml
+
+      - name: Coverage comment on PR
+        if: github.event_name == 'pull_request'
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-xml-coverage-path: backend/coverage.xml
+          title: Backend Coverage Report
+          badge-title: coverage
+          hide-badge: false
+          hide-report: false
+          junitxml-path: ""
+
+      - name: Extract coverage percentage
+        id: cov
+        working-directory: backend
+        run: |
+          COVERAGE=$(python -c "
+          import xml.etree.ElementTree as ET
+          tree = ET.parse('coverage.xml')
+          rate = float(tree.getroot().attrib['line-rate'])
+          print(f'{rate * 100:.0f}')
+          ")
+          echo "percentage=$COVERAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Update coverage badge
+        if: github.ref == 'refs/heads/develop'
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: ${{ vars.COVERAGE_GIST_ID }}
+          filename: geopingkak-coverage-badge.json
+          label: coverage
+          message: ${{ steps.cov.outputs.percentage }}%
+          valColorRange: ${{ steps.cov.outputs.percentage }}
+          minColorRange: 50
+          maxColorRange: 100
 
       - name: Install frontend dependencies
         working-directory: frontend
@@ -57,6 +95,7 @@ jobs:
 
   deploy-backend:
     needs: quality-check
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -115,6 +154,7 @@ jobs:
 
   deploy-frontend:
     needs: quality-check
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
