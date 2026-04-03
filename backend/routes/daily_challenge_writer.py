@@ -53,7 +53,7 @@ def init_daily_challenge_writer_route(app, db):
 
         # 驗證 country
         body = request.get_json()
-        if not body:
+        if not body or not isinstance(body, dict):
             return json_error(400, ErrorCode.MISSING_FIELD, "Request body is required")
         country = body.get("country")
         if country not in DAILY_MAPS:
