@@ -8,3 +8,4 @@ tenacity==9.1.2
 flask-swagger-ui==4.11.1
 mypy==1.17.1
 types-Flask-Cors==6.0.0.20260402
+types-requests==2.33.0.20260327
