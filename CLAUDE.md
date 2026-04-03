@@ -10,7 +10,7 @@ GeoGuessr 繁體中文資源站。Next.js 16 + Flask + Firestore，前端 Fireba
 
 ```
 GeoPingKak/
-├── .pre-commit-config.yaml           # Pre-commit hooks（Ruff + ESLint）
+├── .pre-commit-config.yaml           # Pre-commit hooks（Ruff + mypy + ESLint）
 ├── backend/                          # Flask API (Cloud Run)
 │   ├── app.py                        # Flask 入口，初始化 Firestore，全域 error handler，structured logging + request ID
 │   ├── config.py                     # 環境配置管理（staging/production）
@@ -18,6 +18,7 @@ GeoPingKak/
 │   ├── validators.py                 # 共用驗證工具（日期、YouTube URL、GeoGuessr URL）
 │   ├── deploy.sh                     # Staging 部署腳本（Production 由 CI/CD 處理）
 │   ├── openapi.yaml                  # OpenAPI 3.0 spec（Swagger UI 用）
+│   ├── mypy.ini                      # mypy 型別檢查設定
 │   ├── ruff.toml                     # Ruff linter 設定
 │   ├── Dockerfile
 │   ├── requirements.txt
@@ -184,6 +185,7 @@ Backend commands run from the `backend/` directory:
 ```bash
 cd backend
 ruff check .              # Run Ruff linter
+mypy .                    # Run mypy type checker
 pytest tests/ -v          # Run all backend tests (integration tests auto-skip without emulator)
 ```
 
@@ -209,6 +211,7 @@ Integration tests auto-skip when the emulator is not running, so CI and `pytest 
 
 The project uses [pre-commit](https://pre-commit.com/) framework (`.pre-commit-config.yaml`):
 - **Ruff**: Lints + formats `backend/` Python files (E/F/W/I rules + ruff-format)
+- **mypy**: Static type checking for `backend/` Python files (config: `backend/mypy.ini`)
 - **ESLint**: Lints `frontend/` JS/TS files
 
 Global git hooks (`~/.git-hooks/pre-commit`) chain: `.env` file protection → pre-commit framework.
@@ -227,7 +230,7 @@ The project supports two environments: **Staging** and **Production**.
 Production is deployed automatically via GitHub Actions when pushing to `main` branch.
 - **Workflow**: `.github/workflows/deploy-production.yml`
 - **Triggers**: `push` to `main` (deploy), `pull_request` to `main` (quality check only)
-- **Process**: Quality check (Ruff + pytest with coverage + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting frontend (parallel)
+- **Process**: Quality check (Ruff + mypy + pytest with coverage + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting frontend (parallel)
 - **Quality gate**: `quality-check` job must pass before either deploy job starts; deploy jobs only run on `push` events
 - **PR coverage comment**: PR 會自動產生 coverage 表格（MishaKav/pytest-coverage-comment）
 - **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
