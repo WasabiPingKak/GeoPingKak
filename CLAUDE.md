@@ -226,15 +226,19 @@ The project supports two environments: **Staging** and **Production**.
 
 Production is deployed automatically via GitHub Actions when pushing to `main` branch.
 - **Workflow**: `.github/workflows/deploy-production.yml`
-- **Process**: Quality check (Ruff + pytest + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting frontend (parallel)
-- **Quality gate**: `quality-check` job must pass before either deploy job starts
+- **Triggers**: `push` to `main` (deploy), `pull_request` to `main` (quality check only)
+- **Process**: Quality check (Ruff + pytest with coverage + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting frontend (parallel)
+- **Quality gate**: `quality-check` job must pass before either deploy job starts; deploy jobs only run on `push` events
+- **PR coverage comment**: PR 會自動產生 coverage 表格（MishaKav/pytest-coverage-comment）
 - **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
 
 #### Staging Deployment (CI/CD)
 
 Staging is deployed automatically via GitHub Actions when pushing to `develop` branch.
 - **Workflow**: `.github/workflows/deploy-staging.yml`
+- **Triggers**: `push` to `develop` (deploy + badge update), `pull_request` to `develop` (quality check only)
 - **Process**: Same quality check → Deploy Cloud Run backend (staging) + Firebase Hosting staging channel (parallel)
+- **Coverage badge**: Push to `develop` 時自動更新 Gist badge（schneegans/dynamic-badges-action）
 - **Frontend**: Deployed to Firebase Hosting channel `staging` (expires 30d)
 - **No GA tracking** in staging environment
 - **`cancel-in-progress: true`** — 新的 push 會取消正在跑的 staging deploy
