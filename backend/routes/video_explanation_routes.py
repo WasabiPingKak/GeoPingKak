@@ -115,7 +115,7 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
 
             # 2. 解析 body + 基本欄位檢查
             data = request.get_json()
-            if not data:
+            if not data or not isinstance(data, dict):
                 return json_error(400, ErrorCode.MISSING_FIELD, "Request body is required")
 
             date = data.get("date", "").strip()
