@@ -41,6 +41,13 @@ repos:
         exclude: ^frontend/node_modules/
         pass_filenames: false
 
+      - id: mypy
+        name: mypy (backend type check)
+        entry: bash -c 'cd backend && python -m mypy .'
+        language: system
+        files: ^backend/.*\.py$
+        pass_filenames: false
+
       - id: pytest
         name: pytest (backend)
         entry: bash -c 'cd backend && python -m pytest tests/ -x -q'

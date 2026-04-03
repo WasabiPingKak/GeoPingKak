@@ -53,7 +53,7 @@ def _post_challenge(headers: dict, payload: dict) -> dict:
     """發送 POST 請求，連線失敗或 timeout 時自動重試（指數退避）。"""
     response = requests.post(GEOGUESSR_API_URL, headers=headers, json=payload, timeout=10)
     response.raise_for_status()
-    return response.json()
+    return response.json()  # type: ignore[no-any-return]
 
 
 def create_challenge(map_id: str) -> ChallengeResult:
@@ -83,7 +83,7 @@ def create_challenge(map_id: str) -> ChallengeResult:
 
     try:
         data = _post_challenge(headers, payload)
-        retry_count = _post_challenge.statistics.get("attempt_number", 1) - 1
+        retry_count = _post_challenge.statistics.get("attempt_number", 1) - 1  # type: ignore[attr-defined]
         token = data.get("token")
         if not token:
             logger.error(

@@ -41,10 +41,16 @@ jobs:
           ruff check .
           ruff format --check .
 
+      - name: Type check backend (mypy)
+        working-directory: backend
+        run: |
+          pip install -r requirements.txt
+          mypy .
+
       - name: Run backend tests with coverage
         working-directory: backend
         run: |
-          pip install -r requirements.txt pytest pytest-cov
+          pip install pytest pytest-cov
           pytest tests/ -v --cov --cov-report=term-missing:skip-covered --cov-report=xml:coverage.xml
 
       - name: Coverage comment on PR
