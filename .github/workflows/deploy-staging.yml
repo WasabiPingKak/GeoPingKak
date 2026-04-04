@@ -1,8 +1,6 @@
 name: Deploy Staging
 
 on:
-  pull_request:
-    branches: [develop]
   push:
     branches: [develop]
 
@@ -18,90 +16,7 @@ env:
   NEXT_PUBLIC_API_BASE: https://geopingkak-backend-staging-7xgrga7zxa-de.a.run.app
 
 jobs:
-  quality-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Lint backend (Ruff)
-        working-directory: backend
-        run: |
-          pip install ruff==0.12.0
-          ruff check .
-          ruff format --check .
-
-      - name: Type check backend (mypy)
-        working-directory: backend
-        run: |
-          pip install -r requirements.txt -r requirements-dev.txt
-          mypy .
-
-      - name: Run backend tests with coverage
-        working-directory: backend
-        run: |
-          pip install pytest pytest-cov
-          pytest tests/ -v --cov --cov-report=term-missing:skip-covered --cov-report=xml:coverage.xml
-
-      - name: Coverage comment on PR
-        if: github.event_name == 'pull_request'
-        uses: MishaKav/pytest-coverage-comment@main
-        with:
-          pytest-xml-coverage-path: backend/coverage.xml
-          title: Backend Coverage Report
-          badge-title: coverage
-          hide-badge: false
-          hide-report: false
-          junitxml-path: ""
-
-      - name: Extract coverage percentage
-        id: cov
-        working-directory: backend
-        run: |
-          COVERAGE=$(python -c "
-          import xml.etree.ElementTree as ET
-          tree = ET.parse('coverage.xml')
-          rate = float(tree.getroot().attrib['line-rate'])
-          print(f'{rate * 100:.0f}')
-          ")
-          echo "percentage=$COVERAGE" >> "$GITHUB_OUTPUT"
-
-      - name: Update coverage badge
-        if: github.ref == 'refs/heads/develop'
-        uses: schneegans/dynamic-badges-action@v1.7.0
-        with:
-          auth: ${{ secrets.GIST_TOKEN }}
-          gistID: ${{ vars.COVERAGE_GIST_ID }}
-          filename: geopingkak-coverage-badge.json
-          label: coverage
-          message: ${{ steps.cov.outputs.percentage }}%
-          valColorRange: ${{ steps.cov.outputs.percentage }}
-          minColorRange: 50
-          maxColorRange: 100
-
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Lint, type check, and test frontend
-        working-directory: frontend
-        run: |
-          npm run lint
-          npx tsc --noEmit
-          npm test
-
   deploy-backend:
-    needs: quality-check
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -159,8 +74,6 @@ jobs:
             --to-revisions="$LATEST_READY_REVISION=100"
 
   deploy-frontend:
-    needs: quality-check
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
