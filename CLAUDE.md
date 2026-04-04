@@ -21,7 +21,8 @@ GeoPingKak/
 │   ├── mypy.ini                      # mypy 型別檢查設定
 │   ├── ruff.toml                     # Ruff linter 設定
 │   ├── Dockerfile
-│   ├── requirements.txt
+│   ├── requirements.txt              # Production dependencies (Docker image)
+│   ├── requirements-dev.txt           # Dev dependencies (mypy, type stubs — CI only)
 │   ├── routes/
 │   │   ├── daily_challenge_reader.py
 │   │   ├── daily_challenge_writer.py
@@ -225,26 +226,31 @@ pre-commit run --all-files  # Manual full check
 
 The project supports two environments: **Staging** and **Production**.
 
-#### Production Deployment (CI/CD)
+#### CI/CD Architecture
 
-Production is deployed automatically via GitHub Actions when pushing to `main` branch.
-- **Workflow**: `.github/workflows/deploy-production.yml`
-- **Triggers**: `push` to `main` (deploy), `pull_request` to `main` (quality check only)
-- **Process**: Quality check (Ruff + mypy + pytest with coverage + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting frontend (parallel)
-- **Quality gate**: `quality-check` job must pass before either deploy job starts; deploy jobs only run on `push` events
-- **PR coverage comment**: PR 會自動產生 coverage 表格（MishaKav/pytest-coverage-comment）
-- **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
+CI 和 CD 採用分層信任模型：staging 負責完整檢查，production 信任 staging 已驗證。
 
 #### Staging Deployment (CI/CD)
 
 Staging is deployed automatically via GitHub Actions when pushing to `develop` branch.
 - **Workflow**: `.github/workflows/deploy-staging.yml`
-- **Triggers**: `push` to `develop` (deploy + badge update), `pull_request` to `develop` (quality check only)
-- **Process**: Same quality check → Deploy Cloud Run backend (staging) + Firebase Hosting staging channel (parallel)
+- **Triggers**: `push` to `develop` (quality check + deploy), `pull_request` to `develop` (quality check only)
+- **Process**: Quality check (Ruff + mypy + pytest with coverage + ESLint + tsc) → Deploy Cloud Run backend + Firebase Hosting staging channel (parallel)
+- **Quality gate**: `quality-check` job must pass before either deploy job starts; deploy jobs only run on `push` events
+- **PR coverage comment**: PR 會自動產生 coverage 表格（MishaKav/pytest-coverage-comment）
 - **Coverage badge**: Push to `develop` 時自動更新 Gist badge（schneegans/dynamic-badges-action）
 - **Frontend**: Deployed to Firebase Hosting channel `staging` (expires 30d)
 - **No GA tracking** in staging environment
 - **`cancel-in-progress: true`** — 新的 push 會取消正在跑的 staging deploy
+
+#### Production Deployment (CI/CD)
+
+Production is deployed automatically via GitHub Actions when pushing to `main` branch.
+- **Workflow**: `.github/workflows/deploy-production.yml`
+- **Triggers**: `push` to `main` only
+- **Process**: Deploy Cloud Run backend + Firebase Hosting frontend (parallel, no quality check)
+- **No quality gate**: Trusts that staging CI has already verified the code
+- **Environment variables**: Injected via workflow `env:` (not from local `.env` files)
 
 #### Staging Deployment (Manual fallback)
 ```bash
