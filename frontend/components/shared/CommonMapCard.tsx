@@ -158,6 +158,14 @@ export default function CommonMapCard({
                             target="_blank"
                             rel="noopener noreferrer"
                             className="underline text-blue-600 dark:text-blue-400"
+                            onClick={() => {
+                              if (typeof window.gtag === "function") {
+                                window.gtag("event", "click_challenge", {
+                                  map_id: entry.mapId,
+                                  date: entry.createdAt,
+                                });
+                              }
+                            }}
                           >
                             {`📅 ${entry.createdAt}`}
                           </a>

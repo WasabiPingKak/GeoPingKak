@@ -44,6 +44,16 @@ export default function ClientPage() {
   const [selectedCountry, setSelectedCountry] = useState("世界");
   const [onlyWithVideo, setOnlyWithVideo] = useState(false);
 
+  const handleCountrySelect = (country: string) => {
+    setSelectedCountry(country);
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "select_country", {
+        page: "daily-challenge",
+        country,
+      });
+    }
+  };
+
   const currentMonth = useMemo(() => getCurrentMonth(), []);
   const previousMonth = useMemo(() => getPreviousMonth(currentMonth), [currentMonth]);
 
@@ -163,7 +173,7 @@ export default function ClientPage() {
       <CommonTabs
         options={VISIBLE_COUNTRIES}
         selected={selectedCountry}
-        onSelect={setSelectedCountry}
+        onSelect={handleCountrySelect}
       />
 
       <ChallengeDescription country={selectedCountry} />
