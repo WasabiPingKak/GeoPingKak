@@ -14,8 +14,25 @@ env:
   CLOUD_RUN_SERVICE: geopingkak-backend-staging
   REPO_NAME: geopingkak-backend-repo
   NEXT_PUBLIC_API_BASE: https://geopingkak-backend-staging-7xgrga7zxa-de.a.run.app
+  BOT_JOB_NAME: discord-daily-bot-staging
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      bot: ${{ steps.filter.outputs.bot }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+      - id: filter
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -q '^bot/'; then
+            echo "bot=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "bot=false" >> "$GITHUB_OUTPUT"
+          fi
+
   quality-check:
     runs-on: ubuntu-latest
     steps:
@@ -190,3 +207,36 @@ jobs:
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
           NEXT_PUBLIC_API_BASE: ${{ env.NEXT_PUBLIC_API_BASE }}
+
+  deploy-bot:
+    needs: [quality-check, changes]
+    if: github.event_name == 'push' && needs.changes.outputs.bot == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - id: auth
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v3
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.DOCKER_REGISTRY }} --quiet
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE=${{ env.DOCKER_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.BOT_JOB_NAME }}:${{ github.sha }}
+          docker build -t $IMAGE bot/
+          docker push $IMAGE
+
+      - name: Deploy Cloud Run Job
+        run: |
+          IMAGE=${{ env.DOCKER_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.BOT_JOB_NAME }}:${{ github.sha }}
+          gcloud run jobs update ${{ env.BOT_JOB_NAME }} \
+            --image $IMAGE \
+            --region ${{ env.GCP_REGION }} \
+            --max-retries=1 \
+            --task-timeout=120s \
+            --set-secrets "API_BASE_URL=DISCORD_BOT_API_BASE_URL_STAGING:latest,DISCORD_WEBHOOK_WORLD=DISCORD_WEBHOOK_WORLD:latest,DISCORD_WEBHOOK_TW=DISCORD_WEBHOOK_TW:latest,DISCORD_WEBHOOK_JP=DISCORD_WEBHOOK_JP:latest"
