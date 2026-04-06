@@ -167,6 +167,14 @@ GeoPingKak/
 │   ├── tsconfig.json
 │   └── package.json
 │
+├── bot/                              # Discord Notification Bot (Cloud Run Job)
+│   ├── main.py                       # 進入點：呼叫 API → 發 Discord Webhook
+│   ├── config.py                     # 環境變數 & 地圖 metadata
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   ├── deploy.sh                     # Cloud Run Job 部署腳本
+│   └── .env.example
+│
 └── README.md
 ```
 
@@ -427,9 +435,25 @@ cd ../frontend
 - `test_routes_special_map.py` - GET/POST with real Firestore (duplicate detection)
 - `test_routes_video_explanation.py` - GET/POST with real Firestore (cross-collection challengeUrl lookup)
 
+### Discord Bot (`bot/`)
+
+- **Type**: Cloud Run Job（執行完即結束，非長駐服務）
+- **Trigger**: Cloud Scheduler 每天 3:10 AM (Asia/Taipei)
+- **Function**: 呼叫後端 API 取得當天每日挑戰連結，透過 Discord Webhook 發送到三個頻道（世界、台灣、日本）
+- **Dependencies**: `requests` only（不需要 discord.py，Webhook 原生支援 Embed）
+
+**Key modules**:
+- `main.py` - 進入點：fetch API → filter today → build embeds → post webhooks
+- `config.py` - 環境變數驗證、地圖 metadata（同步自 `frontend/components/daily-challenge/mapTitles.ts`）、Webhook mapping
+
+**Environment variables** (via Secret Manager):
+- `API_BASE_URL` - 後端 API base URL
+- `DISCORD_WEBHOOK_WORLD` / `DISCORD_WEBHOOK_TW` / `DISCORD_WEBHOOK_JP` - Discord Webhook URLs
+
 ### Data Flow
 
 Frontend fetches data via React Query hooks → Backend Flask API → Firestore database
+Discord Bot fetches data via Backend API → Discord Webhooks → Discord channels
 
 ## Language
 
