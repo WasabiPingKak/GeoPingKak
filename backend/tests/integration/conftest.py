@@ -16,6 +16,7 @@ from unittest.mock import patch
 
 import pytest
 import requests
+from google.cloud.firestore import Client as FirestoreClient
 
 EMULATOR_HOST = "127.0.0.1:8080"
 PROJECT_ID = "demo-geopingkak"
@@ -42,23 +43,16 @@ def pytest_collection_modifyitems(config, items):
 
 @pytest.fixture(scope="session")
 def emulator_db():
-    """Firestore client connected to the local emulator."""
-    import firebase_admin
-    from firebase_admin import credentials, firestore
+    """Firestore client connected to the local emulator.
 
+    Uses google.cloud.firestore.Client directly instead of firebase_admin
+    to bypass the global firebase_admin.firestore.client mock in tests/conftest.py.
+    """
     os.environ["FIRESTORE_EMULATOR_HOST"] = EMULATOR_HOST
 
-    app_name = "integration-test"
-    try:
-        app = firebase_admin.get_app(app_name)
-    except ValueError:
-        cred = credentials.ApplicationDefault()
-        app = firebase_admin.initialize_app(cred, {"projectId": PROJECT_ID}, name=app_name)
-
-    db = firestore.client(app)
+    db = FirestoreClient(project=PROJECT_ID)
     yield db
 
-    firebase_admin.delete_app(app)
     del os.environ["FIRESTORE_EMULATOR_HOST"]
 
 
