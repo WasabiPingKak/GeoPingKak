@@ -24,6 +24,13 @@ const entries: DailyChallengeEntry[] = [
 ];
 
 describe("CommonMapCard", () => {
+  // 固定時間為 2026-03-15，確保 2026-02 和 2026-03 都在近期範圍內（不被「更久以前」收合）
+  beforeEach(() => {
+    vi.useFakeTimers({ now: new Date("2026-03-15T00:00:00"), shouldAdvanceTime: true });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
   it("renders metadata title and description", () => {
     render(
       <CommonMapCard
