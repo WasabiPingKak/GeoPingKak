@@ -33,7 +33,7 @@ def init_daily_challenge_reader_route(app, db: Client):
             logger.info(f"📅 回傳 {len(months)} 個可用月份")
             return jsonify(months)
         except Exception:
-            logger.error("❌ 讀取可用月份失敗", exc_info=True)
+            logger.exception("❌ 讀取可用月份失敗")
             return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     @bp.route("/daily-challenge", methods=["GET"])
@@ -70,7 +70,7 @@ def init_daily_challenge_reader_route(app, db: Client):
                 return jsonify(entries)
 
         except Exception:
-            logger.error("❌ 讀取每日題目資料失敗", exc_info=True)
+            logger.exception("❌ 讀取每日題目資料失敗")
             return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     app.register_blueprint(bp)

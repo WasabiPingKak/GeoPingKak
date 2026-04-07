@@ -98,8 +98,8 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
 
         except HTTPException:
             raise
-        except Exception as e:
-            logger.error(f"❌ 讀取影片說明資料失敗: {e}", exc_info=True)
+        except Exception:
+            logger.exception("❌ 讀取影片說明資料失敗")
             return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     @bp.route("/video-explanations", methods=["POST"])
@@ -150,8 +150,8 @@ def init_video_explanation_routes(app, db: Client):  # noqa: C901
 
         except HTTPException:
             raise
-        except Exception as e:
-            logger.error(f"❌ 更新影片說明資料失敗: {e}", exc_info=True)
+        except Exception:
+            logger.exception("❌ 更新影片說明資料失敗")
             return json_error(500, ErrorCode.INTERNAL_ERROR, "Internal server error")
 
     app.register_blueprint(bp)
