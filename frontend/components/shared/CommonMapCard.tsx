@@ -41,7 +41,7 @@ export default function CommonMapCard({
   const metadata = metadataMap[displayMapId];
   const { data: videoExplanations } = useVideoExplanations();
 
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
   // 是否使用外部月份導航模式
@@ -92,6 +92,117 @@ export default function CommonMapCard({
   const handleToggle = (month: string) =>
     useExternalMonths ? onToggleMonth(month) : internalToggle(month);
 
+  // --- 「更久以前」分組（僅在非 expandAll 模式下啟用） ---
+  const olderCutoff = useMemo(() => {
+    const d = new Date(now.getFullYear(), now.getMonth() - 2);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  }, [now]);
+
+  const [olderExpanded, setOlderExpanded] = useState(false);
+
+  const recentMonths = expandAll
+    ? monthsToShow
+    : monthsToShow.filter((m) => m > olderCutoff);
+  const olderMonths = expandAll
+    ? []
+    : monthsToShow.filter((m) => m <= olderCutoff);
+
+  // 渲染單一月份區塊
+  const renderMonthSection = (month: string) => {
+    const monthEntries = groupedByMonth[month] ?? [];
+    const isOpen = isMonthOpen(month);
+    const isLoading = loadingMonths?.has(month) ?? false;
+
+    return (
+      <div key={month} className="border border-muted rounded-lg bg-zinc-800 p-4">
+        <button
+          onClick={() => handleToggle(month)}
+          className="flex items-center gap-2 text-base font-semibold text-white"
+        >
+          <span>{month}</span>
+          <span className="text-sm text-muted-foreground">
+            {isOpen ? "[-] 收合" : "[+] 展開"}
+          </span>
+        </button>
+
+        {isOpen && isLoading && (
+          <p className="mt-2 text-sm text-muted-foreground animate-pulse">
+            載入中...
+          </p>
+        )}
+
+        {isOpen && !isLoading && monthEntries.length > 0 && (
+          <ul className="mt-2 space-y-2">
+            {monthEntries
+              .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+              .map((entry) => {
+                const videoData = videoExplanations?.[entry.createdAt]?.[entry.mapId];
+                const explanationUrl = videoData?.explanation;
+                const livestreamUrl = videoData?.livestream;
+
+                const isReplaced = entry.mapId in MAP_REPLACEMENTS;
+                const replacedLabel = REPLACED_MAP_LABELS[entry.mapId];
+
+                return (
+                  <li
+                    key={`${entry.mapId}-${entry.createdAt}`}
+                    className="flex flex-wrap items-center gap-3"
+                  >
+                    <a
+                      href={entry.challengeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-blue-600 dark:text-blue-400"
+                      onClick={() => {
+                        if (typeof window.gtag === "function") {
+                          window.gtag("event", "click_challenge", {
+                            map_id: entry.mapId,
+                            date: entry.createdAt,
+                          });
+                        }
+                      }}
+                    >
+                      {`📅 ${entry.createdAt}`}
+                    </a>
+
+                    {isReplaced && replacedLabel && (
+                      <span className="text-xs px-1.5 py-0.5 rounded bg-zinc-700 text-zinc-300">
+                        {replacedLabel}
+                      </span>
+                    )}
+
+                    {livestreamUrl && (
+                      <a
+                        href={livestreamUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-sm text-blue-500 dark:text-blue-300 hover:underline"
+                      >
+                        <BsBroadcast className="w-4 h-4 mr-1" />
+                        直播記錄
+                      </a>
+                    )}
+
+                    {explanationUrl && (
+                      <a
+                        href={explanationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
+                      >
+                        <AiFillYoutube className="w-4 h-4 mr-1" />
+                        詳解精華
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
+          </ul>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="rounded-xl border p-4 bg-card shadow-sm">
       <h2 className="text-xl font-semibold mb-2">{metadata?.title ?? displayMapId}</h2>
@@ -113,100 +224,27 @@ export default function CommonMapCard({
       )}
 
       <div className="space-y-4">
-        {monthsToShow.map((month) => {
-          const monthEntries = groupedByMonth[month] ?? [];
-          const isOpen = isMonthOpen(month);
-          const isLoading = loadingMonths?.has(month) ?? false;
+        {recentMonths.map(renderMonthSection)}
 
-          return (
-            <div key={month} className="border border-muted rounded-lg bg-zinc-800 p-4">
-              <button
-                onClick={() => handleToggle(month)}
-                className="flex items-center gap-2 text-base font-semibold text-white"
-              >
-                <span>{month}</span>
-                <span className="text-sm text-muted-foreground">
-                  {isOpen ? "[-] 收合" : "[+] 展開"}
-                </span>
-              </button>
+        {olderMonths.length > 0 && (
+          <div className="border border-muted rounded-lg bg-zinc-900 p-4">
+            <button
+              onClick={() => setOlderExpanded((prev) => !prev)}
+              className="flex items-center gap-2 text-base font-semibold text-white"
+            >
+              <span>更久以前</span>
+              <span className="text-sm text-muted-foreground">
+                {olderExpanded ? "[-] 收合" : `[+] 展開（${olderMonths.length} 個月）`}
+              </span>
+            </button>
 
-              {isOpen && isLoading && (
-                <p className="mt-2 text-sm text-muted-foreground animate-pulse">
-                  載入中...
-                </p>
-              )}
-
-              {isOpen && !isLoading && monthEntries.length > 0 && (
-                <ul className="mt-2 space-y-2">
-                  {monthEntries
-                    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-                    .map((entry) => {
-                      const videoData = videoExplanations?.[entry.createdAt]?.[entry.mapId];
-                      const explanationUrl = videoData?.explanation;
-                      const livestreamUrl = videoData?.livestream;
-
-                      const isReplaced = entry.mapId in MAP_REPLACEMENTS;
-                      const replacedLabel = REPLACED_MAP_LABELS[entry.mapId];
-
-                      return (
-                        <li
-                          key={`${entry.mapId}-${entry.createdAt}`}
-                          className="flex flex-wrap items-center gap-3"
-                        >
-                          <a
-                            href={entry.challengeUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="underline text-blue-600 dark:text-blue-400"
-                            onClick={() => {
-                              if (typeof window.gtag === "function") {
-                                window.gtag("event", "click_challenge", {
-                                  map_id: entry.mapId,
-                                  date: entry.createdAt,
-                                });
-                              }
-                            }}
-                          >
-                            {`📅 ${entry.createdAt}`}
-                          </a>
-
-                          {isReplaced && replacedLabel && (
-                            <span className="text-xs px-1.5 py-0.5 rounded bg-zinc-700 text-zinc-300">
-                              {replacedLabel}
-                            </span>
-                          )}
-
-                          {livestreamUrl && (
-                            <a
-                              href={livestreamUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center text-sm text-blue-500 dark:text-blue-300 hover:underline"
-                            >
-                              <BsBroadcast className="w-4 h-4 mr-1" />
-                              直播記錄
-                            </a>
-                          )}
-
-                          {explanationUrl && (
-                            <a
-                              href={explanationUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
-                            >
-                              <AiFillYoutube className="w-4 h-4 mr-1" />
-                              詳解精華
-                            </a>
-                          )}
-                        </li>
-                      );
-                    })}
-                </ul>
-              )}
-            </div>
-          );
-        })}
+            {olderExpanded && (
+              <div className="mt-4 space-y-4">
+                {olderMonths.map(renderMonthSection)}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
