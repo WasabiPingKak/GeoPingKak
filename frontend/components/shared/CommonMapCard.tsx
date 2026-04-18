@@ -206,23 +206,25 @@ export default function CommonMapCard({
 
   return (
     <div className="rounded-xl border p-4 bg-card shadow-sm">
-      <h2 className="text-xl font-semibold mb-2">{metadata?.title ?? displayMapId}</h2>
-      <p className="text-sm text-muted-foreground mb-3">
-        {metadata?.description ?? "（尚無說明）"}
-      </p>
-
-      {showSourceLink && metadata?.source && (
-        <p className="text-xs text-muted-foreground mb-3">
-          <a
-            href={`https://www.geoguessr.com/maps/${metadata.source}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-blue-600 dark:text-blue-400"
-          >
-            地圖來源
-          </a>
+      <div className="flex flex-col min-h-[7rem]">
+        <h2 className="text-xl font-semibold mb-2">{metadata?.title ?? displayMapId}</h2>
+        <p className="text-sm text-muted-foreground mb-3">
+          {metadata?.description ?? "（尚無說明）"}
         </p>
-      )}
+
+        {showSourceLink && metadata?.source && (
+          <p className="text-xs text-muted-foreground mb-3">
+            <a
+              href={`https://www.geoguessr.com/maps/${metadata.source}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-blue-600 dark:text-blue-400"
+            >
+              地圖來源
+            </a>
+          </p>
+        )}
+      </div>
 
       <div className="space-y-4">
         {recentMonths.map(renderMonthSection)}
