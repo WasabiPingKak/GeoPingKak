@@ -54,7 +54,7 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
   },
   "jp-similarABJ": {
     title: "日本 - SimilarABJ (中高難度)",
-    description: "與更新前的「A Balanced Japan」風格相近的日本地圖。出題地點以路口為主，各都道府縣 2,500 個地點、北海道 5,000 個地點。",
+    description: "與「A Balanced Japan」風格相近的日本地圖。出題地點以路口為主，各都道府縣 2,500 個地點、北海道 5,000 個地點。",
     source: "67729465772c93e97168a6ac",
   },
 
