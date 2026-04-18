@@ -9,6 +9,7 @@ import { BsBroadcast } from "react-icons/bs";
 // 被替換地圖的簡短標籤（顯示在日期旁）
 const REPLACED_MAP_LABELS: Record<string, string> = {
   "world-acw": "ACW",
+  "jp-balanced": "ABJ",
 };
 
 interface CommonMapCardProps {
