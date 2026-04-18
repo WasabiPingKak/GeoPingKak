@@ -28,7 +28,7 @@ MAP_METADATA: dict[str, dict[str, str]] = {
     "tw-urban": {"title": "繁榮的台灣", "difficulty": "簡單"},
     "tw-balanced": {"title": "平衡的台灣", "difficulty": "困難"},
     "jp-urban": {"title": "日本の都会", "difficulty": "簡單"},
-    "jp-balanced": {"title": "日本", "difficulty": "困難"},
+    "jp-similarABJ": {"title": "日本 - SimilarABJ", "difficulty": "困難"},
 }
 
 # 難度對應的 emoji
@@ -62,7 +62,7 @@ COUNTRY_EMBED_COLOR: dict[str, int] = {
 COUNTRY_MAP_ORDER: dict[str, list[str]] = {
     "world": ["world-theworld", "world-figsy"],
     "tw": ["tw-urban", "tw-balanced"],
-    "jp": ["jp-urban", "jp-balanced"],
+    "jp": ["jp-urban", "jp-similarABJ"],
 }
 
 

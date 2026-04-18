@@ -9,6 +9,7 @@ export interface MapMetadata {
 // 地圖替換映射：舊 mapId → 新 mapId（用於合併顯示）
 export const MAP_REPLACEMENTS: Record<string, string> = {
   "world-acw": "world-figsy",
+  "jp-balanced": "jp-similarABJ",
 };
 
 export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
@@ -50,6 +51,11 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
     title: "日本 (中高難度)",
     description: "平衡分佈的日本地圖，日本超級超級大，為什麼可以這麼大。",
     source: "631a309ba54a618fca31960a",
+  },
+  "jp-similarABJ": {
+    title: "日本 - SimilarABJ (中高難度)",
+    description: "與更新前的「A Balanced Japan」風格相近的日本地圖。出題地點以路口為主，各都道府縣 2,500 個地點、北海道 5,000 個地點。",
+    source: "67729465772c93e97168a6ac",
   },
 
   // 馬來西亞

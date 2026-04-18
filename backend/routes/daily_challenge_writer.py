@@ -29,7 +29,7 @@ DAILY_MAPS = {
     ],
     "jp": [
         {"mapId": "jp-urban", "map": "679df3ca311b366ecb41e41b"},
-        {"mapId": "jp-balanced", "map": "631a309ba54a618fca31960a"},
+        {"mapId": "jp-similarABJ", "map": "67729465772c93e97168a6ac"},
     ],
     "my": [
         {"mapId": "my-balanced", "map": "634050c7fc09dbb1e6c107c6"},
