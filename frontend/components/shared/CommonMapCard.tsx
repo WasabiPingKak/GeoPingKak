@@ -172,28 +172,32 @@ export default function CommonMapCard({
                       </span>
                     )}
 
-                    {livestreamUrl && (
-                      <a
-                        href={livestreamUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center text-sm text-blue-500 dark:text-blue-300 hover:underline"
-                      >
-                        <BsBroadcast className="w-4 h-4 mr-1" />
-                        直播記錄
-                      </a>
-                    )}
+                    {(livestreamUrl || explanationUrl) && (
+                      <span className="flex items-center gap-3 md:contents">
+                        {livestreamUrl && (
+                          <a
+                            href={livestreamUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-sm text-blue-500 dark:text-blue-300 hover:underline"
+                          >
+                            <BsBroadcast className="w-4 h-4 mr-1" />
+                            直播記錄
+                          </a>
+                        )}
 
-                    {explanationUrl && (
-                      <a
-                        href={explanationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
-                      >
-                        <AiFillYoutube className="w-4 h-4 mr-1" />
-                        詳解精華
-                      </a>
+                        {explanationUrl && (
+                          <a
+                            href={explanationUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-sm text-red-600 dark:text-red-400 hover:underline"
+                          >
+                            <AiFillYoutube className="w-4 h-4 mr-1" />
+                            詳解精華
+                          </a>
+                        )}
+                      </span>
                     )}
                   </li>
                 );
