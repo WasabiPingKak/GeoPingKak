@@ -16,6 +16,8 @@ export default function Page() {
             "description": "詳細解說各國車牌特徵：歐盟藍條車牌、亞洲車牌差異、美洲車牌樣式。透過車牌快速辨識國家。",
             "author": { "@type": "Organization", "name": "GeoPingKak" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2026-01-24",
+            "dateModified": "2026-03-21",
             "inLanguage": "zh-TW",
             "mainEntityOfPage": "https://geopingkak.web.app/tutorial/license-plates"
           },

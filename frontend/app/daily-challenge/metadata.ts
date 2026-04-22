@@ -33,4 +33,8 @@ export const generateMetadata = (): Metadata => ({
       "每天更新！不用付費、不用註冊，點開就能玩。世界、台灣、日本地圖每日更新，歷史題目可重複練習。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2025-07-29",
+    "article:modified_time": "2026-04-22",
+  },
 });

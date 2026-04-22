@@ -33,6 +33,10 @@ export const generateMetadata = (): Metadata => ({
       "GeoGuessr 是什麼？怎麼免費玩？Pro 要不要買？用中文幫你快速搞懂這款地理益智遊戲。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2025-08-13",
+    "article:modified_time": "2026-03-21",
+  },
 });
 
 export default function QnAPage() {
@@ -134,6 +138,8 @@ export default function QnAPage() {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
+          "datePublished": "2025-08-13",
+          "dateModified": "2026-03-21",
           "mainEntity": [
             {
               "@type": "Question",

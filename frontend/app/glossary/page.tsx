@@ -35,6 +35,10 @@ export const generateMetadata = (): Metadata => ({
       "NMPZ、移動限制、Meta 等 GeoGuessr 常見術語中文解釋，快速查詢搞懂遊戲名詞。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2025-12-15",
+    "article:modified_time": "2026-03-28",
+  },
 });
 
 /**
@@ -64,6 +68,8 @@ export default function GlossaryPage() {
     "@type": "DefinedTermSet",
     "name": "GeoGuessr 名詞解釋",
     "description": "常見的 GeoGuessr 遊戲術語、縮寫與地理猜測技巧名詞定義。",
+    "datePublished": "2025-12-15",
+    "dateModified": "2026-03-28",
     "inLanguage": "zh-TW",
     "hasDefinedTerm": glossaryEntries.map((entry) => ({
       "@type": "DefinedTerm",

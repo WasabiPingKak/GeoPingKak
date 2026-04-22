@@ -16,6 +16,8 @@ export default function Page() {
             "description": "掌握全球 Google 街景覆蓋範圍，了解哪些國家有街景，快速排除不可能的國家。",
             "author": { "@type": "Organization", "name": "GeoPingKak" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2026-01-24",
+            "dateModified": "2026-03-21",
             "inLanguage": "zh-TW",
             "mainEntityOfPage": "https://geopingkak.web.app/tutorial/street-coverage"
           },

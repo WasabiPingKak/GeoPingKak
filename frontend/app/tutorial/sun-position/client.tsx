@@ -6,7 +6,7 @@ import TutorialPrevNext from "@/components/tutorial/TutorialPrevNext";
 export default function SunPositionClient() {
   return (
     <>
-      <h2 className="text-xl font-bold mb-6">太陽位置</h2>
+      <h1 className="text-xl font-bold mb-6">太陽位置</h1>
       <TabSunPosition />
       <TutorialPrevNext />
     </>

@@ -24,6 +24,10 @@ export const metadata: Metadata = {
       },
     ],
   },
+  other: {
+    "article:published_time": "2026-03-25",
+    "article:modified_time": "2026-03-25",
+  },
 };
 
 export default function AboutPage() {

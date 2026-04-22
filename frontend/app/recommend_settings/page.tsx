@@ -31,6 +31,10 @@ export const metadata: Metadata = {
     description: "遊戲設定優化指南與快捷鍵整理，提升答題效率。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2025-07-31",
+    "article:modified_time": "2026-03-28",
+  },
 };
 
 export default function RecommendSettingsPage() {
@@ -41,7 +45,7 @@ export default function RecommendSettingsPage() {
         遊戲中的預設設定可以更改，推薦打開圖形化指南針。
       </p>
 
-      <h1 className="text-2xl font-bold mb-6">快捷鍵</h1>
+      <h2 className="text-2xl font-bold mb-6">快捷鍵</h2>
       <p className="text-muted-foreground mb-4">
         遊戲中有幾個常用的快捷鍵可以幫助你更好地定位與操作：
       </p>

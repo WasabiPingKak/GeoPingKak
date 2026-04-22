@@ -16,6 +16,8 @@ export default function Page() {
           "@type": "ItemList",
           "name": "GeoGuessr 特殊主題地圖推薦",
           "description": "精選的 GeoGuessr 主題挑戰地圖集合，包含各國特色場景與趣味題庫",
+          "datePublished": "2025-07-31",
+          "dateModified": "2026-03-27",
           "inLanguage": "zh-TW",
         })}
       </Script>
