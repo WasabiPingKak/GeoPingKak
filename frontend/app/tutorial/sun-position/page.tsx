@@ -16,6 +16,8 @@ export default function Page() {
             "description": "學會用太陽方位判斷南北半球與緯度範圍，實用的推理技巧。",
             "author": { "@type": "Organization", "name": "GeoPingKak" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2026-01-24",
+            "dateModified": "2026-03-21",
             "inLanguage": "zh-TW",
             "mainEntityOfPage": "https://geopingkak.web.app/tutorial/sun-position"
           },

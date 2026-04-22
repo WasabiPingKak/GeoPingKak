@@ -29,5 +29,9 @@ export function generateMetadata(): Metadata {
     alternates: {
       canonical: "https://geopingkak.web.app/tutorial/intro",
     },
+    other: {
+      "article:published_time": "2026-01-24",
+      "article:modified_time": "2026-03-21",
+    },
   };
 }

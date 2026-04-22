@@ -30,11 +30,16 @@ export const metadata: Metadata = {
     description: "巴西電話區碼、印尼文地名等 GeoGuessr 實用速查工具。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2026-01-21",
+    "article:modified_time": "2026-03-28",
+  },
 };
 
 export default function QuickReferencePage() {
   return (
     <div className="text-zinc-300 space-y-4">
+      <h1 className="text-3xl font-bold mb-4">GeoGuessr 速查筆記</h1>
       <p>
         歡迎來到速查筆記！這裡整理了 GeoGuessr 遊戲中常用的速查資訊，幫助你快速辨識地點。
       </p>

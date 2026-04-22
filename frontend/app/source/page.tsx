@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     description: "Plonk It、GeoTips、GeoHints 等攻略網站介紹，從新手晉升高手。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2025-07-31",
+    "article:modified_time": "2026-03-21",
+  },
 };
 
 export default function SourcePage() {

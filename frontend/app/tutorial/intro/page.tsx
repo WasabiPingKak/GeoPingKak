@@ -16,6 +16,8 @@ export default function Page() {
             "description": "了解 GeoGuessr 的魅力與正確的學習方向，從觀察世界開始建立推理邏輯。",
             "author": { "@type": "Organization", "name": "GeoPingKak" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2026-01-24",
+            "dateModified": "2026-03-21",
             "inLanguage": "zh-TW",
             "mainEntityOfPage": "https://geopingkak.web.app/tutorial/intro"
           },

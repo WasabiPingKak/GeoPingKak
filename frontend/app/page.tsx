@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://geopingkak.web.app/",
   },
+  other: {
+    "article:published_time": "2025-07-29",
+    "article:modified_time": "2026-03-21",
+  },
 };
 
 export default function HomePage() {

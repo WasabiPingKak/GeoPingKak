@@ -16,6 +16,8 @@ export default function Page() {
             "description": "學習如何透過路邊國旗、廣告招牌與網域後綴辨識國家。",
             "author": { "@type": "Organization", "name": "GeoPingKak" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2026-01-24",
+            "dateModified": "2026-03-21",
             "inLanguage": "zh-TW",
             "mainEntityOfPage": "https://geopingkak.web.app/tutorial/flags-domains"
           },

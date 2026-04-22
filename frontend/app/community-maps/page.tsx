@@ -33,6 +33,10 @@ export const metadata: Metadata = {
     description: "社群精選的優質 GeoGuessr 地圖，台灣場景與各國特色主題地圖，免費遊玩。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
+  other: {
+    "article:published_time": "2025-09-17",
+    "article:modified_time": "2026-03-21",
+  },
 };
 
 export default function CommunityMapPage() {

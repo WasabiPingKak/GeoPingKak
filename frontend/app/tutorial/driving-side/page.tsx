@@ -16,6 +16,8 @@ export default function Page() {
             "description": "了解全球道路通行方向分佈，靠左行駛的國家相對少數，掌握這個知識能快速縮小猜測範圍。",
             "author": { "@type": "Organization", "name": "GeoPingKak" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2026-01-24",
+            "dateModified": "2026-03-21",
             "inLanguage": "zh-TW",
             "mainEntityOfPage": "https://geopingkak.web.app/tutorial/driving-side"
           },

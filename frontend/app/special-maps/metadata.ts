@@ -29,5 +29,9 @@ export function generateMetadata(): Metadata {
     alternates: {
       canonical: "https://geopingkak.web.app/special-maps",
     },
+    other: {
+      "article:published_time": "2025-07-31",
+      "article:modified_time": "2026-03-27",
+    },
   };
 }
