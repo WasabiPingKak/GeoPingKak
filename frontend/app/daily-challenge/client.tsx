@@ -159,7 +159,7 @@ export default function ClientPage() {
   }, [countryCode]);
 
   return (
-    <div className="max-w-4xl">
+    <div className="max-w-5xl">
       <h1 className="text-3xl font-bold mb-4">GeoGuessr 每日免費挑戰</h1>
       <p className="mb-6">
         每天更新的 GeoGuessr 免費挑戰連結，無需登入帳號、不限時間，點開就能玩。<br />
