@@ -37,9 +37,10 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          IMAGE=${{ env.DOCKER_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.CLOUD_RUN_SERVICE }}:${{ github.sha }}
-          docker build -t $IMAGE backend/
-          docker push $IMAGE
+          IMAGE=${{ env.DOCKER_REGISTRY }}/${{ secrets.GCP_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.CLOUD_RUN_SERVICE }}
+          docker build -t $IMAGE:${{ github.sha }} -t $IMAGE:latest backend/
+          docker push $IMAGE:${{ github.sha }}
+          docker push $IMAGE:latest
 
       - name: Deploy to Cloud Run
         run: |
