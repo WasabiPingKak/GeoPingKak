@@ -14,7 +14,7 @@ export default function Page() {
             "@type": "Article",
             "headline": "GeoGuessr 街景覆蓋國家一覽",
             "description": "掌握全球 Google 街景覆蓋範圍，了解哪些國家有街景，快速排除不可能的國家。",
-            "author": { "@type": "Organization", "name": "GeoPingKak" },
+            "author": { "@type": "Person", "name": "山葵冰角 Wasabi Pingkak", "url": "https://geopingkak.web.app/about" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
             "datePublished": "2026-01-24",
             "dateModified": "2026-03-21",

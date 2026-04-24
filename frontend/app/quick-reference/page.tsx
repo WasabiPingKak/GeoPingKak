@@ -1,6 +1,7 @@
 // app/quick-reference/page.tsx
 
 import type { Metadata } from "next";
+import RelatedLinks from "@/components/shared/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 速查筆記 | 巴西、印尼地名電話區碼查詢 - GeoPingKak",
@@ -50,6 +51,11 @@ export default function QuickReferencePage() {
         <li><strong>巴西電話區碼</strong>：透過路邊電話號碼快速判斷巴西城市位置</li>
         <li><strong>印尼文地名</strong>：常見印尼文地名、行政區劃對照表</li>
       </ul>
+      <RelatedLinks links={[
+        { href: "/tutorial", title: "入門教學", description: "從零開始學 GeoGuessr，掌握各種判斷技巧" },
+        { href: "/glossary", title: "名詞解釋", description: "GeoGuessr 常見術語與遊戲名詞中文對照" },
+        { href: "/daily-challenge", title: "每日免費挑戰", description: "每天更新的免費挑戰連結，不用登入直接玩" },
+      ]} />
     </div>
   );
 }

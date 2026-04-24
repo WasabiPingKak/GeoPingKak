@@ -14,7 +14,7 @@ export default function Page() {
             "@type": "Article",
             "headline": "GeoGuessr 國旗與網域辨識教學",
             "description": "學習如何透過路邊國旗、廣告招牌與網域後綴辨識國家。",
-            "author": { "@type": "Organization", "name": "GeoPingKak" },
+            "author": { "@type": "Person", "name": "山葵冰角 Wasabi Pingkak", "url": "https://geopingkak.web.app/about" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
             "datePublished": "2026-01-24",
             "dateModified": "2026-03-21",

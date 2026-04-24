@@ -14,7 +14,7 @@ export default function Page() {
             "@type": "Article",
             "headline": "GeoGuessr 太陽位置判斷教學",
             "description": "學會用太陽方位判斷南北半球與緯度範圍，實用的推理技巧。",
-            "author": { "@type": "Organization", "name": "GeoPingKak" },
+            "author": { "@type": "Person", "name": "山葵冰角 Wasabi Pingkak", "url": "https://geopingkak.web.app/about" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
             "datePublished": "2026-01-24",
             "dateModified": "2026-03-21",
