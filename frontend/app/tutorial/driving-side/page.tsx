@@ -14,7 +14,7 @@ export default function Page() {
             "@type": "Article",
             "headline": "GeoGuessr 道路通行方向判斷教學",
             "description": "了解全球道路通行方向分佈，靠左行駛的國家相對少數，掌握這個知識能快速縮小猜測範圍。",
-            "author": { "@type": "Organization", "name": "GeoPingKak" },
+            "author": { "@type": "Person", "name": "山葵冰角 Wasabi Pingkak", "url": "https://geopingkak.web.app/about" },
             "publisher": { "@type": "Organization", "name": "GeoPingKak" },
             "datePublished": "2026-01-24",
             "dateModified": "2026-03-21",

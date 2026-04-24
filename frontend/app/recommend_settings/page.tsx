@@ -1,7 +1,9 @@
 // app/recommend_settings/page.tsx
 
 import type { Metadata } from "next";
+import Script from "next/script";
 import Image from "next/image";
+import RelatedLinks from "@/components/shared/RelatedLinks";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
@@ -39,6 +41,31 @@ export const metadata: Metadata = {
 
 export default function RecommendSettingsPage() {
   return (
+    <>
+      <Script id="recommend-settings-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "GeoGuessr 推薦設定與快捷鍵",
+            "description": "GeoGuessr 遊戲設定優化指南與實用快捷鍵整理，提升遊戲體驗與答題效率。",
+            "author": { "@type": "Person", "name": "山葵冰角 Wasabi Pingkak", "url": "https://geopingkak.web.app/about" },
+            "publisher": { "@type": "Organization", "name": "GeoPingKak" },
+            "datePublished": "2025-07-31",
+            "dateModified": "2026-03-28",
+            "inLanguage": "zh-TW",
+            "mainEntityOfPage": "https://geopingkak.web.app/recommend_settings"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+              { "@type": "ListItem", "position": 2, "name": "推薦設定" }
+            ]
+          }
+        ])}
+      </Script>
     <div className="max-w-4xl p-4">
       <h1 className="text-2xl font-bold mb-6">推薦設定</h1>
       <p className="text-muted-foreground mb-8">
@@ -122,6 +149,12 @@ export default function RecommendSettingsPage() {
           </div>
         </div>
       </div>
+      <RelatedLinks links={[
+        { href: "/tutorial", title: "入門教學", description: "從零開始學 GeoGuessr，掌握各種判斷技巧" },
+        { href: "/daily-challenge", title: "每日免費挑戰", description: "每天更新的免費挑戰連結，不用登入直接玩" },
+        { href: "/glossary", title: "名詞解釋", description: "GeoGuessr 常見術語與遊戲名詞中文對照" },
+      ]} />
     </div>
+    </>
   );
 }

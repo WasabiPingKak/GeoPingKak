@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import Image from "next/image";
 import SocialLinks from "@/components/SocialLinks";
 
@@ -32,6 +33,35 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
+    <>
+      <Script id="about-ld-json" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "mainEntity": {
+              "@type": "Person",
+              "name": "山葵冰角 Wasabi Pingkak",
+              "url": "https://geopingkak.web.app/about",
+              "sameAs": [
+                "https://www.youtube.com/@wasabi_pingkak",
+                "https://discord.gg/ABpdGBbDe4"
+              ]
+            },
+            "datePublished": "2026-03-25",
+            "dateModified": "2026-03-25",
+            "inLanguage": "zh-TW"
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+              { "@type": "ListItem", "position": 2, "name": "關於管理者" }
+            ]
+          }
+        ])}
+      </Script>
     <div className="max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">管理者</h1>
 
@@ -88,5 +118,6 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

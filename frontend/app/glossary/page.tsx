@@ -2,6 +2,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import GlossaryClientPage from "./client";
+import RelatedLinks from "@/components/shared/RelatedLinks";
 import { glossaryEntries } from "@/data/glossary";
 
 export const generateMetadata = (): Metadata => ({
@@ -90,6 +91,11 @@ export default function GlossaryPage() {
 
       <div className="max-w-4xl">
         <GlossaryClientPage />
+        <RelatedLinks links={[
+          { href: "/tutorial", title: "入門教學", description: "從零開始學 GeoGuessr，掌握各種判斷技巧" },
+          { href: "/daily-challenge", title: "每日免費挑戰", description: "每天更新的免費挑戰連結，實際練習學到的技巧" },
+          { href: "/source", title: "進階學習資源", description: "Plonk It、GeoTips 等攻略網站推薦" },
+        ]} />
       </div>
     </>
   );
