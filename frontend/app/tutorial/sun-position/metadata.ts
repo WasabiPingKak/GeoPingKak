@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "GeoGuessr 太陽位置判斷教學 | 南北半球與緯度推理 - GeoPingKak",
-    description: "學會用太陽方位判斷南北半球與緯度範圍！太陽在北方代表南半球，在南方代表北半球。GeoGuessr 實用的推理技巧教學。",
+    title: "GeoGuessr 太陽方位判斷技巧｜南北半球與緯度推理教學 - GeoPingKak",
+    description: "GeoGuessr 怎麼用太陽判斷國家？太陽在北方代表南半球、在南方代表北半球，是最容易忽略卻威力強大的推理技巧。完整方位與緯度教學。",
     openGraph: {
-      title: "GeoGuessr 太陽位置判斷教學 - GeoPingKak",
-      description: "利用太陽方位判斷南北半球與緯度範圍，實用的 GeoGuessr 推理技巧。",
+      title: "GeoGuessr 太陽方位判斷技巧 - GeoPingKak",
+      description: "用太陽方位判斷南北半球與緯度範圍，GeoGuessr 最容易被忽略的強力推理技巧。",
       url: "https://geopingkak.web.app/tutorial/sun-position",
       siteName: "GeoPingKak",
       locale: "zh_TW",

@@ -5,14 +5,14 @@ import QueryProvider from "@/components/QueryProvider";
 import RootShell from "@/components/layout/RootShell";
 
 export const metadata = {
-  title: "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
-  description: "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
+  title: "GeoGuessr 免費玩｜不用訂閱、免登入直接挑戰 - GeoPingKak",
+  description: "GeoGuessr 不用付費也能玩！每天更新免費挑戰連結，免登入、免註冊，點開就能玩世界、台灣、日本地圖。台灣中文攻略站 GeoPingKak 提供完整教學、技巧與每日挑戰。",
   alternates: {
     canonical: "https://geopingkak.web.app/",
   },
   openGraph: {
-    title: "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
-    description: "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
+    title: "GeoGuessr 免費玩｜不用訂閱、免登入直接挑戰 - GeoPingKak",
+    description: "GeoGuessr 不用付費也能玩！每天更新免費挑戰連結，免登入、免註冊，點開就能玩。台灣中文攻略站 GeoPingKak 提供完整教學與技巧。",
     url: "https://geopingkak.web.app/",
     siteName: "GeoPingKak",
     images: [
@@ -20,7 +20,7 @@ export const metadata = {
         url: "https://geopingkak.web.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "GeoPingKak 網站預覽圖",
+        alt: "GeoPingKak - GeoGuessr 台灣中文免費攻略站",
       },
     ],
     locale: "zh_TW",
@@ -28,8 +28,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
-    description: "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
+    title: "GeoGuessr 免費玩｜不用訂閱直接挑戰 - GeoPingKak",
+    description: "GeoGuessr 不用付費也能玩！每天更新免費挑戰連結，免登入點開就能玩。台灣中文攻略站。",
     images: ["https://geopingkak.web.app/og-image.png"],
     site: "@wasabi_pingkak",
   },

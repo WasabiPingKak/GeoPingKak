@@ -6,14 +6,14 @@ import Image from "next/image";
 import RelatedLinks from "@/components/shared/RelatedLinks";
 
 export const metadata: Metadata = {
-  title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
-  description: "GeoGuessr 遊戲設定優化指南與實用快捷鍵整理：圖形化指南針、快速回到起始位置等，提升遊戲體驗與答題效率。",
+  title: "GeoGuessr 推薦設定怎麼調？最佳設定與快捷鍵完整指南 - GeoPingKak",
+  description: "GeoGuessr 推薦設定一次看：圖形化指南針、地圖品質、關閉動畫、R／Z／N 快捷鍵實用整理，新手必調的最佳設定，提升答題效率與遊戲體驗。",
   alternates: {
     canonical: "https://geopingkak.web.app/recommend_settings",
   },
   openGraph: {
-    title: "GeoGuessr 推薦設定與快捷鍵 | 遊戲設定指南 - GeoPingKak",
-    description: "GeoGuessr 遊戲設定優化指南與實用快捷鍵整理，提升遊戲體驗與答題效率。",
+    title: "GeoGuessr 推薦設定怎麼調？最佳設定與快捷鍵 - GeoPingKak",
+    description: "GeoGuessr 推薦設定一次看：圖形化指南針、地圖品質、快捷鍵 R／Z／N，新手必調的最佳設定。",
     url: "https://geopingkak.web.app/recommend_settings",
     siteName: "GeoPingKak",
     locale: "zh_TW",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GeoGuessr 推薦設定與快捷鍵 - GeoPingKak",
-    description: "遊戲設定優化指南與快捷鍵整理，提升答題效率。",
+    title: "GeoGuessr 推薦設定怎麼調？最佳設定與快捷鍵 - GeoPingKak",
+    description: "GeoGuessr 推薦設定一次看：圖形化指南針、地圖品質、快捷鍵 R／Z／N。",
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   other: {

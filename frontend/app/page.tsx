@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GeoGuessr 台灣中文攻略站 | 教學、地圖資源與每日挑戰 - GeoPingKak",
-  description: "GeoPingKak 是台灣最完整的 GeoGuessr 中文資源站，提供新手入門教學、攻略技巧、特殊主題地圖與每日挑戰連結。加入中文 GeoGuessr 社群，一起探索世界！",
+  title: "GeoGuessr 免費玩 2026｜台灣中文攻略、教學技巧與每日挑戰 - GeoPingKak",
+  description: "GeoGuessr 不用訂閱也能玩！每天更新免費挑戰連結，免登入、免註冊，點開就玩。台灣最完整的中文資源站，提供新手教學、攻略技巧與特殊主題地圖。",
   openGraph: {
-    title: "GeoGuessr 台灣中文攻略站 | 教學與地圖資源 - GeoPingKak",
-    description: "台灣最完整的 GeoGuessr 中文資源站：新手教學、攻略技巧、特殊地圖推薦與每日挑戰。加入社群一起玩！",
+    title: "GeoGuessr 免費玩｜台灣中文攻略、教學與每日挑戰 - GeoPingKak",
+    description: "GeoGuessr 不用訂閱也能玩！每天更新免費挑戰連結，免登入點開就玩。新手教學、攻略技巧、特殊地圖一站搞定。",
     url: "https://geopingkak.web.app/",
     siteName: "GeoPingKak",
     locale: "zh_TW",
