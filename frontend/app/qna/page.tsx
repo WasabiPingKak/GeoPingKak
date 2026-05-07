@@ -44,6 +44,47 @@ export default function QnAPage() {
     <div className="max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">常見問答 Q&A</h1>
 
+      {/* Q0-A */}
+      <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-5 shadow mb-6">
+        <h2 className="text-lg font-semibold text-white mb-2">Q：GeoGuessr 是什麼？怎麼玩？</h2>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          GeoGuessr 是一款由瑞典開發的線上地理推理遊戲。玩家會被丟到 Google 街景的某個隨機地點，必須觀察周圍的<strong>路標、車牌、招牌、植被、建築風格、太陽方位</strong>等線索，在世界地圖上猜出自己身處何方，越接近正確位置分數越高。<br />
+          想直接體驗？點開本站<a href="/daily-challenge" className="text-blue-400 underline">每日免費挑戰</a>，不用註冊、不用付費，打個 Nickname 就能玩。新手建議先讀<a href="/tutorial" className="text-blue-400 underline">入門教學</a>建立基本判斷邏輯。
+        </p>
+      </div>
+
+      {/* Q0-B */}
+      <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-5 shadow mb-6">
+        <h2 className="text-lg font-semibold text-white mb-2">Q：沒訂閱 Pro 也能玩 GeoGuessr 嗎？免費版有什麼限制？</h2>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家<strong>無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式</strong>。<br />
+          但官方保留了「<strong>挑戰連結（Challenge Link）</strong>」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。本站每天彙整世界、台灣、日本三組免費挑戰，等於繞過訂閱限制體驗完整遊戲。
+        </p>
+      </div>
+
+      {/* Q0-C */}
+      <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-5 shadow mb-6">
+        <h2 className="text-lg font-semibold text-white mb-2">Q：GeoGuessr 在台灣可以玩嗎？網路會卡嗎？</h2>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          可以，台灣完全沒有任何地區封鎖，網路速度也沒有問題。GeoGuessr 主要載入的是 Google 街景圖資，台灣連到 Google 服務的速度向來穩定，遊玩體驗順暢。<br />
+          台灣玩家還有額外福利：本站每日提供一張<strong>台灣專屬地圖</strong>挑戰，包含各種特色街景、奇特地名與諧音梗招牌，是中文圈獨家的玩法。
+        </p>
+      </div>
+
+      {/* Q0-D */}
+      <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-5 shadow mb-6">
+        <h2 className="text-lg font-semibold text-white mb-2">Q：GeoGuessr 新手必學的技巧有哪些？</h2>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          新手最快上手的五個技巧：<br />
+          1. <strong>看車牌</strong>：歐盟車牌左側有藍條、北美州牌格式各異，是最直接的線索。<br />
+          2. <strong>看路標語言</strong>：文字是哪種語系，瞬間縮小到一個地區。<br />
+          3. <strong>看靠左／靠右行駛</strong>：全球只有約 60 個國家靠左行駛，可大幅縮小範圍。<br />
+          4. <strong>看太陽方位</strong>：太陽在北方代表南半球，反之亦然。<br />
+          5. <strong>看 Google 車的 Generation</strong>：不同地區的街景車有不同特徵（白車、黑車、模糊度）。<br />
+          完整教學請見<a href="/tutorial" className="text-blue-400 underline">新手攻略</a>。
+        </p>
+      </div>
+
       {/* Q1 */}
       <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-5 shadow mb-6">
         <h2 className="text-lg font-semibold text-white mb-2">Q：這個網站可以免費使用嗎？</h2>
@@ -139,8 +180,40 @@ export default function QnAPage() {
           "@context": "https://schema.org",
           "@type": "FAQPage",
           "datePublished": "2025-08-13",
-          "dateModified": "2026-03-21",
+          "dateModified": "2026-05-07",
           "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "GeoGuessr 是什麼？怎麼玩？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "GeoGuessr 是一款由瑞典開發的線上地理推理遊戲。玩家會被丟到 Google 街景的某個隨機地點，必須觀察周圍的路標、車牌、招牌、植被、建築風格、太陽方位等線索，在世界地圖上猜出自己身處何方，越接近正確位置分數越高。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "沒訂閱 Pro 也能玩 GeoGuessr 嗎？免費版有什麼限制？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式。但官方保留了「挑戰連結（Challenge Link）」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "GeoGuessr 在台灣可以玩嗎？網路會卡嗎？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "可以，台灣完全沒有任何地區封鎖，網路速度也沒有問題。GeoGuessr 主要載入的是 Google 街景圖資，台灣連到 Google 服務的速度向來穩定，遊玩體驗順暢。本站每日另提供台灣專屬地圖挑戰。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "GeoGuessr 新手必學的技巧有哪些？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "五個最快上手的技巧：1. 看車牌（歐盟藍條、北美州牌）；2. 看路標語言；3. 看靠左／靠右行駛（全球只有約 60 個國家靠左）；4. 看太陽方位（南北半球判斷）；5. 看 Google 街景車的 Generation 特徵。"
+              }
+            },
             {
               "@type": "Question",
               "name": "這個網站可以免費使用嗎？",

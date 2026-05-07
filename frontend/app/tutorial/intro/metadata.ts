@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "GeoGuessr 新手入門指南 | 從零開始學推理 - GeoPingKak",
-    description: "了解 GeoGuessr 的魅力與正確的學習方向。不靠死背，從觀察世界開始建立推理邏輯，適合完全新手的中文入門指南。",
+    title: "GeoGuessr 新手入門攻略｜從零開始學推理技巧 - GeoPingKak",
+    description: "GeoGuessr 怎麼玩？新手該怎麼練？本篇教你建立推理思路與基礎技巧，不靠死背，從觀察世界開始的中文入門攻略。",
     openGraph: {
-      title: "GeoGuessr 新手入門指南 - GeoPingKak",
-      description: "了解 GeoGuessr 的魅力與正確的學習方向。不靠死背，從觀察世界開始建立推理邏輯。",
+      title: "GeoGuessr 新手入門攻略｜推理技巧建立 - GeoPingKak",
+      description: "GeoGuessr 新手怎麼練？建立推理思路與基礎技巧，不靠死背、從觀察世界開始。",
       url: "https://geopingkak.web.app/tutorial/intro",
       siteName: "GeoPingKak",
       locale: "zh_TW",

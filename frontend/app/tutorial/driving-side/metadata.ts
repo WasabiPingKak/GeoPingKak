@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 export function generateMetadata(): Metadata {
   return {
-    title: "GeoGuessr 道路通行方向教學 | 靠左行駛國家列表 - GeoPingKak",
-    description: "了解全球道路通行方向分佈！靠左行駛的國家相對少數，掌握這個知識能快速縮小 GeoGuessr 的猜測範圍。完整靠左行駛國家列表。",
+    title: "GeoGuessr 靠左／靠右行駛判斷技巧｜全球通行方向教學 - GeoPingKak",
+    description: "GeoGuessr 看到道路怎麼判斷國家？靠左行駛的國家全球只有約 60 個，掌握這個技巧能瞬間縮小猜測範圍。完整靠左行駛國家列表與實戰判斷教學。",
     openGraph: {
-      title: "GeoGuessr 道路通行方向判斷教學 - GeoPingKak",
-      description: "靠左行駛的國家相對少數，是重要的判斷依據。完整靠左行駛國家列表與判斷技巧。",
+      title: "GeoGuessr 靠左／靠右行駛判斷技巧 - GeoPingKak",
+      description: "全球只有約 60 個國家靠左行駛，是 GeoGuessr 最快縮小範圍的判斷技巧之一。",
       url: "https://geopingkak.web.app/tutorial/driving-side",
       siteName: "GeoPingKak",
       locale: "zh_TW",
