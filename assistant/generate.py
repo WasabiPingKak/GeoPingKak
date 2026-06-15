@@ -108,6 +108,13 @@ def reformulate_query(
     return current_query
 
 
+IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".webp", ".gif")
+
+
+def _is_image_url(url: str) -> bool:
+    return url.lower().split("?")[0].endswith(IMAGE_EXTENSIONS)
+
+
 def build_context(chunks: list[dict]) -> str:
     if not chunks:
         return "（無相關參考資料）"
@@ -119,8 +126,8 @@ def build_context(chunks: list[dict]) -> str:
             header += f" — {chunk['step_group']}"
         text = chunk["text"].strip()
         image_url = chunk.get("image_url", "")
-        if image_url:
-            text += f"\n圖片: {image_url}"
+        if image_url and _is_image_url(image_url):
+            text += f"\n[可嵌入圖片] {image_url}"
         parts.append(f"{header}\n{text}")
 
     return "\n\n".join(parts)
