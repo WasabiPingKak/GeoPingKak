@@ -49,19 +49,24 @@ function AssistantMarkdown({ content }: { content: string }) {
         th: ({ children }) => <th className="text-left px-2 py-1 font-semibold text-zinc-200">{children}</th>,
         td: ({ children }) => <td className="px-2 py-1 border-t border-zinc-700">{children}</td>,
         hr: () => <hr className="border-zinc-600 my-3" />,
-        img: ({ src, alt }) => (
-          <figure className="my-3">
-            <img
-              src={src || ""}
-              alt={alt || ""}
-              className="rounded-lg max-w-full max-h-64 object-contain"
-              loading="lazy"
-            />
-            <figcaption className="text-xs text-zinc-400 mt-1">
-              圖片來源：<a href="https://www.plonkit.net" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Plonk It</a>
-            </figcaption>
-          </figure>
-        ),
+        img: ({ src, alt }) => {
+          const srcStr = typeof src === "string" ? src : "";
+          const isImage = srcStr && /\.(png|jpe?g|webp|gif)(\?|$)/i.test(srcStr);
+          if (!isImage) return null;
+          return (
+            <figure className="my-3">
+              <img
+                src={src}
+                alt={alt || ""}
+                className="rounded-lg max-w-full max-h-64 object-contain"
+                loading="lazy"
+              />
+              <figcaption className="text-xs text-zinc-400 mt-1">
+                圖片來源：<a href="https://www.plonkit.net" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Plonk It</a>
+              </figcaption>
+            </figure>
+          );
+        },
       }}
     >
       {content}
