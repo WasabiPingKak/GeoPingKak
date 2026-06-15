@@ -16,6 +16,7 @@ from config import (
     SIMILARITY_THRESHOLD,
     get_gemini_key,
 )
+from generate import generate_answer
 from search import embed_query, search
 
 logging.basicConfig(level=logging.INFO)
@@ -97,6 +98,34 @@ def search_endpoint():
         r["similarity"] = round(float(r["similarity"]), 4)
 
     return jsonify({"query": query, "top_k": top_k, "threshold": threshold, "results": results})
+
+
+@app.route("/api/assistant/ask", methods=["POST"])
+def ask_endpoint():
+    body = request.get_json(silent=True)
+    if not body or not body.get("query"):
+        return jsonify({"error": "缺少 query 欄位"}), 400
+
+    query = body["query"].strip()
+    if not query:
+        return jsonify({"error": "query 不能為空白"}), 400
+
+    top_k = min(int(body.get("top_k", DEFAULT_TOP_K)), MAX_TOP_K)
+    threshold = float(body.get("threshold", SIMILARITY_THRESHOLD))
+
+    gemini = get_gemini()
+
+    embedding = embed_query(gemini, query)
+    chunks = search(get_db(), embedding, top_k=top_k, threshold=threshold)
+
+    result = generate_answer(gemini, query, chunks)
+
+    return jsonify({
+        "query": query,
+        "answer": result["answer"],
+        "sources_count": len(chunks),
+        "usage": result["usage"],
+    })
 
 
 @app.errorhandler(404)
