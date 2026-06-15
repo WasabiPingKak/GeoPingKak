@@ -124,10 +124,10 @@ def build_context(chunks: list[dict]) -> str:
         header = f"[{i}] {chunk['country']}"
         if chunk.get("step_group"):
             header += f" — {chunk['step_group']}"
-        text = chunk["text"].strip()
         image_url = chunk.get("image_url", "")
         if image_url and _is_image_url(image_url):
-            text += f"\n[可嵌入圖片] {image_url}"
+            header += f"\n圖片: {image_url}"
+        text = chunk["text"].strip()
         parts.append(f"{header}\n{text}")
 
     return "\n\n".join(parts)
