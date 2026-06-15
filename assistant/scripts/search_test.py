@@ -1,7 +1,8 @@
 """RAG 檢索品質測試腳本。
 
-用法: python assistant/scripts/search_test.py [查詢文字]
+用法: python -m scripts.search_test [查詢文字]
 不帶參數時執行預設測試組（相關 / 灰色地帶 / 無關查詢）。
+從 assistant/ 目錄執行。
 """
 
 import os
@@ -16,13 +17,9 @@ if sys.stdout.encoding != "utf-8":
 import psycopg2
 from dotenv import load_dotenv
 from google import genai
-from google.cloud import secretmanager
 
-GCP_PROJECT = "geopingkak"
-SECRET_NAME = "GEMINI_API_KEY"
-EMBEDDING_MODEL = "gemini-embedding-001"
-EMBEDDING_DIM = 768
-TOP_K = 5
+from config import get_gemini_key
+from search import embed_query, search
 
 # 預設測試查詢：涵蓋三種情境
 TEST_QUERIES = [
@@ -40,43 +37,6 @@ TEST_QUERIES = [
     "今天天氣如何",
     "推薦好看的 Netflix 影集",
 ]
-
-
-def get_gemini_key() -> str:
-    client = secretmanager.SecretManagerServiceClient()
-    name = f"projects/{GCP_PROJECT}/secrets/{SECRET_NAME}/versions/latest"
-    response = client.access_secret_version(request={"name": name})
-    return response.payload.data.decode("utf-8")
-
-
-def embed_query(client: genai.Client, text: str) -> list[float]:
-    result = client.models.embed_content(
-        model=EMBEDDING_MODEL,
-        contents=[text],
-        config={
-            "task_type": "RETRIEVAL_QUERY",
-            "output_dimensionality": EMBEDDING_DIM,
-        },
-    )
-    return result.embeddings[0].values
-
-
-def search(conn, query_embedding: list[float], top_k: int = TOP_K) -> list[dict]:
-    emb_str = "[" + ",".join(str(v) for v in query_embedding) + "]"
-    with conn.cursor() as cur:
-        cur.execute(
-            """
-            SELECT
-                id, country, country_code, step_group, tags, text,
-                1 - (embedding <=> %s::vector) AS similarity
-            FROM rag_chunks
-            ORDER BY embedding <=> %s::vector
-            LIMIT %s
-            """,
-            (emb_str, emb_str, top_k),
-        )
-        columns = [desc[0] for desc in cur.description]
-        return [dict(zip(columns, row)) for row in cur.fetchall()]
 
 
 def print_results(query: str, results: list[dict]):
