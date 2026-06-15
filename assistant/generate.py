@@ -51,6 +51,14 @@ def get_default_top_k(conn) -> int:
         return 5
 
 
+def get_max_output_tokens(conn) -> int:
+    raw = get_config(conn).get("max_output_tokens", "4096")
+    try:
+        return int(raw)
+    except ValueError:
+        return 4096
+
+
 REFORMULATE_PROMPT = """\
 你是查詢改寫器。根據對話歷史，把使用者最新的訊息改寫成一個獨立的、完整的問句。
 
@@ -115,6 +123,7 @@ def generate_answer(
 ) -> dict:
     context = build_context(chunks)
     system_prompt = get_system_prompt(db_conn) if db_conn else FALLBACK_SYSTEM_PROMPT
+    max_tokens = get_max_output_tokens(db_conn) if db_conn else 4096
 
     user_message = f"""## 參考資料
 
@@ -130,7 +139,7 @@ def generate_answer(
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
             temperature=0.3,
-            max_output_tokens=2048,
+            max_output_tokens=max_tokens,
         ),
     )
 
