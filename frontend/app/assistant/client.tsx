@@ -51,12 +51,20 @@ function AssistantMarkdown({ content }: { content: string }) {
         hr: () => <hr className="border-zinc-600 my-3" />,
         img: ({ src, alt }) => {
           const srcStr = typeof src === "string" ? src : "";
-          const isImage = srcStr && /\.(png|jpe?g|webp|gif)(\?|$)/i.test(srcStr);
-          if (!isImage) return null;
+          if (!srcStr) return null;
+          const isImage = /\.(png|jpe?g|webp|gif)(\?|$)/i.test(srcStr);
+          if (!isImage) {
+            const label = alt || "在 Google Maps 查看";
+            return (
+              <a href={srcStr} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-blue-400 underline text-sm">
+                <span>📍</span>{label}
+              </a>
+            );
+          }
           return (
             <figure className="my-3">
               <img
-                src={src}
+                src={srcStr}
                 alt={alt || ""}
                 className="rounded-lg max-w-full max-h-64 object-contain"
                 loading="lazy"
