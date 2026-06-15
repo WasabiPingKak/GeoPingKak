@@ -208,9 +208,9 @@ GET https://www.plonkit.net/api/guides/{slug}
 
 ### 新計畫
 
-1. 呼叫 `/api/guides` 取得 140 個 slug
-2. 逐一呼叫 `/api/guides/{slug}`，每分鐘 25 次（rate limit 安全值）
-3. 直接存原始 JSON（已是結構化資料）
+1. ✅ 呼叫 `/api/guides` 取得 140 個 slug（2026-06-15 完成）
+2. ✅ 逐一呼叫 `/api/guides/{slug}`，每分鐘 25 次（2026-06-15 完成，140/140 成功，4.2MB）
+3. ✅ 直接存原始 JSON 至 `assistant/data/raw/`（已 gitignore）
 4. 撰寫轉換腳本：raw JSON → RAG-ready chunk 格式
 5. Metadata 已內建：`tags`（線索類別）、`cat`（區域）、`code`（國家代碼）
 

@@ -219,9 +219,9 @@ Pipeline 流程：
 
 ### 第一階段：資料收集與清理
 
-1. 呼叫 `GET /api/guides` 取得 140 個國家的 slug 列表
-2. 逐一呼叫 `GET /api/guides/{slug}` 取得完整線索 JSON，rate limit 控制在 25 req/min
-3. 原始 JSON 存檔（每個國家一個 JSON 檔）作為快取，避免重複請求
+1. ✅ 呼叫 `GET /api/guides` 取得 140 個國家的 slug 列表
+2. ✅ 逐一呼叫 `GET /api/guides/{slug}` 取得完整線索 JSON（140/140 成功，4.2MB）
+3. ✅ 原始 JSON 存檔至 `assistant/data/raw/`（gitignored，可用 `fetch.py` 重建）
 4. 撰寫轉換腳本：將 raw JSON 的 tip items 轉為 RAG-ready chunk 格式（展平 step group 階層、串接 text 陣列、補完圖片 URL）
 5. Metadata 對應：`tags` → 線索類別、`cat` → 區域、`code` → 國家代碼（API 已內建，不需額外標記）
 
