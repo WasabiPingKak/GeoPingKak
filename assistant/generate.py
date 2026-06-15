@@ -1,7 +1,7 @@
 """RAG 生成模組。
 
 將檢索到的 chunks 組裝成 prompt，呼叫 Gemini 生成回答。
-System prompt 從 Supabase assistant_config table 讀取，5 分鐘 cache。
+設定（system_prompt、default_top_k 等）從 Supabase assistant_config 讀取，5 分鐘 cache。
 """
 
 import logging
@@ -16,34 +16,83 @@ logger = logging.getLogger(__name__)
 
 FALLBACK_SYSTEM_PROMPT = "你是 GeoGuessr 繁體中文助手。根據參考資料回答玩家問題。"
 
-PROMPT_CACHE_TTL = 300
-_prompt_cache: dict = {"text": None, "loaded_at": 0}
+CONFIG_CACHE_TTL = 300
+_config_cache: dict = {"data": {}, "loaded_at": 0}
 
 
-def get_system_prompt(conn) -> str:
+def get_config(conn) -> dict:
     now = time.time()
-    if _prompt_cache["text"] and now - _prompt_cache["loaded_at"] < PROMPT_CACHE_TTL:
-        return _prompt_cache["text"]
+    if _config_cache["data"] and now - _config_cache["loaded_at"] < CONFIG_CACHE_TTL:
+        return _config_cache["data"]
 
     try:
         with conn.cursor() as cur:
-            cur.execute(
-                "SELECT value FROM assistant_config WHERE key = 'system_prompt'"
-            )
-            row = cur.fetchone()
-            if row:
-                _prompt_cache["text"] = row[0]
-                _prompt_cache["loaded_at"] = now
-                logger.info("System prompt 已從 DB 載入（%d 字元）", len(row[0]))
-                return row[0]
+            cur.execute("SELECT key, value FROM assistant_config")
+            rows = cur.fetchall()
+            if rows:
+                _config_cache["data"] = {k: v for k, v in rows}
+                _config_cache["loaded_at"] = now
+                logger.info("assistant_config 已載入（%d 筆）", len(rows))
     except Exception:
-        logger.warning("讀取 system prompt 失敗，使用 fallback", exc_info=True)
+        logger.warning("讀取 assistant_config 失敗", exc_info=True)
 
-    return _prompt_cache["text"] or FALLBACK_SYSTEM_PROMPT
+    return _config_cache["data"]
+
+
+def get_system_prompt(conn) -> str:
+    return get_config(conn).get("system_prompt", FALLBACK_SYSTEM_PROMPT)
+
+
+def get_default_top_k(conn) -> int:
+    raw = get_config(conn).get("default_top_k", "5")
+    try:
+        return int(raw)
+    except ValueError:
+        return 5
+
+
+REFORMULATE_PROMPT = """\
+你是查詢改寫器。根據對話歷史，把使用者最新的訊息改寫成一個獨立的、完整的問句。
+
+規則：
+- 輸出只有改寫後的問句，不要加任何解釋。
+- 如果最新訊息本身已經是完整問句，就原樣輸出。
+- 保持繁體中文。"""
+
+
+def reformulate_query(
+    client: genai.Client,
+    history: list[dict],
+    current_query: str,
+) -> str:
+    if not history:
+        return current_query
+
+    turns = []
+    for msg in history[-6:]:
+        role = "玩家" if msg.get("role") == "user" else "助手"
+        turns.append(f"{role}：{msg['content']}")
+    turns.append(f"玩家：{current_query}")
+    conversation = "\n".join(turns)
+
+    response = client.models.generate_content(
+        model=GENERATION_MODEL,
+        contents=[f"對話歷史：\n{conversation}\n\n請改寫最後一句玩家訊息為獨立問句。"],
+        config=types.GenerateContentConfig(
+            system_instruction=REFORMULATE_PROMPT,
+            temperature=0,
+            max_output_tokens=256,
+        ),
+    )
+
+    reformulated = response.text.strip()
+    if reformulated:
+        logger.info("Query 改寫：「%s」→「%s」", current_query, reformulated)
+        return reformulated
+    return current_query
 
 
 def build_context(chunks: list[dict]) -> str:
-    """將檢索結果格式化成 LLM 可讀的參考資料區塊。"""
     if not chunks:
         return "（無相關參考資料）"
 

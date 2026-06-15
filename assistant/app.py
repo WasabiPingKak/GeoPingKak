@@ -17,7 +17,7 @@ from config import (
     SIMILARITY_THRESHOLD,
     get_gemini_key,
 )
-from generate import generate_answer
+from generate import generate_answer, get_default_top_k, reformulate_query
 from search import embed_query, search
 
 logging.basicConfig(level=logging.INFO)
@@ -122,18 +122,24 @@ def ask_endpoint():
     if not query:
         return jsonify({"error": "query 不能為空白"}), 400
 
-    top_k = min(int(body.get("top_k", DEFAULT_TOP_K)), MAX_TOP_K)
-    threshold = float(body.get("threshold", SIMILARITY_THRESHOLD))
-
+    db = get_db()
     gemini = get_gemini()
 
-    embedding = embed_query(gemini, query)
-    chunks = search(get_db(), embedding, top_k=top_k, threshold=threshold)
+    db_top_k = get_default_top_k(db)
+    top_k = min(int(body.get("top_k", db_top_k)), MAX_TOP_K)
+    threshold = float(body.get("threshold", SIMILARITY_THRESHOLD))
 
-    result = generate_answer(gemini, query, chunks, db_conn=get_db())
+    history = body.get("history", [])
+    search_query = reformulate_query(gemini, history, query) if history else query
+
+    embedding = embed_query(gemini, search_query)
+    chunks = search(db, embedding, top_k=top_k, threshold=threshold)
+
+    result = generate_answer(gemini, search_query, chunks, db_conn=db)
 
     return jsonify({
         "query": query,
+        "search_query": search_query,
         "answer": result["answer"],
         "sources_count": len(chunks),
         "usage": result["usage"],
