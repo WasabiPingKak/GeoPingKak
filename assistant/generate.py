@@ -118,6 +118,9 @@ def build_context(chunks: list[dict]) -> str:
         if chunk.get("step_group"):
             header += f" — {chunk['step_group']}"
         text = chunk["text"].strip()
+        image_url = chunk.get("image_url", "")
+        if image_url:
+            text += f"\n圖片: {image_url}"
         parts.append(f"{header}\n{text}")
 
     return "\n\n".join(parts)
