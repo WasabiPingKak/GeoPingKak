@@ -130,7 +130,7 @@ def ask_endpoint():
     threshold = float(body.get("threshold", SIMILARITY_THRESHOLD))
 
     history = body.get("history", [])
-    search_query = reformulate_query(gemini, history, query) if history else query
+    search_query = reformulate_query(gemini, history, query, db_conn=db) if history else query
 
     embedding = embed_query(gemini, search_query)
     chunks = search(db, embedding, top_k=top_k, threshold=threshold)

@@ -67,7 +67,7 @@ def get_temperature(conn) -> float:
         return 0.7
 
 
-REFORMULATE_PROMPT = """\
+FALLBACK_REFORMULATE_PROMPT = """\
 你是查詢改寫器。根據對話歷史，把使用者最新的訊息改寫成一個獨立的、完整的問句。
 
 規則：
@@ -76,13 +76,20 @@ REFORMULATE_PROMPT = """\
 - 保持繁體中文。"""
 
 
+def get_reformulate_prompt(conn) -> str:
+    return get_config(conn).get("reformulate_prompt", FALLBACK_REFORMULATE_PROMPT)
+
+
 def reformulate_query(
     client: genai.Client,
     history: list[dict],
     current_query: str,
+    db_conn=None,
 ) -> str:
     if not history:
         return current_query
+
+    prompt = get_reformulate_prompt(db_conn) if db_conn else FALLBACK_REFORMULATE_PROMPT
 
     turns = []
     for msg in history[-6:]:
@@ -95,7 +102,7 @@ def reformulate_query(
         model=GENERATION_MODEL,
         contents=[f"對話歷史：\n{conversation}\n\n請改寫最後一句玩家訊息為獨立問句。"],
         config=types.GenerateContentConfig(
-            system_instruction=REFORMULATE_PROMPT,
+            system_instruction=prompt,
             temperature=0,
             max_output_tokens=256,
         ),
