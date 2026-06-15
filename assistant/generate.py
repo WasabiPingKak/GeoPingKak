@@ -59,6 +59,14 @@ def get_max_output_tokens(conn) -> int:
         return 4096
 
 
+def get_temperature(conn) -> float:
+    raw = get_config(conn).get("temperature", "0.7")
+    try:
+        return max(0.0, min(2.0, float(raw)))
+    except ValueError:
+        return 0.7
+
+
 REFORMULATE_PROMPT = """\
 你是查詢改寫器。根據對話歷史，把使用者最新的訊息改寫成一個獨立的、完整的問句。
 
@@ -124,6 +132,7 @@ def generate_answer(
     context = build_context(chunks)
     system_prompt = get_system_prompt(db_conn) if db_conn else FALLBACK_SYSTEM_PROMPT
     max_tokens = get_max_output_tokens(db_conn) if db_conn else 4096
+    temperature = get_temperature(db_conn) if db_conn else 0.7
 
     user_message = f"""## 參考資料
 
@@ -138,7 +147,7 @@ def generate_answer(
         contents=[user_message],
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0.3,
+            temperature=temperature,
             max_output_tokens=max_tokens,
         ),
     )
