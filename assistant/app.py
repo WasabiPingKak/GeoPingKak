@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 import time
 import uuid
 
@@ -24,7 +25,18 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-CORS(app, origins=os.getenv("CORS_ORIGINS", "http://localhost:3000").split(","))
+def parse_cors_origins(raw):
+    origins = []
+    for origin in raw.split(","):
+        origin = origin.strip()
+        if origin.startswith("re:"):
+            origins.append(re.compile(origin[3:]))
+        else:
+            origins.append(origin)
+    return origins
+
+
+CORS(app, origins=parse_cors_origins(os.getenv("CORS_ORIGINS", "http://localhost:3000")))
 
 # Gemini client（啟動時初始化，整個 process 共用）
 gemini_client: genai.Client | None = None
