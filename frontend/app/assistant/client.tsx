@@ -1,8 +1,32 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useAssistantChat } from "@/hooks/useAssistantChat";
 import type { ChatMessage } from "@/types/assistant";
+
+function AssistantMarkdown({ content }: { content: string }) {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+        strong: ({ children }) => <strong className="text-white font-semibold">{children}</strong>,
+        ul: ({ children }) => <ul className="list-disc pl-5 space-y-1 my-1">{children}</ul>,
+        ol: ({ children }) => <ol className="list-decimal pl-5 space-y-1 my-1">{children}</ol>,
+        li: ({ children }) => <li>{children}</li>,
+        a: ({ href, children }) => (
+          <a href={href || "#"} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
+            {children}
+          </a>
+        ),
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
+}
 
 function MessageBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === "user";
@@ -10,13 +34,13 @@ function MessageBubble({ message }: { message: ChatMessage }) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
           isUser
             ? "bg-blue-600 text-white rounded-br-md"
             : "bg-zinc-700 text-zinc-100 rounded-bl-md"
         }`}
       >
-        {message.content}
+        {isUser ? message.content : <AssistantMarkdown content={message.content} />}
       </div>
     </div>
   );

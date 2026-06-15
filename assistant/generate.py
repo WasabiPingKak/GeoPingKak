@@ -1,29 +1,45 @@
 """RAG 生成模組。
 
 將檢索到的 chunks 組裝成 prompt，呼叫 Gemini 生成回答。
+System prompt 從 Supabase assistant_config table 讀取，5 分鐘 cache。
 """
+
+import logging
+import time
 
 from google import genai
 from google.genai import types
 
 from config import GENERATION_MODEL
 
-SYSTEM_PROMPT = """\
-你是 GeoGuessr 繁體中文助手。玩家會問你如何在遊戲中辨認國家、地區或特定線索。
+logger = logging.getLogger(__name__)
 
-## 規則
+FALLBACK_SYSTEM_PROMPT = "你是 GeoGuessr 繁體中文助手。根據參考資料回答玩家問題。"
 
-1. 根據「參考資料」中的線索來回答。資料可能不會直接回答問題，\
-但如果資料包含相關的辨識特徵或描述，就整理出來幫助玩家。
-2. 不要使用你自己的知識補充參考資料沒提到的內容。
-3. 如果參考資料跟問題**完全無關**，說「抱歉，我目前的資料沒有涵蓋這個問題。」
-4. 如果問題跟 GeoGuessr 無關（例如寫程式、算數學、歷史文化科普），\
-回覆「我只能回答 GeoGuessr 相關的問題喔！」
-5. 用**繁體中文**回答，語氣友善但簡潔。
-6. 適當使用條列式整理重點，不要輸出大段文字。
-7. 參考資料是英文時，翻譯成繁體中文呈現。
-8. 如果多筆資料描述同一件事，合併整理而不是重複列出。
-"""
+PROMPT_CACHE_TTL = 300
+_prompt_cache: dict = {"text": None, "loaded_at": 0}
+
+
+def get_system_prompt(conn) -> str:
+    now = time.time()
+    if _prompt_cache["text"] and now - _prompt_cache["loaded_at"] < PROMPT_CACHE_TTL:
+        return _prompt_cache["text"]
+
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT value FROM assistant_config WHERE key = 'system_prompt'"
+            )
+            row = cur.fetchone()
+            if row:
+                _prompt_cache["text"] = row[0]
+                _prompt_cache["loaded_at"] = now
+                logger.info("System prompt 已從 DB 載入（%d 字元）", len(row[0]))
+                return row[0]
+    except Exception:
+        logger.warning("讀取 system prompt 失敗，使用 fallback", exc_info=True)
+
+    return _prompt_cache["text"] or FALLBACK_SYSTEM_PROMPT
 
 
 def build_context(chunks: list[dict]) -> str:
@@ -46,8 +62,10 @@ def generate_answer(
     client: genai.Client,
     query: str,
     chunks: list[dict],
+    db_conn=None,
 ) -> dict:
     context = build_context(chunks)
+    system_prompt = get_system_prompt(db_conn) if db_conn else FALLBACK_SYSTEM_PROMPT
 
     user_message = f"""## 參考資料
 
@@ -61,7 +79,7 @@ def generate_answer(
         model=GENERATION_MODEL,
         contents=[user_message],
         config=types.GenerateContentConfig(
-            system_instruction=SYSTEM_PROMPT,
+            system_instruction=system_prompt,
             temperature=0.3,
             max_output_tokens=2048,
         ),
