@@ -10,6 +10,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=appuser:appuser app.py config.py search.py generate.py ./
+COPY --chown=appuser:appuser prompts/ ./prompts/
 
 USER appuser
 
