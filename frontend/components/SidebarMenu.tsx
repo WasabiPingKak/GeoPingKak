@@ -17,7 +17,6 @@ const navItems = [
   { href: "/community-maps", label: "社群地圖推薦" },
   { href: "/source", label: "進階學習資源" },
   { divider: true },
-  { href: "/assistant", label: "GeoGuessr 助手" },
   { href: "/show-proposals", label: "直播企劃提案" },
   { href: "/qna", label: "Q&A" },
   { href: "/about", label: "關於我" },
