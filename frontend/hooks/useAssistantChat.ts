@@ -7,15 +7,17 @@ export function useAssistantChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState<boolean | null>(null);
   const messagesRef = useRef<ChatMessage[]>([]);
 
   useEffect(() => {
     fetch(`${API_BASE}/api/assistant/status`)
       .then((res) => {
-        if (res.status === 403) setIsDisabled(true);
+        setIsDisabled(res.status === 403);
       })
-      .catch(() => {});
+      .catch(() => {
+        setIsDisabled(false);
+      });
   }, []);
 
   const sendMessage = useCallback(async (query: string) => {
