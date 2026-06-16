@@ -134,6 +134,9 @@ def build_context(chunks: list[dict]) -> str:
         image_url = chunk.get("image_url", "")
         if image_url and _is_image_url(image_url):
             header += f"\n圖片: {image_url}"
+        image_link = chunk.get("image_link", "")
+        if image_link:
+            header += f"\n街景: {image_link}"
         text = chunk["text"].strip()
         parts.append(f"{header}\n{text}")
 

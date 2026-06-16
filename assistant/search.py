@@ -34,7 +34,7 @@ def search(
             """
             SELECT
                 id, country, country_code, step_group, tags, text,
-                image_url, source_url,
+                image_url, image_link, source_url,
                 1 - (embedding <=> %s::vector) AS similarity
             FROM rag_chunks
             WHERE 1 - (embedding <=> %s::vector) >= %s
