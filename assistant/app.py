@@ -135,7 +135,7 @@ def ask_endpoint():
     embedding = embed_query(gemini, search_query)
     chunks = search(db, embedding, top_k=top_k, threshold=threshold)
 
-    result = generate_answer(gemini, search_query, chunks, db_conn=db)
+    result = generate_answer(gemini, search_query, chunks, db_conn=db, history=history)
 
     return jsonify({
         "query": query,

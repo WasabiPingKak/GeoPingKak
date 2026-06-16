@@ -150,6 +150,7 @@ def generate_answer(
     query: str,
     chunks: list[dict],
     db_conn=None,
+    history: list[dict] | None = None,
 ) -> dict:
     context = build_context(chunks)
     system_prompt = get_system_prompt(db_conn) if db_conn else FALLBACK_SYSTEM_PROMPT
@@ -164,9 +165,15 @@ def generate_answer(
 
 {query}"""
 
+    contents = []
+    for msg in (history or []):
+        role = "user" if msg.get("role") == "user" else "model"
+        contents.append(types.Content(role=role, parts=[types.Part.from_text(text=msg["content"])]))
+    contents.append(types.Content(role="user", parts=[types.Part.from_text(text=user_message)]))
+
     response = client.models.generate_content(
         model=GENERATION_MODEL,
-        contents=[user_message],
+        contents=contents,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
             temperature=temperature,
