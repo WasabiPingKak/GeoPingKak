@@ -6,6 +6,7 @@
 
 import logging
 import time
+from pathlib import Path
 
 from google import genai
 from google.genai import types
@@ -14,7 +15,8 @@ from config import GENERATION_MODEL
 
 logger = logging.getLogger(__name__)
 
-FALLBACK_SYSTEM_PROMPT = "你是 GeoGuessr 繁體中文助手。根據參考資料回答玩家問題。"
+_PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
+FALLBACK_SYSTEM_PROMPT = (_PROMPTS_DIR / "system.txt").read_text(encoding="utf-8").strip()
 
 CONFIG_CACHE_TTL = 300
 _config_cache: dict = {"data": {}, "loaded_at": 0}
