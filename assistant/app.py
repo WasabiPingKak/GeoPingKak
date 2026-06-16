@@ -89,6 +89,14 @@ def ping():
     return jsonify({"message": "pong", "env": DEPLOY_ENV})
 
 
+@app.route("/api/assistant/status")
+def status_endpoint():
+    enabled = is_enabled(get_db())
+    if not enabled:
+        return jsonify({"enabled": False}), 403
+    return jsonify({"enabled": True})
+
+
 @app.route("/api/assistant/search", methods=["POST"])
 def search_endpoint():
     if not is_enabled(get_db()):

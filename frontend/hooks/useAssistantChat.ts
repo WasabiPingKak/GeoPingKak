@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import type { ChatMessage, AskResponse } from "@/types/assistant";
 
 const API_BASE = process.env.NEXT_PUBLIC_ASSISTANT_API_BASE || "";
@@ -9,6 +9,14 @@ export function useAssistantChat() {
   const [error, setError] = useState<string | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
   const messagesRef = useRef<ChatMessage[]>([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/api/assistant/status`)
+      .then((res) => {
+        if (res.status === 403) setIsDisabled(true);
+      })
+      .catch(() => {});
+  }, []);
 
   const sendMessage = useCallback(async (query: string) => {
     const trimmed = query.trim();
