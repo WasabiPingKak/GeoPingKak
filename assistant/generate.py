@@ -41,6 +41,10 @@ def get_config(conn) -> dict:
     return _config_cache["data"]
 
 
+def is_enabled(conn) -> bool:
+    return get_config(conn).get("enable", "true").lower() != "false"
+
+
 def get_system_prompt(conn) -> str:
     return get_config(conn).get("system_prompt", FALLBACK_SYSTEM_PROMPT)
 

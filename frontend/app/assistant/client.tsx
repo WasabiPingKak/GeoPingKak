@@ -122,7 +122,7 @@ const EXAMPLE_QUESTIONS = [
 ];
 
 export default function AssistantClient() {
-  const { messages, isLoading, error, sendMessage, clearMessages } = useAssistantChat();
+  const { messages, isLoading, error, isDisabled, sendMessage, clearMessages } = useAssistantChat();
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -150,6 +150,18 @@ export default function AssistantClient() {
   };
 
   const hasMessages = messages.length > 0;
+
+  if (isDisabled) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-2rem)] max-w-3xl text-center">
+        <div className="text-5xl mb-4">🚧</div>
+        <h1 className="text-2xl font-bold mb-2">助手功能暫時關閉</h1>
+        <p className="text-zinc-400 text-sm">
+          這個功能目前正在維護中，請稍後再試。
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-[calc(100vh-2rem)] max-w-3xl">

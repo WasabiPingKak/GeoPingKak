@@ -17,7 +17,7 @@ from config import (
     SIMILARITY_THRESHOLD,
     get_gemini_key,
 )
-from generate import generate_answer, get_default_top_k, reformulate_query
+from generate import generate_answer, get_default_top_k, is_enabled, reformulate_query
 from search import embed_query, search
 
 logging.basicConfig(level=logging.INFO)
@@ -91,6 +91,9 @@ def ping():
 
 @app.route("/api/assistant/search", methods=["POST"])
 def search_endpoint():
+    if not is_enabled(get_db()):
+        return jsonify({"error": "assistant_disabled"}), 403
+
     body = request.get_json(silent=True)
     if not body or not body.get("query"):
         return jsonify({"error": "缺少 query 欄位"}), 400
@@ -114,6 +117,9 @@ def search_endpoint():
 
 @app.route("/api/assistant/ask", methods=["POST"])
 def ask_endpoint():
+    if not is_enabled(get_db()):
+        return jsonify({"error": "assistant_disabled"}), 403
+
     body = request.get_json(silent=True)
     if not body or not body.get("query"):
         return jsonify({"error": "缺少 query 欄位"}), 400

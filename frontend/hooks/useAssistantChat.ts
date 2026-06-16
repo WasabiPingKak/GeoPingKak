@@ -7,6 +7,7 @@ export function useAssistantChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDisabled, setIsDisabled] = useState(false);
   const messagesRef = useRef<ChatMessage[]>([]);
 
   const sendMessage = useCallback(async (query: string) => {
@@ -40,6 +41,10 @@ export function useAssistantChat() {
 
       if (!res.ok) {
         const body = await res.json().catch(() => null);
+        if (res.status === 403 && body?.error === "assistant_disabled") {
+          setIsDisabled(true);
+          return;
+        }
         throw new Error(body?.error || `請求失敗（${res.status}）`);
       }
 
@@ -69,5 +74,5 @@ export function useAssistantChat() {
     setError(null);
   }, []);
 
-  return { messages, isLoading, error, sendMessage, clearMessages };
+  return { messages, isLoading, error, isDisabled, sendMessage, clearMessages };
 }
