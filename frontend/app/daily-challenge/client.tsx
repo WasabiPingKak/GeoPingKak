@@ -162,6 +162,9 @@ export default function ClientPage() {
   return (
     <div className="max-w-5xl">
       <h1 className="text-3xl font-bold mb-4">GeoGuessr 每日免費挑戰</h1>
+
+      <CasualGuessrPromo />
+
       <p className="mb-6">
         每天更新的 GeoGuessr 免費挑戰連結，無需登入帳號、不限時間，點開就能玩。<br />
         本站每日更新世界、台灣、日本等主題的挑戰連結，適合練習與比分。<br />
@@ -170,8 +173,6 @@ export default function ClientPage() {
         這些連結使用的是 GeoGuessr 的<strong>挑戰模式（Challenge Mode）</strong>，
         過去的連結不會失效，實測五年前產生的連結依然可以正常遊玩。
       </p>
-
-      <CasualGuessrPromo />
 
       <CommonTabs
         options={VISIBLE_COUNTRIES}

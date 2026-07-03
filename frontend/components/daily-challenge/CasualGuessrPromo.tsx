@@ -42,8 +42,8 @@ export default function CasualGuessrPromo() {
 
           {/* 標題 */}
           <h2 className="text-[25px] font-bold tracking-tight leading-tight text-zinc-50 mb-2.5">
-            玩膩了每日題？來試試{" "}
-            <span className="text-emerald-500">CasualGuessr</span>
+            每日題玩不夠？來試試{" "}
+            Casual<span className="text-emerald-500">Guessr</span>
           </h2>
 
           {/* 描述 */}
