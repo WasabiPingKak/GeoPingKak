@@ -9,6 +9,7 @@ import CommonTabs from "@/components/shared/CommonTabs";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import ErrorRetry from "@/components/shared/ErrorRetry";
 import ChallengeDescription from "@/components/daily-challenge/ChallengeDescription";
+import CasualGuessrPromo from "@/components/daily-challenge/CasualGuessrPromo";
 import { useDailyChallengeMonths } from "@/hooks/useDailyChallengeData";
 import { useVideoExplanations } from "@/hooks/useVideoExplanations";
 import { MAP_DISPLAY_TITLES, MAP_REPLACEMENTS } from "@/components/daily-challenge/mapTitles";
@@ -169,6 +170,8 @@ export default function ClientPage() {
         這些連結使用的是 GeoGuessr 的<strong>挑戰模式（Challenge Mode）</strong>，
         過去的連結不會失效，實測五年前產生的連結依然可以正常遊玩。
       </p>
+
+      <CasualGuessrPromo />
 
       <CommonTabs
         options={VISIBLE_COUNTRIES}
