@@ -106,7 +106,7 @@ const asiaCountries: CoverageCountry[] = [
   { id: "887", nameTw: "葉門", status: "none" },
   { id: "275", nameTw: "巴勒斯坦", status: "full" },
   // 高加索
-  { id: "268", nameTw: "喬治亞", status: "none" },
+  { id: "268", nameTw: "喬治亞", status: "full" },
   { id: "051", nameTw: "亞美尼亞", status: "none" },
   { id: "031", nameTw: "亞塞拜然", status: "none" },
 ];

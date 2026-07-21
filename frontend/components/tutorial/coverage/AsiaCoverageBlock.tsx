@@ -11,6 +11,11 @@ export default function AsiaCoverageBlock() {
       sections={[
         {
           type: "full",
+          title: "2026/06 新增街景：",
+          items: ["喬治亞"],
+        },
+        {
+          type: "full",
           title: "2025/08 新增街景：",
           items: ["越南", "尼泊爾"],
         },
