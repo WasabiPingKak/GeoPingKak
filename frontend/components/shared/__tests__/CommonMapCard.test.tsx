@@ -10,17 +10,17 @@ vi.mock("@/hooks/useVideoExplanations", () => ({
 }));
 
 const metadata: Record<string, MapMetadata> = {
-  "world-figsy": {
-    title: "A Figsy World (高難度)",
-    description: "由社群精選的高品質地點組成",
+  "world-progression": {
+    title: "A Progression World (高難度)",
+    description: "2026/06 起作為銅銀金牌的積分地圖",
     source: "abc123",
   },
 };
 
 const entries: DailyChallengeEntry[] = [
-  { country: "世界", mapId: "world-figsy", challengeUrl: "https://geo.test/1", createdAt: "2026-03-15" },
-  { country: "世界", mapId: "world-figsy", challengeUrl: "https://geo.test/2", createdAt: "2026-03-10" },
-  { country: "世界", mapId: "world-figsy", challengeUrl: "https://geo.test/3", createdAt: "2026-02-20" },
+  { country: "世界", mapId: "world-progression", challengeUrl: "https://geo.test/1", createdAt: "2026-03-15" },
+  { country: "世界", mapId: "world-progression", challengeUrl: "https://geo.test/2", createdAt: "2026-03-10" },
+  { country: "世界", mapId: "world-progression", challengeUrl: "https://geo.test/3", createdAt: "2026-02-20" },
 ];
 
 describe("CommonMapCard", () => {
@@ -34,19 +34,19 @@ describe("CommonMapCard", () => {
   it("renders metadata title and description", () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
       />
     );
-    expect(screen.getByText("A Figsy World (高難度)")).toBeInTheDocument();
-    expect(screen.getByText("由社群精選的高品質地點組成")).toBeInTheDocument();
+    expect(screen.getByText("A Progression World (高難度)")).toBeInTheDocument();
+    expect(screen.getByText("2026/06 起作為銅銀金牌的積分地圖")).toBeInTheDocument();
   });
 
   it("renders source link when showSourceLink is true", () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
         showSourceLink={true}
@@ -60,7 +60,7 @@ describe("CommonMapCard", () => {
   it("does not render source link when showSourceLink is false", () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
         showSourceLink={false}
@@ -72,7 +72,7 @@ describe("CommonMapCard", () => {
   it("groups entries by month", () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
       />
@@ -84,7 +84,7 @@ describe("CommonMapCard", () => {
   it("toggles month expand/collapse on click", async () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
       />
@@ -104,7 +104,7 @@ describe("CommonMapCard", () => {
   it("sorts entries within a month in descending order", () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
         expandAll={true}
@@ -121,7 +121,7 @@ describe("CommonMapCard", () => {
 
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entries}
         metadataMap={metadata}
         availableMonths={["2026-03", "2026-02"]}
@@ -140,7 +140,7 @@ describe("CommonMapCard", () => {
   it("shows loading state for a month", () => {
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={[]}
         metadataMap={metadata}
         availableMonths={["2026-03"]}
@@ -160,7 +160,7 @@ describe("CommonMapCard", () => {
 
     render(
       <CommonMapCard
-        displayMapId="world-figsy"
+        displayMapId="world-progression"
         entries={entriesWithOldMap}
         metadataMap={metadata}
         expandAll={true}

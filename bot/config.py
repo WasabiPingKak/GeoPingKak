@@ -24,7 +24,7 @@ def validate_env() -> list[str]:
 
 MAP_METADATA: dict[str, dict[str, str]] = {
     "world-theworld": {"title": "世界地圖 - The World", "difficulty": "簡單"},
-    "world-figsy": {"title": "世界地圖 - A Figsy World", "difficulty": "困難"},
+    "world-progression": {"title": "世界地圖 - A Progression World", "difficulty": "困難"},
     "tw-urban": {"title": "繁榮的台灣", "difficulty": "簡單"},
     "tw-balanced": {"title": "平衡的台灣", "difficulty": "困難"},
     "jp-urban": {"title": "日本の都会", "difficulty": "簡單"},
@@ -60,7 +60,7 @@ COUNTRY_EMBED_COLOR: dict[str, int] = {
 
 # 每個地區的地圖排序（簡單在前）
 COUNTRY_MAP_ORDER: dict[str, list[str]] = {
-    "world": ["world-theworld", "world-figsy"],
+    "world": ["world-theworld", "world-progression"],
     "tw": ["tw-urban", "tw-balanced"],
     "jp": ["jp-urban", "jp-similarABJ"],
 }

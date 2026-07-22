@@ -147,7 +147,7 @@ export default function ClientPage() {
     (entry) => entry.country === COUNTRY_MAP[selectedCountry]
   );
 
-  // 只保留當前國家的地圖 metadata，排除已被替換的地圖（如 ACW → Figsy）
+  // 只保留當前國家的地圖 metadata，排除已被替換的地圖（如 ACW → Progression）
   const countryCode = COUNTRY_MAP[selectedCountry];
   const filteredMetadata = useMemo(() => {
     const result: Record<string, typeof MAP_DISPLAY_TITLES[string]> = {};
