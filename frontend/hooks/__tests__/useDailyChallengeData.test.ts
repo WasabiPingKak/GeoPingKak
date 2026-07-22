@@ -45,7 +45,7 @@ describe("useDailyChallengeMonths", () => {
 describe("useDailyChallengeMonth", () => {
   it("fetches with month parameter", async () => {
     const entries = [
-      { country: "世界", mapId: "world-figsy", challengeUrl: "url", createdAt: "2026-03-01" },
+      { country: "世界", mapId: "world-progression", challengeUrl: "url", createdAt: "2026-03-01" },
     ];
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,

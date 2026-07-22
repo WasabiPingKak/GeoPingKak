@@ -8,7 +8,8 @@ export interface MapMetadata {
 
 // 地圖替換映射：舊 mapId → 新 mapId（用於合併顯示）
 export const MAP_REPLACEMENTS: Record<string, string> = {
-  "world-acw": "world-figsy",
+  "world-acw": "world-progression",
+  "world-figsy": "world-progression",
   "jp-balanced": "jp-similarABJ",
 };
 
@@ -27,6 +28,11 @@ export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
     title: "世界地圖 - A Figsy World (高難度)",
     description: "2026/03 起替代 ACW 成為官方金牌以下積分模式使用的世界地圖，由社群精選的高品質地點組成。",
     source: "6983611e411dbe3f3b2a8c5b",
+  },
+  "world-progression": {
+    title: "世界地圖 - A Progression World (高難度)",
+    description: "2026/06 起作為銅銀金牌的積分地圖。",
+    source: "698f47ed7f653e99dffa51bb",
   },
 
   // 台灣

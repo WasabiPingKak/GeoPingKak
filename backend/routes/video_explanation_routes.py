@@ -24,6 +24,7 @@ ALLOWED_MAP_IDS = [
     "world-theworld",
     "world-acw",
     "world-figsy",
+    "world-progression",
     "tw-balanced",
     "tw-urban",
 ]

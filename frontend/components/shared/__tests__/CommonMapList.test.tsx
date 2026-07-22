@@ -11,8 +11,8 @@ vi.mock("../CommonMapCard", () => ({
 }));
 
 const metadataMap: Record<string, MapMetadata> = {
-  "world-figsy": {
-    title: "A Figsy World",
+  "world-progression": {
+    title: "A Progression World",
     description: "test",
     source: "abc",
   },
@@ -27,13 +27,13 @@ describe("CommonMapList", () => {
   it("groups entries with replaced mapId under the replacement", () => {
     const entries: DailyChallengeEntry[] = [
       { country: "世界", mapId: "world-acw", challengeUrl: "url1", createdAt: "2026-03-01" },
-      { country: "世界", mapId: "world-figsy", challengeUrl: "url2", createdAt: "2026-03-02" },
+      { country: "世界", mapId: "world-progression", challengeUrl: "url2", createdAt: "2026-03-02" },
     ];
 
     render(<CommonMapList entries={entries} metadataMap={metadataMap} />);
 
-    // Both should be grouped under world-figsy (world-acw is replaced)
-    expect(screen.getByTestId("map-card-world-figsy")).toBeInTheDocument();
+    // Both should be grouped under world-progression (world-acw is replaced via MAP_REPLACEMENTS)
+    expect(screen.getByTestId("map-card-world-progression")).toBeInTheDocument();
     // Should NOT have a separate card for world-acw
     expect(screen.queryByTestId("map-card-world-acw")).not.toBeInTheDocument();
   });
@@ -53,13 +53,13 @@ describe("CommonMapList", () => {
   it("renders cards in metadataMap key order", () => {
     const entries: DailyChallengeEntry[] = [
       { country: "台灣", mapId: "tw-urban", challengeUrl: "url1", createdAt: "2026-03-01" },
-      { country: "世界", mapId: "world-figsy", challengeUrl: "url2", createdAt: "2026-03-02" },
+      { country: "世界", mapId: "world-progression", challengeUrl: "url2", createdAt: "2026-03-02" },
     ];
 
     render(<CommonMapList entries={entries} metadataMap={metadataMap} />);
 
     const cards = screen.getAllByTestId(/^map-card-/);
-    expect(cards[0]).toHaveTextContent("world-figsy");
+    expect(cards[0]).toHaveTextContent("world-progression");
     expect(cards[1]).toHaveTextContent("tw-urban");
   });
 
@@ -79,7 +79,7 @@ describe("CommonMapList", () => {
     );
 
     // In month navigation mode, all maps with metadata should show even without entries
-    expect(screen.getByTestId("map-card-world-figsy")).toBeInTheDocument();
+    expect(screen.getByTestId("map-card-world-progression")).toBeInTheDocument();
     expect(screen.getByTestId("map-card-tw-urban")).toBeInTheDocument();
   });
 });

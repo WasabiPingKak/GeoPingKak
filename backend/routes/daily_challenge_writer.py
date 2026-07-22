@@ -21,7 +21,7 @@ ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "")
 DAILY_MAPS = {
     "world": [
         {"mapId": "world-theworld", "map": "66014417ff2366aa9a7504df"},
-        {"mapId": "world-figsy", "map": "6983611e411dbe3f3b2a8c5b"},
+        {"mapId": "world-progression", "map": "698f47ed7f653e99dffa51bb"},
     ],
     "tw": [
         {"mapId": "tw-urban", "map": "628ba06e86224535a5956cae"},
