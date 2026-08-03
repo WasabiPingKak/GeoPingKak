@@ -16,7 +16,7 @@ export default function ChallengeDescription({ country }: ChallengeDescriptionPr
   };
 
   const countrySpecific2: Record<string, string> = {
-    世界: "左邊的都市地圖為官方牌位模式中曾經在銅牌與銀牌所使用的地圖，右邊的 A Progression World 為 2026/06 起作為銅銀金牌的積分地圖。",
+    世界: "左邊的 A Starter World 著重於世界大城市，適合入門練習，右邊的 A Progression World 為 2026/06 起作為銅銀金牌的積分地圖。",
     台灣: " ",
     日本: " ",
     馬來西亞: " ",
