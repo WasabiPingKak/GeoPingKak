@@ -10,6 +10,7 @@ import { BsBroadcast } from "react-icons/bs";
 const REPLACED_MAP_LABELS: Record<string, string> = {
   "world-acw": "ACW",
   "world-figsy": "Figsy",
+  "world-theworld": "The World",
   "jp-balanced": "ABJ",
 };
 
