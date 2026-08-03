@@ -10,10 +10,16 @@ export interface MapMetadata {
 export const MAP_REPLACEMENTS: Record<string, string> = {
   "world-acw": "world-progression",
   "world-figsy": "world-progression",
+  "world-theworld": "world-starter",
   "jp-balanced": "jp-similarABJ",
 };
 
 export const MAP_DISPLAY_TITLES: Record<string, MapMetadata> = {
+  "world-starter": {
+    title: "世界地圖 - A Starter World (低難度)",
+    description: "著重於世界人口集中的大城市，適合新手開始認識國家時入門的地圖。",
+    source: "6a6f905df500cbc8c9f0d736",
+  },
   "world-theworld": {
     title: "世界地圖 - The World (低難度)",
     description: "著重於世界人口集中的大城市，適合新手開始認識國家時入門的地圖。",
