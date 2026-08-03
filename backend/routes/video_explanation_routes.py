@@ -21,6 +21,7 @@ ALLOWED_MAP_IDS = [
     "jp-urban",
     "jp-balanced",
     "jp-similarABJ",
+    "world-starter",
     "world-theworld",
     "world-acw",
     "world-figsy",
