@@ -2,6 +2,7 @@
 
 import type { Metadata } from "next";
 import RelatedLinks from "@/components/shared/RelatedLinks";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 速查筆記 | 巴西、印尼地名電話區碼查詢 - GeoPingKak",
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
   },
   other: {
     "article:published_time": "2026-01-21",
-    "article:modified_time": "2026-03-28",
+    "article:modified_time": PAGE_MODIFIED["/quick-reference"],
   },
 };
 
