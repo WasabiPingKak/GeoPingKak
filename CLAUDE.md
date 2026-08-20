@@ -276,7 +276,7 @@ cd backend
 ./deploy.sh --staging      # Deploy to geopingkak-backend-staging (auto-updates frontend/.env.staging)
 
 cd ../frontend
-./deploy.sh --staging      # Deploy to Firebase Hosting Channel (staging--geopingkak.web.app)
+./deploy.sh --staging      # Deploy to Firebase Hosting Channel (geopingkak--staging-<hash>.web.app)
 ```
 
 ## Environment Configuration
@@ -288,7 +288,7 @@ The project maintains two isolated environments for safe development and deploym
 | Aspect | Production | Staging |
 |--------|-----------|---------|
 | **Backend Service** | `geopingkak-backend` | `geopingkak-backend-staging` |
-| **Frontend URL** | `geopingkak.web.app` | `staging--geopingkak.web.app` |
+| **Frontend URL** | `geopingkak.web.app` | `geopingkak--staging-<hash>.web.app`（preview channel 網址含隨機 hash，用 `firebase hosting:channel:list --project geopingkak` 查） |
 | **Environment Variable** | `DEPLOY_ENV=production` | `DEPLOY_ENV=staging` |
 | **Firestore Collections** | Original names | Prefixed with `staging_` |
 | **Purpose** | Live production site | Testing and validation |
@@ -491,7 +491,7 @@ cd frontend
 npm run dev
 
 # 3. Merge to develop and push (CI/CD auto-deploys staging)
-# 4. Test on staging: https://staging--geopingkak.web.app
+# 4. Test on staging: geopingkak--staging-<hash>.web.app (find it with `firebase hosting:channel:list`)
 # 5. If tests pass, merge develop to main (CI/CD auto-deploys production)
 ```
 
