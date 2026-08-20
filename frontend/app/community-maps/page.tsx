@@ -2,10 +2,11 @@
 
 import React from "react";
 import type { Metadata } from "next";
-import Script from "next/script";
+import JsonLd from "@/components/shared/JsonLd";
 import RelatedLinks from "@/components/shared/RelatedLinks";
 import RecommendedMapIntro from "@/components/community-maps/RecommendedMapIntro";
 import CommunityMapList from "@/components/community-maps/CommunityMapList";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 地圖推薦清單 | 社群精選免費地圖 - GeoPingKak",
@@ -37,34 +38,32 @@ export const metadata: Metadata = {
   },
   other: {
     "article:published_time": "2025-09-17",
-    "article:modified_time": "2026-03-21",
+    "article:modified_time": PAGE_MODIFIED["/community-maps"],
   },
 };
 
 export default function CommunityMapPage() {
   return (
     <>
-      <Script id="community-maps-ld-json" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "GeoGuessr 推薦社群地圖清單",
-            "description": "由社群玩家推薦的優質 GeoGuessr 地圖集合",
-            "datePublished": "2025-09-17",
-            "dateModified": "2026-03-21",
-            "inLanguage": "zh-TW"
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
-              { "@type": "ListItem", "position": 2, "name": "社群地圖推薦" }
-            ]
-          }
-        ])}
-      </Script>
+      <JsonLd data={[
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "GeoGuessr 推薦社群地圖清單",
+          "description": "由社群玩家推薦的優質 GeoGuessr 地圖集合",
+          "datePublished": "2025-09-17",
+          "dateModified": "2026-03-21",
+          "inLanguage": "zh-TW"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+            { "@type": "ListItem", "position": 2, "name": "社群地圖推薦" }
+          ]
+        }
+      ]} />
     <div className="w-full px-4 md:px-6 lg:px-8 pt-10 pb-16">
       <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
         GeoGuessr 推薦社群地圖清單

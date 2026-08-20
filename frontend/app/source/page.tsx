@@ -1,7 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
-import Script from "next/script";
+import JsonLd from "@/components/shared/JsonLd";
 import RelatedLinks from "@/components/shared/RelatedLinks";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 進階學習資源 | 攻略網站與工具推薦 - GeoPingKak",
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
   },
   other: {
     "article:published_time": "2025-07-31",
-    "article:modified_time": "2026-03-21",
+    "article:modified_time": PAGE_MODIFIED["/source"],
   },
 };
 
@@ -79,34 +80,32 @@ export default function SourcePage() {
 
   return (
     <>
-      <Script id="source-ld-json" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "GeoGuessr 進階學習資源",
-            "description": "精選 GeoGuessr 進階學習資源與攻略網站推薦",
-            "numberOfItems": sources.length,
-            "datePublished": "2025-07-31",
-            "dateModified": "2026-03-21",
-            "inLanguage": "zh-TW",
-            "itemListElement": sources.map((src, i) => ({
-              "@type": "ListItem",
-              "position": i + 1,
-              "name": src.name,
-              "url": src.url
-            }))
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
-              { "@type": "ListItem", "position": 2, "name": "進階學習資源" }
-            ]
-          }
-        ])}
-      </Script>
+      <JsonLd data={[
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "GeoGuessr 進階學習資源",
+          "description": "精選 GeoGuessr 進階學習資源與攻略網站推薦",
+          "numberOfItems": sources.length,
+          "datePublished": "2025-07-31",
+          "dateModified": "2026-03-21",
+          "inLanguage": "zh-TW",
+          "itemListElement": sources.map((src, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "name": src.name,
+            "url": src.url
+          }))
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://geopingkak.web.app/" },
+            { "@type": "ListItem", "position": 2, "name": "進階學習資源" }
+          ]
+        }
+      ]} />
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">進階學習資源</h1>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
-import Script from "next/script";
+import JsonLd from "@/components/shared/JsonLd";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const generateMetadata = (): Metadata => ({
   title: "GeoGuessr 怎麼玩？新手常見問題一次解答 - GeoPingKak",
@@ -35,7 +36,7 @@ export const generateMetadata = (): Metadata => ({
   },
   other: {
     "article:published_time": "2025-08-13",
-    "article:modified_time": "2026-03-21",
+    "article:modified_time": PAGE_MODIFIED["/qna"],
   },
 });
 
@@ -175,112 +176,110 @@ export default function QnAPage() {
       </div>
 
       {/* ✅ FAQ Schema 結構化資料 */}
-      <Script id="faq-schema" type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "datePublished": "2025-08-13",
-          "dateModified": "2026-05-07",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "GeoGuessr 是什麼？怎麼玩？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "GeoGuessr 是一款由瑞典開發的線上地理推理遊戲。玩家會被丟到 Google 街景的某個隨機地點，必須觀察周圍的路標、車牌、招牌、植被、建築風格、太陽方位等線索，在世界地圖上猜出自己身處何方，越接近正確位置分數越高。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "沒訂閱 Pro 也能玩 GeoGuessr 嗎？免費版有什麼限制？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式。但官方保留了「挑戰連結（Challenge Link）」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "GeoGuessr 在台灣可以玩嗎？網路會卡嗎？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "可以，台灣完全沒有任何地區封鎖，網路速度也沒有問題。GeoGuessr 主要載入的是 Google 街景圖資，台灣連到 Google 服務的速度向來穩定，遊玩體驗順暢。本站每日另提供台灣專屬地圖挑戰。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "GeoGuessr 新手必學的技巧有哪些？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "五個最快上手的技巧：1. 看車牌（歐盟藍條、北美州牌）；2. 看路標語言；3. 看靠左／靠右行駛（全球只有約 60 個國家靠左）；4. 看太陽方位（南北半球判斷）；5. 看 Google 街景車的 Generation 特徵。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "這個網站可以免費使用嗎？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "可以，本網站提供的每日挑戰與特殊主題地圖連結都可以免費遊玩，不需要註冊 GeoGuessr 帳號，也不需要付費訂閱。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "這是合法的嗎？為什麼這裡不用錢就能玩？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "是的，這是合法的，挑戰連結是 GeoGuessr 官方提供的玩法，免費玩家可以透過這些連結遊玩固定題目的挑戰。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "我只是路過的普通人，不是主播也可以玩嗎？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "可以，本網站的設計初衷就是讓所有人都能輕鬆體驗 GeoGuessr，不論是否為 Vtuber 或實況主。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "免費玩家可以使用本站提供的連結進行對戰或多人遊戲嗎？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "不行，挑戰連結是單人模式，對戰與多人同場遊玩為 Pro 付費功能。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "GeoGuessr 有中文介面嗎？本站怎麼幫助中文玩家？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "GeoGuessr 官方不支援中文介面，但本站提供完整中文教學與每日挑戰，幫助中文玩家入門。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "GeoGuessr 的 Pro 訂閱是什麼？我需要買嗎？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "GeoGuessr Pro 是官方付費方案，解鎖更多地圖與對戰功能。若你只想透過 geoguessr challenge 體驗每日題目，則不需訂閱。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "我想玩台灣地圖，要怎麼做？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "GeoGuessr 的台灣地圖需 Pro 才能自由選擇。本站每日更新台灣挑戰連結，免費體驗不同主題地圖。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "我可以送你錢嗎？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "本站不接受贊助，建議直接訂閱 GeoGuessr 遊戲本體支持官方營運。"
-              }
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "datePublished": "2025-08-13",
+        "dateModified": "2026-05-07",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "GeoGuessr 是什麼？怎麼玩？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GeoGuessr 是一款由瑞典開發的線上地理推理遊戲。玩家會被丟到 Google 街景的某個隨機地點，必須觀察周圍的路標、車牌、招牌、植被、建築風格、太陽方位等線索，在世界地圖上猜出自己身處何方，越接近正確位置分數越高。"
             }
-          ]
-        })}
-      </Script>
+          },
+          {
+            "@type": "Question",
+            "name": "沒訂閱 Pro 也能玩 GeoGuessr 嗎？免費版有什麼限制？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式。但官方保留了「挑戰連結（Challenge Link）」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GeoGuessr 在台灣可以玩嗎？網路會卡嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以，台灣完全沒有任何地區封鎖，網路速度也沒有問題。GeoGuessr 主要載入的是 Google 街景圖資，台灣連到 Google 服務的速度向來穩定，遊玩體驗順暢。本站每日另提供台灣專屬地圖挑戰。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GeoGuessr 新手必學的技巧有哪些？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "五個最快上手的技巧：1. 看車牌（歐盟藍條、北美州牌）；2. 看路標語言；3. 看靠左／靠右行駛（全球只有約 60 個國家靠左）；4. 看太陽方位（南北半球判斷）；5. 看 Google 街景車的 Generation 特徵。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這個網站可以免費使用嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以，本網站提供的每日挑戰與特殊主題地圖連結都可以免費遊玩，不需要註冊 GeoGuessr 帳號，也不需要付費訂閱。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是合法的嗎？為什麼這裡不用錢就能玩？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "是的，這是合法的，挑戰連結是 GeoGuessr 官方提供的玩法，免費玩家可以透過這些連結遊玩固定題目的挑戰。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "我只是路過的普通人，不是主播也可以玩嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以，本網站的設計初衷就是讓所有人都能輕鬆體驗 GeoGuessr，不論是否為 Vtuber 或實況主。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "免費玩家可以使用本站提供的連結進行對戰或多人遊戲嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不行，挑戰連結是單人模式，對戰與多人同場遊玩為 Pro 付費功能。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GeoGuessr 有中文介面嗎？本站怎麼幫助中文玩家？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GeoGuessr 官方不支援中文介面，但本站提供完整中文教學與每日挑戰，幫助中文玩家入門。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GeoGuessr 的 Pro 訂閱是什麼？我需要買嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GeoGuessr Pro 是官方付費方案，解鎖更多地圖與對戰功能。若你只想透過 geoguessr challenge 體驗每日題目，則不需訂閱。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "我想玩台灣地圖，要怎麼做？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GeoGuessr 的台灣地圖需 Pro 才能自由選擇。本站每日更新台灣挑戰連結，免費體驗不同主題地圖。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "我可以送你錢嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "本站不接受贊助，建議直接訂閱 GeoGuessr 遊戲本體支持官方營運。"
+            }
+          }
+        ]
+      }} />
     </div>
   );
 }

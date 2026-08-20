@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://geopingkak.web.app/assistant",
   },
+  // 實驗功能，站內沒有連結，後端是付費的 LLM 問答。不讓搜尋引擎收錄，
+  // 避免陌生流量直接打到付費端點。分享網址給別人用不受影響。
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     title: "GeoGuessr 助手 | 地理辨識問答 - GeoPingKak",
     description:

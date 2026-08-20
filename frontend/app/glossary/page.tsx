@@ -3,7 +3,9 @@ import React from "react";
 import type { Metadata } from "next";
 import GlossaryClientPage from "./client";
 import RelatedLinks from "@/components/shared/RelatedLinks";
+import JsonLd from "@/components/shared/JsonLd";
 import { glossaryEntries } from "@/data/glossary";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const generateMetadata = (): Metadata => ({
   title: "GeoGuessr 術語與名詞解釋 | 中文對照字典 - GeoPingKak",
@@ -38,7 +40,7 @@ export const generateMetadata = (): Metadata => ({
   },
   other: {
     "article:published_time": "2025-12-15",
-    "article:modified_time": "2026-03-28",
+    "article:modified_time": PAGE_MODIFIED["/glossary"],
   },
 });
 
@@ -84,10 +86,7 @@ export default function GlossaryPage() {
   return (
     <>
       {/* 3. 注入 Schema Script */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
 
       <div className="max-w-4xl">
         <GlossaryClientPage />

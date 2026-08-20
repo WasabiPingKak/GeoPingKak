@@ -54,6 +54,11 @@ GeoPingKak/
 │   │   ├── sitemap.ts                # 動態 sitemap 生成
 │   │   ├── robots.ts                 # robots.txt 生成
 │   │   ├── globals.css
+│   │   ├── about/
+│   │   │   └── page.tsx
+│   │   ├── assistant/                # GeoGuessr 問答助手
+│   │   │   ├── page.tsx
+│   │   │   └── client.tsx
 │   │   ├── community-maps/
 │   │   │   └── page.tsx
 │   │   ├── daily-challenge/
@@ -82,10 +87,12 @@ GeoPingKak/
 │   │   │   ├── page.tsx
 │   │   │   ├── client.tsx
 │   │   │   └── metadata.ts
-│   │   └── tutorial/
-│   │       ├── page.tsx
-│   │       ├── client.tsx
-│   │       └── metadata.ts
+│   │   └── tutorial/                 # /tutorial 本身由 next.config.ts 308 轉址到 /tutorial/intro
+│   │       ├── layout.tsx
+│   │       └── {intro,street-coverage,flags-domains,driving-side,sun-position,license-plates}/
+│   │           ├── page.tsx
+│   │           ├── client.tsx
+│   │           └── metadata.ts
 │   │
 │   ├── components/
 │   │   ├── QueryProvider.tsx         # React Query Provider
@@ -99,12 +106,14 @@ GeoPingKak/
 │   │   │   ├── CommonMapCard.tsx
 │   │   │   ├── CommonMapList.tsx
 │   │   │   ├── CommonTabs.tsx
+│   │   │   ├── JsonLd.tsx            # JSON-LD 結構化資料 inline 輸出
 │   │   │   ├── MapLinkCard.tsx
 │   │   │   └── WarningCard.tsx
 │   │   ├── community-maps/
 │   │   │   ├── CommunityMapList.tsx
 │   │   │   └── RecommendedMapIntro.tsx
 │   │   ├── daily-challenge/
+│   │   │   ├── CasualGuessrPromo.tsx # CasualGuessr 導流卡
 │   │   │   ├── ChallengeDescription.tsx
 │   │   │   └── mapTitles.ts
 │   │   ├── proposals/
@@ -146,7 +155,8 @@ GeoPingKak/
 │   │           └── referenceData.ts
 │   │
 │   ├── data/
-│   │   └── glossary.ts               # 名詞解釋資料
+│   │   ├── glossary.ts               # 名詞解釋資料
+│   │   └── pageDates.ts              # 各頁最後更新日期（metadata 與 sitemap 共用）
 │   │
 │   ├── hooks/
 │   │   ├── useDailyChallengeData.ts  # 每日挑戰 API hook
@@ -336,7 +346,7 @@ cd ../frontend
 - `components/QueryProvider.tsx` - React Query client provider
 - `hooks/` - Custom hooks for API data fetching (`useDailyChallengeData.ts` uses `useInfiniteQuery` for paginated loading, `useVideoExplanations.ts` uses `useQuery`)
 - `types/` - TypeScript interfaces for API responses
-- `data/` - Static data files (glossary)
+- `data/` - Static data files (glossary, per-page last-modified dates)
 
 **Branding Assets**:
 - `public/logo.png` - Main website logo (GeoPingKak duck icon), displayed in sidebar header
@@ -351,21 +361,21 @@ cd ../frontend
 - Build process uses `.env.production.local` (temporary, git-ignored) to override during staging builds
 
 **SEO Optimization**:
-- **sitemap.ts**: Auto-generates sitemap.xml with all pages, daily updates for `/daily-challenge`
+- **sitemap.ts**: Auto-generates sitemap.xml. `lastModified` is read from `data/pageDates.ts` (the same source as each page's `article:modified_time`), so bump that file when page content changes. `/tutorial` is not listed because `next.config.ts` 308-redirects it to `/tutorial/intro`
 - **robots.ts**: Configures crawling rules, disallows `/show-proposals` (internal use)
+- **`/assistant` is `noindex`** and not in the sitemap: it is an unlinked experimental feature backed by a paid LLM endpoint. `/quick-reference` (index page) is also left out of the sitemap until it has real content
 - **Metadata Pattern**: Pages use separate `metadata.ts` files for SEO metadata (title, description, OG, Twitter Card, canonical URL)
 - **Server/Client Split**: Pages requiring client-side state (hooks) are split into:
   - `page.tsx` (Server Component) - exports metadata, renders JSON-LD schema
   - `client.tsx` (Client Component) - contains interactive logic
   - `metadata.ts` - metadata configuration
-- **JSON-LD Structured Data**:
+- **JSON-LD Structured Data**: always rendered through `components/shared/JsonLd.tsx` (an inline `<script>` in a Server Component, so it is present in the initial HTML). Do not use `next/script` for JSON-LD — it injects after hydration and crawlers that read raw HTML never see it
   - Root layout: WebSite schema
-  - `/tutorial`: HowTo schema (6 steps)
+  - `/tutorial/*`: Article + BreadcrumbList per page
   - `/special-maps`: ItemList schema
   - `/glossary`: DefinedTermSet schema
   - `/qna`: FAQPage schema
 - **All pages have canonical URLs** to prevent duplicate content issues
-- **Refer to `SEO_OPTIMIZATION_PRD.md`** for complete SEO strategy and keyword targeting
 
 ### Backend (`backend/`)
 
