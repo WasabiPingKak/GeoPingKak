@@ -363,6 +363,7 @@ cd ../frontend
 **SEO Optimization**:
 - **sitemap.ts**: Auto-generates sitemap.xml. `lastModified` is read from `data/pageDates.ts` (the same source as each page's `article:modified_time`), so bump that file when page content changes. `/tutorial` is not listed because `next.config.ts` 308-redirects it to `/tutorial/intro`
 - **robots.ts**: Configures crawling rules, disallows `/show-proposals` (internal use)
+- **`/assistant` is `noindex`** and not in the sitemap: it is an unlinked experimental feature backed by a paid LLM endpoint. `/quick-reference` (index page) is also left out of the sitemap until it has real content
 - **Metadata Pattern**: Pages use separate `metadata.ts` files for SEO metadata (title, description, OG, Twitter Card, canonical URL)
 - **Server/Client Split**: Pages requiring client-side state (hooks) are split into:
   - `page.tsx` (Server Component) - exports metadata, renders JSON-LD schema
