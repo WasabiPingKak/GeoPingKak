@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 遊戲直播企劃書與節目提案 - GeoPingKak",
@@ -32,6 +33,6 @@ export const metadata: Metadata = {
   },
   other: {
     "article:published_time": "2025-07-31",
-    "article:modified_time": "2025-08-14",
+    "article:modified_time": PAGE_MODIFIED["/show-proposals"],
   },
 };

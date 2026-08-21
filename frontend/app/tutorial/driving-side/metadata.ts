@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export function generateMetadata(): Metadata {
   return {
@@ -31,7 +32,7 @@ export function generateMetadata(): Metadata {
     },
     other: {
       "article:published_time": "2026-01-24",
-      "article:modified_time": "2026-03-21",
+      "article:modified_time": PAGE_MODIFIED["/tutorial/driving-side"],
     },
   };
 }

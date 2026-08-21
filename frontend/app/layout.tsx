@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { ReactNode } from "react";
 import Script from "next/script";
+import JsonLd from "@/components/shared/JsonLd";
 import QueryProvider from "@/components/QueryProvider";
 import RootShell from "@/components/layout/RootShell";
 
@@ -63,22 +64,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
 
         {/* ✅ 結構化資料 Schema.org */}
-        <Script id="ld-json" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
-            "url": "https://geopingkak.web.app/",
-            "inLanguage": "zh-TW",
-            "description": "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
-            "datePublished": "2025-07-29",
-            "dateModified": "2026-04-22",
-            "creator": {
-              "@type": "Person",
-              "name": "山葵冰角 Wasabi Pingkak",
-            }
-          })}
-        </Script>
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "GeoPingKak | GeoGuessr 台灣中文攻略與教學資源站",
+          "url": "https://geopingkak.web.app/",
+          "inLanguage": "zh-TW",
+          "description": "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
+          "datePublished": "2025-07-29",
+          "dateModified": "2026-04-22",
+          "creator": {
+            "@type": "Person",
+            "name": "山葵冰角 Wasabi Pingkak",
+          }
+        }} />
 
         {/* 其餘內容 */}
         <QueryProvider>

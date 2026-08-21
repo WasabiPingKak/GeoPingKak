@@ -128,7 +128,7 @@ cd frontend && npm run lint
 | 環境       | 觸發方式          | URL                                                                 |
 | ---------- | ----------------- | ------------------------------------------------------------------- |
 | Production | Push 到 `main`    | [geopingkak.web.app](https://geopingkak.web.app/)                   |
-| Staging    | Push 到 `develop` | [staging--geopingkak.web.app](https://staging--geopingkak.web.app/) |
+| Staging    | Push 到 `develop` | `geopingkak--staging-<hash>.web.app`（`firebase hosting:channel:list` 查）  |
 
 兩個環境皆透過 GitHub Actions 自動部署。CI pipeline 會先跑品質檢查（Ruff、pytest、ESLint、tsc），通過後才平行部署前後端。
 

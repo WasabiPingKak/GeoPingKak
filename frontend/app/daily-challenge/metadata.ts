@@ -1,6 +1,7 @@
 // app/daily-challenge/metadata.ts
 
 import type { Metadata } from "next";
+import { PAGE_MODIFIED } from "@/data/pageDates";
 
 export const generateMetadata = (): Metadata => ({
   title: "GeoGuessr 免費玩！每日挑戰連結 | 免登入、免註冊 - GeoPingKak",
@@ -35,6 +36,6 @@ export const generateMetadata = (): Metadata => ({
   },
   other: {
     "article:published_time": "2025-07-29",
-    "article:modified_time": "2026-04-22",
+    "article:modified_time": PAGE_MODIFIED["/daily-challenge"],
   },
 });
