@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import JsonLd from "@/components/shared/JsonLd";
 import RelatedLinks from "@/components/shared/RelatedLinks";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 進階學習資源 | 攻略網站與工具推薦 - GeoPingKak",
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   other: {
-    "article:published_time": "2025-07-31",
-    "article:modified_time": PAGE_MODIFIED["/source"],
+    "article:published_time": PAGE_DATES["/source"].published,
+    "article:modified_time": PAGE_DATES["/source"].modified,
   },
 };
 
@@ -87,8 +87,8 @@ export default function SourcePage() {
           "name": "GeoGuessr 進階學習資源",
           "description": "精選 GeoGuessr 進階學習資源與攻略網站推薦",
           "numberOfItems": sources.length,
-          "datePublished": "2025-07-31",
-          "dateModified": "2026-03-21",
+          "datePublished": toIsoDateTime(PAGE_DATES["/source"].published),
+          "dateModified": toIsoDateTime(PAGE_DATES["/source"].modified),
           "inLanguage": "zh-TW",
           "itemListElement": sources.map((src, i) => ({
             "@type": "ListItem",
