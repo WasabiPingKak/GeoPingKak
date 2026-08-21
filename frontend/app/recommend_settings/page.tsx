@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import JsonLd from "@/components/shared/JsonLd";
 import Image from "next/image";
 import RelatedLinks from "@/components/shared/RelatedLinks";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 推薦設定怎麼調？最佳設定與快捷鍵完整指南 - GeoPingKak",
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   other: {
-    "article:published_time": "2025-07-31",
-    "article:modified_time": PAGE_MODIFIED["/recommend_settings"],
+    "article:published_time": PAGE_DATES["/recommend_settings"].published,
+    "article:modified_time": PAGE_DATES["/recommend_settings"].modified,
   },
 };
 
@@ -51,8 +51,8 @@ export default function RecommendSettingsPage() {
           "description": "GeoGuessr 遊戲設定優化指南與實用快捷鍵整理，提升遊戲體驗與答題效率。",
           "author": { "@type": "Person", "name": "山葵冰角 Wasabi Pingkak", "url": "https://geopingkak.web.app/about" },
           "publisher": { "@type": "Organization", "name": "GeoPingKak" },
-          "datePublished": "2025-07-31",
-          "dateModified": "2026-03-28",
+          "datePublished": toIsoDateTime(PAGE_DATES["/recommend_settings"].published),
+          "dateModified": toIsoDateTime(PAGE_DATES["/recommend_settings"].modified),
           "inLanguage": "zh-TW",
           "mainEntityOfPage": "https://geopingkak.web.app/recommend_settings"
         },

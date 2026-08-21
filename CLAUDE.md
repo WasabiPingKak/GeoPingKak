@@ -156,7 +156,7 @@ GeoPingKak/
 │   │
 │   ├── data/
 │   │   ├── glossary.ts               # 名詞解釋資料
-│   │   └── pageDates.ts              # 各頁最後更新日期（metadata 與 sitemap 共用）
+│   │   └── pageDates.ts              # 各頁發佈日與更新日（metadata、sitemap、JSON-LD 共用）
 │   │
 │   ├── hooks/
 │   │   ├── useDailyChallengeData.ts  # 每日挑戰 API hook
@@ -361,7 +361,8 @@ cd ../frontend
 - Build process uses `.env.production.local` (temporary, git-ignored) to override during staging builds
 
 **SEO Optimization**:
-- **sitemap.ts**: Auto-generates sitemap.xml. `lastModified` is read from `data/pageDates.ts` (the same source as each page's `article:modified_time`), so bump that file when page content changes. `/tutorial` is not listed because `next.config.ts` 308-redirects it to `/tutorial/intro`
+- **sitemap.ts**: Auto-generates sitemap.xml. `lastModified` is read from `data/pageDates.ts`, so bump that file when page content changes. `/tutorial` is not listed because `next.config.ts` 308-redirects it to `/tutorial/intro`
+- **Page dates**: `data/pageDates.ts` is the single source for every page's `published` / `modified` date. It feeds `article:published_time` / `article:modified_time` in metadata, `lastModified` in the sitemap, and `datePublished` / `dateModified` in JSON-LD (via `toIsoDateTime()`, which appends `T00:00:00+08:00` because Google flags date-only values as invalid datetimes without timezone). Never hardcode a date in a page again
 - **robots.ts**: Configures crawling rules, disallows `/show-proposals` (internal use)
 - **`/assistant` is `noindex`** and not in the sitemap: it is an unlinked experimental feature backed by a paid LLM endpoint. `/quick-reference` (index page) is also left out of the sitemap until it has real content
 - **Metadata Pattern**: Pages use separate `metadata.ts` files for SEO metadata (title, description, OG, Twitter Card, canonical URL)
@@ -371,7 +372,7 @@ cd ../frontend
   - `metadata.ts` - metadata configuration
 - **JSON-LD Structured Data**: always rendered through `components/shared/JsonLd.tsx` (an inline `<script>` in a Server Component, so it is present in the initial HTML). Do not use `next/script` for JSON-LD — it injects after hydration and crawlers that read raw HTML never see it
   - Root layout: WebSite schema
-  - `/tutorial/*`: Article + BreadcrumbList per page
+  - `/tutorial/*`: Article (with `image`, required by the Rich Results Test to avoid a warning) + BreadcrumbList per page; the breadcrumb's 教學 item points at `/tutorial/intro`, not the redirecting `/tutorial`
   - `/special-maps`: ItemList schema
   - `/glossary`: DefinedTermSet schema
   - `/qna`: FAQPage schema

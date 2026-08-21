@@ -5,7 +5,7 @@ import GlossaryClientPage from "./client";
 import RelatedLinks from "@/components/shared/RelatedLinks";
 import JsonLd from "@/components/shared/JsonLd";
 import { glossaryEntries } from "@/data/glossary";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const generateMetadata = (): Metadata => ({
   title: "GeoGuessr 術語與名詞解釋 | 中文對照字典 - GeoPingKak",
@@ -39,8 +39,8 @@ export const generateMetadata = (): Metadata => ({
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   other: {
-    "article:published_time": "2025-12-15",
-    "article:modified_time": PAGE_MODIFIED["/glossary"],
+    "article:published_time": PAGE_DATES["/glossary"].published,
+    "article:modified_time": PAGE_DATES["/glossary"].modified,
   },
 });
 
@@ -71,8 +71,8 @@ export default function GlossaryPage() {
     "@type": "DefinedTermSet",
     "name": "GeoGuessr 名詞解釋",
     "description": "常見的 GeoGuessr 遊戲術語、縮寫與地理猜測技巧名詞定義。",
-    "datePublished": "2025-12-15",
-    "dateModified": "2026-03-28",
+    "datePublished": toIsoDateTime(PAGE_DATES["/glossary"].published),
+    "dateModified": toIsoDateTime(PAGE_DATES["/glossary"].modified),
     "inLanguage": "zh-TW",
     "hasDefinedTerm": glossaryEntries.map((entry) => ({
       "@type": "DefinedTerm",

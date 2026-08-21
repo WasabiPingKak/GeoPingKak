@@ -3,6 +3,7 @@
 import JsonLd from "@/components/shared/JsonLd";
 import { generateMetadata } from "./metadata";
 import ClientPage from "./client";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export { generateMetadata };
 
@@ -15,8 +16,8 @@ export default function Page() {
         "@type": "ItemList",
         "name": "GeoGuessr 特殊主題地圖推薦",
         "description": "精選的 GeoGuessr 主題挑戰地圖集合，包含各國特色場景與趣味題庫",
-        "datePublished": "2025-07-31",
-        "dateModified": "2026-03-27",
+        "datePublished": toIsoDateTime(PAGE_DATES["/special-maps"].published),
+        "dateModified": toIsoDateTime(PAGE_DATES["/special-maps"].modified),
         "inLanguage": "zh-TW",
       }} />
 

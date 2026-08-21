@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { PAGE_MODIFIED, type PagePath } from '@/data/pageDates';
+import { PAGE_DATES, type PagePath } from '@/data/pageDates';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://geopingkak.web.app';
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: PAGE_MODIFIED[route],
+    lastModified: PAGE_DATES[route].modified,
     changeFrequency: route === '/daily-challenge' ? 'daily' : 'weekly',
     priority: priorityOf(route),
   }));

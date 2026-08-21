@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 免費玩 2026｜台灣中文攻略、教學技巧與每日挑戰 - GeoPingKak",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     canonical: "https://geopingkak.web.app/",
   },
   other: {
-    "article:published_time": "2025-07-29",
-    "article:modified_time": PAGE_MODIFIED["/"],
+    "article:published_time": PAGE_DATES["/"].published,
+    "article:modified_time": PAGE_DATES["/"].modified,
   },
 };
 
