@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES } from "@/data/pageDates";
 
 export function generateMetadata(): Metadata {
   return {
@@ -31,8 +31,8 @@ export function generateMetadata(): Metadata {
       canonical: "https://geopingkak.web.app/tutorial/driving-side",
     },
     other: {
-      "article:published_time": "2026-01-24",
-      "article:modified_time": PAGE_MODIFIED["/tutorial/driving-side"],
+      "article:published_time": PAGE_DATES["/tutorial/driving-side"].published,
+      "article:modified_time": PAGE_DATES["/tutorial/driving-side"].modified,
     },
   };
 }

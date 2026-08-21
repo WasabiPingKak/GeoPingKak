@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import JsonLd from "@/components/shared/JsonLd";
 import Image from "next/image";
 import SocialLinks from "@/components/SocialLinks";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "關於管理者 | GeoPingKak - GeoGuessr 台灣中文攻略站",
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     ],
   },
   other: {
-    "article:published_time": "2026-03-25",
-    "article:modified_time": PAGE_MODIFIED["/about"],
+    "article:published_time": PAGE_DATES["/about"].published,
+    "article:modified_time": PAGE_DATES["/about"].modified,
   },
 };
 
@@ -48,8 +48,8 @@ export default function AboutPage() {
               "https://discord.gg/ABpdGBbDe4"
             ]
           },
-          "datePublished": "2026-03-25",
-          "dateModified": "2026-03-25",
+          "datePublished": toIsoDateTime(PAGE_DATES["/about"].published),
+          "dateModified": toIsoDateTime(PAGE_DATES["/about"].modified),
           "inLanguage": "zh-TW"
         },
         {

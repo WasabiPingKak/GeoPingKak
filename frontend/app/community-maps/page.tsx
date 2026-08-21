@@ -6,7 +6,7 @@ import JsonLd from "@/components/shared/JsonLd";
 import RelatedLinks from "@/components/shared/RelatedLinks";
 import RecommendedMapIntro from "@/components/community-maps/RecommendedMapIntro";
 import CommunityMapList from "@/components/community-maps/CommunityMapList";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 地圖推薦清單 | 社群精選免費地圖 - GeoPingKak",
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   other: {
-    "article:published_time": "2025-09-17",
-    "article:modified_time": PAGE_MODIFIED["/community-maps"],
+    "article:published_time": PAGE_DATES["/community-maps"].published,
+    "article:modified_time": PAGE_DATES["/community-maps"].modified,
   },
 };
 
@@ -51,8 +51,8 @@ export default function CommunityMapPage() {
           "@type": "ItemList",
           "name": "GeoGuessr 推薦社群地圖清單",
           "description": "由社群玩家推薦的優質 GeoGuessr 地圖集合",
-          "datePublished": "2025-09-17",
-          "dateModified": "2026-03-21",
+          "datePublished": toIsoDateTime(PAGE_DATES["/community-maps"].published),
+          "dateModified": toIsoDateTime(PAGE_DATES["/community-maps"].modified),
           "inLanguage": "zh-TW"
         },
         {

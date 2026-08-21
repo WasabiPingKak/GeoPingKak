@@ -4,6 +4,7 @@ import Script from "next/script";
 import JsonLd from "@/components/shared/JsonLd";
 import QueryProvider from "@/components/QueryProvider";
 import RootShell from "@/components/layout/RootShell";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const metadata = {
   title: "GeoGuessr 免費玩｜不用訂閱、免登入直接挑戰 - GeoPingKak",
@@ -36,8 +37,8 @@ export const metadata = {
   },
   other: {
     "google-site-verification": "gS23lxy8S2g24-OYxKFRD5skjZ_jfghkjzPO4XfxWBg",
-    "article:published_time": "2025-07-29",
-    "article:modified_time": "2026-04-22",
+    "article:published_time": PAGE_DATES["/"].published,
+    "article:modified_time": PAGE_DATES["/"].modified,
   }
 };
 
@@ -71,8 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           "url": "https://geopingkak.web.app/",
           "inLanguage": "zh-TW",
           "description": "台灣最完整的 GeoGuessr 中文資源站，提供攻略教學、每日挑戰連結與遊戲企劃資源。",
-          "datePublished": "2025-07-29",
-          "dateModified": "2026-04-22",
+          "datePublished": toIsoDateTime(PAGE_DATES["/"].published),
+          "dateModified": toIsoDateTime(PAGE_DATES["/"].modified),
           "creator": {
             "@type": "Person",
             "name": "山葵冰角 Wasabi Pingkak",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES } from "@/data/pageDates";
 
 export function generateMetadata(): Metadata {
   return {
@@ -31,8 +31,8 @@ export function generateMetadata(): Metadata {
       canonical: "https://geopingkak.web.app/special-maps",
     },
     other: {
-      "article:published_time": "2025-07-31",
-      "article:modified_time": PAGE_MODIFIED["/special-maps"],
+      "article:published_time": PAGE_DATES["/special-maps"].published,
+      "article:modified_time": PAGE_DATES["/special-maps"].modified,
     },
   };
 }

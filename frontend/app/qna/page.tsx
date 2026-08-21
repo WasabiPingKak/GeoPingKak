@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import JsonLd from "@/components/shared/JsonLd";
-import { PAGE_MODIFIED } from "@/data/pageDates";
+import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
 
 export const generateMetadata = (): Metadata => ({
   title: "GeoGuessr 怎麼玩？新手常見問題一次解答 - GeoPingKak",
@@ -35,8 +35,8 @@ export const generateMetadata = (): Metadata => ({
     images: ["https://geopingkak.web.app/og-image.png"],
   },
   other: {
-    "article:published_time": "2025-08-13",
-    "article:modified_time": PAGE_MODIFIED["/qna"],
+    "article:published_time": PAGE_DATES["/qna"].published,
+    "article:modified_time": PAGE_DATES["/qna"].modified,
   },
 });
 
@@ -179,8 +179,8 @@ export default function QnAPage() {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "datePublished": "2025-08-13",
-        "dateModified": "2026-05-07",
+        "datePublished": toIsoDateTime(PAGE_DATES["/qna"].published),
+        "dateModified": toIsoDateTime(PAGE_DATES["/qna"].modified),
         "mainEntity": [
           {
             "@type": "Question",
