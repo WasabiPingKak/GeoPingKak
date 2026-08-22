@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PAGE_DATES } from "@/data/pageDates";
+import { CASUALGUESSR } from "@/data/casualguessr";
 
 export const metadata: Metadata = {
   title: "GeoGuessr 免費玩 2026｜台灣中文攻略、教學技巧與每日挑戰 - GeoPingKak",
@@ -46,7 +47,8 @@ export default function HomePage() {
 
       <p className="mb-8 p-4 bg-green-900/50 border-l-4 border-green-500 rounded-r-lg">
         <span className="text-green-400 font-bold">
-          長話短說：來玩遊戲就直接點<a href="/daily-challenge" className="underline hover:text-green-300">每日免費挑戰</a>，Nickname 隨便打，不用登入也不用錢，合法的。
+          長話短說：來玩遊戲就直接點<a href="/daily-challenge" className="underline hover:text-green-300">每日免費挑戰</a>，Nickname 隨便打，不用登入也不用錢，合法的。<br />
+          想不限次數自由玩，站長自己做的免費遊戲<a href={CASUALGUESSR.home} target="_blank" rel="noopener noreferrer" className="underline hover:text-green-300">CasualGuessr</a>也歡迎試試。
         </span>
       </p>
 

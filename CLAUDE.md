@@ -155,6 +155,7 @@ GeoPingKak/
 │   │           └── referenceData.ts
 │   │
 │   ├── data/
+│   │   ├── casualguessr.ts           # CasualGuessr 導流網址（一律連到站，不直接開局）
 │   │   ├── glossary.ts               # 名詞解釋資料
 │   │   └── pageDates.ts              # 各頁發佈日與更新日（metadata、sitemap、JSON-LD 共用）
 │   │
