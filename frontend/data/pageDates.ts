@@ -2,12 +2,12 @@
 // metadata 的 article:published_time / article:modified_time、sitemap 的 lastModified、
 // JSON-LD 的 datePublished / dateModified 都從這裡讀，改了頁面內容只需要更新這一處。
 export const PAGE_DATES = {
-  "/": { published: "2025-07-29", modified: "2026-04-22" },
+  "/": { published: "2025-07-29", modified: "2026-08-22" },
   "/about": { published: "2026-03-25", modified: "2026-03-25" },
   "/community-maps": { published: "2025-09-17", modified: "2026-03-21" },
   "/daily-challenge": { published: "2025-07-29", modified: "2026-04-22" },
   "/glossary": { published: "2025-12-15", modified: "2026-03-28" },
-  "/qna": { published: "2025-08-13", modified: "2026-05-07" },
+  "/qna": { published: "2025-08-13", modified: "2026-08-22" },
   "/quick-reference": { published: "2026-01-21", modified: "2026-03-28" },
   "/quick-reference/br": { published: "2025-11-09", modified: "2026-03-28" },
   "/quick-reference/id": { published: "2025-11-09", modified: "2026-03-28" },

@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import JsonLd from "@/components/shared/JsonLd";
 import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
+import { CASUALGUESSR } from "@/data/casualguessr";
 
 export const generateMetadata = (): Metadata => ({
   title: "GeoGuessr 怎麼玩？新手常見問題一次解答 - GeoPingKak",
@@ -59,7 +60,8 @@ export default function QnAPage() {
         <h2 className="text-lg font-semibold text-white mb-2">Q：沒訂閱 Pro 也能玩 GeoGuessr 嗎？免費版有什麼限制？</h2>
         <p className="text-muted-foreground text-sm leading-relaxed">
           可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家<strong>無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式</strong>。<br />
-          但官方保留了「<strong>挑戰連結（Challenge Link）</strong>」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。本站每天彙整世界、台灣、日本三組免費挑戰，等於繞過訂閱限制體驗完整遊戲。
+          但官方保留了「<strong>挑戰連結（Challenge Link）</strong>」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。本站每天彙整世界、台灣、日本三組免費挑戰，等於繞過訂閱限制體驗完整遊戲。<br />
+          想自己挑地圖、不限次數的話，站長另外做了一個免費的街景猜地點遊戲<a href={CASUALGUESSR.home} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">CasualGuessr</a>，跟 GeoGuessr 無關的獨立作品，免登入就能玩。
         </p>
       </div>
 
@@ -161,7 +163,8 @@ export default function QnAPage() {
         <p className="text-muted-foreground text-sm leading-relaxed">
           目前 GeoGuessr 雖然有台灣相關地圖，但需要 Pro 訂閱才能自由選擇。<br />
           本站每日題目中特設設計提供了兩個不同難度的台灣地圖挑戰連結，每日更新，讓你免費體驗不同地圖類型。<br />
-          且精心手選了「台灣主題挑戰連結」，包含台灣的各種奇特地名與諧音梗招牌，有興趣可以從《特殊主題地圖》開始。
+          且精心手選了「台灣主題挑戰連結」，包含台灣的各種奇特地名與諧音梗招牌，有興趣可以從《特殊主題地圖》開始。<br />
+          想不限次數玩台灣地圖，站長的另一個免費遊戲 CasualGuessr 有一張<a href={CASUALGUESSR.taiwaneseTest} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">台灣人測試</a>，可以重複玩到飽。
         </p>
       </div>
 
@@ -195,7 +198,7 @@ export default function QnAPage() {
             "name": "沒訂閱 Pro 也能玩 GeoGuessr 嗎？免費版有什麼限制？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式。但官方保留了「挑戰連結（Challenge Link）」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。"
+              "text": "可以玩，但有限制。GeoGuessr 自 2024 年起改為訂閱制，未訂閱玩家無法自由選擇地圖、無法即時對戰、無法使用 Party 多人模式。但官方保留了「挑戰連結（Challenge Link）」這個合法管道：付費玩家產生的連結，任何人點開就能玩相同的五題挑戰，免登入、免註冊。想自己挑地圖、不限次數的話，站長另外做的免費遊戲 CasualGuessr（casualguessr.com）跟 GeoGuessr 無關，免登入就能玩。"
             }
           },
           {
@@ -267,7 +270,7 @@ export default function QnAPage() {
             "name": "我想玩台灣地圖，要怎麼做？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "GeoGuessr 的台灣地圖需 Pro 才能自由選擇。本站每日更新台灣挑戰連結，免費體驗不同主題地圖。"
+              "text": "GeoGuessr 的台灣地圖需 Pro 才能自由選擇。本站每日更新台灣挑戰連結，免費體驗不同主題地圖。站長的另一個免費遊戲 CasualGuessr 也有一張台灣人測試地圖，可以不限次數重複玩。"
             }
           },
           {
