@@ -56,9 +56,6 @@ GeoPingKak/
 │   │   ├── globals.css
 │   │   ├── about/
 │   │   │   └── page.tsx
-│   │   ├── assistant/                # GeoGuessr 問答助手
-│   │   │   ├── page.tsx
-│   │   │   └── client.tsx
 │   │   ├── community-maps/
 │   │   │   └── page.tsx
 │   │   ├── daily-challenge/
@@ -155,6 +152,7 @@ GeoPingKak/
 │   │           └── referenceData.ts
 │   │
 │   ├── data/
+│   │   ├── casualguessr.ts           # CasualGuessr 導流網址（一律連到站，不直接開局）
 │   │   ├── glossary.ts               # 名詞解釋資料
 │   │   └── pageDates.ts              # 各頁發佈日與更新日（metadata、sitemap、JSON-LD 共用）
 │   │
@@ -364,7 +362,7 @@ cd ../frontend
 - **sitemap.ts**: Auto-generates sitemap.xml. `lastModified` is read from `data/pageDates.ts`, so bump that file when page content changes. `/tutorial` is not listed because `next.config.ts` 308-redirects it to `/tutorial/intro`
 - **Page dates**: `data/pageDates.ts` is the single source for every page's `published` / `modified` date. It feeds `article:published_time` / `article:modified_time` in metadata, `lastModified` in the sitemap, and `datePublished` / `dateModified` in JSON-LD (via `toIsoDateTime()`, which appends `T00:00:00+08:00` because Google flags date-only values as invalid datetimes without timezone). Never hardcode a date in a page again
 - **robots.ts**: Configures crawling rules, disallows `/show-proposals` (internal use)
-- **`/assistant` is `noindex`** and not in the sitemap: it is an unlinked experimental feature backed by a paid LLM endpoint. `/quick-reference` (index page) is also left out of the sitemap until it has real content
+- **`/quick-reference` (index page) is not in the sitemap** until it has real content
 - **Metadata Pattern**: Pages use separate `metadata.ts` files for SEO metadata (title, description, OG, Twitter Card, canonical URL)
 - **Server/Client Split**: Pages requiring client-side state (hooks) are split into:
   - `page.tsx` (Server Component) - exports metadata, renders JSON-LD schema

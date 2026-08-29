@@ -3,8 +3,7 @@
 "use client";
 
 import React from "react";
-
-const CASUALGUESSR_URL = "https://casualguessr.com/maps/taiwanese-test";
+import { CASUALGUESSR } from "@/data/casualguessr";
 
 export default function CasualGuessrPromo() {
   return (
@@ -64,7 +63,7 @@ export default function CasualGuessrPromo() {
         {/* 右側 CTA */}
         <div className="flex-shrink-0 flex flex-col items-end gap-3 max-sm:items-stretch">
           <a
-            href={CASUALGUESSR_URL}
+            href={CASUALGUESSR.taiwaneseTest}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 text-[15.5px] font-bold text-[#06251b] bg-emerald-500 rounded-[9px] px-6 py-3.5 no-underline whitespace-nowrap shadow-[0_8px_26px_rgba(16,185,129,0.28)] transition-all hover:bg-emerald-400 hover:-translate-y-0.5"
