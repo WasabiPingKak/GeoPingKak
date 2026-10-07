@@ -12,6 +12,7 @@ import {
 import {
   ALL_SMALL_NATIONS,
   COVERAGE_COLORS,
+  BORDER_COLOR,
   DEFAULT_COUNTRY_COLOR,
   WORLD_VIEW,
 } from "@/data/coverageData";
@@ -109,8 +110,9 @@ function CoverageMap({ height = 350 }: CoverageMapProps) {
                     key={geo.rsmKey}
                     geography={geo}
                     fill={fillColor}
-                    stroke="#3f3f46"
-                    strokeWidth={0.5}
+                    stroke={BORDER_COLOR}
+                    strokeWidth={1}
+                    vectorEffect="non-scaling-stroke"
                     {...bind(info)}
                     style={{
                       default: { outline: "none" },

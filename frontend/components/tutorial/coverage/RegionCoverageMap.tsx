@@ -7,6 +7,7 @@ import type { GeometryCollection, Topology } from "topojson-specification";
 import {
   ALL_SMALL_NATIONS,
   COVERAGE_COLORS,
+  BORDER_COLOR,
   DEFAULT_COUNTRY_COLOR,
   type RegionView,
   type SmallNationMarker,
@@ -67,6 +68,19 @@ function RegionCoverageMap({ view, maxHeight }: RegionCoverageMapProps) {
   }, [containerRef, visible]);
 
   const topology = useGeoData(GEO_URL_50M, visible);
+
+  // 地圖實際顯示寬度，用來把圓點換算成固定的螢幕大小（窄地圖上才不會縮成一個點）
+  const [displayWidth, setDisplayWidth] = useState(REGION_MAP_WIDTH);
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width > 0) setDisplayWidth(entry.contentRect.width);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [containerRef]);
+  const unitsPerPx = REGION_MAP_WIDTH / displayWidth;
   const { projection, height } = useMemo(() => fitRegionProjection(view.bounds), [view.bounds]);
 
   const shapes = useMemo(() => {
@@ -136,8 +150,9 @@ function RegionCoverageMap({ view, maxHeight }: RegionCoverageMapProps) {
                 key={key}
                 d={d}
                 fill={info ? COVERAGE_COLORS[info.status] : DEFAULT_COUNTRY_COLOR}
-                stroke="#3f3f46"
-                strokeWidth={0.6}
+                stroke={BORDER_COLOR}
+                strokeWidth={1}
+                vectorEffect="non-scaling-stroke"
                 className={info ? "cursor-pointer transition-opacity hover:opacity-80" : undefined}
                 {...bind(info)}
               />
@@ -147,10 +162,11 @@ function RegionCoverageMap({ view, maxHeight }: RegionCoverageMapProps) {
                 key={nation.id}
                 cx={x}
                 cy={y}
-                r={9}
+                r={4.5 * unitsPerPx}
                 fill={COVERAGE_COLORS[nation.status]}
                 stroke="#fff"
-                strokeWidth={1.5}
+                strokeWidth={1}
+                vectorEffect="non-scaling-stroke"
                 className="cursor-pointer"
                 {...bind(nation)}
               />

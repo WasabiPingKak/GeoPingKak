@@ -57,6 +57,9 @@ export const COVERAGE_LABELS: Record<CoverageStatus, string> = {
 // 未列入任何區域的國家預設顏色（地圖背景）
 export const DEFAULT_COUNTRY_COLOR = "#27272a"; // zinc-800
 
+// 國界線顏色。線寬固定為螢幕上 1px，不隨地圖縮放變細或變粗
+export const BORDER_COLOR = "#18181b"; // zinc-900
+
 // ============================================================
 // 各國覆蓋資料
 // id = ISO 3166-1 numeric code (string)
