@@ -43,8 +43,13 @@ export interface SmallNationMarker {
   status: CoverageStatus;          // "full" | "limited" | "none"
   coordinates: [number, number];   // [經度, 緯度]
   note?: string;                   // 選填：備註
+  partOf?: string;                 // 選填：地圖資料把這塊地畫在哪個國家底下
 }
 ```
+
+**partOf（海外領地）**：地圖資料有時把海外領地畫成某國的一部分，例如法屬圭亞那、留尼旺都屬於法國
+（id `"250"`）。如果領地的街景狀態跟所屬國家不同，加上 `partOf: "250"`，各洲地圖會把包含
+`coordinates` 的那一塊地單獨上色，滑過去也會顯示領地名稱。座標要落在領地陸地上。
 
 **座標格式**：
 - 第一個數字為經度（longitude）：東為正 (0-180)，西為負 (-180-0)
@@ -149,52 +154,38 @@ Google Maps 顯示：`35.0894, -106.6504`（聖塔菲）
 
 ## 🗺️ 調整地圖視角
 
-每個區域都有自己的中心點和縮放級別：
+### 各洲地圖：改經緯度範圍
+
+各洲地圖用「經緯度範圍」決定取景，地圖的長寬比會自動計算：
 
 ```typescript
-export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
-  asia: {
-    key: "asia",
-    titleTw: "亞洲",
-    center: [85, 30],     // [經度, 緯度]
-    scale: 400,           // 縮放級別（越小越放大）
-    countries: asiaCountries,
-    smallNations: asiaSmallNations,
-  },
+export const REGION_VIEWS: Record<RegionKey, RegionView> = {
+  // bounds: [西界經度, 南界緯度, 東界經度, 北界緯度]
+  europe: { key: "europe", titleTw: "歐洲", bounds: [-25, 34.5, 42.5, 68.5] },
   // ...
 };
 ```
 
-### 調整 center（地圖中心點）
+- 想往東多看一點：把東界（第三個數字）加大
+- 想把北邊切掉一點：把北界（第四個數字）減小
+- 範圍越大，國家看起來越小
 
-改變 `[經度, 緯度]` 來移動地圖焦點：
+各洲地圖不需要另外列國家，顏色一律讀全部國家的資料，鄰近國家也會正確上色。
+地圖資料用中精度的 `public/data/countries-50m.json`，捲動到附近才會下載。
 
-```typescript
-// 原始位置（亞洲）
-center: [85, 30]
+### 頂端世界地圖：改 WORLD_VIEW
 
-// 向東移動（經度增加）
-center: [105, 30]
-
-// 向南移動（緯度減少）
-center: [85, 15]
-```
-
-### 調整 scale（縮放級別）
-
-數值越小越放大，越大越縮小：
+世界地圖可以縮放，用 `center`（中心點 `[經度, 緯度]`）和 `scale`（越大越放大）控制初始視角：
 
 ```typescript
-scale: 200   // 放大（更近）
-scale: 400   // 預設
-scale: 600   // 縮小（更遠）
+export const WORLD_VIEW = {
+  titleTw: "全球街景覆蓋",
+  center: [0, 20],
+  scale: 147,
+};
 ```
 
-**推薦做法**：
-- **亞洲、歐洲**：400-500
-- **北美洲、南美洲**：400-500
-- **加勒比海**：1200-1500（大量小島需更高的放大）
-- **全球**：130-150（最遠視圖）
+世界地圖用低精度的 `public/data/countries-110m.json`，檔案小、首次載入快。
 
 ---
 
@@ -254,7 +245,8 @@ scale: 600   // 縮小（更遠）
 - [ ] status 值為 `"full"` 或 `"limited"` 或 `"none"` 之一
 - [ ] 若有 note 字段，確認內容準確且簡明
 - [ ] 小國圓點的座標格式為 `[經度, 緯度]`，且經度範圍 -180~180，緯度範圍 -90~90
-- [ ] 若修改地圖視角，在瀏覽器測試視覺效果
+- [ ] 若修改地圖視角，在瀏覽器測試視覺效果（桌機與手機寬度都要看）
+- [ ] 跑 `npx vitest run data components/tutorial/coverage`，確認資料與取景測試通過
 - [ ] 確認新增或修改的資料未與其他項目重複
 
 ---
@@ -268,7 +260,7 @@ scale: 600   // 縮小（更遠）
 npm run dev
 
 # 訪問教學頁面確認修改
-# http://localhost:3000/tutorial
+# http://localhost:3000/tutorial/street-coverage
 ```
 
 查看以下項目：
@@ -282,20 +274,18 @@ npm run dev
 ## 🔍 進階：理解資料流
 
 ```
-coverageData.ts
-    ↓
-CoverageMap.tsx（渲染地圖）
-    ↓
-CoverageRegionCard.tsx（顯示國家卡片）
-    ↓
-各洲覆蓋區塊（AfricaCoverageBlock.tsx 等）
+coverageData.ts（國家狀態、小國圓點、取景範圍）
+    ├─ CoverageMap.tsx（頂端世界地圖，可縮放）
+    └─ CoverageRegionCard.tsx（各洲卡片）
+          └─ RegionCoverageMap.tsx（各洲地圖，固定取景）
 ```
 
 - **coverageData.ts**：資料定義，單一來源
-- **CoverageMap.tsx**：地圖渲染邏輯
-- **覆蓋區塊**：區域導覽與卡片列表
+- **CoverageMap.tsx / RegionCoverageMap.tsx**：地圖渲染邏輯
+- **CoverageTooltip.tsx**：兩種地圖共用的國家提示框
+- **各洲覆蓋區塊**（AsiaCoverageBlock.tsx 等）：卡片下方的文字清單，需要手動維護
 
-所有視覺更新都源自 `coverageData.ts` 的修改，無需觸及其他檔案。
+地圖上的顏色、圓點、取景都只需要改 `coverageData.ts`。卡片下方的文字清單是挑過的重點，國家狀態有變動時要記得一起更新。
 
 ---
 
@@ -326,5 +316,5 @@ A: 目前配色方案為全域統一（full/limited/none），若需要不同的
 
 ---
 
-**最後修改**：2026年2月
+**最後修改**：2026年10月
 **維護者**：GeoPingKak 開發團隊

@@ -1,73 +1,72 @@
 import {
-  REGION_CONFIGS,
+  ALL_COUNTRIES,
+  ALL_SMALL_NATIONS,
+  REGION_VIEWS,
+  WORLD_VIEW,
   COVERAGE_COLORS,
   COVERAGE_LABELS,
   type RegionKey,
-  type CoverageCountry,
-  type SmallNationMarker,
 } from "../coverageData";
 
 const allRegionKeys: RegionKey[] = [
-  "world", "asia", "europe", "northAmerica",
+  "asia", "europe", "northAmerica",
   "southAmerica", "caribbean", "oceania", "africa",
 ];
 
-describe("REGION_CONFIGS", () => {
+describe("REGION_VIEWS", () => {
   it("contains all expected region keys", () => {
     for (const key of allRegionKeys) {
-      expect(REGION_CONFIGS).toHaveProperty(key);
+      expect(REGION_VIEWS).toHaveProperty(key);
     }
   });
 
   it("every region has a non-empty titleTw", () => {
-    for (const [key, config] of Object.entries(REGION_CONFIGS)) {
-      expect(config.titleTw, `${key} missing titleTw`).toBeTruthy();
+    for (const [key, view] of Object.entries(REGION_VIEWS)) {
+      expect(view.titleTw, `${key} missing titleTw`).toBeTruthy();
     }
   });
 
-  it("every region has valid center coordinates", () => {
-    for (const [key, config] of Object.entries(REGION_CONFIGS)) {
-      const [lng, lat] = config.center;
-      expect(lng, `${key} longitude out of range`).toBeGreaterThanOrEqual(-180);
-      expect(lng, `${key} longitude out of range`).toBeLessThanOrEqual(180);
-      expect(lat, `${key} latitude out of range`).toBeGreaterThanOrEqual(-90);
-      expect(lat, `${key} latitude out of range`).toBeLessThanOrEqual(90);
+  it("every region key matches its view.key", () => {
+    for (const [key, view] of Object.entries(REGION_VIEWS)) {
+      expect(view.key, `${key} key mismatch`).toBe(key);
     }
   });
 
-  it("every region has positive scale", () => {
-    for (const [key, config] of Object.entries(REGION_CONFIGS)) {
-      expect(config.scale, `${key} scale`).toBeGreaterThan(0);
-    }
-  });
-
-  it("every region key matches its config.key", () => {
-    for (const [key, config] of Object.entries(REGION_CONFIGS)) {
-      expect(config.key, `${key} key mismatch`).toBe(key);
+  it("every region has valid bounds (west < east, south < north)", () => {
+    for (const [key, view] of Object.entries(REGION_VIEWS)) {
+      const [west, south, east, north] = view.bounds;
+      expect(west, `${key} west`).toBeGreaterThanOrEqual(-180);
+      expect(east, `${key} east`).toBeLessThanOrEqual(180);
+      expect(west, `${key} west < east`).toBeLessThan(east);
+      // Mercator 在兩極附近會無限拉長
+      expect(south, `${key} south`).toBeGreaterThan(-85);
+      expect(north, `${key} north`).toBeLessThan(85);
+      expect(south, `${key} south < north`).toBeLessThan(north);
     }
   });
 });
 
-describe("countries data integrity", () => {
-  const allCountries = Object.values(REGION_CONFIGS)
-    .filter((c) => c.key !== "world") // world aggregates others
-    .flatMap((c) => c.countries);
-
-  it("every country has a non-empty id", () => {
-    for (const country of allCountries) {
-      expect(country.id, `${country.nameTw} missing id`).toBeTruthy();
-    }
+describe("WORLD_VIEW", () => {
+  it("has valid center and positive scale", () => {
+    const [lng, lat] = WORLD_VIEW.center;
+    expect(Math.abs(lng)).toBeLessThanOrEqual(180);
+    expect(Math.abs(lat)).toBeLessThanOrEqual(90);
+    expect(WORLD_VIEW.scale).toBeGreaterThan(0);
   });
+});
 
-  it("every country has a non-empty nameTw", () => {
-    for (const country of allCountries) {
+describe("countries data integrity", () => {
+  const validStatuses = ["full", "limited", "none"];
+
+  it("every country has a non-empty id and nameTw", () => {
+    for (const country of ALL_COUNTRIES) {
+      expect(country.id, `${country.nameTw} missing id`).toBeTruthy();
       expect(country.nameTw).toBeTruthy();
     }
   });
 
   it("every country has a valid status", () => {
-    const validStatuses = ["full", "limited", "none"];
-    for (const country of allCountries) {
+    for (const country of ALL_COUNTRIES) {
       expect(
         validStatuses,
         `${country.nameTw} has invalid status "${country.status}"`
@@ -75,23 +74,21 @@ describe("countries data integrity", () => {
     }
   });
 
-  it("no duplicate country ids within a single region", () => {
-    for (const [key, config] of Object.entries(REGION_CONFIGS)) {
-      if (config.key === "world") continue;
-      const ids = config.countries.map((c: CoverageCountry) => c.id);
-      const unique = new Set(ids);
-      expect(unique.size, `${key} has duplicate country ids`).toBe(ids.length);
+  it("a country listed in several regions has the same status everywhere", () => {
+    const seen = new Map<string, string>();
+    for (const country of ALL_COUNTRIES) {
+      const prev = seen.get(country.id);
+      if (prev) {
+        expect(country.status, `${country.nameTw} has conflicting status`).toBe(prev);
+      }
+      seen.set(country.id, country.status);
     }
   });
 });
 
 describe("smallNations data integrity", () => {
-  const allSmall = Object.values(REGION_CONFIGS)
-    .filter((c) => c.key !== "world")
-    .flatMap((c) => c.smallNations);
-
   it("every small nation has valid coordinates", () => {
-    for (const marker of allSmall) {
+    for (const marker of ALL_SMALL_NATIONS) {
       const [lng, lat] = marker.coordinates;
       expect(lng, `${marker.nameTw} longitude`).toBeGreaterThanOrEqual(-180);
       expect(lng, `${marker.nameTw} longitude`).toBeLessThanOrEqual(180);
@@ -100,20 +97,16 @@ describe("smallNations data integrity", () => {
     }
   });
 
-  it("every small nation has a non-empty nameTw", () => {
-    for (const marker of allSmall) {
+  it("every small nation has a non-empty nameTw and valid status", () => {
+    for (const marker of ALL_SMALL_NATIONS) {
       expect(marker.nameTw).toBeTruthy();
+      expect(["full", "limited", "none"]).toContain(marker.status);
     }
   });
 
-  it("every small nation has a valid status", () => {
-    const validStatuses = ["full", "limited", "none"];
-    for (const marker of allSmall) {
-      expect(
-        validStatuses,
-        `${marker.nameTw} has invalid status`
-      ).toContain(marker.status);
-    }
+  it("small nation ids are unique (used as React keys)", () => {
+    const ids = ALL_SMALL_NATIONS.map((m) => m.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
 

@@ -7,8 +7,13 @@ export default function EuropeCoverageBlock() {
   return (
     <CoverageRegionCard
       title="歐洲"
-      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageEurope.jpg?v=20250808"
+      region="europe"
       sections={[
+        {
+          type: "full",
+          title: "2026/07 新增街景：",
+          items: ["科索沃"],
+        },
         {
           type: "full",
           title: "2025/11 新增街景：",
@@ -17,7 +22,7 @@ export default function EuropeCoverageBlock() {
         {
           type: "none",
           title: "沒有街景：",
-          items: ["摩爾多瓦", "科索沃", "北賽普勒斯"],
+          items: ["摩爾多瓦", "北賽普勒斯"],
         },
         {
           type: "limited",

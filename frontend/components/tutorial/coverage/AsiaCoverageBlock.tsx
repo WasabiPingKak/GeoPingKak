@@ -7,7 +7,7 @@ export default function AsiaCoverageBlock() {
   return (
     <CoverageRegionCard
       title="亞洲"
-      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageAsia.jpg?v=20250808"
+      region="asia"
       sections={[
         {
           type: "full",

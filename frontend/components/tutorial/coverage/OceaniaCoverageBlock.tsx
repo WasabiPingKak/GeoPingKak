@@ -7,7 +7,7 @@ export default function OceaniaCoverageBlock() {
   return (
     <CoverageRegionCard
       title="大洋洲"
-      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageOceania.jpg?v=20250808"
+      region="oceania"
       sections={[
         {
           type: "full",

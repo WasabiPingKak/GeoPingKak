@@ -16,23 +16,30 @@ export interface SmallNationMarker {
   status: CoverageStatus;
   coordinates: [number, number]; // [經度, 緯度]
   note?: string;
+  // 地圖資料把這塊地畫在別國底下時（如法屬圭亞那屬於法國），填那個國家的 id，
+  // 各洲地圖會把包含 coordinates 的那塊區域改用這筆資料的狀態上色
+  partOf?: string;
 }
 
 export type RegionKey =
-  | "world" | "asia" | "europe" | "northAmerica"
+  | "asia" | "europe" | "northAmerica"
   | "southAmerica" | "caribbean" | "oceania" | "africa";
 
-export interface RegionConfig {
+// 地圖範圍：[西界經度, 南界緯度, 東界經度, 北界緯度]
+export type GeoBounds = [number, number, number, number];
+
+// 各洲區域地圖的取景。地圖的長寬比會依範圍自動計算，調整取景只需要改 bounds
+export interface RegionView {
   key: RegionKey;
   titleTw: string;
-  center: [number, number];
-  scale: number;
-  height?: number;           // SVG 畫布高度（px），控制長寬比。預設 350，對應 800:350 ≈ 2.3:1 橫向
-  countries: CoverageCountry[];
-  smallNations: SmallNationMarker[];
-  // TopoJSON 中無 numeric ID 的地區（如 Kosovo、N. Cyprus、Somaliland），以名稱做匹配
-  nameMap?: Record<string, { nameTw: string; status: CoverageStatus; note?: string }>;
+  bounds: GeoBounds;
 }
+
+// 國家名稱比對：TopoJSON 中沒有 numeric ID 的地區（如 Kosovo、N. Cyprus、Somaliland）
+export type CoverageNameMap = Record<
+  string,
+  { nameTw: string; status: CoverageStatus; note?: string }
+>;
 
 // 配色
 export const COVERAGE_COLORS: Record<CoverageStatus, string> = {
@@ -49,6 +56,9 @@ export const COVERAGE_LABELS: Record<CoverageStatus, string> = {
 
 // 未列入任何區域的國家預設顏色（地圖背景）
 export const DEFAULT_COUNTRY_COLOR = "#27272a"; // zinc-800
+
+// 國界線顏色。線寬固定為螢幕上 1px，不隨地圖縮放變細或變粗
+export const BORDER_COLOR = "#18181b"; // zinc-900
 
 // ============================================================
 // 各國覆蓋資料
@@ -208,7 +218,10 @@ const southAmericaCountries: CoverageCountry[] = [
 ];
 
 const southAmericaSmallNations: SmallNationMarker[] = [
-  { id: "254", nameTw: "法屬圭亞那", status: "none", coordinates: [-53.1, 3.9], note: "雖屬法國領土，但沒有街景" },
+  {
+    id: "254", nameTw: "法屬圭亞那", status: "none", coordinates: [-53.1, 3.9],
+    note: "雖屬法國領土，但沒有街景", partOf: "250",
+  },
 ];
 
 // ----- 加勒比海 -----
@@ -306,7 +319,7 @@ const africaCountries: CoverageCountry[] = [
 
 const africaSmallNations: SmallNationMarker[] = [
   { id: "678", nameTw: "聖多美普林西比", status: "full", coordinates: [6.6, 0.2] },
-  { id: "638", nameTw: "留尼旺", status: "full", coordinates: [55.5, -21.1] },
+  { id: "638", nameTw: "留尼旺", status: "full", coordinates: [55.5, -21.1], partOf: "250" },
 ];
 
 // ----- 其他地區（僅顯示在世界地圖） -----
@@ -314,8 +327,8 @@ const otherCountries: CoverageCountry[] = [
   { id: "010", nameTw: "南極洲", status: "limited", note: "南極半島有少量街景" },
 ];
 
-// 合併所有國家（世界地圖用）
-const allCountries: CoverageCountry[] = [
+// 合併所有國家（世界地圖與各洲地圖共用）
+export const ALL_COUNTRIES: CoverageCountry[] = [
   ...asiaCountries,
   ...europeCountries,
   ...northAmericaCountries,
@@ -326,7 +339,7 @@ const allCountries: CoverageCountry[] = [
   ...otherCountries,
 ];
 
-const allSmallNations: SmallNationMarker[] = [
+export const ALL_SMALL_NATIONS: SmallNationMarker[] = [
   ...asiaSmallNations,
   ...europeSmallNations,
   ...northAmericaSmallNations,
@@ -336,96 +349,30 @@ const allSmallNations: SmallNationMarker[] = [
   ...africaSmallNations,
 ];
 
+export const NAME_MAP: CoverageNameMap = {
+  "Kosovo": { nameTw: "科索沃", status: "full" },
+  "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
+  "Somaliland": { nameTw: "索馬利蘭", status: "none" },
+};
+
 // ============================================================
-// 區域設定
+// 地圖取景
 // ============================================================
 
-export const REGION_CONFIGS: Record<RegionKey, RegionConfig> = {
-  world: {
-    key: "world",
-    titleTw: "全球街景覆蓋",
-    center: [0, 20],
-    scale: 147,
-    height: 420,             // 800:420 ≈ 1.9:1 — 全球視圖稍高一點以容納南北兩極
-    countries: allCountries,
-    smallNations: allSmallNations,
-    nameMap: {
-      "Kosovo": { nameTw: "科索沃", status: "none" },
-      "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
-      "Somaliland": { nameTw: "索馬利蘭", status: "none" },
-    },
-  },
-  asia: {
-    key: "asia",
-    titleTw: "亞洲",
-    center: [90, 30],
-    scale: 420,
-    height: 350,             // 800:350 ≈ 2.3:1 — 橫向，覆蓋東亞到中東
-    countries: asiaCountries,
-    smallNations: asiaSmallNations,
-    nameMap: {
-      "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
-    },
-  },
-  europe: {
-    key: "europe",
-    titleTw: "歐洲",
-    center: [15, 54],
-    scale: 750,
-    height: 400,             // 800:400 = 2:1 — 歐洲東西向較寬，稍高一點以包含北歐
-    countries: europeCountries,
-    smallNations: europeSmallNations,
-    nameMap: {
-      "Kosovo": { nameTw: "科索沃", status: "none" },
-      "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
-    },
-  },
-  northAmerica: {
-    key: "northAmerica",
-    titleTw: "北美洲大陸",
-    center: [-100, 30],
-    scale: 450,
-    height: 420,             // 800:420 ≈ 1.9:1 — 加拿大縱深大，稍高以容納北部
-    countries: northAmericaCountries,
-    smallNations: northAmericaSmallNations,
-  },
-  southAmerica: {
-    key: "southAmerica",
-    titleTw: "南美洲大陸",
-    center: [-58, -20],
-    scale: 500,
-    height: 500,             // 800:500 = 1.6:1 — 南美洲南北縱深深，偏正方形
-    countries: southAmericaCountries,
-    smallNations: southAmericaSmallNations,
-  },
-  caribbean: {
-    key: "caribbean",
-    titleTw: "加勒比海島國",
-    center: [-72, 18],
-    scale: 1500,
-    height: 300,             // 800:300 ≈ 2.7:1 — 加勒比海島群橫向分布，寬扁
-    countries: caribbeanCountries,
-    smallNations: caribbeanSmallNations,
-  },
-  oceania: {
-    key: "oceania",
-    titleTw: "大洋洲",
-    center: [148, -22],
-    scale: 500,
-    height: 340,             // 800:340 ≈ 2.35:1 — 大洋洲橫向分布
-    countries: oceaniaCountries,
-    smallNations: oceaniaSmallNations,
-  },
-  africa: {
-    key: "africa",
-    titleTw: "非洲",
-    center: [20, 3],
-    scale: 450,
-    height: 560,             // 800:560 ≈ 1.43:1 — 非洲縱向深，接近直向
-    countries: africaCountries,
-    smallNations: africaSmallNations,
-    nameMap: {
-      "Somaliland": { nameTw: "索馬利蘭", status: "none" },
-    },
-  },
+// 頂端的世界地圖（可縮放）
+export const WORLD_VIEW = {
+  titleTw: "全球街景覆蓋",
+  center: [0, 20] as [number, number],
+  scale: 147,
+};
+
+// 各洲區域地圖（不可縮放）
+export const REGION_VIEWS: Record<RegionKey, RegionView> = {
+  asia: { key: "asia", titleTw: "亞洲", bounds: [30, -10, 152, 56] },
+  europe: { key: "europe", titleTw: "歐洲", bounds: [-25, 34.5, 42.5, 68.5] },
+  northAmerica: { key: "northAmerica", titleTw: "北美洲大陸", bounds: [-170, 8, -51, 77] },
+  southAmerica: { key: "southAmerica", titleTw: "南美洲大陸", bounds: [-82, -56, -34, 13] },
+  caribbean: { key: "caribbean", titleTw: "加勒比海島國", bounds: [-90, 9.5, -59, 28.5] },
+  oceania: { key: "oceania", titleTw: "大洋洲", bounds: [94, -47.5, 179.5, -8] },
+  africa: { key: "africa", titleTw: "非洲", bounds: [-18.5, -36, 59, 38] },
 };

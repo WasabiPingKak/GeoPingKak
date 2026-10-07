@@ -7,7 +7,7 @@ export default function CaribbeanCoverageBlock() {
   return (
     <CoverageRegionCard
       title="加勒比海島國"
-      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageCaribbean.jpg?v=20250808"
+      region="caribbean"
       sections={[
         {
           type: "full",
