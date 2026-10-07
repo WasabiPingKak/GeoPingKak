@@ -1,6 +1,5 @@
 import React from "react";
 import CoverageMap from "@/components/tutorial/coverage/CoverageMap";
-import { REGION_CONFIGS } from "@/data/coverageData";
 import AsiaCoverageBlock from "@/components/tutorial/coverage/AsiaCoverageBlock";
 import EuropeCoverageBlock from "@/components/tutorial/coverage/EuropeCoverageBlock";
 import NorthAmericaCoverageBlock from "@/components/tutorial/coverage/NorthAmericaCoverageBlock";
@@ -38,7 +37,7 @@ export default function TabStreetCoverage() {
         </a>。
       </p>
       <div className="space-y-2">
-        <CoverageMap config={REGION_CONFIGS.world} height={450} />
+        <CoverageMap height={450} />
         <p className="text-xs text-muted-foreground text-center">
           資料來源：{" "}
           <a

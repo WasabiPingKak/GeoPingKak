@@ -7,7 +7,7 @@ export default function EuropeCoverageBlock() {
   return (
     <CoverageRegionCard
       title="歐洲"
-      imgSrc="https://cdn.jsdelivr.net/gh/WasabiPingKak/GeoPingKak@main/frontend/public/tutorial/coverage/CoverageEurope.jpg?v=20250808"
+      region="europe"
       sections={[
         {
           type: "full",
