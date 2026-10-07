@@ -2,6 +2,7 @@ import JsonLd from "@/components/shared/JsonLd";
 import { generateMetadata } from "./metadata";
 import IntroClient from "./client";
 import { PAGE_DATES, toIsoDateTime } from "@/data/pageDates";
+import { INTRO_VIDEO } from "@/data/introVideo";
 
 export { generateMetadata };
 
@@ -30,6 +31,18 @@ export default function Page() {
             { "@type": "ListItem", "position": 2, "name": "教學", "item": "https://geopingkak.web.app/tutorial/intro" },
             { "@type": "ListItem", "position": 3, "name": "新手入門" }
           ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": INTRO_VIDEO.title,
+          "description": INTRO_VIDEO.description,
+          "thumbnailUrl": `https://i.ytimg.com/vi/${INTRO_VIDEO.id}/maxresdefault.jpg`,
+          "uploadDate": INTRO_VIDEO.uploadDate,
+          "duration": INTRO_VIDEO.duration,
+          "contentUrl": `https://www.youtube.com/watch?v=${INTRO_VIDEO.id}`,
+          "embedUrl": `https://www.youtube.com/embed/${INTRO_VIDEO.id}`,
+          "inLanguage": "zh-TW"
         }
       ]} />
       <IntroClient />

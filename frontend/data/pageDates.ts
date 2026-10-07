@@ -17,7 +17,7 @@ export const PAGE_DATES = {
   "/special-maps": { published: "2025-07-31", modified: "2026-03-27" },
   "/tutorial/driving-side": { published: "2026-01-24", modified: "2026-03-21" },
   "/tutorial/flags-domains": { published: "2026-01-24", modified: "2026-03-21" },
-  "/tutorial/intro": { published: "2026-01-24", modified: "2026-03-21" },
+  "/tutorial/intro": { published: "2026-01-24", modified: "2026-10-07" },
   "/tutorial/license-plates": { published: "2026-01-24", modified: "2026-03-21" },
   "/tutorial/street-coverage": { published: "2026-01-24", modified: "2026-03-21" },
   "/tutorial/sun-position": { published: "2026-01-24", modified: "2026-03-21" },

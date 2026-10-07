@@ -19,7 +19,7 @@ export default function CommonTabs({
         <button
           key={option}
           onClick={() => onSelect(option)}
-          className={`px-4 py-2 rounded-full border transition-colors duration-200 font-medium
+          className={`px-4 py-2 rounded-md border transition-colors duration-200 font-medium
             ${selected === option
               ? "bg-blue-600 text-white border-blue-600 shadow-md"
               : "bg-muted text-muted-foreground hover:bg-accent hover:text-white"

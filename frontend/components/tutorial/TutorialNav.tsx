@@ -19,7 +19,7 @@ export default function TutorialNav() {
             key={section.slug}
             href={href}
             className={clsx(
-              "px-4 py-2 rounded-full border transition-colors duration-200 font-medium text-sm",
+              "px-4 py-2 rounded-md border transition-colors duration-200 font-medium text-sm",
               isActive
                 ? "bg-blue-600 text-white border-blue-600 shadow-md"
                 : "bg-muted text-muted-foreground hover:bg-accent hover:text-white"
