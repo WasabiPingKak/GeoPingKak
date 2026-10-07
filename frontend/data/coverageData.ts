@@ -350,7 +350,7 @@ export const ALL_SMALL_NATIONS: SmallNationMarker[] = [
 ];
 
 export const NAME_MAP: CoverageNameMap = {
-  "Kosovo": { nameTw: "科索沃", status: "none" },
+  "Kosovo": { nameTw: "科索沃", status: "full" },
   "N. Cyprus": { nameTw: "北賽普勒斯", status: "none" },
   "Somaliland": { nameTw: "索馬利蘭", status: "none" },
 };

@@ -11,13 +11,18 @@ export default function EuropeCoverageBlock() {
       sections={[
         {
           type: "full",
+          title: "2026/07 新增街景：",
+          items: ["科索沃"],
+        },
+        {
+          type: "full",
           title: "2025/11 新增街景：",
           items: ["賽普勒斯 (僅限島嶼南部的賽普勒斯共和國)", "波士尼亞與赫塞哥維納"],
         },
         {
           type: "none",
           title: "沒有街景：",
-          items: ["摩爾多瓦", "科索沃", "北賽普勒斯"],
+          items: ["摩爾多瓦", "北賽普勒斯"],
         },
         {
           type: "limited",
