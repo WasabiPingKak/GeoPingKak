@@ -87,7 +87,7 @@ export default function TabIntro() {
           在有脈絡跟背景知識的前提下，你才能真正的掌握這個遊戲。<br />
         </p>
         <p>
-          看完影片後，建議依序看完這個系列的分頁，裡面會用文字整理<strong>通用的觀察技巧與推理方式</strong>，幫助你從一開始就用正確的方向學習這款遊戲。
+          看完影片後，推薦依序看完這個系列的分頁，裡面會用文字整理<strong>通用的觀察技巧與推理方式</strong>，幫助你從一開始就用正確的方向學習這款遊戲。
         </p>
         <p>
           推薦的練習地圖為「世界地圖 - The World」，它是給新手專用的世界地圖，難度親民，且平衡性遠遠優於官方世界地圖。<br />
@@ -105,7 +105,7 @@ export default function TabIntro() {
 
       <section>
         <h2 className={headingClass}>先學會這些觀念再出發</h2>
-        <p>在正式進入細節之前，如果你還沒接觸過下列這些概念，建議你可以先從這些入門知識開始學起：</p>
+        <p>在正式進入細節之前，如果你還沒接觸過下列這些概念，推薦你可以先從這些入門知識開始學起：</p>
         <ul className="list-disc list-inside pl-4 space-y-1">
           {CONCEPTS.map((c) => (
             <li key={c.href}>
