@@ -87,13 +87,14 @@ export default function HomePage() {
         </a>
       </div>
 
-      {/* 卡片 2: 給實況主的建議 */}
+      {/* 卡片 2: 給實況主的建議（直播企劃提案內文待修，暫時隱藏）
       <div className="bg-zinc-800 border border-zinc-700 p-6 rounded-lg my-8">
         <h2 className="text-2xl font-bold mb-3">給 Vtuber 與實況主</h2>
         <p className="leading-relaxed text-zinc-300">
           有企劃需求嗎？歡迎參考本站<a href="/show-proposals" className="text-blue-400 underline hover:text-blue-300">「直播企劃提案」</a>中提供的企劃書與建議，可以直接使用本站的內容做為你的直播企劃。
         </p>
       </div>
+      */}
 
       {/* 訂閱與方案說明 */}
       <div className="mt-10">
