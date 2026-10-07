@@ -17,7 +17,8 @@ const navItems = [
   { href: "/community-maps", label: "社群地圖推薦" },
   { href: "/source", label: "進階學習資源" },
   { divider: true },
-  { href: "/show-proposals", label: "直播企劃提案" },
+  // 直播企劃提案：內文待修，暫時從選單隱藏（頁面仍可用網址開啟）
+  // { href: "/show-proposals", label: "直播企劃提案" },
   { href: "/qna", label: "Q&A" },
   { href: "/about", label: "關於我" },
 ];
