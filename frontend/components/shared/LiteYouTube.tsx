@@ -14,6 +14,7 @@ interface LiteYouTubeProps {
 
 /**
  * 先顯示縮圖，點擊後才載入 YouTube iframe，避免首次載入就下載播放器的 JS。
+ * 不用 youtube-nocookie.com：該網域帶不到 YouTube 登入狀態，會卡在「確認你不是機器人」。
  */
 const LiteYouTube = forwardRef<LiteYouTubeHandle, LiteYouTubeProps>(
   function LiteYouTube({ videoId, title }, ref) {
@@ -61,7 +62,7 @@ const LiteYouTube = forwardRef<LiteYouTubeHandle, LiteYouTubeProps>(
           <iframe
             // 每次換起點都重建 iframe，才會從新的秒數開始播
             key={start}
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&start=${start}`}
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&start=${start}`}
             title={title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"
