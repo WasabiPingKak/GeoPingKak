@@ -217,7 +217,7 @@ export default function JapanRegionMap() {
             letterSpacing="0.04em"
             fill="oklch(0.5 0.01 240)"
           >
-            @wasibi_pingkak
+            @wasabi_pingkak
           </text>
         </svg>
       </div>
