@@ -7,6 +7,7 @@ import clsx from "clsx";
 const countryTabs = [
   { code: "印尼 (id)", href: "/quick-reference/id" },
   { code: "巴西 (br)", href: "/quick-reference/br" },
+  { code: "日本 (jp)", href: "/quick-reference/jp" },
 ];
 
 export default function QuickReferenceTabs() {

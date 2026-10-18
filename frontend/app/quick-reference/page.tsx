@@ -5,8 +5,8 @@ import RelatedLinks from "@/components/shared/RelatedLinks";
 import { PAGE_DATES } from "@/data/pageDates";
 
 export const metadata: Metadata = {
-  title: "GeoGuessr 速查筆記 | 巴西、印尼地名電話區碼查詢 - GeoPingKak",
-  description: "GeoGuessr 實用速查工具，提供巴西電話區碼對照表、印尼文地名查詢等辨識資源，快速縮小範圍、提升答題準確度。",
+  title: "GeoGuessr 速查筆記 | 巴西、印尼、日本地名電話區碼查詢 - GeoPingKak",
+  description: "GeoGuessr 實用速查工具，提供巴西與日本電話區碼對照表、印尼文地名查詢等辨識資源，快速縮小範圍、提升答題準確度。",
   alternates: {
     canonical: "https://geopingkak.web.app/quick-reference",
   },
@@ -51,6 +51,7 @@ export default function QuickReferencePage() {
       <ul className="list-disc list-inside space-y-2 ml-4">
         <li><strong>巴西電話區碼</strong>：透過路邊電話號碼快速判斷巴西城市位置</li>
         <li><strong>印尼文地名</strong>：常見印尼文地名、行政區劃對照表</li>
+        <li><strong>日本地方區分</strong>：九大地方、47 都道府縣與市外電話區碼對照地圖</li>
       </ul>
       <RelatedLinks links={[
         { href: "/tutorial", title: "入門教學", description: "從零開始學 GeoGuessr，掌握各種判斷技巧" },

@@ -73,7 +73,8 @@ GeoPingKak/
 │   │   │   ├── layout.tsx
 │   │   │   ├── page.tsx              # 速查筆記索引頁
 │   │   │   ├── br/page.tsx
-│   │   │   └── id/page.tsx
+│   │   │   ├── id/page.tsx
+│   │   │   └── jp/page.tsx           # 日本地方區分與電話區碼（SVG 地圖）
 │   │   ├── recommend_settings/
 │   │   │   └── page.tsx
 │   │   ├── show-proposals/
@@ -113,6 +114,11 @@ GeoPingKak/
 │   │   │   ├── CasualGuessrPromo.tsx # CasualGuessr 導流卡
 │   │   │   ├── ChallengeDescription.tsx
 │   │   │   └── mapTitles.ts
+│   │   ├── quick-reference/
+│   │   │   └── jp/
+│   │   │       ├── JapanRegionMap.tsx  # 日本地方區分 SVG 地圖（Server Component）
+│   │   │       ├── jpMapColors.ts      # 地方底色、區碼顏色
+│   │   │       └── jpRegionMapData.ts  # 由 scripts/generate-jp-region-map.mjs 產生，勿手改
 │   │   ├── proposals/
 │   │   │   ├── EntertainmentProposalTab.tsx
 │   │   │   └── RecreationalProposalTab.tsx
@@ -164,8 +170,13 @@ GeoPingKak/
 │   ├── types/
 │   │   └── map-entry.ts              # TypeScript 型別定義
 │   │
+│   ├── scripts/
+│   │   ├── generate-jp-region-map.mjs # 產生日本地圖 SVG 資料（node scripts/generate-jp-region-map.mjs）
+│   │   └── data/japan-prefectures.topo.json # 日本都道府縣地形資料（只給產生腳本用）
+│   │
 │   ├── public/
 │   │   ├── logo.png                  # 網站 Logo（用於側邊欄）
+│   │   ├── quick-reference/jp/japan-regions-area-codes.png # 日本地圖完整解析度下載檔
 │   │   ├── og-image.png              # Open Graph 預覽圖
 │   │   └── data/
 │   │       └── countries.json
