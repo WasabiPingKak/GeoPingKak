@@ -80,6 +80,28 @@ export default function JapanRegionMap() {
             </text>
           </g>
 
+          {/* 免付費電話說明 */}
+          <g transform="translate(80 290)">
+            <rect
+              y={-38}
+              width={560}
+              height={104}
+              rx={8}
+              fill="none"
+              stroke={INK}
+              strokeOpacity={0.3}
+            />
+            <text x={24} fontSize={24} fill={INK}>
+              <tspan fontFamily={CONDENSED} fontWeight={800} fontSize={28}>
+                0120 / 0800
+              </tspan>
+              <tspan fontWeight={700}>　免付費電話</tspan>
+            </text>
+            <text x={24} y={42} fontSize={20} fill="oklch(0.42 0.01 240)">
+              非地區區碼，全日本通用（通話費由受話方負擔）
+            </text>
+          </g>
+
           {/* 各縣形狀 */}
           <g stroke="#fff" strokeWidth={1.6} strokeLinejoin="round">
             {JP_PREFECTURES.map((p) => (
@@ -185,6 +207,17 @@ export default function JapanRegionMap() {
 
           <text x={80} y={1862} fontSize={18} fill="oklch(0.5 0.01 240)">
             ＊區碼為該縣主要市外局號開頭，部分地區另有細分。
+          </text>
+          <text
+            x={1540}
+            y={1880}
+            textAnchor="end"
+            fontSize={20}
+            fontWeight={500}
+            letterSpacing="0.04em"
+            fill="oklch(0.5 0.01 240)"
+          >
+            @wasibi_pingkak
           </text>
         </svg>
       </div>
