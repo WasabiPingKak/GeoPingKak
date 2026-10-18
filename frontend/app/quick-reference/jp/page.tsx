@@ -94,6 +94,10 @@ export default function JapanQuickReferencePage() {
           </li>
           <li>區碼第二碼大致由北往南遞增，01 在北海道，09 在九州與沖繩。</li>
           <li>同一個區碼可能跨兩個縣，例如 076 是富山和石川，085 是鳥取和島根。</li>
+          <li>
+            <strong className="text-white">0120</strong> 和{" "}
+            <strong className="text-white">0800</strong> 是免付費電話，全日本通用，看不出地區。
+          </li>
         </ul>
 
         <div className="grid gap-4 sm:grid-cols-2">
