@@ -8,13 +8,14 @@ const countryTabs = [
   { code: "印尼 (id)", href: "/quick-reference/id" },
   { code: "巴西 (br)", href: "/quick-reference/br" },
   { code: "日本 (jp)", href: "/quick-reference/jp" },
+  { code: "台灣 (tw)", href: "/quick-reference/tw" },
 ];
 
 export default function QuickReferenceTabs() {
   const pathname = usePathname();
 
   return (
-    <div className="flex gap-3 mb-6">
+    <div className="flex flex-wrap gap-3 mb-6">
       {countryTabs.map((tab) => (
         <Link
           key={tab.code}
