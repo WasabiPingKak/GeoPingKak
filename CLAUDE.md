@@ -74,7 +74,8 @@ GeoPingKak/
 │   │   │   ├── page.tsx              # 速查筆記索引頁
 │   │   │   ├── br/page.tsx
 │   │   │   ├── id/page.tsx
-│   │   │   └── jp/page.tsx           # 日本地方區分與電話區碼（SVG 地圖）
+│   │   │   ├── jp/page.tsx           # 日本地方區分與電話區碼（SVG 地圖）
+│   │   │   └── tw/page.tsx           # 台灣路燈編號（目前只有新北市，SVG 地圖）
 │   │   ├── recommend_settings/
 │   │   │   └── page.tsx
 │   │   ├── show-proposals/
@@ -115,10 +116,15 @@ GeoPingKak/
 │   │   │   ├── ChallengeDescription.tsx
 │   │   │   └── mapTitles.ts
 │   │   ├── quick-reference/
-│   │   │   └── jp/
-│   │   │       ├── JapanRegionMap.tsx  # 日本地方區分 SVG 地圖（Server Component）
-│   │   │       ├── jpMapColors.ts      # 地方底色、區碼顏色
-│   │   │       └── jpRegionMapData.ts  # 由 scripts/generate-jp-region-map.mjs 產生，勿手改
+│   │   │   ├── FullBleedMapFrame.tsx # 大地圖外框，撐滿主內容區（jp、tw 共用）
+│   │   │   ├── jp/
+│   │   │   │   ├── JapanRegionMap.tsx  # 日本地方區分 SVG 地圖（Server Component）
+│   │   │   │   ├── jpMapColors.ts      # 地方底色、區碼顏色
+│   │   │   │   └── jpRegionMapData.ts  # 由 scripts/generate-jp-region-map.mjs 產生，勿手改
+│   │   │   └── tw/
+│   │   │       ├── NtpcLampMap.tsx     # 新北市路燈編號 SVG 地圖（Server Component）
+│   │   │       ├── ntpcMapColors.ts    # 各第一碼的底色、文字色
+│   │   │       └── ntpcLampMapData.ts  # 由 scripts/generate-ntpc-lamp-map.mjs 產生，勿手改
 │   │   ├── proposals/
 │   │   │   ├── EntertainmentProposalTab.tsx
 │   │   │   └── RecreationalProposalTab.tsx
@@ -171,8 +177,14 @@ GeoPingKak/
 │   │   └── map-entry.ts              # TypeScript 型別定義
 │   │
 │   ├── scripts/
+│   │   ├── lib/svg-map.mjs           # 產生 SVG 地圖的共用工具（弧線投影簡化、路徑壓縮、標籤位置）
 │   │   ├── generate-jp-region-map.mjs # 產生日本地圖 SVG 資料（node scripts/generate-jp-region-map.mjs）
-│   │   └── data/japan-prefectures.topo.json # 日本都道府縣地形資料（只給產生腳本用）
+│   │   ├── build-ntpc-lamp-stats.mjs # 新北市路燈 CSV → data/ntpc-lamp-stats.json（CSV 不進 repo，路徑當參數傳）
+│   │   ├── generate-ntpc-lamp-map.mjs # 產生新北市路燈地圖 SVG 資料（node scripts/generate-ntpc-lamp-map.mjs）
+│   │   └── data/
+│   │       ├── japan-prefectures.topo.json # 日本都道府縣地形資料（只給產生腳本用）
+│   │       ├── tw-towns.topo.json    # 台灣鄉鎮市區界（taiwan-atlas，只給產生腳本用）
+│   │       └── ntpc-lamp-stats.json  # 新北市各區燈桿編號統計
 │   │
 │   ├── public/
 │   │   ├── logo.png                  # 網站 Logo（用於側邊欄）

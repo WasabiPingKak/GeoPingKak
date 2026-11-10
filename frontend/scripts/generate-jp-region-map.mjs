@@ -11,6 +11,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { geoArea, geoCentroid, geoMercator, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
+import { planarPath, projectTopologyArcs, ringArea, round } from "./lib/svg-map.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const TOPO_PATH = join(here, "data", "japan-prefectures.topo.json");
@@ -78,7 +79,6 @@ const CITIES = [
 // 沖繩插圖框的位置與大小
 const INSET = { x: 1180, y: 1560, w: 360, h: 280 };
 
-const round = (n) => Math.round(n * 10) / 10;
 
 // ---- 讀地形資料 ----
 const topo = JSON.parse(readFileSync(TOPO_PATH, "utf8"));
@@ -131,94 +131,8 @@ const P = (ll) => proj(ll);
 const path = geoPath(proj);
 
 // ---- 在拓撲的弧線上投影並簡化，相鄰兩縣共用同一條弧，邊界不會裂開 ----
-function decodeArcs(t) {
-  const { scale, translate } = t.transform;
-  return t.arcs.map((arc) => {
-    let x = 0;
-    let y = 0;
-    return arc.map(([dx, dy]) => {
-      x += dx;
-      y += dy;
-      return [x * scale[0] + translate[0], y * scale[1] + translate[1]];
-    });
-  });
-}
-
-function simplify(points, tolerance) {
-  if (points.length <= 2) return points;
-  const keep = new Uint8Array(points.length);
-  keep[0] = keep[points.length - 1] = 1;
-  const stack = [[0, points.length - 1]];
-  while (stack.length) {
-    const [a, b] = stack.pop();
-    const [ax, ay] = points[a];
-    const [bx, by] = points[b];
-    const dx = bx - ax;
-    const dy = by - ay;
-    const len2 = dx * dx + dy * dy;
-    let maxD = -1;
-    let maxI = -1;
-    for (let i = a + 1; i < b; i++) {
-      const [px, py] = points[i];
-      let d;
-      if (len2 === 0) {
-        d = Math.hypot(px - ax, py - ay);
-      } else {
-        d = Math.abs(dy * px - dx * py + bx * ay - by * ax) / Math.sqrt(len2);
-      }
-      if (d > maxD) {
-        maxD = d;
-        maxI = i;
-      }
-    }
-    if (maxD > tolerance) {
-      keep[maxI] = 1;
-      stack.push([a, maxI], [maxI, b]);
-    }
-  }
-  return points.filter((_, i) => keep[i]);
-}
-
-function projectTopology(projection) {
-  const arcs = decodeArcs(topo).map((arc) =>
-    simplify(arc.map((ll) => projection(ll)), SIMPLIFY_TOLERANCE),
-  );
-  return { type: "Topology", objects: topo.objects, arcs };
-}
-
-// 數字取到小數一位，去掉多餘的 0，例如 0.5 → .5、-0.5 → -.5、3.0 → 3
-const fmt = (n) => {
-  const s = (Math.round(n * 10) / 10).toString();
-  return s.replace(/^(-?)0\./, "$1.");
-};
-// 第一點用絕對座標，之後用相對位移（l），比 d3 預設的絕對座標短很多。
-// 先把每個點四捨五入成絕對座標再相減，避免誤差累積
-function ringPath(ring) {
-  const pts = ring.slice(0, -1).map(([x, y]) => [Math.round(x * 10), Math.round(y * 10)]);
-  let out = `M${fmt(pts[0][0] / 10)} ${fmt(pts[0][1] / 10)}l`;
-  let prev = pts[0];
-  let first = true;
-  for (const p of pts.slice(1)) {
-    const dx = p[0] - prev[0];
-    const dy = p[1] - prev[1];
-    if (dx === 0 && dy === 0) continue;
-    const part = `${fmt(dx / 10)}${dy < 0 ? "" : " "}${fmt(dy / 10)}`;
-    out += first || part.startsWith("-") ? part : ` ${part}`;
-    first = false;
-    prev = p;
-  }
-  return `${out}z`;
-}
-const planarPath = (multi) => multi.coordinates.flatMap((poly) => poly.map(ringPath)).join("");
-const ringArea = (ring) => {
-  let s = 0;
-  for (let i = 0, n = ring.length; i < n; i++) {
-    const [x0, y0] = ring[i];
-    const [x1, y1] = ring[(i + 1) % n];
-    s += x0 * y1 - x1 * y0;
-  }
-  return Math.abs(s / 2);
-};
+const projectTopology = (projection) =>
+  projectTopologyArcs(topo, projection, SIMPLIFY_TOLERANCE);
 
 function shapesFrom(projectedTopo, ids) {
   const out = new Map();

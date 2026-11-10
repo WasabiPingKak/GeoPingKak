@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/quick-reference/br',
     '/quick-reference/id',
     '/quick-reference/jp',
+    '/quick-reference/tw',
     '/recommend_settings',
     '/source',
     '/community-maps',
