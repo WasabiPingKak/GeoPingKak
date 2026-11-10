@@ -75,7 +75,7 @@ GeoPingKak/
 │   │   │   ├── br/page.tsx
 │   │   │   ├── id/page.tsx
 │   │   │   ├── jp/page.tsx           # 日本地方區分與電話區碼（SVG 地圖）
-│   │   │   └── tw/page.tsx           # 台灣路燈編號（目前只有新北市，SVG 地圖）
+│   │   │   └── tw/page.tsx           # 台灣電線桿座標（MapLibre 互動地圖）與新北市路燈編號（SVG 地圖）
 │   │   ├── recommend_settings/
 │   │   │   └── page.tsx
 │   │   ├── show-proposals/
@@ -122,6 +122,9 @@ GeoPingKak/
 │   │   │   │   ├── jpMapColors.ts      # 地方底色、區碼顏色
 │   │   │   │   └── jpRegionMapData.ts  # 由 scripts/generate-jp-region-map.mjs 產生，勿手改
 │   │   │   └── tw/
+│   │   │       ├── TaipowerGridMap.tsx # 台電電桿座標互動地圖（Client，MapLibre 動態載入）
+│   │   │       ├── googleLikeStyle.ts  # OpenFreeMap 底圖改仿 Google 配色、中文地名
+│   │   │       ├── taipowerGrid.ts     # 經緯度 ↔ TWD67 TM2 ↔ 電桿碼換算（有單元測試）
 │   │   │       ├── NtpcLampMap.tsx     # 新北市路燈編號 SVG 地圖（Server Component）
 │   │   │       ├── ntpcMapColors.ts    # 各第一碼的底色、文字色
 │   │   │       └── ntpcLampMapData.ts  # 由 scripts/generate-ntpc-lamp-map.mjs 產生，勿手改
