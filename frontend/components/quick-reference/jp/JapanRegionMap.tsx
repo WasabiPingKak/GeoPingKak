@@ -1,5 +1,5 @@
 import React from "react";
-import clsx from "clsx";
+import FullBleedMapFrame from "../FullBleedMapFrame";
 import {
   JP_CITIES,
   JP_MAP_SIZE,
@@ -51,18 +51,7 @@ export default function JapanRegionMap() {
     <div>
       <link rel="stylesheet" href={FONT_HREF} precedence="default" />
 
-      <div
-        // 地圖撐滿主內容區，不受頁面 max-w-4xl 限制。
-        // 手機：外面三層各有 16px 左右內距（RootShell、速查筆記 layout、頁面），用負邊距抵掉，貼齊螢幕。
-        // 桌機：主內容區寬度是 100vw 扣掉側欄 15rem 與 main 左右內距各 1.5rem，置中撐開。
-        // 有傳統捲軸時 100vw 會多算捲軸寬度，平均分到兩側只吃掉一點 main 的內距，不會出現水平捲軸
-        className={clsx(
-          "-mx-12 overflow-hidden border-y border-zinc-700",
-          "md:relative md:left-1/2 md:mx-0 md:w-[calc(100vw-18rem)] md:-translate-x-1/2",
-          "md:rounded-lg md:border-x",
-        )}
-        style={{ background: "oklch(0.985 0.004 230)" }}
-      >
+      <FullBleedMapFrame background="oklch(0.985 0.004 230)">
         <svg
           viewBox={`0 0 ${JP_MAP_SIZE.width} ${JP_MAP_SIZE.height}`}
           className="block h-auto w-full"
@@ -220,7 +209,7 @@ export default function JapanRegionMap() {
             @wasabi_pingkak
           </text>
         </svg>
-      </div>
+      </FullBleedMapFrame>
 
       <div className="mt-2 text-right">
         <a
